@@ -10,8 +10,6 @@
 package mock_jobs_forwarder
 
 import (
-	reflect "reflect"
-
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -29,38 +27,25 @@ type MockForwarderMockRecorder struct {
 
 // NewMockForwarder creates a new mock instance.
 func NewMockForwarder(ctrl *gomock.Controller) *MockForwarder {
-	mock := &MockForwarder{ctrl: ctrl}
-	mock.recorder = &MockForwarderMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockForwarder) EXPECT() *MockForwarderMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Start mocks base method.
+	return nil
 }
 
-// Start mocks base method.
-func (m *MockForwarder) Start() error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Start")
-	ret0, _ := ret[0].(error)
-	return ret0
-}
+func (m *MockForwarder) Start() error { _ = "STUB: not implemented"; return nil }
 
 // Start indicates an expected call of Start.
-func (mr *MockForwarderMockRecorder) Start() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Start", reflect.TypeOf((*MockForwarder)(nil).Start))
-}
+func (mr *MockForwarderMockRecorder) Start() *gomock.Call { _ = "STUB: not implemented"; return nil }
 
 // Stop mocks base method.
-func (m *MockForwarder) Stop() {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Stop")
-}
+func (m *MockForwarder) Stop() { _ = "STUB: not implemented"; return }
 
 // Stop indicates an expected call of Stop.
-func (mr *MockForwarderMockRecorder) Stop() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Stop", reflect.TypeOf((*MockForwarder)(nil).Stop))
-}
+func (mr *MockForwarderMockRecorder) Stop() *gomock.Call { _ = "STUB: not implemented"; return nil }

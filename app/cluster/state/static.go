@@ -2,7 +2,6 @@ package state
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/rudderlabs/rudder-server/app/cluster"
 	"github.com/rudderlabs/rudder-server/cluster/migrator/etcdclient"
@@ -15,27 +14,15 @@ type StaticProvider struct {
 	mode servermode.Mode
 }
 
-func NewStaticProvider(Mode servermode.Mode) *StaticProvider {
-	return &StaticProvider{
-		mode: Mode,
-	}
-}
+func NewStaticProvider(Mode servermode.Mode) *StaticProvider { _ = "STUB: not implemented"; return nil }
 
 // ServerMode returns a channel with a single message containing this static provider's mode.
 func (s *StaticProvider) ServerMode(ctx context.Context) <-chan servermode.ChangeEvent {
-	ch := make(chan servermode.ChangeEvent, 1)
-	ch <- servermode.NewChangeEvent(s.mode, func(ctx context.Context) error {
-		return nil
-	})
-
-	go func() {
-		<-ctx.Done()
-		close(ch)
-	}()
-
-	return ch
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func (s *StaticProvider) EtcdClient() (etcdclient.Client, error) {
-	return nil, fmt.Errorf("static provider doesn't support an etcd client")
+	_ = "STUB: not implemented"
+	return *new(etcdclient.Client), nil
 }

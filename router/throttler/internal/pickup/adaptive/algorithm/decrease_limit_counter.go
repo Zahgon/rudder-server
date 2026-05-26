@@ -2,13 +2,10 @@ package algorithm
 
 import (
 	"context"
-	"net/http"
 	"sync"
 	"time"
 
 	"github.com/rudderlabs/rudder-go-kit/config"
-
-	"github.com/rudderlabs/rudder-server/utils/misc"
 )
 
 type decreaseLimitCounter struct {
@@ -23,48 +20,15 @@ type decreaseLimitCounter struct {
 	totalCount     int64
 }
 
-func (c *decreaseLimitCounter) ResponseCodeReceived(code int) {
-	c.counterMu.Lock()
-	defer c.counterMu.Unlock()
-	if code == http.StatusTooManyRequests {
-		c.throttledCount++
-	}
-	c.totalCount++
-}
+func (c *decreaseLimitCounter) ResponseCodeReceived(code int) { _ = "STUB: not implemented"; return }
 
 func (c *decreaseLimitCounter) run(ctx context.Context, wg *sync.WaitGroup) {
-	defer wg.Done()
-	for {
-		select {
-		case <-ctx.Done():
-			return
-		case <-time.After(c.window()):
-			c.counterMu.Lock()
-			var throttledRate float64
-			if c.totalCount > 0 {
-				throttledRate = float64(c.throttledCount) / float64(c.totalCount)
-				c.throttledCount = 0
-				c.totalCount = 0
-			}
-			c.counterMu.Unlock()
-			if throttledRate > float64(c.throttleTolerancePercentage())/100 {
-				c.limitFactor.Add(-throttledRate * float64(c.decreasePercentage.Load()) / 100)
-				if err := c.wait(ctx); err != nil {
-					return
-				}
-			}
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 // wait waits for the waitWindow duration and resets the throttledCount and totalCount to 0
 func (c *decreaseLimitCounter) wait(ctx context.Context) error {
-	if err := misc.SleepCtx(ctx, c.waitWindow()); err != nil {
-		return err
-	}
-	c.counterMu.Lock()
-	c.throttledCount = 0
-	c.totalCount = 0
-	c.counterMu.Unlock()
+	_ = "STUB: not implemented"
 	return nil
 }

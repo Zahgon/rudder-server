@@ -3,7 +3,6 @@ package model
 import (
 	"encoding/json"
 	"errors"
-	"strings"
 	"time"
 )
 
@@ -57,10 +56,8 @@ type JobError struct {
 
 // GetUserFriendlyJobErrorCategory returns the user friendly error category for the given error type
 func GetUserFriendlyJobErrorCategory(errorType JobErrorType) string {
-	if errorMessage, ok := userFriendlyJobErrorCategoryMap[errorType]; ok {
-		return errorMessage
-	}
-	return "Uncategorized error"
+	_ = "STUB: not implemented"
+	return ""
 }
 
 var (
@@ -130,18 +127,9 @@ type PendingTableUpload struct {
 	Error         string
 }
 
-func GetLastFailedStatus(timingsMap Timings) (status string) {
-	if len(timingsMap) > 0 {
-		for index := len(timingsMap) - 1; index >= 0; index-- {
-			for s := range timingsMap[index] {
-				if strings.Contains(s, Failed) {
-					return s
-				}
-			}
-		}
-	}
-	return status // zero values
-}
+func GetLastFailedStatus(timingsMap Timings) (status string) { _ = "STUB: not implemented"; return "" }
+
+// zero values
 
 type AlterTableResponse struct {
 	IsDependent bool // true if the column is dependent on another view or rules, false otherwise

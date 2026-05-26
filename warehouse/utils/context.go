@@ -7,10 +7,8 @@ import (
 type uploadIDContextKey struct{}
 
 func CtxWithUploadID(ctx context.Context, uid int64) context.Context {
-	return context.WithValue(ctx, uploadIDContextKey{}, uid)
+	_ = "STUB: not implemented"
+	return *new(context.Context)
 }
 
-func UploadIDFromCtx(ctx context.Context) (int64, bool) {
-	uploadID, ok := ctx.Value(uploadIDContextKey{}).(int64)
-	return uploadID, ok
-}
+func UploadIDFromCtx(ctx context.Context) (int64, bool) { _ = "STUB: not implemented"; return 0, false }

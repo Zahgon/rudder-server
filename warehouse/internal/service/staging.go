@@ -6,19 +6,6 @@ import (
 
 // StageFileBatching batches staging files.
 func StageFileBatching(files []*model.StagingFile, batchSize int) [][]*model.StagingFile {
-	fileBatches := make([][]*model.StagingFile, 0, len(files)/batchSize+1)
-	for len(files) > 0 {
-		cut := min(len(files), batchSize)
-
-		for i := 1; i < cut; i += 1 {
-			if files[i-1].UseRudderStorage != files[i].UseRudderStorage {
-				cut = i
-				break
-			}
-		}
-
-		fileBatches = append(fileBatches, files[0:cut])
-		files = files[cut:]
-	}
-	return fileBatches
+	_ = "STUB: not implemented"
+	return nil
 }

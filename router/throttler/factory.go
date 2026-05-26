@@ -2,24 +2,14 @@ package throttler
 
 import (
 	"context"
-	"fmt"
 	"sync"
 	"time"
-
-	"github.com/go-redis/redis/v8"
-	"github.com/samber/lo"
 
 	"github.com/rudderlabs/rudder-go-kit/config"
 	"github.com/rudderlabs/rudder-go-kit/logger"
 	"github.com/rudderlabs/rudder-go-kit/stats"
-	"github.com/rudderlabs/rudder-go-kit/throttling"
-	obskit "github.com/rudderlabs/rudder-observability-kit/go/labels"
 
-	"github.com/rudderlabs/rudder-server/router/throttler/internal/delivery"
 	"github.com/rudderlabs/rudder-server/router/throttler/internal/pickup/adaptive"
-	"github.com/rudderlabs/rudder-server/router/throttler/internal/pickup/adaptive/algorithm"
-	"github.com/rudderlabs/rudder-server/router/throttler/internal/pickup/static"
-	"github.com/rudderlabs/rudder-server/router/throttler/internal/pickup/switcher"
 	"github.com/rudderlabs/rudder-server/router/throttler/internal/types"
 )
 
@@ -47,18 +37,8 @@ type Factory interface {
 
 // NewFactory constructs a new Throttler Factory
 func NewFactory(config *config.Config, stats stats.Stats, log logger.Logger) (Factory, error) {
-	f := &factory{
-		config:                   config,
-		Stats:                    stats,
-		pickupThrottlers:         &pickupThrottlers{all: make(map[string]map[string]PickupThrottler)},
-		allEventTypesPickupAlgos: make(map[string]adaptive.Algorithm),
-		deliveryThrottlers:       make(map[string]DeliveryThrottler),
-		log:                      log,
-	}
-	if err := f.initThrottlerFactory(); err != nil {
-		return nil, err
-	}
-	return f, nil
+	_ = "STUB: not implemented"
+	return *new(Factory), nil
 }
 
 type factory struct {
@@ -75,198 +55,82 @@ type factory struct {
 }
 
 func (f *factory) GetPickupThrottler(destType, destinationID, eventType string) PickupThrottler {
+	_ = "STUB: not implemented"
 	// Use read lock first for common case
-	f.mu.RLock()
-	if t, ok := f.pickupThrottlers.Get(destinationID, eventType); ok {
-		f.mu.RUnlock()
-		return t
-	}
-	f.mu.RUnlock()
-	// Upgrade to write lock only when needed
-	f.mu.Lock()
-	defer f.mu.Unlock()
-	// Double-check after acquiring write lock
-	if t, ok := f.pickupThrottlers.Get(destinationID, eventType); ok {
-		return t
-	}
-	allEventsAlgorithm, ok := f.allEventTypesPickupAlgos[destinationID]
-	if !ok {
-		allEventsAlgorithm = algorithm.NewAdaptiveAlgorithm(destType, f.config, adaptive.GetAllEventsWindowConfig(f.config, destType, destinationID))
-		f.allEventTypesPickupAlgos[destinationID] = allEventsAlgorithm
-	}
-	perEventAlgorithm := algorithm.NewAdaptiveAlgorithm(destType, f.config, adaptive.GetPerEventWindowConfig(f.config, destType, destinationID, eventType))
-	adaptiveThrottlerEnabled := f.config.GetReloadableBoolVar(false,
-		fmt.Sprintf(`Router.throttler.%s.%s.adaptiveEnabled`, destType, destinationID),
-		fmt.Sprintf(`Router.throttler.%s.adaptiveEnabled`, destType),
-		"Router.throttler.adaptiveEnabled",
-	)
-
-	log := f.log.Withn(
-		obskit.DestinationType(destType),
-		obskit.DestinationID(destinationID),
-		logger.NewStringField("eventType", eventType),
-		logger.NewStringField("throttlerKind", "pickup"),
-	)
-	// switching between static and adaptive throttling
-	t := switcher.NewThrottlerSwitcher(
-		adaptiveThrottlerEnabled,
-		static.NewThrottler(destType, destinationID, eventType, f.staticLimiter, f.config, f.Stats, log.Withn(logger.NewStringField("throttlerType", "static"))),
-		adaptive.NewThrottler(destType, destinationID, eventType, perEventAlgorithm, allEventsAlgorithm, f.adaptiveLimiter, f.config, f.Stats, log.Withn(logger.NewStringField("throttlerType", "adaptive"))),
-	)
-	f.pickupThrottlers.Set(destinationID, eventType, t)
-	return t
+	return *new(PickupThrottler)
 }
 
+// Upgrade to write lock only when needed
+
+// Double-check after acquiring write lock
+
+// switching between static and adaptive throttling
+
 func (f *factory) GetActivePickupThrottlers(destinationID string) []PickupThrottler {
-	f.mu.RLock()
-	defer f.mu.RUnlock()
-	if destThrottlers, ok := f.pickupThrottlers.all[destinationID]; ok {
-		return lo.Values(destThrottlers)
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (f *factory) GetDeliveryThrottler(destType, destinationID, endpointPath string) DeliveryThrottler {
-	key := destinationID + ":" + endpointPath
-	// Use read lock first for common case
-	f.mu.RLock()
-	if t, ok := f.deliveryThrottlers[key]; ok {
-		f.mu.RUnlock()
-		return t
-	}
-	f.mu.RUnlock()
-	// Upgrade to write lock only when needed
-	f.mu.Lock()
-	defer f.mu.Unlock()
-	// Double-check after acquiring write lock
-	if t, ok := f.deliveryThrottlers[key]; ok {
-		return t
-	}
-
-	log := f.log.Withn(
-		obskit.DestinationType(destType),
-		obskit.DestinationID(destinationID),
-		logger.NewStringField("endpointPath", endpointPath),
-		logger.NewStringField("throttlerKind", "delivery"),
-	)
-	// delivery throttler shall be using the static limiter exclusively (redis or in-memory)
-	t := delivery.NewThrottler(destType, destinationID, endpointPath, f.staticLimiter, f.config, f.Stats, log)
-	f.deliveryThrottlers[key] = t
-	return t
+	_ = "STUB: not implemented"
+	return *new(DeliveryThrottler)
 }
 
-func (f *factory) Shutdown() {
-	f.mu.Lock()
-	defer f.mu.Unlock()
-	for _, m := range f.pickupThrottlers.all {
-		for _, t := range m {
-			t.Shutdown()
-		}
-	}
-}
+// Use read lock first for common case
 
-func (f *factory) initThrottlerFactory() error {
-	var redisClient *redis.Client
-	if f.config.IsSet("Router.throttler.redisThrottler.addr") {
-		redisClient = redis.NewClient(&redis.Options{
-			Addr: f.config.GetStringVar("localhost:6379",
-				"Router.throttler.redisThrottler.addr",
-			),
-			Username: f.config.GetStringVar("",
-				"Router.throttler.redisThrottler.username",
-			),
-			Password: f.config.GetStringVar("",
-				"Router.throttler.redisThrottler.password",
-			),
-		})
-	}
+// Upgrade to write lock only when needed
 
-	throttlingAlgorithm := f.config.GetStringVar(throttlingAlgoTypeGCRA, "Router.throttler.limiter.type")
-	if throttlingAlgorithm == throttlingAlgoTypeRedisGCRA || throttlingAlgorithm == throttlingAlgoTypeRedisSortedSet {
-		if redisClient == nil {
-			return fmt.Errorf("redis client is nil with algorithm %s", throttlingAlgorithm)
-		}
-	}
+// Double-check after acquiring write lock
 
-	var (
-		err           error
-		staticLimiter *throttling.Limiter
-		opts          []throttling.Option
-	)
-	if f.Stats != nil {
-		opts = append(opts, throttling.WithStatsCollector(f.Stats))
-	}
-	switch throttlingAlgorithm {
-	case throttlingAlgoTypeGCRA:
-		staticLimiter, err = throttling.New(append(opts, throttling.WithInMemoryGCRA(0))...)
-	case throttlingAlgoTypeRedisGCRA:
-		staticLimiter, err = throttling.New(append(opts, throttling.WithRedisGCRA(redisClient, 0))...)
-	case throttlingAlgoTypeRedisSortedSet:
-		staticLimiter, err = throttling.New(append(opts, throttling.WithRedisSortedSet(redisClient))...)
-	default:
-		return fmt.Errorf("invalid throttling algorithm: %s", throttlingAlgorithm)
-	}
-	if err != nil {
-		return fmt.Errorf("create throttler: %w", err)
-	}
+// delivery throttler shall be using the static limiter exclusively (redis or in-memory)
 
-	f.staticLimiter = staticLimiter
+func (f *factory) Shutdown() { _ = "STUB: not implemented"; return }
 
-	adaptiveLimiter, err := throttling.New(append(opts, throttling.WithInMemoryGCRA(0))...)
-	if err != nil {
-		return fmt.Errorf("create adaptive throttler: %w", err)
-	}
-	f.adaptiveLimiter = adaptiveLimiter
-
-	return nil
-}
+func (f *factory) initThrottlerFactory() error { _ = "STUB: not implemented"; return nil }
 
 type NewNoOpFactory struct{}
 
-func NewNoOpThrottlerFactory() Factory {
-	return &NewNoOpFactory{}
-}
+func NewNoOpThrottlerFactory() Factory { _ = "STUB: not implemented"; return *new(Factory) }
 
 func (f *NewNoOpFactory) GetPickupThrottler(destName, destID, eventType string) PickupThrottler {
-	return &noOpThrottler{}
+	_ = "STUB: not implemented"
+	return *new(PickupThrottler)
 }
 
 func (f *NewNoOpFactory) GetActivePickupThrottlers(destinationID string) []PickupThrottler {
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (f *NewNoOpFactory) GetDeliveryThrottler(destType, destID, endpointPath string) DeliveryThrottler {
-	return &noOpDeliveryThrottler{}
+	_ = "STUB: not implemented"
+	return *new(DeliveryThrottler)
 }
 
-func (f *NewNoOpFactory) Shutdown() {}
+func (f *NewNoOpFactory) Shutdown() { _ = "STUB: not implemented"; return }
 
 type noOpThrottler struct{}
 
 func (t *noOpThrottler) CheckLimitReached(ctx context.Context, cost int64) (limited bool, retErr error) {
+	_ = "STUB: not implemented"
 	return false, nil
 }
 
-func (t *noOpThrottler) ResponseCodeReceived(code int) {}
+func (t *noOpThrottler) ResponseCodeReceived(code int) { _ = "STUB: not implemented"; return }
 
-func (t *noOpThrottler) Shutdown() {}
+func (t *noOpThrottler) Shutdown() { _ = "STUB: not implemented"; return }
 
-func (t *noOpThrottler) GetLimitPerSecond() int64 {
-	return 0
-}
+func (t *noOpThrottler) GetLimitPerSecond() int64 { _ = "STUB: not implemented"; return 0 }
 
-func (t *noOpThrottler) GetEventType() string {
-	return "all"
-}
+func (t *noOpThrottler) GetEventType() string { _ = "STUB: not implemented"; return "" }
 
-func (t *noOpThrottler) GetLastUsed() time.Time {
-	return time.Time{}
-}
+func (t *noOpThrottler) GetLastUsed() time.Time { _ = "STUB: not implemented"; return *new(time.Time) }
 
 type noOpDeliveryThrottler struct{}
 
 func (*noOpDeliveryThrottler) Wait(ctx context.Context) (time.Duration, error) {
-	return 0, nil
+	_ = "STUB: not implemented"
+	return *new(time.Duration), nil
 }
 
 type limiter interface {
@@ -279,19 +143,11 @@ type pickupThrottlers struct {
 }
 
 func (p *pickupThrottlers) Get(destID, eventType string) (PickupThrottler, bool) {
-	if destThrottlers, ok := p.all[destID]; ok {
-		t, ok := destThrottlers[eventType]
-		return t, ok
-	}
-	return nil, false
+	_ = "STUB: not implemented"
+	return *new(PickupThrottler), false
 }
 
 func (p *pickupThrottlers) Set(destID, eventType string, throttler PickupThrottler) {
-	var destThrottlers map[string]PickupThrottler
-	var ok bool
-	if destThrottlers, ok = p.all[destID]; !ok {
-		destThrottlers = make(map[string]PickupThrottler)
-		p.all[destID] = destThrottlers
-	}
-	destThrottlers[eventType] = throttler
+	_ = "STUB: not implemented"
+	return
 }

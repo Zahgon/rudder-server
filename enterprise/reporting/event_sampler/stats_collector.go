@@ -22,39 +22,24 @@ type StatsCollector struct {
 }
 
 func NewStatsCollector(eventSamplerType, module string, statsFactory stats.Stats) *StatsCollector {
-	getRequestTags := getTags(eventSamplerType, module, "get")
-	putRequestTags := getTags(eventSamplerType, module, "put")
-
-	return &StatsCollector{
-		module:      module,
-		stats:       statsFactory,
-		getCounter:  statsFactory.NewTaggedStat(StatReportingEventSamplerRequestsTotal, stats.CountType, getRequestTags),
-		putCounter:  statsFactory.NewTaggedStat(StatReportingEventSamplerRequestsTotal, stats.CountType, putRequestTags),
-		getDuration: statsFactory.NewTaggedStat(StatReportingEventSamplerRequestDuration, stats.TimerType, getRequestTags),
-		putDuration: statsFactory.NewTaggedStat(StatReportingEventSamplerRequestDuration, stats.TimerType, putRequestTags),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func (sc *StatsCollector) RecordGet() {
-	sc.getCounter.Increment()
-}
+func (sc *StatsCollector) RecordGet() { _ = "STUB: not implemented"; return }
 
-func (sc *StatsCollector) RecordPut() {
-	sc.putCounter.Increment()
-}
+func (sc *StatsCollector) RecordPut() { _ = "STUB: not implemented"; return }
 
-func (sc *StatsCollector) RecordGetDuration(start time.Time) {
-	sc.getDuration.SendTiming(time.Since(start))
-}
+func (sc *StatsCollector) RecordGetDuration(start time.Time) { _ = "STUB: not implemented"; return }
 
-func (sc *StatsCollector) RecordPutDuration(start time.Time) {
-	sc.putDuration.SendTiming(time.Since(start))
-}
+func (sc *StatsCollector) RecordPutDuration(start time.Time) { _ = "STUB: not implemented"; return }
 
 func (sc *StatsCollector) RecordBadgerDBSize(usageType string, size int64) {
-	sc.stats.NewTaggedStat(StatReportingBadgerDBSize, stats.GaugeType, stats.Tags{"module": sc.module, "usageType": usageType}).Gauge(size)
+	_ = "STUB: not implemented"
+	return
 }
 
 func getTags(eventSamplerType, module, operation string) stats.Tags {
-	return stats.Tags{"type": eventSamplerType, "module": module, "operation": operation}
+	_ = "STUB: not implemented"
+	return *new(stats.Tags)
 }

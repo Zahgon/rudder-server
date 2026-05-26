@@ -1,15 +1,10 @@
 package clustertest
 
 import (
-	"maps"
-	"net/http"
 	"net/http/httptest"
 	"net/http/httputil"
-	"net/url"
 	"sync"
 	"testing"
-
-	"github.com/stretchr/testify/require"
 
 	"github.com/rudderlabs/rudder-go-kit/partmap"
 )
@@ -34,33 +29,11 @@ type PartitionRoutingProxy interface {
 // Returns:
 // - A PartitionRoutingProxy instance that can be used to manage the routing proxy.
 func NewRoutingProxy(t *testing.T, numPartitions int, mappings partmap.PartitionIndexMapping, backendUrls ...string) *routingProxy {
-	require.GreaterOrEqualf(t, len(backendUrls), 1, "At least one backend URL must be provided")
-	rp := &routingProxy{
-		numPartitions:     numPartitions,
-		partitionMappings: maps.Clone(mappings),
-	}
-	for _, b := range backendUrls {
-		backendUrl, _ := url.Parse(b)
-		rp.backends = append(rp.backends, httputil.NewSingleHostReverseProxy(backendUrl))
-	}
-	rp.Server = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		partitionKey := r.Header.Get("X-Partition-Key")
-		if partitionKey == "" {
-			http.Error(w, "missing X-Partition-Key header", http.StatusBadRequest)
-			return
-		}
-		partitionIdx, _ := partmap.Murmur3Partition32(partitionKey, uint32(numPartitions))
-		rp.partitionMappingsMu.RLock()
-		defer rp.partitionMappingsMu.RUnlock() // unlock only after request is processed
-		nodeIndex, ok := rp.partitionMappings[partmap.PartitionIndex(partitionIdx)]
-		if !ok || int(nodeIndex) >= len(rp.backends) {
-			http.Error(w, "no backend for partition", http.StatusBadGateway)
-			return
-		}
-		rp.backends[int(nodeIndex)].ServeHTTP(w, r)
-	}))
-	return rp
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// unlock only after request is processed
 
 type routingProxy struct {
 	*httptest.Server
@@ -75,7 +48,6 @@ type routingProxy struct {
 // 1. All ongoing requests are processed with the old mapping before the new mapping takes effect.
 // 2. Post-return, any new incoming requests will be routed based on the updated mapping.
 func (rp *routingProxy) SetPartitionMappings(partitionMappings map[partmap.PartitionIndex]partmap.NodeIndex) {
-	rp.partitionMappingsMu.Lock()
-	defer rp.partitionMappingsMu.Unlock()
-	rp.partitionMappings = maps.Clone(partitionMappings)
+	_ = "STUB: not implemented"
+	return
 }

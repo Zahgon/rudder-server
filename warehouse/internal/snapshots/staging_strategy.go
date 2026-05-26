@@ -17,10 +17,12 @@ type StagingFileSchemaTimeBasedExpiryStrategy struct {
 }
 
 func (t *StagingFileSchemaTimeBasedExpiryStrategy) IsExpired(snapshot *model.StagingFileSchemaSnapshot) bool {
-	return time.Since(snapshot.CreatedAt) > t.duration
+	_ = "STUB: not implemented"
+	return false
 }
 
 // NewStagingFileSchemaTimeBasedExpiryStrategy returns a time-based expiry strategy for the cache.
 func NewStagingFileSchemaTimeBasedExpiryStrategy(duration time.Duration) StagingFileSchemaExpiryStrategy {
-	return &StagingFileSchemaTimeBasedExpiryStrategy{duration: duration}
+	_ = "STUB: not implemented"
+	return *new(StagingFileSchemaExpiryStrategy)
 }

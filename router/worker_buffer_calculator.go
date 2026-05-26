@@ -1,7 +1,6 @@
 package router
 
 import (
-	"math"
 	"sync"
 
 	"github.com/rudderlabs/rudder-go-kit/config"
@@ -19,13 +18,8 @@ func newStandardBufferSizeCalculator(
 	noOfJobsToBatchInAWorker config.ValueLoader[int], // number of jobs that a worker can batch together
 	noOfJobsPerChannel int, // number of jobs per channel
 ) bufferSizeCalculator {
-	return func() int {
-		m1 := noOfJobsToBatchInAWorker.Load()
-		if m1 > noOfJobsPerChannel {
-			return m1
-		}
-		return noOfJobsPerChannel
-	}
+	_ = "STUB: not implemented"
+	return *new(bufferSizeCalculator)
 }
 
 // newExperimentalBufferSizeCalculator calculates the buffer size for a worker based on the following algorithm (minimum value returned is 1):
@@ -46,24 +40,21 @@ func newExperimentalBufferSizeCalculator(
 	scalingFactor config.ValueLoader[float64], // scaling factor to scale up the buffer size
 	minBufferSize config.ValueLoader[int], // minimum buffer size
 ) bufferSizeCalculator {
-	return func() int {
-		const one = 1
-		m1 := workLoopThroughput.Load() // at least the average throughput of the work loop
-		if m1 < 1 {                     // if there is no throughput yet, the throughput is less than 1 per second, set buffer to minBufferSize
-			return one
-		}
-		m2 := float64(jobQueryBatchSize.Load() / noOfWorkers) // at least the average number of jobs per worker during pickup
-		m3 := float64(noOfJobsToBatchInAWorker.Load())        // at least equal to the number of jobs to batch in a worker
-
-		return int(
-			math.Ceil( // round up
-				// calculate the maximum of the three metrics to determine the buffer size
-				math.Max(
-					math.Max(math.Max(m1, m2), m3)*scalingFactor.Load(), // scale up to provide some buffer
-					math.Max(one, float64(minBufferSize.Load())),        // ensure buffer size is at least one or the configured minimum
-				)))
-	}
+	_ = "STUB: not implemented"
+	return *new(bufferSizeCalculator)
 }
+
+// at least the average throughput of the work loop
+// if there is no throughput yet, the throughput is less than 1 per second, set buffer to minBufferSize
+
+// at least the average number of jobs per worker during pickup
+// at least equal to the number of jobs to batch in a worker
+
+// round up
+// calculate the maximum of the three metrics to determine the buffer size
+
+// scale up to provide some buffer
+// ensure buffer size is at least one or the configured minimum
 
 // newBufferSizeCalculatorSwitcher returns a function that switches between the standard and experimental calculators based on the
 // enableExperimentalBufferSizeCalculator flag
@@ -77,25 +68,8 @@ func newBufferSizeCalculatorSwitcher(
 	noOfJobsPerChannel int, // number of jobs per channel
 	minBufferSize config.ValueLoader[int], // minimum buffer size
 ) bufferSizeCalculator {
-	new := newExperimentalBufferSizeCalculator(
-		jobQueryBatchSize,
-		noOfWorkers,
-		noOfJobsToBatchInAWorker,
-		workLoopThroughput,
-		scalingFactor,
-		minBufferSize,
-	)
-	legacy := newStandardBufferSizeCalculator(
-		noOfJobsToBatchInAWorker,
-		noOfJobsPerChannel,
-	)
-
-	return func() int {
-		if enableExperimentalBufferSizeCalculator.Load() {
-			return new()
-		}
-		return legacy()
-	}
+	_ = "STUB: not implemented"
+	return *new(bufferSizeCalculator)
 }
 
 // newSmaHistogram combines a SimpleMovingAverage with a stats.Histogram to periodically record the moving average into the histogram.
@@ -104,11 +78,8 @@ func newSmaHistogram(
 	histogram stats.Histogram,
 	onceEvery *kitsync.OnceEvery,
 ) stats.Histogram {
-	return &smaHistogram{
-		slidingAverage: slidingAverage,
-		histogram:      histogram,
-		onceEvery:      onceEvery,
-	}
+	_ = "STUB: not implemented"
+	return *new(stats.Histogram)
 }
 
 type smaHistogram struct {
@@ -117,12 +88,7 @@ type smaHistogram struct {
 	onceEvery      *kitsync.OnceEvery
 }
 
-func (s *smaHistogram) Observe(v float64) {
-	s.slidingAverage.Observe(v)
-	s.onceEvery.Do(func() {
-		s.histogram.Observe(s.slidingAverage.Load())
-	})
-}
+func (s *smaHistogram) Observe(v float64) { _ = "STUB: not implemented"; return }
 
 type Gauge[T any] interface {
 	// Gauge sets the gauge to the provided value
@@ -135,9 +101,8 @@ type GaugeWithLastValue[T any] interface {
 
 // newGaugeWithLastValue wraps a stats.Gauge and keeps track of the last value set.
 func newGaugeWithLastValue[T any](gauge stats.Gauge) GaugeWithLastValue[T] {
-	return &gaugeWithLastValue[T]{
-		gauge: gauge,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 type gaugeWithLastValue[T any] struct {
@@ -146,15 +111,6 @@ type gaugeWithLastValue[T any] struct {
 	lastValue T
 }
 
-func (g *gaugeWithLastValue[T]) Gauge(value T) {
-	g.mu.Lock()
-	defer g.mu.Unlock()
-	g.lastValue = value
-	g.gauge.Gauge(value)
-}
+func (g *gaugeWithLastValue[T]) Gauge(value T) { _ = "STUB: not implemented"; return }
 
-func (g *gaugeWithLastValue[T]) Load() T {
-	g.mu.RLock()
-	defer g.mu.RUnlock()
-	return g.lastValue
-}
+func (g *gaugeWithLastValue[T]) Load() T { _ = "STUB: not implemented"; return *new(T) }

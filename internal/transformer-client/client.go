@@ -4,22 +4,14 @@ package transformerclient
 
 import (
 	"context"
-	"fmt"
-	"maps"
-	"net"
 	"net/http"
-	"strconv"
-	"strings"
 	"time"
 
 	"github.com/bufbuild/httplb"
 	"github.com/bufbuild/httplb/conn"
 	"github.com/bufbuild/httplb/picker"
-	"github.com/bufbuild/httplb/resolver"
-	"github.com/cenkalti/backoff/v5"
 
 	"github.com/rudderlabs/rudder-go-kit/retryablehttp"
-	"github.com/rudderlabs/rudder-go-kit/stats"
 )
 
 type perpetualRetriesStatsTagsKey struct{}
@@ -29,12 +21,13 @@ type perpetualRetriesStatsTagsKey struct{}
 // made with this context. Callers are responsible for keeping tag cardinality
 // low.
 func WithPerpetualRetriesStatsTags(ctx context.Context, tags map[string]string) context.Context {
-	return context.WithValue(ctx, perpetualRetriesStatsTagsKey{}, tags)
+	_ = "STUB: not implemented"
+	return *new(context.Context)
 }
 
 func perpetualRetriesStatsTagsFromContext(ctx context.Context) map[string]string {
-	v, _ := ctx.Value(perpetualRetriesStatsTagsKey{}).(map[string]string)
-	return v
+	_ = "STUB: not implemented"
+	return nil
 }
 
 const (
@@ -84,186 +77,60 @@ type Client interface {
 }
 
 func NewClient(name string, config *ClientConfig) Client {
-	switch config.ClientType {
-	case "httplb":
-		return buildHTTPLBClient(name, config)
-	default:
-		return buildStandardClient(name, config)
-	}
+	_ = "STUB: not implemented"
+	return *new(Client)
 }
 
 // buildStandardClient creates a standard HTTP client with configuration applied
 func buildStandardClient(name string, config *ClientConfig) Client {
-	transport := buildConfiguredTransport(config)
-	client := &http.Client{
-		Transport: transport,
-		Timeout:   getClientTimeout(config),
-	}
-
-	retryableConfig := buildRetryableConfig(config)
-	if retryableConfig != nil {
-		return newRetryableHTTPClient(name, client, retryableConfig)
-	}
-	return client
+	_ = "STUB: not implemented"
+	return *new(Client)
 }
 
 // buildHTTPLBClient creates an HTTP load balancer client
 func buildHTTPLBClient(name string, config *ClientConfig) Client {
-	transport := buildConfiguredTransport(config)
-
-	tr := &httplbtransport{
-		MaxConnsPerHost:     transport.MaxConnsPerHost,
-		MaxIdleConnsPerHost: transport.MaxIdleConnsPerHost,
-	}
-
-	options := []httplb.ClientOption{
-		httplb.WithPicker(getPicker(config.PickerType)),
-		httplb.WithIdleConnectionTimeout(transport.IdleConnTimeout),
-		httplb.WithRequestTimeout(getClientTimeout(config)),
-		httplb.WithResolver(resolver.NewDNSResolver(net.DefaultResolver, resolver.PreferIPv4, getClientTTL(config))),
-		httplb.WithTransport("http", tr),
-		httplb.WithTransport("https", tr),
-	}
-
-	if config.Recycle {
-		options = append(options, httplb.WithRoundTripperMaxLifetime(getRecycleTTL(config)))
-	}
-
-	client := httplb.NewClient(options...)
-	retryableConfig := buildRetryableConfig(config)
-
-	if retryableConfig != nil {
-		return newRetryableHTTPClient(name, client, retryableConfig)
-	}
-	return client
+	_ = "STUB: not implemented"
+	return *new(Client)
 }
 
 // buildConfiguredTransport creates a transport with configuration applied
 func buildConfiguredTransport(config *ClientConfig) *http.Transport {
-	transport := &http.Transport{
-		DisableKeepAlives:   defaultDisableKeepAlives,
-		MaxConnsPerHost:     defaultMaxConnsPerHost,
-		MaxIdleConnsPerHost: defaultMaxIdleConnsPerHost,
-		IdleConnTimeout:     defaultIdleConnTimeout,
-	}
-
-	transport.DisableKeepAlives = config.TransportConfig.DisableKeepAlives
-	if config.TransportConfig.MaxConnsPerHost != 0 {
-		transport.MaxConnsPerHost = config.TransportConfig.MaxConnsPerHost
-	}
-	if config.TransportConfig.MaxIdleConnsPerHost != 0 {
-		transport.MaxIdleConnsPerHost = config.TransportConfig.MaxIdleConnsPerHost
-	}
-	if config.TransportConfig.IdleConnTimeout != 0 {
-		transport.IdleConnTimeout = config.TransportConfig.IdleConnTimeout
-	}
-
-	return transport
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // buildRetryableConfig creates retryable configuration if enabled
 func buildRetryableConfig(clientConfig *ClientConfig) *retryablehttp.Config {
-	if clientConfig == nil || !clientConfig.RetryRudderErrors.Enabled {
-		return nil
-	}
-
-	// Use ClientConfig values directly
-	retryConfig := &retryablehttp.Config{
-		MaxRetry:        clientConfig.RetryRudderErrors.MaxRetry,
-		InitialInterval: clientConfig.RetryRudderErrors.InitialInterval,
-		MaxInterval:     clientConfig.RetryRudderErrors.MaxInterval,
-		MaxElapsedTime:  clientConfig.RetryRudderErrors.MaxElapsedTime,
-		Multiplier:      clientConfig.RetryRudderErrors.Multiplier,
-	}
-
-	if retryConfig.MaxRetry == 0 {
-		retryConfig.MaxRetry = defaultRetryRudderErrorsMaxRetry
-	}
-	if retryConfig.InitialInterval == 0 {
-		retryConfig.InitialInterval = defaultRetryRudderErrorsInitialInterval
-	}
-	if retryConfig.MaxInterval == 0 {
-		retryConfig.MaxInterval = defaultRetryRudderErrorsMaxInterval
-	}
-	if retryConfig.MaxElapsedTime == 0 {
-		retryConfig.MaxElapsedTime = defaultRetryRudderErrorsMaxElapsedTime
-	}
-	if retryConfig.Multiplier == 0 {
-		retryConfig.Multiplier = defaultRetryRudderErrorsMultiplier
-	}
-
-	return retryConfig
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// Use ClientConfig values directly
 
 // Helper functions to get configuration values with defaults
 func getClientTimeout(config *ClientConfig) time.Duration {
-	if config != nil && config.ClientTimeout != 0 {
-		return config.ClientTimeout
-	}
-	return defaultClientTimeout
+	_ = "STUB: not implemented"
+	return *new(time.Duration)
 }
 
 func getClientTTL(config *ClientConfig) time.Duration {
-	if config != nil && config.ClientTTL != 0 {
-		return config.ClientTTL
-	}
-	return defaultClientTTL
+	_ = "STUB: not implemented"
+	return *new(time.Duration)
 }
 
 func getRecycleTTL(config *ClientConfig) time.Duration {
-	if config != nil && config.RecycleTTL != 0 {
-		return config.RecycleTTL
-	}
-	return defaultRecycleTTL
+	_ = "STUB: not implemented"
+	return *new(time.Duration)
 }
 
 func newRetryableHTTPClient(name string, baseClient Client, retryableConfig *retryablehttp.Config) Client {
-	return retryablehttp.NewRetryableHTTPClient(
-		retryableConfig,
-		retryablehttp.WithHttpClient(baseClient),
-		retryablehttp.WithCustomRetryStrategy(func(attempt int, resp *http.Response, err error) (bool, error) {
-			if err != nil {
-				return false, backoff.Permanent(err)
-			}
-			if resp.StatusCode == http.StatusServiceUnavailable &&
-				strings.ToLower(resp.Header.Get("X-Rudder-Should-Retry")) == "true" {
-				reason := resp.Header.Get("X-Rudder-Error-Reason")
-				attemptTag := strconv.Itoa(attempt)
-				if attempt > 4 {
-					attemptTag = "5+"
-				}
-				tags := stats.Tags{
-					"name":    name,
-					"reason":  reason,
-					"attempt": attemptTag,
-				}
-				if resp.Request != nil {
-					maps.Copy(tags, perpetualRetriesStatsTagsFromContext(resp.Request.Context()))
-				}
-				stats.Default.NewTaggedStat("transformer_client_perpetual_retry_count", stats.CountType, tags).Increment()
-				resp.Body.Close()
-				return true, fmt.Errorf("got retryable error response from transformer: %s", reason)
-			}
-			return false, nil
-		}),
-	)
+	_ = "STUB: not implemented"
+	return *new(Client)
 }
 
 func getPicker(pickerType string) func(prev picker.Picker, allConns conn.Conns) picker.Picker {
-	switch pickerType {
-	case "power_of_two":
-		return picker.NewPowerOfTwo
-	case "round_robin":
-		return picker.NewRoundRobin
-	case "least_loaded_random":
-		return picker.NewLeastLoadedRandom
-	case "least_loaded_round_robin":
-		return picker.NewLeastLoadedRoundRobin
-	case "random":
-		return picker.NewRandom
-	default:
-		return picker.NewPowerOfTwo
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 type httplbtransport struct {
@@ -273,20 +140,6 @@ type httplbtransport struct {
 }
 
 func (s httplbtransport) NewRoundTripper(_, _ string, opts httplb.TransportConfig) httplb.RoundTripperResult {
-	transport := &http.Transport{
-		Proxy:                  opts.ProxyFunc,
-		GetProxyConnectHeader:  opts.ProxyConnectHeadersFunc,
-		DialContext:            opts.DialFunc,
-		ForceAttemptHTTP2:      true,
-		MaxConnsPerHost:        s.MaxConnsPerHost,
-		MaxIdleConns:           s.MaxIdleConnsPerHost,
-		MaxIdleConnsPerHost:    s.MaxIdleConnsPerHost,
-		IdleConnTimeout:        opts.IdleConnTimeout,
-		TLSHandshakeTimeout:    opts.TLSHandshakeTimeout,
-		TLSClientConfig:        opts.TLSClientConfig,
-		MaxResponseHeaderBytes: opts.MaxResponseHeaderBytes,
-		ExpectContinueTimeout:  1 * time.Second,
-		DisableCompression:     opts.DisableCompression,
-	}
-	return httplb.RoundTripperResult{RoundTripper: transport, Close: transport.CloseIdleConnections}
+	_ = "STUB: not implemented"
+	return *new(httplb.RoundTripperResult)
 }

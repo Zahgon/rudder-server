@@ -14,22 +14,24 @@ type (
 
 // CtxWithDestination returns a new context with the given destination.
 func CtxWithDestination(ctx context.Context, dest *backendconfig.DestinationT) context.Context {
-	return context.WithValue(ctx, destContextKey{}, dest)
+	_ = "STUB: not implemented"
+	return *new(context.Context)
 }
 
 // DestinationFromCtx returns the destination from the context, if present.
 func DestinationFromCtx(ctx context.Context) (*backendconfig.DestinationT, bool) {
-	dest, ok := ctx.Value(destContextKey{}).(*backendconfig.DestinationT)
-	return dest, ok
+	_ = "STUB: not implemented"
+	return nil, false
 }
 
 // CtxWithSecret returns a new context with the given secret.
 func CtxWithSecret(ctx context.Context, secret json.RawMessage) context.Context {
-	return context.WithValue(ctx, secretContextKey{}, secret)
+	_ = "STUB: not implemented"
+	return *new(context.Context)
 }
 
 // SecretFromCtx returns the secret from the context, if present.
 func SecretFromCtx(ctx context.Context) (json.RawMessage, bool) {
-	secret, ok := ctx.Value(secretContextKey{}).(json.RawMessage)
-	return secret, ok
+	_ = "STUB: not implemented"
+	return *new(json.RawMessage), false
 }

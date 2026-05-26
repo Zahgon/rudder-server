@@ -11,7 +11,6 @@ package mock_types
 
 import (
 	context "context"
-	reflect "reflect"
 
 	model "github.com/rudderlabs/rudder-server/enterprise/suppress-user/model"
 	tx "github.com/rudderlabs/rudder-server/utils/tx"
@@ -33,28 +32,27 @@ type MockUserSuppressionMockRecorder struct {
 
 // NewMockUserSuppression creates a new mock instance.
 func NewMockUserSuppression(ctrl *gomock.Controller) *MockUserSuppression {
-	mock := &MockUserSuppression{ctrl: ctrl}
-	mock.recorder = &MockUserSuppressionMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockUserSuppression) EXPECT() *MockUserSuppressionMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// GetSuppressedUser mocks base method.
+	return nil
 }
 
-// GetSuppressedUser mocks base method.
 func (m *MockUserSuppression) GetSuppressedUser(workspaceID, userID, sourceID string) *model.Metadata {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetSuppressedUser", workspaceID, userID, sourceID)
-	ret0, _ := ret[0].(*model.Metadata)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // GetSuppressedUser indicates an expected call of GetSuppressedUser.
 func (mr *MockUserSuppressionMockRecorder) GetSuppressedUser(workspaceID, userID, sourceID any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSuppressedUser", reflect.TypeOf((*MockUserSuppression)(nil).GetSuppressedUser), workspaceID, userID, sourceID)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // MockReporting is a mock of Reporting interface.
@@ -71,52 +69,43 @@ type MockReportingMockRecorder struct {
 
 // NewMockReporting creates a new mock instance.
 func NewMockReporting(ctrl *gomock.Controller) *MockReporting {
-	mock := &MockReporting{ctrl: ctrl}
-	mock.recorder = &MockReportingMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockReporting) EXPECT() *MockReportingMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// DatabaseSyncer mocks base method.
+	return nil
 }
 
-// DatabaseSyncer mocks base method.
 func (m *MockReporting) DatabaseSyncer(c types.SyncerConfig) types.ReportingSyncer {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DatabaseSyncer", c)
-	ret0, _ := ret[0].(types.ReportingSyncer)
-	return ret0
+	_ = "STUB: not implemented"
+	return *new(types.ReportingSyncer)
 }
 
 // DatabaseSyncer indicates an expected call of DatabaseSyncer.
 func (mr *MockReportingMockRecorder) DatabaseSyncer(c any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DatabaseSyncer", reflect.TypeOf((*MockReporting)(nil).DatabaseSyncer), c)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Report mocks base method.
 func (m *MockReporting) Report(ctx context.Context, metrics []*types.PUReportedMetric, arg2 *tx.Tx) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Report", ctx, metrics, arg2)
-	ret0, _ := ret[0].(error)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Report indicates an expected call of Report.
 func (mr *MockReportingMockRecorder) Report(ctx, metrics, arg2 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Report", reflect.TypeOf((*MockReporting)(nil).Report), ctx, metrics, arg2)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Stop mocks base method.
-func (m *MockReporting) Stop() {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Stop")
-}
+func (m *MockReporting) Stop() { _ = "STUB: not implemented"; return }
 
 // Stop indicates an expected call of Stop.
-func (mr *MockReportingMockRecorder) Stop() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Stop", reflect.TypeOf((*MockReporting)(nil).Stop))
-}
+func (mr *MockReportingMockRecorder) Stop() *gomock.Call { _ = "STUB: not implemented"; return nil }

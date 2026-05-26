@@ -2,13 +2,9 @@ package tcpproxy
 
 import (
 	"io"
-	"net"
-	"os"
 	"sync"
 	"sync/atomic"
 	"testing"
-
-	"github.com/stretchr/testify/require"
 )
 
 type Proxy struct {
@@ -22,69 +18,22 @@ type Proxy struct {
 	stop chan struct{}
 }
 
-func (p *Proxy) Start(t testing.TB) {
-	p.wg.Add(1)
-	defer p.wg.Done()
+func (p *Proxy) Start(t testing.TB) { _ = "STUB: not implemented"; return }
 
-	listener, err := net.Listen("tcp", p.LocalAddr)
-	require.NoError(t, err)
+// error accepting connection
 
-	p.stop = make(chan struct{})
-	p.wg.Go(func() {
-		<-p.stop
-		_ = listener.Close()
-	})
+// cannot dial remote, return and listen for new connections
 
-	for {
-		select {
-		case <-p.stop:
-			return
+// one of the connections got terminated
+// TCP proxy stopped
 
-		default:
-			connRcv, err := listener.Accept()
-			if err != nil {
-				continue // error accepting connection
-			}
-
-			p.wg.Go(func() {
-				defer func() { _ = connRcv.Close() }()
-
-				connSend, err := net.Dial("tcp", p.RemoteAddr)
-				if err != nil {
-					t.Logf("Cannot dial remote: %v", err)
-					return // cannot dial remote, return and listen for new connections
-				}
-
-				defer func() { _ = connSend.Close() }()
-
-				p.wg.Add(2)
-				done := make(chan struct{}, 2)
-				go p.pipe(connRcv, connSend, &p.BytesReceived, done)
-				go p.pipe(connSend, connRcv, &p.BytesSent, done)
-				select {
-				case <-done: // one of the connections got terminated
-				case <-p.stop: // TCP proxy stopped
-				}
-			})
-		}
-	}
-}
-
-func (p *Proxy) Stop() {
-	close(p.stop)
-	p.wg.Wait()
-}
+func (p *Proxy) Stop() { _ = "STUB: not implemented"; return }
 
 func (p *Proxy) pipe(src io.Reader, dst io.Writer, bytesMetric *atomic.Int64, done chan struct{}) {
-	defer p.wg.Done()
-
-	wrt, rdr := dst, src
-	if p.Verbose {
-		wrt = os.Stdout
-		rdr = io.TeeReader(src, dst)
-	}
-	n, _ := io.Copy(wrt, rdr) // this is a blocking call, it terminates when the connection is closed
-	bytesMetric.Add(n)
-
-	done <- struct{}{} // connection is closed, send signal to stop proxy
+	_ = "STUB: not implemented"
+	return
 }
+
+// this is a blocking call, it terminates when the connection is closed
+
+// connection is closed, send signal to stop proxy

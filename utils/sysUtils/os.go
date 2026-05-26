@@ -37,21 +37,19 @@ type Os struct{}
 
 // NewZip returns a Os instance
 func NewOs() OsI {
-	return &Os{}
+	_ = "STUB: not implemented"
+
+	// IsNotExist returns a boolean indicating whether the error is known to report that a file or directory does not exist.
+	// It is satisfied by ErrNotExist as well as some syscall errors.
+	return *new(OsI)
 }
 
-// IsNotExist returns a boolean indicating whether the error is known to report that a file or directory does not exist.
-// It is satisfied by ErrNotExist as well as some syscall errors.
-func (*Os) IsNotExist(err error) bool {
-	return os.IsNotExist(err)
-}
+func (*Os) IsNotExist(err error) bool { _ = "STUB: not implemented"; return false }
 
 // Getenv retrieves the value of the environment variable named by the key.
 // It returns the value, which will be empty if the variable is not present.
 // To distinguish between an empty value and an unset value, use LookupEnv.
-func (*Os) Getenv(key string) string {
-	return os.Getenv(key)
-}
+func (*Os) Getenv(key string) string { _ = "STUB: not implemented"; return "" }
 
 // UserHomeDir returns the current user's home directory.
 //
@@ -59,36 +57,43 @@ func (*Os) Getenv(key string) string {
 // On Windows, it returns %USERPROFILE%.
 // On Plan 9, it returns the $home environment variable.
 func (*Os) UserHomeDir() (string, error) {
-	return os.UserHomeDir()
+	_ = "STUB: not implemented"
+	return "",
+
+		// Create creates or truncates the named file. If the file already exists,
+		// it is truncated. If the file does not exist, it is created with mode 0666
+		// (before umask). If successful, methods on the returned File can
+		// be used for I/O; the associated file descriptor has mode O_RDWR.
+		// If there is an error, it will be of type *PathError.
+		nil
 }
 
-// Create creates or truncates the named file. If the file already exists,
-// it is truncated. If the file does not exist, it is created with mode 0666
-// (before umask). If successful, methods on the returned File can
-// be used for I/O; the associated file descriptor has mode O_RDWR.
-// If there is an error, it will be of type *PathError.
 func (*Os) Create(name string) (*os.File, error) {
-	return os.Create(name)
+	_ = "STUB: not implemented"
+	return nil,
+
+		// Open opens the named file for reading. If successful, methods on
+		// the returned file can be used for reading; the associated file
+		// descriptor has mode O_RDONLY.
+		// If there is an error, it will be of type *PathError.
+		nil
 }
 
-// Open opens the named file for reading. If successful, methods on
-// the returned file can be used for reading; the associated file
-// descriptor has mode O_RDONLY.
-// If there is an error, it will be of type *PathError.
 func (*Os) Open(name string) (*os.File, error) {
-	return os.Open(name)
+	_ = "STUB: not implemented"
+	return nil,
+
+		// MkdirAll creates a directory named path,
+		// along with any necessary parents, and returns nil,
+		// or else returns an error.
+		// The permission bits perm (before umask) are used for all
+		// directories that MkdirAll creates.
+		// If path is already a directory, MkdirAll does nothing
+		// and returns nil.
+		nil
 }
 
-// MkdirAll creates a directory named path,
-// along with any necessary parents, and returns nil,
-// or else returns an error.
-// The permission bits perm (before umask) are used for all
-// directories that MkdirAll creates.
-// If path is already a directory, MkdirAll does nothing
-// and returns nil.
-func (*Os) MkdirAll(path string, perm os.FileMode) error {
-	return os.MkdirAll(path, perm)
-}
+func (*Os) MkdirAll(path string, perm os.FileMode) error { _ = "STUB: not implemented"; return nil }
 
 // OpenFile is the generalized open call; most users will use Open
 // or Create instead. It opens the named file with specified flag
@@ -97,26 +102,26 @@ func (*Os) MkdirAll(path string, perm os.FileMode) error {
 // methods on the returned File can be used for I/O.
 // If there is an error, it will be of type *PathError.
 func (*Os) OpenFile(name string, flag int, perm os.FileMode) (*os.File, error) {
-	return os.OpenFile(name, flag, perm)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Stat returns a FileInfo describing the named file.
 // If there is an error, it will be of type *PathError.
 func (*Os) Stat(name string) (os.FileInfo, error) {
-	return os.Stat(name)
+	_ = "STUB: not implemented"
+	return *
+
+	// Remove removes the named file or (empty) directory.
+	// If there is an error, it will be of type *PathError.
+	new(os.FileInfo), nil
 }
 
-// Remove removes the named file or (empty) directory.
-// If there is an error, it will be of type *PathError.
-func (*Os) Remove(name string) error {
-	return os.Remove(name)
-}
+func (*Os) Remove(name string) error { _ = "STUB: not implemented"; return nil }
 
 // LookupEnv retrieves the value of the environment variable named
 // by the key. If the variable is present in the environment the
 // value (which may be empty) is returned and the boolean is true.
 // Otherwise the returned value will be empty and the boolean will
 // be false.
-func (*Os) LookupEnv(key string) (string, bool) {
-	return os.LookupEnv(key)
-}
+func (*Os) LookupEnv(key string) (string, bool) { _ = "STUB: not implemented"; return "", false }

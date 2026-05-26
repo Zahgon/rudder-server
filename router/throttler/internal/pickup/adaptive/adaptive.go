@@ -5,8 +5,6 @@ import (
 	"github.com/rudderlabs/rudder-go-kit/logger"
 	"github.com/rudderlabs/rudder-go-kit/stats"
 
-	throttlerconfig "github.com/rudderlabs/rudder-server/router/throttler/config"
-	"github.com/rudderlabs/rudder-server/router/throttler/internal/pickup/switcher"
 	"github.com/rudderlabs/rudder-server/router/throttler/internal/types"
 )
 
@@ -15,9 +13,6 @@ func NewThrottler(destType, destinationID, eventType string,
 	perEventAlgorithm, allEventsAlgorithm Algorithm,
 	limiter Limiter, config *config.Config, stat stats.Stats, log logger.Logger,
 ) types.PickupThrottler {
-	return switcher.NewThrottlerSwitcher(
-		throttlerconfig.ThrottlerPerEventTypeEnabled(config, destType, destinationID),
-		NewAllEventTypesThrottler(destType, destinationID, allEventsAlgorithm, limiter, config, stat, log.Withn(logger.NewStringField("eventType", "all"))),
-		NewPerEventTypeThrottler(destType, destinationID, eventType, perEventAlgorithm, limiter, config, stat, log.Withn(logger.NewStringField("eventType", eventType))),
-	)
+	_ = "STUB: not implemented"
+	return *new(types.PickupThrottler)
 }

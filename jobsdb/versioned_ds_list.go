@@ -2,18 +2,14 @@ package jobsdb
 
 import (
 	"errors"
-	"fmt"
 	"sync"
 )
 
 var errInvalidDSListDrainVersion = errors.New("drain version must be older than current version")
 
 func newVersionedDSList(list dataSetTList, rangeList dataSetRangeTList) *versionedDSList {
-	return &versionedDSList{
-		list:      list,
-		rangeList: rangeList,
-		readers:   make(map[uint64]int),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 type versionedDSList struct {
@@ -41,83 +37,27 @@ type dsListDrainWaiter struct {
 
 // get returns the currently published snapshots and a release function that must be called when the reader is done with the snapshots.
 func (v *versionedDSList) get() (list dataSetTList, ranges dataSetRangeTList, version uint64, release func()) {
-	v.mu.Lock()
-	version = v.version
-	v.readers[version]++
-	list = v.list
-	ranges = v.rangeList
-	v.mu.Unlock()
-
-	var once sync.Once
-	return list, ranges, version, func() {
-		once.Do(func() {
-			v.mu.Lock()
-			defer v.mu.Unlock()
-
-			if v.readers[version] <= 1 {
-				delete(v.readers, version)
-			} else {
-				v.readers[version]--
-			}
-			v.closeDrainedLocked()
-		})
-	}
+	_ = "STUB: not implemented"
+	return *new(dataSetTList), *new(dataSetRangeTList), 0, nil
 }
 
 func (v *versionedDSList) snapshot() (dataSetTList, dataSetRangeTList) {
-	v.mu.Lock()
-	defer v.mu.Unlock()
-	return v.list, v.rangeList
+	_ = "STUB: not implemented"
+	return *new(dataSetTList), *new(dataSetRangeTList)
 }
 
-func (v *versionedDSList) currentVersion() uint64 {
-	v.mu.Lock()
-	defer v.mu.Unlock()
-	return v.version
-}
+func (v *versionedDSList) currentVersion() uint64 { _ = "STUB: not implemented"; return 0 }
 
 func (v *versionedDSList) set(list dataSetTList, ranges dataSetRangeTList) {
-	v.mu.Lock()
-	defer v.mu.Unlock()
-
-	v.list = list
-	v.rangeList = ranges
-	v.version++
-	v.closeDrainedLocked()
+	_ = "STUB: not implemented"
+	return
 }
 
 // wait returns a channel that will be closed when there are no more readers at or before through. through must be less than the current version.
 func (v *versionedDSList) wait(through uint64) (<-chan struct{}, error) {
-	v.mu.Lock()
-	defer v.mu.Unlock()
-
-	if through >= v.version {
-		return nil, fmt.Errorf("%w: through=%d current=%d", errInvalidDSListDrainVersion, through, v.version)
-	}
-
-	drained := make(chan struct{})
-	v.waiters = append(v.waiters, dsListDrainWaiter{through: through, drained: drained})
-	v.closeDrainedLocked()
-	return drained, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // closeDrainedLocked closes the drained channels of all waiters that are waiting for versions that have no more readers. It must be called with v.mu held.
-func (v *versionedDSList) closeDrainedLocked() {
-	hasReaders := func(through uint64) bool {
-		for version, count := range v.readers {
-			if version <= through && count > 0 {
-				return true
-			}
-		}
-		return false
-	}
-	kept := v.waiters[:0]
-	for _, w := range v.waiters {
-		if hasReaders(w.through) {
-			kept = append(kept, w)
-			continue
-		}
-		close(w.drained)
-	}
-	v.waiters = kept
-}
+func (v *versionedDSList) closeDrainedLocked() { _ = "STUB: not implemented"; return }

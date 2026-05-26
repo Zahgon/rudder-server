@@ -10,8 +10,6 @@
 package mock_oauthV2
 
 import (
-	reflect "reflect"
-
 	controlplane "github.com/rudderlabs/rudder-server/services/oauth/v2/controlplane"
 	gomock "go.uber.org/mock/gomock"
 )
@@ -30,27 +28,25 @@ type MockConnectorMockRecorder struct {
 
 // NewMockConnector creates a new mock instance.
 func NewMockConnector(ctrl *gomock.Controller) *MockConnector {
-	mock := &MockConnector{ctrl: ctrl}
-	mock.recorder = &MockConnectorMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockConnector) EXPECT() *MockConnectorMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// CpApiCall mocks base method.
+	return nil
 }
 
-// CpApiCall mocks base method.
 func (m *MockConnector) CpApiCall(cpReq *controlplane.Request) (int, string) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CpApiCall", cpReq)
-	ret0, _ := ret[0].(int)
-	ret1, _ := ret[1].(string)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return 0, ""
 }
 
 // CpApiCall indicates an expected call of CpApiCall.
 func (mr *MockConnectorMockRecorder) CpApiCall(cpReq any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CpApiCall", reflect.TypeOf((*MockConnector)(nil).CpApiCall), cpReq)
+	_ = "STUB: not implemented"
+	return nil
 }

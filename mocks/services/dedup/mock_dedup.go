@@ -10,8 +10,6 @@
 package mock_dedup
 
 import (
-	reflect "reflect"
-
 	types "github.com/rudderlabs/rudder-server/services/dedup/types"
 	gomock "go.uber.org/mock/gomock"
 )
@@ -29,58 +27,38 @@ type MockDedupMockRecorder struct {
 }
 
 // NewMockDedup creates a new mock instance.
-func NewMockDedup(ctrl *gomock.Controller) *MockDedup {
-	mock := &MockDedup{ctrl: ctrl}
-	mock.recorder = &MockDedupMockRecorder{mock}
-	return mock
-}
+func NewMockDedup(ctrl *gomock.Controller) *MockDedup { _ = "STUB: not implemented"; return nil }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockDedup) EXPECT() *MockDedupMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Allowed mocks base method.
+	return nil
 }
 
-// Allowed mocks base method.
 func (m *MockDedup) Allowed(keys ...types.BatchKey) (map[types.BatchKey]bool, error) {
-	m.ctrl.T.Helper()
-	varargs := []any{}
-	for _, a := range keys {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "Allowed", varargs...)
-	ret0, _ := ret[0].(map[types.BatchKey]bool)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Allowed indicates an expected call of Allowed.
 func (mr *MockDedupMockRecorder) Allowed(keys ...any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Allowed", reflect.TypeOf((*MockDedup)(nil).Allowed), keys...)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Close mocks base method.
-func (m *MockDedup) Close() {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Close")
-}
+func (m *MockDedup) Close() { _ = "STUB: not implemented"; return }
 
 // Close indicates an expected call of Close.
-func (mr *MockDedupMockRecorder) Close() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Close", reflect.TypeOf((*MockDedup)(nil).Close))
-}
+func (mr *MockDedupMockRecorder) Close() *gomock.Call { _ = "STUB: not implemented"; return nil }
 
 // Commit mocks base method.
-func (m *MockDedup) Commit(keys []string) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Commit", keys)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
+func (m *MockDedup) Commit(keys []string) error { _ = "STUB: not implemented"; return nil }
 
 // Commit indicates an expected call of Commit.
 func (mr *MockDedupMockRecorder) Commit(keys any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Commit", reflect.TypeOf((*MockDedup)(nil).Commit), keys)
+	_ = "STUB: not implemented"
+	return nil
 }

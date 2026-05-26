@@ -10,10 +10,8 @@ type csvReader struct {
 }
 
 func (csv *csvReader) Read([]string) (record []string, err error) {
-	record, err = csv.reader.Read()
-	return record, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func newCsvReader(r io.Reader) *csvReader {
-	return &csvReader{reader: csv.NewReader(r)}
-}
+func newCsvReader(r io.Reader) *csvReader { _ = "STUB: not implemented"; return nil }

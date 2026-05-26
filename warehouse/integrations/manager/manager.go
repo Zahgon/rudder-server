@@ -2,7 +2,6 @@ package manager
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/rudderlabs/rudder-go-kit/config"
@@ -11,15 +10,6 @@ import (
 
 	"github.com/rudderlabs/rudder-server/utils/misc"
 	"github.com/rudderlabs/rudder-server/warehouse/client"
-	azuresynapse "github.com/rudderlabs/rudder-server/warehouse/integrations/azure-synapse"
-	"github.com/rudderlabs/rudder-server/warehouse/integrations/bigquery"
-	"github.com/rudderlabs/rudder-server/warehouse/integrations/clickhouse"
-	"github.com/rudderlabs/rudder-server/warehouse/integrations/datalake"
-	"github.com/rudderlabs/rudder-server/warehouse/integrations/deltalake"
-	"github.com/rudderlabs/rudder-server/warehouse/integrations/mssql"
-	"github.com/rudderlabs/rudder-server/warehouse/integrations/postgres"
-	"github.com/rudderlabs/rudder-server/warehouse/integrations/redshift"
-	"github.com/rudderlabs/rudder-server/warehouse/integrations/snowflake"
 	"github.com/rudderlabs/rudder-server/warehouse/integrations/types"
 	"github.com/rudderlabs/rudder-server/warehouse/internal/model"
 	warehouseutils "github.com/rudderlabs/rudder-server/warehouse/utils"
@@ -60,58 +50,17 @@ type WarehouseOperations interface {
 
 // New is a Factory function that returns a Manager of a given destination-type
 func New(destType string, conf *config.Config, logger logger.Logger, stats stats.Stats) (Manager, error) {
-	m, err := newManager(destType, conf, logger, stats)
-	if err != nil {
-		return nil, fmt.Errorf("creating warehouse manager: %w", err)
-	}
-	return newStatsManager(m, stats), nil
+	_ = "STUB: not implemented"
+	return *new(Manager), nil
 }
 
 func newManager(destType string, conf *config.Config, logger logger.Logger, stats stats.Stats) (Manager, error) {
-	switch destType {
-	case warehouseutils.RS:
-		return redshift.New(conf, logger, stats), nil
-	case warehouseutils.BQ:
-		return bigquery.New(conf, logger), nil
-	case warehouseutils.SNOWFLAKE, warehouseutils.SnowpipeStreaming:
-		return snowflake.New(conf, logger, stats), nil
-	case warehouseutils.POSTGRES:
-		return postgres.New(conf, logger, stats), nil
-	case warehouseutils.CLICKHOUSE:
-		return clickhouse.New(conf, logger, stats), nil
-	case warehouseutils.MSSQL:
-		return mssql.New(conf, logger, stats), nil
-	case warehouseutils.AzureSynapse:
-		return azuresynapse.New(conf, logger, stats), nil
-	case warehouseutils.S3Datalake, warehouseutils.GCSDatalake, warehouseutils.AzureDatalake:
-		return datalake.New(conf, logger), nil
-	case warehouseutils.DELTALAKE:
-		return deltalake.New(conf, logger, stats), nil
-	}
-	return nil, fmt.Errorf("provider of type %s is not configured for WarehouseManager", destType)
+	_ = "STUB: not implemented"
+	return *new(Manager), nil
 }
 
 // NewWarehouseOperations is a Factory function that returns a WarehouseOperations of a given destination-type
 func NewWarehouseOperations(destType string, conf *config.Config, logger logger.Logger, stats stats.Stats) (WarehouseOperations, error) {
-	switch destType {
-	case warehouseutils.RS:
-		return redshift.New(conf, logger, stats), nil
-	case warehouseutils.BQ:
-		return bigquery.New(conf, logger), nil
-	case warehouseutils.SNOWFLAKE, warehouseutils.SnowpipeStreaming:
-		return snowflake.New(conf, logger, stats), nil
-	case warehouseutils.POSTGRES:
-		return postgres.New(conf, logger, stats), nil
-	case warehouseutils.CLICKHOUSE:
-		return clickhouse.New(conf, logger, stats), nil
-	case warehouseutils.MSSQL:
-		return mssql.New(conf, logger, stats), nil
-	case warehouseutils.AzureSynapse:
-		return azuresynapse.New(conf, logger, stats), nil
-	case warehouseutils.S3Datalake, warehouseutils.GCSDatalake, warehouseutils.AzureDatalake:
-		return datalake.New(conf, logger), nil
-	case warehouseutils.DELTALAKE:
-		return deltalake.New(conf, logger, stats), nil
-	}
-	return nil, fmt.Errorf("provider of type %s is not configured for WarehouseManager", destType)
+	_ = "STUB: not implemented"
+	return *new(WarehouseOperations), nil
 }

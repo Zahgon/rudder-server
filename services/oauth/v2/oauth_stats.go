@@ -1,11 +1,7 @@
 package v2
 
 import (
-	"strconv"
-	"strings"
 	"time"
-
-	"github.com/samber/lo"
 
 	"github.com/rudderlabs/rudder-go-kit/stats"
 
@@ -34,32 +30,21 @@ type OAuthStatsHandler struct {
 }
 
 func (oauthStats *OAuthStats) ToStatsTags() stats.Tags {
-	return stats.Tags{
-		"id":              oauthStats.id,
-		"workspaceId":     oauthStats.workspaceID,
-		"rudderCategory":  "destination",
-		"isCallToCpApi":   strconv.FormatBool(oauthStats.isCallToCpApi),
-		"authErrCategory": oauthStats.authErrCategory,
-		"destType":        oauthStats.destType,
-		"flowType":        string(oauthStats.flowType),
-		"action":          oauthStats.action,
-		"oauthVersion":    "v2",
-	}
+	_ = "STUB: not implemented"
+	return *new(stats.Tags)
 }
 
 func NewStatsHandlerFromOAuthStats(oauthStats *OAuthStats) OAuthStatsHandler {
-	return OAuthStatsHandler{
-		stats:       oauthStats.stats,
-		defaultTags: oauthStats.ToStatsTags(),
-	}
+	_ = "STUB: not implemented"
+	return *new(OAuthStatsHandler)
 }
 
 func (m *OAuthStatsHandler) Increment(statSuffix string, tags stats.Tags) {
-	statName := strings.Join([]string{OAUTH_V2_STAT_PREFIX, statSuffix}, "_")
-	m.stats.NewTaggedStat(statName, stats.CountType, lo.Assign(m.defaultTags, tags)).Increment()
+	_ = "STUB: not implemented"
+	return
 }
 
 func (m *OAuthStatsHandler) SendTiming(startTime time.Time, statSuffix string, tags stats.Tags) {
-	statName := strings.Join([]string{OAUTH_V2_STAT_PREFIX, statSuffix}, "_")
-	m.stats.NewTaggedStat(statName, stats.TimerType, lo.Assign(m.defaultTags, tags)).SendTiming(time.Since(startTime))
+	_ = "STUB: not implemented"
+	return
 }

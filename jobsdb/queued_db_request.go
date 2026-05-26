@@ -2,49 +2,14 @@ package jobsdb
 
 import (
 	"context"
-	"fmt"
-	"time"
 )
 
 func executeDbRequest[T any](ctx context.Context, jd *Handle, c *dbRequest[T]) T {
-	defer jd.getTimerStat(
-		fmt.Sprintf("jobsdb_%s_total_time", c.name),
-		c.tags,
-	).RecordDuration()()
-
-	// If priority pool is requested and configured, bypass the queue
-	if usePriorityPool(ctx) && jd.priorityPool != nil {
-		return c.command()
-	}
-
-	var queueEnabled bool
-	var queueCap chan struct{}
-	switch c.reqType {
-	case readReqType:
-		queueEnabled = jd.conf.enableReaderQueue
-		queueCap = jd.conf.readCapacity
-	case writeReqType:
-		queueEnabled = jd.conf.enableWriterQueue
-		queueCap = jd.conf.writeCapacity
-	case undefinedReqType:
-		fallthrough
-	default:
-		panic(fmt.Errorf("unsupported command type: %d", c.reqType))
-	}
-
-	if queueEnabled {
-		if cap(queueCap) == 0 {
-			panic(fmt.Errorf("encountered queue channel with empty capacity, did you forget to Start %q JobsDB?", jd.tablePrefix))
-		}
-		queuedAt := time.Now()
-		waitTimeStat := jd.getTimerStat(fmt.Sprintf("jobsdb_%s_wait_time", c.name), c.tags)
-		queueCap <- struct{}{}
-		defer func() { <-queueCap }()
-		waitTimeStat.Since(queuedAt)
-	}
-
-	return c.command()
+	_ = "STUB: not implemented"
+	return *new(T)
 }
+
+// If priority pool is requested and configured, bypass the queue
 
 type dbReqType int
 
@@ -62,19 +27,11 @@ type dbRequest[T any] struct {
 }
 
 func newReadDbRequest[T any](name string, tags *statTags, command func() T) *dbRequest[T] {
-	return &dbRequest[T]{
-		reqType: readReqType,
-		name:    name,
-		tags:    tags,
-		command: command,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func newWriteDbRequest[T any](name string, tags *statTags, command func() T) *dbRequest[T] {
-	return &dbRequest[T]{
-		reqType: writeReqType,
-		name:    name,
-		tags:    tags,
-		command: command,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }

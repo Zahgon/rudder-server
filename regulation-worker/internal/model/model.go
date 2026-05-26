@@ -19,12 +19,7 @@ type JobStatus struct {
 	Error  error
 }
 
-func (js JobStatus) String() string {
-	if js.Error == nil {
-		return string(js.Status)
-	}
-	return string(js.Status) + ":" + js.Error.Error()
-}
+func (js JobStatus) String() string { _ = "STUB: not implemented"; return "" }
 
 const (
 	JobStatusPending  Status = "pending"

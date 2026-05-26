@@ -8,14 +8,6 @@ import (
 
 type Opt func(*repo)
 
-func WithNow(now func() time.Time) Opt {
-	return func(r *repo) {
-		r.now = now
-	}
-}
+func WithNow(now func() time.Time) Opt { _ = "STUB: not implemented"; return *new(Opt) }
 
-func WithStats(s stats.Stats) Opt {
-	return func(r *repo) {
-		r.statsFactory = s
-	}
-}
+func WithStats(s stats.Stats) Opt { _ = "STUB: not implemented"; return *new(Opt) }

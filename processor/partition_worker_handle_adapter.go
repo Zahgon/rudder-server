@@ -1,9 +1,6 @@
 package processor
 
 import (
-	"time"
-
-	"github.com/rudderlabs/rudder-go-kit/config"
 	"github.com/rudderlabs/rudder-go-kit/logger"
 
 	"github.com/rudderlabs/rudder-server/services/rsources"
@@ -15,28 +12,18 @@ type workerHandleAdapter struct {
 }
 
 func (h *workerHandleAdapter) logger() logger.Logger {
-	return h.Handle.logger
+	_ = "STUB: not implemented"
+	return *new(logger.Logger)
 }
 
 func (h *workerHandleAdapter) config() workerHandleConfig {
-	return workerHandleConfig{
-		enablePipelining:      h.Handle.config.enablePipelining,
-		pipelineBufferedItems: h.Handle.config.pipelineBufferedItems,
-		maxEventsToProcess:    h.Handle.config.maxEventsToProcess,
-		subJobSize:            h.Handle.config.subJobSize,
-		readLoopSleep:         h.Handle.config.readLoopSleep,
-		maxLoopSleep:          h.Handle.config.maxLoopSleep,
-		pipelinesPerPartition: h.Handle.config.pipelinesPerPartition,
-		partitionProcessingDelay: func(partition string) config.ValueLoader[time.Duration] {
-			return h.conf.GetReloadableDurationVar(0, time.Second, "Processor.preprocessDelay."+partition)
-		},
-	}
+	_ = "STUB: not implemented"
+	return *new(workerHandleConfig)
 }
 
 func (h *workerHandleAdapter) rsourcesService() rsources.JobService {
-	return h.Handle.rsourcesService
+	_ = "STUB: not implemented"
+	return *new(rsources.JobService)
 }
 
-func (h *workerHandleAdapter) stats() *processorStats {
-	return &h.Handle.stats
-}
+func (h *workerHandleAdapter) stats() *processorStats { _ = "STUB: not implemented"; return nil }

@@ -9,8 +9,8 @@ type TransformerError struct {
 	code    int
 }
 
-func (e *TransformerError) Error() string   { return e.message }
-func (e *TransformerError) StatusCode() int { return e.code }
+func (e *TransformerError) Error() string   { _ = "STUB: not implemented"; return "" }
+func (e *TransformerError) StatusCode() int { _ = "STUB: not implemented"; return 0 }
 
 var _ error = (*TransformerError)(nil)
 
@@ -32,8 +32,6 @@ var (
 )
 
 func NewTransformerError(message string, statusCode int) *TransformerError {
-	return &TransformerError{
-		message: message,
-		code:    statusCode,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }

@@ -10,8 +10,6 @@
 package mock_features
 
 import (
-	reflect "reflect"
-
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -29,96 +27,79 @@ type MockFeaturesServiceMockRecorder struct {
 
 // NewMockFeaturesService creates a new mock instance.
 func NewMockFeaturesService(ctrl *gomock.Controller) *MockFeaturesService {
-	mock := &MockFeaturesService{ctrl: ctrl}
-	mock.recorder = &MockFeaturesServiceMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockFeaturesService) EXPECT() *MockFeaturesServiceMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Regulations mocks base method.
+	return nil
 }
 
-// Regulations mocks base method.
-func (m *MockFeaturesService) Regulations() []string {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Regulations")
-	ret0, _ := ret[0].([]string)
-	return ret0
-}
+func (m *MockFeaturesService) Regulations() []string { _ = "STUB: not implemented"; return nil }
 
 // Regulations indicates an expected call of Regulations.
 func (mr *MockFeaturesServiceMockRecorder) Regulations() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Regulations", reflect.TypeOf((*MockFeaturesService)(nil).Regulations))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // RouterTransform mocks base method.
 func (m *MockFeaturesService) RouterTransform(destType string) bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RouterTransform", destType)
-	ret0, _ := ret[0].(bool)
-	return ret0
+	_ = "STUB: not implemented"
+	return false
 }
 
 // RouterTransform indicates an expected call of RouterTransform.
 func (mr *MockFeaturesServiceMockRecorder) RouterTransform(destType any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RouterTransform", reflect.TypeOf((*MockFeaturesService)(nil).RouterTransform), destType)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SourceTransformerVersion mocks base method.
 func (m *MockFeaturesService) SourceTransformerVersion() string {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SourceTransformerVersion")
-	ret0, _ := ret[0].(string)
-	return ret0
+	_ = "STUB: not implemented"
+	return ""
 }
 
 // SourceTransformerVersion indicates an expected call of SourceTransformerVersion.
 func (mr *MockFeaturesServiceMockRecorder) SourceTransformerVersion() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SourceTransformerVersion", reflect.TypeOf((*MockFeaturesService)(nil).SourceTransformerVersion))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SupportDestTransformCompactedPayloadV1 mocks base method.
 func (m *MockFeaturesService) SupportDestTransformCompactedPayloadV1() bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SupportDestTransformCompactedPayloadV1")
-	ret0, _ := ret[0].(bool)
-	return ret0
+	_ = "STUB: not implemented"
+	return false
 }
 
 // SupportDestTransformCompactedPayloadV1 indicates an expected call of SupportDestTransformCompactedPayloadV1.
 func (mr *MockFeaturesServiceMockRecorder) SupportDestTransformCompactedPayloadV1() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SupportDestTransformCompactedPayloadV1", reflect.TypeOf((*MockFeaturesService)(nil).SupportDestTransformCompactedPayloadV1))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // TransformerProxyVersion mocks base method.
 func (m *MockFeaturesService) TransformerProxyVersion() string {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "TransformerProxyVersion")
-	ret0, _ := ret[0].(string)
-	return ret0
+	_ = "STUB: not implemented"
+	return ""
 }
 
 // TransformerProxyVersion indicates an expected call of TransformerProxyVersion.
 func (mr *MockFeaturesServiceMockRecorder) TransformerProxyVersion() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TransformerProxyVersion", reflect.TypeOf((*MockFeaturesService)(nil).TransformerProxyVersion))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Wait mocks base method.
-func (m *MockFeaturesService) Wait() chan struct{} {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Wait")
-	ret0, _ := ret[0].(chan struct{})
-	return ret0
-}
+func (m *MockFeaturesService) Wait() chan struct{} { _ = "STUB: not implemented"; return nil }
 
 // Wait indicates an expected call of Wait.
 func (mr *MockFeaturesServiceMockRecorder) Wait() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Wait", reflect.TypeOf((*MockFeaturesService)(nil).Wait))
+	_ = "STUB: not implemented"
+	return nil
 }

@@ -11,7 +11,6 @@ package mock_sysUtils
 
 import (
 	os "os"
-	reflect "reflect"
 
 	gomock "go.uber.org/mock/gomock"
 )
@@ -29,159 +28,92 @@ type MockOsIMockRecorder struct {
 }
 
 // NewMockOsI creates a new mock instance.
-func NewMockOsI(ctrl *gomock.Controller) *MockOsI {
-	mock := &MockOsI{ctrl: ctrl}
-	mock.recorder = &MockOsIMockRecorder{mock}
-	return mock
-}
+func NewMockOsI(ctrl *gomock.Controller) *MockOsI { _ = "STUB: not implemented"; return nil }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockOsI) EXPECT() *MockOsIMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Create mocks base method.
+	return nil
 }
 
-// Create mocks base method.
-func (m *MockOsI) Create(name string) (*os.File, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", name)
-	ret0, _ := ret[0].(*os.File)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
+func (m *MockOsI) Create(name string) (*os.File, error) { _ = "STUB: not implemented"; return nil, nil }
 
 // Create indicates an expected call of Create.
-func (mr *MockOsIMockRecorder) Create(name any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockOsI)(nil).Create), name)
-}
+func (mr *MockOsIMockRecorder) Create(name any) *gomock.Call { _ = "STUB: not implemented"; return nil }
 
 // Getenv mocks base method.
-func (m *MockOsI) Getenv(key string) string {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Getenv", key)
-	ret0, _ := ret[0].(string)
-	return ret0
-}
+func (m *MockOsI) Getenv(key string) string { _ = "STUB: not implemented"; return "" }
 
 // Getenv indicates an expected call of Getenv.
-func (mr *MockOsIMockRecorder) Getenv(key any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Getenv", reflect.TypeOf((*MockOsI)(nil).Getenv), key)
-}
+func (mr *MockOsIMockRecorder) Getenv(key any) *gomock.Call { _ = "STUB: not implemented"; return nil }
 
 // IsNotExist mocks base method.
-func (m *MockOsI) IsNotExist(err error) bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "IsNotExist", err)
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
+func (m *MockOsI) IsNotExist(err error) bool { _ = "STUB: not implemented"; return false }
 
 // IsNotExist indicates an expected call of IsNotExist.
 func (mr *MockOsIMockRecorder) IsNotExist(err any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IsNotExist", reflect.TypeOf((*MockOsI)(nil).IsNotExist), err)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // LookupEnv mocks base method.
-func (m *MockOsI) LookupEnv(key string) (string, bool) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "LookupEnv", key)
-	ret0, _ := ret[0].(string)
-	ret1, _ := ret[1].(bool)
-	return ret0, ret1
-}
+func (m *MockOsI) LookupEnv(key string) (string, bool) { _ = "STUB: not implemented"; return "", false }
 
 // LookupEnv indicates an expected call of LookupEnv.
 func (mr *MockOsIMockRecorder) LookupEnv(key any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LookupEnv", reflect.TypeOf((*MockOsI)(nil).LookupEnv), key)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // MkdirAll mocks base method.
 func (m *MockOsI) MkdirAll(path string, perm os.FileMode) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "MkdirAll", path, perm)
-	ret0, _ := ret[0].(error)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // MkdirAll indicates an expected call of MkdirAll.
 func (mr *MockOsIMockRecorder) MkdirAll(path, perm any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MkdirAll", reflect.TypeOf((*MockOsI)(nil).MkdirAll), path, perm)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Open mocks base method.
-func (m *MockOsI) Open(name string) (*os.File, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Open", name)
-	ret0, _ := ret[0].(*os.File)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
+func (m *MockOsI) Open(name string) (*os.File, error) { _ = "STUB: not implemented"; return nil, nil }
 
 // Open indicates an expected call of Open.
-func (mr *MockOsIMockRecorder) Open(name any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Open", reflect.TypeOf((*MockOsI)(nil).Open), name)
-}
+func (mr *MockOsIMockRecorder) Open(name any) *gomock.Call { _ = "STUB: not implemented"; return nil }
 
 // OpenFile mocks base method.
 func (m *MockOsI) OpenFile(name string, flag int, perm os.FileMode) (*os.File, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "OpenFile", name, flag, perm)
-	ret0, _ := ret[0].(*os.File)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // OpenFile indicates an expected call of OpenFile.
 func (mr *MockOsIMockRecorder) OpenFile(name, flag, perm any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OpenFile", reflect.TypeOf((*MockOsI)(nil).OpenFile), name, flag, perm)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Remove mocks base method.
-func (m *MockOsI) Remove(name string) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Remove", name)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
+func (m *MockOsI) Remove(name string) error { _ = "STUB: not implemented"; return nil }
 
 // Remove indicates an expected call of Remove.
-func (mr *MockOsIMockRecorder) Remove(name any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockOsI)(nil).Remove), name)
-}
+func (mr *MockOsIMockRecorder) Remove(name any) *gomock.Call { _ = "STUB: not implemented"; return nil }
 
 // Stat mocks base method.
 func (m *MockOsI) Stat(name string) (os.FileInfo, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Stat", name)
-	ret0, _ := ret[0].(os.FileInfo)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return *new(os.FileInfo), nil
 }
 
 // Stat indicates an expected call of Stat.
-func (mr *MockOsIMockRecorder) Stat(name any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Stat", reflect.TypeOf((*MockOsI)(nil).Stat), name)
-}
+func (mr *MockOsIMockRecorder) Stat(name any) *gomock.Call { _ = "STUB: not implemented"; return nil }
 
 // UserHomeDir mocks base method.
-func (m *MockOsI) UserHomeDir() (string, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UserHomeDir")
-	ret0, _ := ret[0].(string)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
+func (m *MockOsI) UserHomeDir() (string, error) { _ = "STUB: not implemented"; return "", nil }
 
 // UserHomeDir indicates an expected call of UserHomeDir.
-func (mr *MockOsIMockRecorder) UserHomeDir() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UserHomeDir", reflect.TypeOf((*MockOsI)(nil).UserHomeDir))
-}
+func (mr *MockOsIMockRecorder) UserHomeDir() *gomock.Call { _ = "STUB: not implemented"; return nil }

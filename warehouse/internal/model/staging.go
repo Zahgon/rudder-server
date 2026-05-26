@@ -51,15 +51,13 @@ type StagingFileWithSchema struct {
 }
 
 func (s StagingFile) WithSchema(schema json.RawMessage) StagingFileWithSchema {
-	return StagingFileWithSchema{
-		StagingFile: s,
-		Schema:      schema,
-	}
+	_ = "STUB: not implemented"
+	return *new(StagingFileWithSchema)
 }
 
 func (s StagingFileWithSchema) WithSnapshotIDAndPatch(snapshotID uuid.UUID, patch json.RawMessage) StagingFileWithSchema {
-	s.SnapshotID, s.SnapshotPatch = snapshotID, patch
-	return s
+	_ = "STUB: not implemented"
+	return *new(StagingFileWithSchema)
 }
 
 type EventTimeRange struct {

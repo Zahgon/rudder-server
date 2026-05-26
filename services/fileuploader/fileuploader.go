@@ -3,18 +3,12 @@ package fileuploader
 import (
 	"context"
 	"fmt"
-	"maps"
-	"reflect"
 	"sync"
 	"time"
 
-	"github.com/samber/lo"
-
-	"github.com/rudderlabs/rudder-go-kit/config"
 	"github.com/rudderlabs/rudder-go-kit/filemanager"
 
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
-	"github.com/rudderlabs/rudder-server/utils/filemanagerutil"
 )
 
 type StorageSettings struct {
@@ -38,50 +32,20 @@ type Provider interface {
 
 // NewProvider creates a new provider that updates its storage settings while backend configuration gets updated.
 func NewProvider(ctx context.Context, config backendconfig.BackendConfig) Provider {
-	s := &provider{
-		init:            make(chan struct{}),
-		notSubscribed:   make(chan struct{}),
-		storageSettings: make(map[string]StorageSettings),
-	}
-
-	go s.updateLoop(ctx, config)
-
-	return s
+	_ = "STUB: not implemented"
+	return *new(Provider)
 }
 
 // NewStaticProvider creates a new provider that operates against a predefined storage settings.
 // Useful for tests.
 func NewStaticProvider(storageSettings map[string]StorageSettings) Provider {
-	s := &provider{
-		init:            make(chan struct{}),
-		notSubscribed:   make(chan struct{}),
-		storageSettings: storageSettings,
-	}
-
-	s.fileManagerMap = make(map[string]func() (filemanager.FileManager, error))
-	for workspaceID, settings := range storageSettings {
-		if settings.Bucket.Type != "" {
-			s.fileManagerMap[workspaceID] = sync.OnceValues(func() (filemanager.FileManager, error) {
-				return filemanager.New(&filemanager.Settings{
-					Provider: settings.Bucket.Type,
-					Config:   settings.Bucket.Config,
-					Conf:     config.Default,
-				})
-			})
-		}
-	}
-
-	close(s.init)
-
-	return s
+	_ = "STUB: not implemented"
+	return *new(Provider)
 }
 
 // NewDefaultProvider creates a new provider that operates against the default storage settings populated from the env.
 // Useful for tests that populate settings from env.
-func NewDefaultProvider() Provider {
-	d := &defaultProvider{}
-	return d
-}
+func NewDefaultProvider() Provider { _ = "STUB: not implemented"; return *new(Provider) }
 
 type provider struct {
 	init          chan struct{}
@@ -94,32 +58,13 @@ type provider struct {
 }
 
 func (p *provider) GetFileManager(ctx context.Context, workspaceID string) (filemanager.FileManager, error) {
-	if err := p.blockUntilInit(ctx); err != nil {
-		return nil, err
-	}
-
-	p.mu.RLock()
-	fileManager, ok := p.fileManagerMap[workspaceID]
-	p.mu.RUnlock()
-	if !ok {
-		return nil, ErrNoStorageForWorkspace
-	}
-	return fileManager()
+	_ = "STUB: not implemented"
+	return *new(filemanager.FileManager), nil
 }
 
 func (p *provider) GetStoragePreferences(ctx context.Context, workspaceID string) (backendconfig.StoragePreferences, error) {
-	var prefs backendconfig.StoragePreferences
-	if err := p.blockUntilInit(ctx); err != nil {
-		return prefs, err
-	}
-
-	p.mu.RLock()
-	settings, ok := p.storageSettings[workspaceID]
-	p.mu.RUnlock()
-	if !ok {
-		return prefs, ErrNoStorageForWorkspace
-	}
-	return settings.Preferences, nil
+	_ = "STUB: not implemented"
+	return *new(backendconfig.StoragePreferences), nil
 }
 
 // blockUntilInit blocks until:
@@ -128,140 +73,44 @@ func (p *provider) GetStoragePreferences(ctx context.Context, workspaceID string
 // - the context is done
 // If it has been initialized at least once, we still check if it's not subscribed to the backend config.
 // If that were to happen there might be a small chance of serving stale data.
-func (p *provider) blockUntilInit(ctx context.Context) error {
-	select {
-	case <-ctx.Done():
-		return ctx.Err()
-	case <-p.notSubscribed:
-		return ErrNotSubscribed
-	case <-p.init:
-		select {
-		case <-p.notSubscribed:
-			return ErrNotSubscribed
-		default:
-			return nil
-		}
-	}
-}
+func (p *provider) blockUntilInit(ctx context.Context) error { _ = "STUB: not implemented"; return nil }
 
 // updateLoop uses backend config to retrieve & keep up-to-date the storage settings of all workspaces.
 func (p *provider) updateLoop(ctx context.Context, backendConfig backendconfig.BackendConfig) {
-	defer close(p.notSubscribed)
-
-	for ev := range backendConfig.Subscribe(ctx, backendconfig.TopicBackendConfig) {
-		p.mu.RLock()
-		currentSettingsMap := lo.Assign(p.storageSettings)
-		currentFileManagerMap := lo.Assign(p.fileManagerMap)
-		p.mu.RUnlock()
-		settingsMap := make(map[string]StorageSettings)
-		filemanagerMap := make(map[string]func() (filemanager.FileManager, error))
-		configs := ev.Data.(map[string]backendconfig.ConfigT)
-		for workspaceId, c := range configs {
-			currentWorkspaceConfig, ok := currentSettingsMap[workspaceId]
-			// no change in workspace config, don't process the same config again
-			if ok && !c.UpdatedAt.After(currentWorkspaceConfig.updatedAt) {
-				settingsMap[workspaceId] = currentWorkspaceConfig
-				filemanagerMap[workspaceId] = currentFileManagerMap[workspaceId]
-				continue
-			}
-
-			var bucket backendconfig.StorageBucket
-			var preferences backendconfig.StoragePreferences
-
-			if c.Settings.DataRetention.UseSelfStorage {
-				settings := c.Settings.DataRetention.StorageBucket
-				defaultBucket := getDefaultBucket(ctx, settings.Type)
-				bucket = overrideWithSettings(defaultBucket.Config, settings, workspaceId)
-				if bucket.Type == "" {
-					delete(settingsMap, workspaceId)
-					delete(filemanagerMap, workspaceId)
-					continue
-				}
-			} else {
-				bucket = getDefaultBucket(ctx, config.GetStringVar("S3", "JOBS_BACKUP_STORAGE_PROVIDER"))
-				switch c.Settings.DataRetention.RetentionPeriod {
-				case "default":
-					bucket.Config["prefix"] = config.GetStringVar("7dayretention", "JOBS_BACKUP_DEFAULT_PREFIX")
-				case "full":
-				default:
-				}
-			}
-			// bucket type and configuration must not be empty
-			if bucket.Type != "" && len(bucket.Config) > 0 {
-				preferences = c.Settings.DataRetention.StoragePreferences
-			}
-
-			// if no change in storage configuration, don't create new Filemanager
-			if ok && reflect.DeepEqual(currentWorkspaceConfig.Bucket, bucket) && reflect.DeepEqual(currentWorkspaceConfig.Preferences, preferences) {
-				settingsMap[workspaceId] = currentWorkspaceConfig
-				filemanagerMap[workspaceId] = currentFileManagerMap[workspaceId]
-				continue
-			}
-
-			// either newly polled workspace settings or updated storage config - update object storage Filemanager
-			settingsMap[workspaceId] = StorageSettings{
-				Bucket:      bucket,
-				Preferences: preferences,
-				updatedAt:   time.Now(),
-			}
-			filemanagerMap[workspaceId] = sync.OnceValues(func() (filemanager.FileManager, error) {
-				return filemanager.New(&filemanager.Settings{
-					Provider: bucket.Type,
-					Config:   bucket.Config,
-					Conf:     config.Default,
-				})
-			})
-		}
-		p.mu.Lock()
-		p.storageSettings = settingsMap
-		p.fileManagerMap = filemanagerMap
-		p.mu.Unlock()
-
-		p.initOnce.Do(func() {
-			close(p.init)
-		})
-	}
+	_ = "STUB: not implemented"
+	return
 }
+
+// no change in workspace config, don't process the same config again
+
+// bucket type and configuration must not be empty
+
+// if no change in storage configuration, don't create new Filemanager
+
+// either newly polled workspace settings or updated storage config - update object storage Filemanager
 
 type defaultProvider struct{}
 
 func (*defaultProvider) GetFileManager(context.Context, string) (filemanager.FileManager, error) {
-	defaultConfig := getDefaultBucket(context.Background(), config.GetStringVar("S3", "JOBS_BACKUP_STORAGE_PROVIDER"))
-	return filemanager.New(&filemanager.Settings{
-		Provider: defaultConfig.Type,
-		Config:   defaultConfig.Config,
-		Conf:     config.Default,
-	})
+	_ = "STUB: not implemented"
+	return *new(filemanager.FileManager), nil
 }
 
 func (*defaultProvider) GetStoragePreferences(context.Context, string) (backendconfig.StoragePreferences, error) {
-	return backendconfig.StoragePreferences{
-		GatewayDumps: true,
-	}, nil
+	_ = "STUB: not implemented"
+	return *new(backendconfig.StoragePreferences), nil
 }
 
 func getDefaultBucket(ctx context.Context, provider string) backendconfig.StorageBucket {
-	return backendconfig.StorageBucket{
-		Type:   provider,
-		Config: filemanager.GetProviderConfigFromEnv(filemanagerutil.ProviderConfigOpts(ctx, provider, config.Default)),
-	}
+	_ = "STUB: not implemented"
+	return *new(backendconfig.StorageBucket)
 }
 
 func overrideWithSettings(defaultConfig map[string]any, settings backendconfig.StorageBucket, workspaceID string) backendconfig.StorageBucket {
-	config := make(map[string]any)
-	maps.Copy(config, defaultConfig)
-	maps.Copy(config, settings.Config)
-	if settings.Type == "S3" && config["iamRoleArn"] != nil {
-		config["externalID"] = workspaceID
-	}
-	// By default, region is set to AWS_REGION by GetProviderConfigFromEnv,
-	// but we remove it here to allow customers to use their own bucket
-	// in a different region than the default AWS_REGION
-	if settings.Type == "S3" && config["region"] != nil {
-		delete(config, "region")
-	}
-	return backendconfig.StorageBucket{
-		Type:   settings.Type,
-		Config: config,
-	}
+	_ = "STUB: not implemented"
+	return *new(backendconfig.StorageBucket)
 }
+
+// By default, region is set to AWS_REGION by GetProviderConfigFromEnv,
+// but we remove it here to allow customers to use their own bucket
+// in a different region than the default AWS_REGION

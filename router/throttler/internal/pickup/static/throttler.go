@@ -2,7 +2,6 @@ package static
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"go.uber.org/atomic"
@@ -29,64 +28,36 @@ type throttler struct {
 }
 
 func (t *throttler) CheckLimitReached(ctx context.Context, cost int64) (limited bool, retErr error) {
-	if !t.enabled() {
-		return false, nil
-	}
-	t.updateStats()
-	allowed, _, err := t.limiter.Allow(ctx, t.costFn(cost), t.getLimit(), t.getTimeWindowInSeconds(), t.key)
-	if err != nil {
-		return false, fmt.Errorf("throttling failed for %s: %w", t.key, err)
-	}
-	return !allowed, nil
+	_ = "STUB: not implemented"
+	return false, nil
 }
 
-func (t *throttler) enabled() bool {
-	return t.limit.Load() > 0 && t.window.Load() > 0
-}
+func (t *throttler) enabled() bool { _ = "STUB: not implemented"; return false }
 
-func (t *throttler) getLimit() int64 {
-	return t.limit.Load()
-}
+func (t *throttler) getLimit() int64 { _ = "STUB: not implemented"; return 0 }
 
-func (t *throttler) GetLimitPerSecond() int64 {
-	if window := t.getTimeWindowInSeconds(); window > 0 {
-		return (t.getLimit() + window - 1) / window // ceiling division
-	}
-	return 0
-}
+func (t *throttler) GetLimitPerSecond() int64 { _ = "STUB: not implemented"; return 0 }
 
-func (t *throttler) GetEventType() string {
-	return t.eventType
-}
+// ceiling division
 
-func (t *throttler) GetLastUsed() time.Time {
-	return t.lastUsed.Load()
-}
+func (t *throttler) GetEventType() string { _ = "STUB: not implemented"; return "" }
 
-func (t *throttler) getTimeWindowInSeconds() int64 {
-	return int64(t.window.Load().Seconds())
-}
+func (t *throttler) GetLastUsed() time.Time { _ = "STUB: not implemented"; return *new(time.Time) }
+
+func (t *throttler) getTimeWindowInSeconds() int64 { _ = "STUB: not implemented"; return 0 }
 
 func (t *throttler) ResponseCodeReceived(code int) {
+	_ = "STUB: not implemented"
 	// no-op
+	return
 }
 
 func (t *throttler) Shutdown() {
+	_ = "STUB: not implemented"
 	// no-op
+	return
 }
 
-func (t *throttler) updateStats() {
-	t.everyStats.Do(func() {
-		t.lastUsed.Store(time.Now())
-		if window := t.getTimeWindowInSeconds(); window > 0 {
-			t.rateLimitGauge.Gauge(t.getLimit() / window)
-		}
-	})
-}
+func (t *throttler) updateStats() { _ = "STUB: not implemented"; return }
 
-func (t *throttler) costFn(input int64) int64 {
-	if t.staticCost.Load() {
-		return 1
-	}
-	return input
-}
+func (t *throttler) costFn(input int64) int64 { _ = "STUB: not implemented"; return 0 }

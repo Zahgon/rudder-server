@@ -5,8 +5,6 @@ import (
 	"time"
 
 	"cloud.google.com/go/bigquery"
-
-	"github.com/rudderlabs/rudder-server/warehouse/logfield"
 )
 
 type Opt func(*Client)
@@ -24,68 +22,33 @@ type Client struct {
 	slowQueryThreshold time.Duration
 }
 
-func WithLogger(logger loggerMW) Opt {
-	return func(s *Client) {
-		s.logger = logger
-	}
-}
+func WithLogger(logger loggerMW) Opt { _ = "STUB: not implemented"; return *new(Opt) }
 
-func WithKeyAndValues(keyAndValues ...any) Opt {
-	return func(s *Client) {
-		s.keysAndValues = keyAndValues
-	}
-}
+func WithKeyAndValues(keyAndValues ...any) Opt { _ = "STUB: not implemented"; return *new(Opt) }
 
 func WithSlowQueryThreshold(slowQueryThreshold time.Duration) Opt {
-	return func(s *Client) {
-		s.slowQueryThreshold = slowQueryThreshold
-	}
+	_ = "STUB: not implemented"
+	return *new(Opt)
 }
 
 func WithSince(since func(time.Time) time.Duration) Opt {
-	return func(s *Client) {
-		s.since = since
-	}
+	_ = "STUB: not implemented"
+	return *new(Opt)
 }
 
-func New(client *bigquery.Client, opts ...Opt) *Client {
-	s := &Client{
-		Client:             client,
-		since:              time.Since,
-		slowQueryThreshold: 300 * time.Second,
-	}
-	for _, opt := range opts {
-		opt(s)
-	}
-	return s
-}
+func New(client *bigquery.Client, opts ...Opt) *Client { _ = "STUB: not implemented"; return nil }
 
 func (client *Client) Run(ctx context.Context, query *bigquery.Query) (*bigquery.Job, error) {
-	startedAt := time.Now()
-	job, err := query.Run(ctx)
-	client.logQuery(query, client.since(startedAt))
-	return job, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (client *Client) Read(ctx context.Context, query *bigquery.Query) (it *bigquery.RowIterator, err error) {
-	startedAt := time.Now()
-	it, err = query.Read(ctx)
-	client.logQuery(query, client.since(startedAt))
-	return it, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (client *Client) logQuery(query *bigquery.Query, elapsed time.Duration) {
-	if elapsed < client.slowQueryThreshold {
-		return
-	}
-
-	queryStatement := query.Q
-
-	keysAndValues := []any{
-		logfield.Query, queryStatement,
-		logfield.QueryExecutionTime, elapsed,
-	}
-	keysAndValues = append(keysAndValues, client.keysAndValues...)
-
-	client.logger.Infow("executing query", keysAndValues...)
+	_ = "STUB: not implemented"
+	return
 }

@@ -15,22 +15,14 @@ with the new badgerdb (with all users).
 
 import (
 	"context"
-	"fmt"
 	"io"
-	"net/http"
-	"os"
-	"path/filepath"
 	"time"
 
 	"github.com/rudderlabs/rudder-go-kit/config"
 	"github.com/rudderlabs/rudder-go-kit/logger"
-	obskit "github.com/rudderlabs/rudder-observability-kit/go/labels"
 
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
-	"github.com/rudderlabs/rudder-server/enterprise/suppress-user/model"
-	"github.com/rudderlabs/rudder-server/rruntime"
 	"github.com/rudderlabs/rudder-server/services/controlplane/identity"
-	"github.com/rudderlabs/rudder-server/utils/misc"
 	"github.com/rudderlabs/rudder-server/utils/types"
 )
 
@@ -41,213 +33,42 @@ type Factory struct {
 
 // Setup initializes the user suppression feature
 func (m *Factory) Setup(ctx context.Context, backendConfig backendconfig.BackendConfig) (types.UserSuppression, error) {
-	if m.Log == nil {
-		m.Log = logger.NewLogger().Child("enterprise").Child("suppress-user")
-	}
-
-	if m.EnterpriseToken == "" {
-		m.Log.Infon("Suppress User feature is enterprise only")
-		return &NOOP{}, nil
-	}
-
-	m.Log.Infon("Setting up Suppress User Feature")
-
-	backendConfig.WaitForConfig(ctx)
-
-	pollInterval := config.GetReloadableDurationVar(300, time.Second, "BackendConfig.Regulations.pollInterval")
-
-	useBadgerDB := config.GetBoolVar(true, "BackendConfig.Regulations.useBadgerDB")
-	if useBadgerDB {
-		identifier := backendConfig.Identity()
-
-		fullSuppressionPath, latestSuppressionPath, err := getRepoPath()
-		if err != nil {
-			return nil, fmt.Errorf("could not get repo path: %w", err)
-		}
-
-		if !alreadySynced(fullSuppressionPath) && config.IsSet("SUPPRESS_USER_BACKUP_SERVICE_URL") {
-			_ = os.RemoveAll(fullSuppressionPath)
-			_ = os.RemoveAll(latestSuppressionPath)
-
-			// First starting a repository seeded with the latest data which is faster to load
-			latestSyncer, latestRepo, err := m.newSyncerWithBadgerRepo(
-				latestSuppressionPath,
-				latestDataSeed,
-				config.GetDurationVar(5, time.Second, "BackendConfig.Regulations.maxSeedWait"),
-				identifier,
-				pollInterval)
-			if err != nil {
-				return nil, err
-			}
-
-			subCtx, latestSyncCancel := context.WithCancel(ctx)
-			rruntime.Go(func() {
-				m.Log.Infon("Starting latest suppression sync")
-				latestSyncer.SyncLoop(subCtx)
-				err = latestRepo.Stop()
-				if err != nil {
-					m.Log.Warnn("Latest Sync failed: could not stop repo", obskit.Error(err))
-				}
-				err = os.RemoveAll(latestSuppressionPath)
-				if err != nil {
-					m.Log.Errorn("Latest Sync failed: could not remove repo", obskit.Error(err))
-				}
-				m.Log.Infon("Latest suppression sync stopped")
-			})
-
-			repo := &RepoSwitcher{Repository: latestRepo}
-			rruntime.Go(func() {
-				var fullSyncer *Syncer
-				var fullRepo Repository
-				var err error
-
-				m.retryIndefinitely(ctx,
-					func() error {
-						fullSyncer, fullRepo, err = m.newSyncerWithBadgerRepo(fullSuppressionPath, fullDataSeed, 0, identifier, pollInterval)
-						return err
-					}, 5*time.Second)
-
-				m.Log.Infon("First full suppression sync started")
-				m.retryIndefinitely(ctx,
-					func() error { return fullSyncer.Sync(ctx) },
-					5*time.Second)
-				m.Log.Infon("First full suppression sync done")
-
-				_, err = os.Create(filepath.Join(fullSuppressionPath, model.SyncDoneMarker))
-				if err != nil {
-					m.Log.Errorn("Could not create sync done marker", obskit.Error(err))
-				}
-				repo.Switch(fullRepo)
-				m.Log.Infon("Switched to full suppression repository")
-				latestSyncCancel()
-				fullSyncer.SyncLoop(ctx)
-				err = fullRepo.Stop()
-				if err != nil {
-					m.Log.Warnn("Full Sync failed: could not stop repo", obskit.Error(err))
-				}
-			})
-			return newHandler(repo, m.Log), nil
-		} else {
-			m.Log.Infon("fullSuppression repo is already synced with backup service, starting syncLoop")
-			syncer, fullRepo, err := m.newSyncerWithBadgerRepo(fullSuppressionPath, nil, 0, identifier, pollInterval)
-			if err != nil {
-				return nil, err
-			}
-			rruntime.Go(func() {
-				syncer.SyncLoop(ctx)
-				err = fullRepo.Stop()
-				if err != nil {
-					m.Log.Warnn("could not stop full sync repo", obskit.Error(err))
-				}
-			})
-			return newHandler(fullRepo, m.Log), nil
-		}
-	} else {
-		memoryRepo := NewMemoryRepository(m.Log)
-		syncer, err := NewSyncer(
-			config.GetStringVar("https://api.rudderstack.com", "SUPPRESS_USER_BACKEND_URL"),
-			backendConfig.Identity(),
-			memoryRepo,
-			WithLogger(m.Log),
-			WithHttpClient(&http.Client{Timeout: config.GetDurationVar(30, time.Second, "HttpClient.suppressUser.timeout")}),
-			WithPageSize(config.GetIntVar(5000, 1, "BackendConfig.Regulations.pageSize")),
-			WithPollIntervalFn(func() time.Duration { return pollInterval.Load() }),
-		)
-		if err != nil {
-			return nil, err
-		}
-		rruntime.Go(func() {
-			syncer.SyncLoop(ctx)
-			err = memoryRepo.Stop()
-			if err != nil {
-				m.Log.Warnn("Sync failed: could not stop repo", obskit.Error(err))
-			}
-		})
-		h := newHandler(memoryRepo, m.Log)
-
-		return h, nil
-	}
+	_ = "STUB: not implemented"
+	return *new(types.UserSuppression), nil
 }
 
-func alreadySynced(repoPath string) bool {
-	_, err := os.Stat(filepath.Join(repoPath, model.SyncDoneMarker))
-	return err == nil
-}
+// First starting a repository seeded with the latest data which is faster to load
+
+func alreadySynced(repoPath string) bool { _ = "STUB: not implemented"; return false }
 
 func (m *Factory) retryIndefinitely(ctx context.Context, f func() error, wait time.Duration) {
-	var err error
-	for {
-		err = f()
-		if err == nil {
-			return
-		}
-		m.Log.Errorn("retry failed", obskit.Error(err))
-		select {
-		case <-ctx.Done():
-			return
-		case <-time.After(wait):
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 func (m *Factory) newSyncerWithBadgerRepo(repoPath string, seederSource func() (io.ReadCloser, error), maxSeedWaitTime time.Duration, identity identity.Identifier, pollInterval config.ValueLoader[time.Duration]) (*Syncer, Repository, error) {
-	repo, err := NewBadgerRepository(
-		repoPath,
-		m.Log,
-		WithSeederSource(seederSource),
-		WithMaxSeedWait(maxSeedWaitTime),
-	)
-	if err != nil {
-		return nil, nil, fmt.Errorf("could not create badger repository: %w", err)
-	}
-	syncer, err := NewSyncer(
-		config.GetStringVar("https://api.rudderstack.com", "SUPPRESS_USER_BACKEND_URL"),
-		identity,
-		repo,
-		WithLogger(m.Log),
-		WithHttpClient(&http.Client{Timeout: config.GetDurationVar(30, time.Second, "HttpClient.suppressUser.timeout")}),
-		WithPageSize(config.GetIntVar(5000, 1, "BackendConfig.Regulations.pageSize")),
-		WithPollIntervalFn(func() time.Duration { return pollInterval.Load() }),
-	)
-	if err != nil {
-		return nil, nil, err
-	}
-	return syncer, repo, nil
+	_ = "STUB: not implemented"
+	return nil, *new(Repository), nil
 }
 
 func getRepoPath() (fullSuppressionPath, latestSuppressionPath string, err error) {
-	tmpDir, err := misc.GetTmpDir()
-	if err != nil {
-		return "", "", fmt.Errorf("could not create tmp dir: %w", err)
-	}
-	fullSuppressionPath = filepath.Join(tmpDir, "fullSuppression")
-	latestSuppressionPath = filepath.Join(tmpDir, "latestSuppression")
-	return fullSuppressionPath, latestSuppressionPath, err
+	_ = "STUB: not implemented"
+	return "", "", nil
 }
 
 func latestDataSeed() (io.ReadCloser, error) {
-	return seederSource("latest-export")
+	_ = "STUB: not implemented"
+	return *new(io.ReadCloser), nil
 }
 
 func fullDataSeed() (io.ReadCloser, error) {
-	return seederSource("full-export")
+	_ = "STUB: not implemented"
+	return *new(io.ReadCloser), nil
 }
 
 func seederSource(endpoint string) (io.ReadCloser, error) {
-	client := http.Client{}
-	baseURL := config.GetStringVar("https://api.rudderstack.com", "SUPPRESS_USER_BACKUP_SERVICE_URL")
-	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/%s", baseURL, endpoint), http.NoBody)
-	if err != nil {
-		return nil, fmt.Errorf("could not create request: %w", err)
-	}
-	resp, err := client.Do(req)
-	if err != nil {
-		return nil, fmt.Errorf("could not perform request: %w", err)
-	}
-
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
-	}
-	// close body afterwards.
-	return resp.Body, nil
+	_ = "STUB: not implemented"
+	return *new(io.ReadCloser), nil
 }
+
+// close body afterwards.

@@ -5,11 +5,8 @@ import (
 	"sync"
 
 	"github.com/rudderlabs/rudder-go-kit/logger"
-	obskit "github.com/rudderlabs/rudder-observability-kit/go/labels"
 
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
-	"github.com/rudderlabs/rudder-server/regulation-worker/internal/model"
-	"github.com/rudderlabs/rudder-server/rruntime"
 	"github.com/rudderlabs/rudder-server/utils/pubsub"
 )
 
@@ -27,41 +24,10 @@ type DestinationConfig struct {
 }
 
 func (d *DestinationConfig) GetDestination(destID string) (*backendconfig.DestinationT, error) {
-	pkgLogger.Debugn("getting destination details", obskit.DestinationID(destID))
-	d.mu.RLock()
-	defer d.mu.RUnlock()
-	destination, ok := d.destinations[destID]
-	if !ok {
-		return nil, model.ErrInvalidDestination
-	}
-	return destination, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Start starts listening for configuration updates and updates the destinations.
 // The method blocks until the first update is received.
-func (d *DestinationConfig) Start(ctx context.Context) {
-	initialized := make(chan struct{})
-	ch := d.Dest.Subscribe(ctx, backendconfig.TopicBackendConfig)
-	rruntime.Go(func() {
-		for data := range ch {
-			destinations := make(map[string]*backendconfig.DestinationT)
-			configs := data.Data.(map[string]backendconfig.ConfigT)
-			for _, config := range configs {
-				for _, source := range config.Sources {
-					for _, dest := range source.Destinations {
-						destinations[dest.ID] = &dest
-					}
-				}
-			}
-			d.mu.Lock()
-			d.destinations = destinations
-			d.mu.Unlock()
-			select {
-			case <-initialized:
-			default:
-				close(initialized)
-			}
-		}
-	})
-	<-initialized
-}
+func (d *DestinationConfig) Start(ctx context.Context) { _ = "STUB: not implemented"; return }

@@ -1,12 +1,8 @@
 package encoding
 
 import (
-	"errors"
-	"fmt"
 	"os"
-	"sort"
 
-	"github.com/samber/lo"
 	"github.com/xitongsys/parquet-go/writer"
 
 	"github.com/rudderlabs/rudder-server/utils/misc"
@@ -70,69 +66,25 @@ type parquetWriter struct {
 }
 
 func createParquetWriter(outputFilePath string, schema model.TableSchema, destType string, maxParallelWriters int64, disableParquetColumnIndex bool) (LoadFileWriter, error) {
-	bufWriter, err := misc.CreateBufferedWriter(outputFilePath)
-	if err != nil {
-		return nil, err
-	}
-
-	pSchema, err := parquetSchema(schema, destType)
-	if err != nil {
-		return nil, err
-	}
-
-	// Disable column index to avoid the column index being written to the parquet file.
-	w, err := writer.NewCSVWriterFromWriter(pSchema, bufWriter, maxParallelWriters, writer.WithDisableColumnIndex(disableParquetColumnIndex))
-	if err != nil {
-		return nil, err
-	}
-
-	return &parquetWriter{
-		writer:     w,
-		fileWriter: bufWriter,
-	}, nil
+	_ = "STUB: not implemented"
+	return *new(LoadFileWriter), nil
 }
 
-func (p *parquetWriter) WriteRow(row []any) error {
-	return p.writer.Write(row)
-}
+// Disable column index to avoid the column index being written to the parquet file.
 
-func (p *parquetWriter) Close() error {
-	err := p.writer.WriteStop()
-	if err != nil {
-		return err
-	}
+func (p *parquetWriter) WriteRow(row []any) error { _ = "STUB: not implemented"; return nil }
 
-	return p.fileWriter.Close()
-}
+func (p *parquetWriter) Close() error { _ = "STUB: not implemented"; return nil }
 
-func (*parquetWriter) WriteGZ(_ string) error {
-	return errors.New("not implemented")
-}
+func (*parquetWriter) WriteGZ(_ string) error { _ = "STUB: not implemented"; return nil }
 
-func (*parquetWriter) Write(_ []byte) (int, error) {
-	return 0, errors.New("not implemented")
-}
+func (*parquetWriter) Write(_ []byte) (int, error) { _ = "STUB: not implemented"; return 0, nil }
 
-func (p *parquetWriter) GetLoadFile() *os.File {
-	return p.fileWriter.GetFile()
-}
+func (p *parquetWriter) GetLoadFile() *os.File { _ = "STUB: not implemented"; return nil }
 
-func sortedTableColumns(schema model.TableSchema) []string {
-	columns := lo.Keys(schema)
-	sort.Strings(columns)
-	return columns
-}
+func sortedTableColumns(schema model.TableSchema) []string { _ = "STUB: not implemented"; return nil }
 
 func parquetSchema(schema model.TableSchema, destType string) ([]string, error) {
-	whTypeMap, ok := rudderDataTypeToParquetDataType[destType]
-	if !ok {
-		return nil, errors.New("unsupported warehouse for parquet load files")
-	}
-
-	var pSchema []string
-	for _, col := range sortedTableColumns(schema) {
-		pType := fmt.Sprintf("name=%s, %s", warehouseutils.ToProviderCase(destType, col), whTypeMap[schema[col]])
-		pSchema = append(pSchema, pType)
-	}
-	return pSchema, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }

@@ -1,31 +1,14 @@
 package webhook
 
 import (
-	"bytes"
 	"encoding/json"
-	"errors"
-	"fmt"
 	"io"
 	"net/http"
-	"net/url"
-	"slices"
-	"strings"
-	"time"
-
-	"github.com/tidwall/sjson"
 
 	"github.com/rudderlabs/rudder-go-kit/config"
-	"github.com/rudderlabs/rudder-go-kit/jsonrs"
-	"github.com/rudderlabs/rudder-go-kit/logger"
-	"github.com/rudderlabs/rudder-go-kit/requesttojson"
-	obskit "github.com/rudderlabs/rudder-observability-kit/go/labels"
 
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
-	"github.com/rudderlabs/rudder-server/gateway/response"
 	gwtypes "github.com/rudderlabs/rudder-server/gateway/types"
-	"github.com/rudderlabs/rudder-server/services/transformer"
-	"github.com/rudderlabs/rudder-server/utils/httputil"
-	"github.com/rudderlabs/rudder-server/utils/misc"
 )
 
 const (
@@ -50,38 +33,16 @@ type V1TransformerEvent struct {
 }
 
 func (v1 *v1Adapter) getTransformerEvent(authCtx *gwtypes.AuthRequestContext, eventRequest []byte) ([]byte, error) {
-	source := authCtx.SourceDetails
-
-	v1TransformerEvent := V1TransformerEvent{
-		EventRequest: eventRequest,
-		Source: backendconfig.SourceT{
-			ID:          source.ID,
-			OriginalID:  source.OriginalID,
-			Name:        source.Name,
-			Config:      source.Config,
-			Enabled:     source.Enabled,
-			WorkspaceID: source.WorkspaceID,
-			WriteKey:    source.WriteKey,
-		},
-	}
-
-	v1TransformerEvent.Source.SourceDefinition = backendconfig.SourceDefinitionT{
-		ID:       source.SourceDefinition.ID,
-		Name:     source.SourceDefinition.Name,
-		Category: source.SourceDefinition.Category,
-		Type:     source.SourceDefinition.Type,
-	}
-
-	return jsonrs.Marshal(v1TransformerEvent)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (v1 *v1Adapter) getTransformerURL(sourceType string) (string, error) {
-	return getTransformerURL(transformer.V1, sourceType, v1.baseTransformerURL)
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
-func (v1 *v1Adapter) getAdapterVersion() string {
-	return transformer.V1
-}
+func (v1 *v1Adapter) getAdapterVersion() string { _ = "STUB: not implemented"; return "" }
 
 // ----- v2 adapter -----
 
@@ -95,91 +56,42 @@ type V2TransformerEvent struct {
 }
 
 func (v2 *v2Adapter) getTransformerEvent(authCtx *gwtypes.AuthRequestContext, eventRequest []byte) ([]byte, error) {
-	source := authCtx.SourceDetails
-
-	v2TransformerEvent := V2TransformerEvent{
-		EventRequest: eventRequest,
-		Source: backendconfig.SourceT{
-			ID:          source.ID,
-			OriginalID:  source.OriginalID,
-			Name:        source.Name,
-			Config:      source.Config,
-			Enabled:     source.Enabled,
-			WorkspaceID: source.WorkspaceID,
-			WriteKey:    source.WriteKey,
-		},
-	}
-
-	v2TransformerEvent.Source.SourceDefinition = backendconfig.SourceDefinitionT{
-		ID:       source.SourceDefinition.ID,
-		Name:     source.SourceDefinition.Name,
-		Category: source.SourceDefinition.Category,
-		Type:     source.SourceDefinition.Type,
-	}
-
-	return jsonrs.Marshal(v2TransformerEvent)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (v2 *v2Adapter) getTransformerURL(sourceType string) (string, error) {
-	return getTransformerURL(transformer.V2, sourceType, v2.baseTransformerURL)
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
-func (v2 *v2Adapter) getAdapterVersion() string {
-	return transformer.V2
-}
+func (v2 *v2Adapter) getAdapterVersion() string { _ = "STUB: not implemented"; return "" }
 
 // ------------------------------
 
 func newSourceTransformAdapter(version string, conf *config.Config) sourceTransformAdapter {
+	_ = "STUB: not implemented"
 	// V0 Deprecation: this function returns v1 adapter by default, thereby deprecating v0
-	baseTransformerUrl := conf.GetStringVar("http://localhost:9090", "DEST_TRANSFORM_URL")
-	if version == transformer.V2 {
-		return &v2Adapter{
-			baseTransformerURL: baseTransformerUrl,
-		}
-	}
-	return &v1Adapter{
-		baseTransformerURL: baseTransformerUrl,
-	}
+	return *new(sourceTransformAdapter)
 }
 
 // --- utilities -----
 
 func getTransformerURL(version, sourceType, baseURL string) (string, error) {
-	return url.JoinPath(baseURL, version, "sources", strings.ToLower(sourceType))
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
 func prepareTransformerEventRequestV1(req *http.Request, sourceType string, sourceListForParsingParams []string) ([]byte, error) {
-	defer func() {
-		if req.Body != nil {
-			_ = req.Body.Close()
-		}
-	}()
-
-	body, err := io.ReadAll(req.Body)
-	if err != nil {
-		return nil, errors.New(strings.ToLower(response.RequestBodyReadFailed))
-	}
-
-	if len(body) == 0 {
-		body = []byte("{}") // If body is empty, set it to an empty JSON object
-	}
-
-	if slices.Contains(sourceListForParsingParams, strings.ToLower(sourceType)) {
-		queryParams := req.URL.Query()
-		return sjson.SetBytes(body, "query_parameters", queryParams)
-	}
-
-	return body, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func prepareTransformerEventRequestV2(req *http.Request) ([]byte, error) {
-	requestJson, err := requesttojson.RequestToJSON(req, "{}")
-	if err != nil {
-		return nil, err
-	}
+// If body is empty, set it to an empty JSON object
 
-	return jsonrs.Marshal(requestJson)
+func prepareTransformerEventRequestV2(req *http.Request) ([]byte, error) {
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 type outputToSource struct {
@@ -203,139 +115,66 @@ type transformerBatchResponseT struct {
 }
 
 func (bt *batchWebhookTransformerT) markResponseFail(reason string) transformerResponse {
-	statusCode := response.GetErrorStatusCode(reason)
-	resp := transformerResponse{
-		Err:        response.GetStatus(reason),
-		StatusCode: statusCode,
-	}
-	bt.stats.failedStat.Count(1)
-	return resp
+	_ = "STUB: not implemented"
+	return *new(transformerResponse)
 }
 
 func (bt *batchWebhookTransformerT) transform(events [][]byte, sourceTransformerURL string) transformerBatchResponseT {
-	bt.stats.sentStat.Count(len(events))
-	transformStart := time.Now()
-
-	var resp *http.Response
-	payload := misc.MakeJSONArray(events)
-	bt.stats.transformTimerStat.Since(transformStart)
-	resp, err := bt.doPost(sourceTransformerURL, bytes.NewBuffer(payload))
-	if err != nil {
-		err := fmt.Errorf("JS HTTP connection to source transformer (URL: %q): %w", sourceTransformerURL, err)
-		return transformerBatchResponseT{batchError: err, statusCode: http.StatusServiceUnavailable}
-	}
-
-	respBody, err := io.ReadAll(resp.Body)
-	func() { httputil.CloseResponse(resp) }()
-
-	if err != nil {
-		bt.stats.failedStat.Count(len(events))
-		statusCode := response.GetErrorStatusCode(response.RequestBodyReadFailed)
-		err := errors.New(response.GetStatus(response.RequestBodyReadFailed))
-		return transformerBatchResponseT{batchError: err, statusCode: statusCode}
-	}
-
-	if resp.StatusCode != http.StatusOK {
-		bt.webhook.logger.Errorn("source Transformer returned non-success statusCode",
-			logger.NewIntField("statusCode", int64(resp.StatusCode)),
-			logger.NewStringField("error", resp.Status))
-		bt.stats.failedStat.Count(len(events))
-		err := fmt.Errorf("source Transformer returned non-success statusCode: %v, Error: %v", resp.StatusCode, resp.Status)
-		return transformerBatchResponseT{batchError: err}
-	}
-
-	/*
-		expected response format
-		[
-			------Output to Gateway only---------
-			{
-				output: {
-					batch: [
-						{
-							context: {...},
-							properties: {...},
-							userId: "U123"
-						}
-					]
-				}
-			}
-
-			------Output to Source only---------
-			{
-				outputToSource: {
-					"body": "eyJhIjoxfQ==", // base64 encode string
-					"contentType": "application/json"
-				}
-			}
-
-			------Output to Both Gateway and Source---------
-			{
-				output: {
-					batch: [
-						{
-							context: {...},
-							properties: {...},
-							userId: "U123"
-						}
-					]
-				},
-				outputToSource: {
-					"body": "eyJhIjoxfQ==", // base64 encode string
-					"contentType": "application/json"
-				}
-			}
-
-			------Error example---------
-			{
-				statusCode: 400,
-				error: "event type is not supported"
-			}
-
-		]
-	*/
-	var responses []transformerResponse
-	err = jsonrs.Unmarshal(respBody, &responses)
-	if err != nil {
-		statusCode := response.GetErrorStatusCode(response.SourceTransformerInvalidResponseFormat)
-		err := errors.New(response.GetStatus(response.SourceTransformerInvalidResponseFormat))
-		return transformerBatchResponseT{batchError: err, statusCode: statusCode}
-	}
-	if len(responses) != len(events) {
-		statusCode := response.GetErrorStatusCode(response.SourceTransformerInvalidResponseFormat)
-		err := errors.New(response.GetStatus(response.SourceTransformerInvalidResponseFormat))
-		bt.webhook.logger.Errorn("source rudder-transformer response size does not equal sent events size")
-		return transformerBatchResponseT{batchError: err, statusCode: statusCode}
-	}
-
-	batchResponse := transformerBatchResponseT{responses: make([]transformerResponse, len(events))}
-	for idx, resp := range responses {
-		if resp.Err != "" {
-			batchResponse.responses[idx] = resp
-			bt.stats.failedStat.Count(1)
-			continue
-		}
-		if resp.Output == nil && resp.OutputToSource == nil {
-			batchResponse.responses[idx] = bt.markResponseFail(response.SourceTransformerFailedToReadOutput)
-			continue
-		}
-		bt.stats.receivedStat.Count(1)
-		batchResponse.responses[idx] = resp
-	}
-	return batchResponse
+	_ = "STUB: not implemented"
+	return *new(transformerBatchResponseT)
 }
 
+/*
+	expected response format
+	[
+		------Output to Gateway only---------
+		{
+			output: {
+				batch: [
+					{
+						context: {...},
+						properties: {...},
+						userId: "U123"
+					}
+				]
+			}
+		}
+
+		------Output to Source only---------
+		{
+			outputToSource: {
+				"body": "eyJhIjoxfQ==", // base64 encode string
+				"contentType": "application/json"
+			}
+		}
+
+		------Output to Both Gateway and Source---------
+		{
+			output: {
+				batch: [
+					{
+						context: {...},
+						properties: {...},
+						userId: "U123"
+					}
+				]
+			},
+			outputToSource: {
+				"body": "eyJhIjoxfQ==", // base64 encode string
+				"contentType": "application/json"
+			}
+		}
+
+		------Error example---------
+		{
+			statusCode: 400,
+			error: "event type is not supported"
+		}
+
+	]
+*/
+
 func (bt *batchWebhookTransformerT) doPost(transformerURL string, body io.Reader) (*http.Response, error) {
-	req, err := http.NewRequest(http.MethodPost, transformerURL, body)
-	if err != nil {
-		return nil, fmt.Errorf("creating request: %w", err)
-	}
-	req.Header.Set("Content-Type", contentTypeJsonUTF8)
-	resp, err := bt.webhook.httpClient.Do(req)
-	if err != nil {
-		bt.webhook.logger.Warnn("failed to send events to transformer",
-			logger.NewStringField("transformerURL", transformerURL),
-			obskit.Error(err))
-		return nil, fmt.Errorf("failed to send events to transformer: %w", err)
-	}
-	return resp, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }

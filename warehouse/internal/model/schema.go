@@ -1,7 +1,6 @@
 package model
 
 import (
-	"strings"
 	"time"
 )
 
@@ -40,17 +39,4 @@ type NamespaceMapping struct {
 	Namespace string
 }
 
-func (t TableSchema) String() string {
-	first := true
-	sb := strings.Builder{}
-	for k, v := range t {
-		if !first {
-			sb.WriteString(",")
-		}
-		sb.WriteString(k)
-		sb.WriteString(":")
-		sb.WriteString(v)
-		first = false
-	}
-	return sb.String()
-}
+func (t TableSchema) String() string { _ = "STUB: not implemented"; return "" }

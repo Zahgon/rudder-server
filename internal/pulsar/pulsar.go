@@ -2,8 +2,6 @@ package pulsar
 
 import (
 	"context"
-	"errors"
-	"fmt"
 	"time"
 
 	"github.com/apache/pulsar-client-go/pulsar"
@@ -36,66 +34,36 @@ type Client struct {
 
 // NewClient returns a new instance of Pulsar client
 func NewClient(config *config.Config) (Client, error) {
-	log := logger.NewLogger().Child("pulsar")
-	client, err := newPulsarClient(getClientConf(config), log)
-	if err != nil {
-		return Client{}, fmt.Errorf("error creating pulsar client : %v", err)
-	}
-	return client, nil
+	_ = "STUB: not implemented"
+	return *new(Client), nil
 }
 
 // NewProducer returns a new instance of Pulsar producer
 func (c *Client) NewProducer(opts pulsar.ProducerOptions) (ProducerAdapter, error) {
-	producer, err := c.CreateProducer(opts)
-	if err != nil {
-		return nil, err
-	}
-	return &Producer{
-		producer,
-	}, nil
+	_ = "STUB: not implemented"
+	return *new(ProducerAdapter), nil
 }
 
 func newPulsarClient(conf ClientConf, log logger.Logger) (Client, error) {
-	if conf.url == "" {
-		return Client{}, errors.New("pulsar url is empty")
-	}
-	client, err := pulsar.NewClient(pulsar.ClientOptions{
-		URL:               conf.url,
-		OperationTimeout:  conf.operationTimeout,
-		ConnectionTimeout: conf.connectionTimeout,
-		Logger:            &pulsarLogAdapter{Logger: log},
-	})
-	if err != nil {
-		return Client{}, err
-	}
-	return Client{client}, nil
+	_ = "STUB: not implemented"
+	return *new(Client), nil
 }
 
 // SendMessage sends a message to pulsar synchronously
 func (p *Producer) SendMessage(ctx context.Context, key, orderingKey string, msg []byte) error {
-	_, err := p.Send(ctx, &pulsar.ProducerMessage{
-		Key:         key,
-		OrderingKey: orderingKey,
-		Payload:     msg,
-	})
-	return err
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SendMessageAsync sends a message to pulsar asynchronously
 func (p *Producer) SendMessageAsync(ctx context.Context, key, orderingKey string, msg []byte, statusfunc func(id pulsar.MessageID, message *pulsar.ProducerMessage, err error)) {
-	p.SendAsync(ctx, &pulsar.ProducerMessage{
-		Payload:     msg,
-		Key:         key,
-		OrderingKey: orderingKey,
-	}, statusfunc)
+	_ = "STUB: not implemented"
+	return
 }
 
 func getClientConf(config *config.Config) ClientConf {
-	return ClientConf{
-		url:               config.GetStringVar("pulsar://localhost:6650", "Pulsar.Client.url"),
-		operationTimeout:  config.GetDurationVar(30, time.Second, "Pulsar.Client.operationTimeout"),
-		connectionTimeout: config.GetDurationVar(30, time.Second, "Pulsar.Client.connectionTimeout"),
-	}
+	_ = "STUB: not implemented"
+	return *new(ClientConf)
 }
 
 type pulsarLogAdapter struct {
@@ -103,21 +71,25 @@ type pulsarLogAdapter struct {
 }
 
 func (pl *pulsarLogAdapter) SubLogger(fields pulsarLog.Fields) pulsarLog.Logger {
-	logFields := make([]logger.Field, 0, len(fields))
-	for k, v := range fields {
-		logFields = append(logFields, logger.NewField(k, v)) // nolint:forbidigo
-	}
-	return &pulsarLogAdapter{logger.Logger(pl).Withn(logFields...)}
+	_ = "STUB: not implemented"
+	return *new(pulsarLog.Logger)
 }
 
+// nolint:forbidigo
+
 func (pl *pulsarLogAdapter) WithFields(fields pulsarLog.Fields) pulsarLog.Entry {
-	return pl.SubLogger(fields)
+	_ = "STUB: not implemented"
+	return *new(pulsarLog.Entry)
 }
 
 func (pl *pulsarLogAdapter) WithField(name string, value any) pulsarLog.Entry {
-	return &pulsarLogAdapter{logger.Logger(pl).Withn(logger.NewField(name, value))} // nolint:forbidigo
+	_ = "STUB: not implemented"
+	return *new(pulsarLog.Entry)
 }
 
+// nolint:forbidigo
+
 func (pl *pulsarLogAdapter) WithError(err error) pulsarLog.Entry {
-	return pl.WithField("error", err)
+	_ = "STUB: not implemented"
+	return *new(pulsarLog.Entry)
 }

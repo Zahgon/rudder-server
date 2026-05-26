@@ -24,62 +24,27 @@ type workerBatchLoop struct {
 }
 
 // runLoop processes jobs from the input channel, batching them if it is enabled.
-func (wl *workerBatchLoop) runLoop() {
-	jobsBatchTimeout := time.After(wl.jobsBatchTimeout.Load())
-	var routerJobs []types.RouterJobT
-	captureThroughput := func(start time.Time, jobCount int) {
-		elapsed := time.Since(start).Milliseconds()
-		if elapsed == 0 {
-			elapsed = 1 // prevent division by zero
-		}
-		wl.throughputStat.Observe(float64(jobCount) / (float64(elapsed) / 1000))
-	}
+func (wl *workerBatchLoop) runLoop() { _ = "STUB: not implemented"; return }
 
-	doProcessRouterJobs := func() {
-		if len(routerJobs) > 0 {
-			start := time.Now()
-			var destinationJobs []types.DestinationJobT
-			if wl.enableBatching {
-				destinationJobs = wl.batchTransform(routerJobs)
-			} else {
-				destinationJobs = wl.transform(routerJobs)
-			}
-			wl.process(destinationJobs)
-			captureThroughput(start, len(routerJobs))
-			routerJobs = nil // reset routerJobs for the next batch
-		}
-		jobsBatchTimeout = time.After(wl.jobsBatchTimeout.Load()) // reset the timeout
-	}
-	for {
-		select {
-		case workerJob, ok := <-wl.inputCh:
-			if !ok {
-				doProcessRouterJobs() // process any remaining jobs in the batch
-				return                // input channel is closed, exit the loop
-			}
-			if wl.ctx.Err() != nil {
-				// Context is done, we are stopping the worker
-				// it is fine to ignore any pending jobs in the input channel (executing state)
-				// since when the router restarts, it will mark them as failed and reprocess them.
-				// What is important is to stop as soon as possible.
-				return
-			}
-			if !wl.enableBatching && workerJob.parameters.TransformAt != "router" && len(routerJobs) > 0 {
-				// process the current batch if batching is not enabled, transform for the current job is not at router and there are pending jobs in the batch
-				// (scenario where we are switching from router to processor transformation)
-				doProcessRouterJobs()
-			}
-			start := time.Now()
-			if routerJob := wl.acceptWorkerJob(*workerJob); routerJob != nil {
-				routerJobs = append(routerJobs, *routerJob)
-				if wl.noOfJobsToBatchInAWorker.Load() <= len(routerJobs) {
-					doProcessRouterJobs() // process the batch if it reaches the limit
-				}
-			} else { // job was not accepted to enter the batch, but was processed, so we need to capture its throughput
-				captureThroughput(start, 1)
-			}
-		case <-jobsBatchTimeout:
-			doProcessRouterJobs() // process any remaining jobs in the batch
-		}
-	}
-}
+// prevent division by zero
+
+// reset routerJobs for the next batch
+
+// reset the timeout
+
+// process any remaining jobs in the batch
+// input channel is closed, exit the loop
+
+// Context is done, we are stopping the worker
+// it is fine to ignore any pending jobs in the input channel (executing state)
+// since when the router restarts, it will mark them as failed and reprocess them.
+// What is important is to stop as soon as possible.
+
+// process the current batch if batching is not enabled, transform for the current job is not at router and there are pending jobs in the batch
+// (scenario where we are switching from router to processor transformation)
+
+// process the batch if it reaches the limit
+
+// job was not accepted to enter the batch, but was processed, so we need to capture its throughput
+
+// process any remaining jobs in the batch

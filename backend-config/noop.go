@@ -11,35 +11,27 @@ var _ BackendConfig = &NOOP{}
 
 type NOOP struct{}
 
-func (*NOOP) AccessToken() string {
-	return ""
-}
+func (*NOOP) AccessToken() string { _ = "STUB: not implemented"; return "" }
 
 func (*NOOP) Identity() identity.Identifier {
-	return &identity.NOOP{}
+	_ = "STUB: not implemented"
+	return *new(identity.Identifier)
 }
 
-func (*NOOP) SetUp() error {
-	return nil
-}
+func (*NOOP) SetUp() error { _ = "STUB: not implemented"; return nil }
 
 func (*NOOP) Get(_ context.Context) (map[string]ConfigT, error) {
-	return map[string]ConfigT{}, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func (*NOOP) WaitForConfig(_ context.Context) {}
+func (*NOOP) WaitForConfig(_ context.Context) { _ = "STUB: not implemented"; return }
 
 func (*NOOP) Subscribe(ctx context.Context, _ Topic) pubsub.DataChannel {
-	ch := make(chan pubsub.DataEvent)
-
-	go func() {
-		<-ctx.Done()
-		close(ch)
-	}()
-	return ch
+	_ = "STUB: not implemented"
+	return *new(pubsub.DataChannel)
 }
 
-func (*NOOP) StartWithIDs(_ context.Context, _ string) {}
+func (*NOOP) StartWithIDs(_ context.Context, _ string) { _ = "STUB: not implemented"; return }
 
-func (*NOOP) Stop() {
-}
+func (*NOOP) Stop() { _ = "STUB: not implemented"; return }

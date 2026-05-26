@@ -3,15 +3,11 @@ package slave
 import (
 	"context"
 
-	"golang.org/x/sync/errgroup"
-
 	"github.com/rudderlabs/rudder-go-kit/config"
 	"github.com/rudderlabs/rudder-go-kit/logger"
 	"github.com/rudderlabs/rudder-go-kit/stats"
 
 	"github.com/rudderlabs/rudder-server/services/notifier"
-	"github.com/rudderlabs/rudder-server/utils/crash"
-	"github.com/rudderlabs/rudder-server/utils/misc"
 	"github.com/rudderlabs/rudder-server/warehouse/bcm"
 	"github.com/rudderlabs/rudder-server/warehouse/constraints"
 	"github.com/rudderlabs/rudder-server/warehouse/encoding"
@@ -47,40 +43,8 @@ func New(
 	constraintsManager *constraints.Manager,
 	encodingFactory *encoding.Factory,
 ) *Slave {
-	s := &Slave{}
-
-	s.conf = conf
-	s.log = logger
-	s.stats = stats
-	s.notifier = notifier
-	s.bcManager = bcManager
-	s.constraintsManager = constraintsManager
-	s.encodingFactory = encodingFactory
-	s.config.noOfSlaveWorkerRoutines = conf.GetReloadableIntVar(4, 1, "Warehouse.noOfSlaveWorkerRoutines")
-
-	return s
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func (s *Slave) SetupSlave(ctx context.Context) error {
-	slaveID := misc.FastUUID().String()
-
-	jobNotificationChannel := s.notifier.Subscribe(ctx, slaveID, s.config.noOfSlaveWorkerRoutines.Load())
-
-	g, gCtx := errgroup.WithContext(ctx)
-
-	for workerIdx := 0; workerIdx <= s.config.noOfSlaveWorkerRoutines.Load()-1; workerIdx++ {
-		idx := workerIdx
-
-		g.Go(crash.NotifyWarehouse(func() error {
-			slaveWorker := newWorker(s.conf, s.log, s.stats, s.notifier, s.bcManager, s.constraintsManager, s.encodingFactory, idx)
-			slaveWorker.start(gCtx, jobNotificationChannel, slaveID)
-			return nil
-		}))
-	}
-
-	g.Go(crash.NotifyWarehouse(func() error {
-		return s.notifier.RunMaintenance(gCtx)
-	}))
-
-	return g.Wait()
-}
+func (s *Slave) SetupSlave(ctx context.Context) error { _ = "STUB: not implemented"; return nil }

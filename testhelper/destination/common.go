@@ -12,4 +12,4 @@ type Cleaner interface {
 type NOPLogger struct{}
 
 // Log for the NOP logger does nothing.
-func (*NOPLogger) Log(...any) {}
+func (*NOPLogger) Log(...any) { _ = "STUB: not implemented"; return }

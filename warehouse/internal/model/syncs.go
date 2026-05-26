@@ -1,8 +1,6 @@
 package model
 
 import (
-	"fmt"
-	"strings"
 	"time"
 )
 
@@ -83,18 +81,8 @@ const (
 )
 
 func GetLatencyAggregationType(aggregationType string) (LatencyAggregationType, error) {
-	switch strings.ToLower(strings.TrimSpace(aggregationType)) {
-	case "max":
-		return MaxLatency, nil
-	case "p90":
-		return P90Latency, nil
-	case "p95":
-		return P95Latency, nil
-	case "avg":
-		return AvgLatency, nil
-	default:
-		return 0, fmt.Errorf("invalid aggregation type: %s", aggregationType)
-	}
+	_ = "STUB: not implemented"
+	return *new(LatencyAggregationType), nil
 }
 
 type SyncLatencyRequest struct {

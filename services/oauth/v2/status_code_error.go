@@ -1,13 +1,9 @@
 package v2
 
-import "fmt"
-
 // Helper to construct a StatusCodeError
 func NewStatusCodeError(code int, err error) StatusCodeError {
-	return &statusCodeError{
-		Code: code,
-		Err:  err,
-	}
+	_ = "STUB: not implemented"
+	return *new(StatusCodeError)
 }
 
 // StatusCodeError wraps an error with an HTTP-like status code.
@@ -21,15 +17,13 @@ type statusCodeError struct {
 	Err  error
 }
 
-func (e *statusCodeError) Error() string {
-	return fmt.Sprintf("status %d: %v", e.Code, e.Err)
-}
+func (e *statusCodeError) Error() string { _ = "STUB: not implemented"; return "" }
 
 func (e *statusCodeError) StatusCode() int {
-	return e.Code
+	_ = "STUB: not implemented"
+
+	// Unwrap allows errors.Is and errors.As to work with the wrapped error.
+	return 0
 }
 
-// Unwrap allows errors.Is and errors.As to work with the wrapped error.
-func (e *statusCodeError) Unwrap() error {
-	return e.Err
-}
+func (e *statusCodeError) Unwrap() error { _ = "STUB: not implemented"; return nil }

@@ -4,13 +4,10 @@ package throttler
 
 import (
 	"context"
-	"fmt"
 	"sync"
 	"time"
 
-	"github.com/rudderlabs/rudder-go-kit/config"
 	"github.com/rudderlabs/rudder-go-kit/stats"
-	"github.com/rudderlabs/rudder-go-kit/throttling"
 )
 
 const (
@@ -34,63 +31,16 @@ type Factory struct {
 }
 
 // New constructs a new Throttler Factory
-func New(stats stats.Stats) (*Factory, error) {
-	f := Factory{
-		Stats:      stats,
-		throttlers: make(map[string]*throttler),
-	}
-	if err := f.initThrottlerFactory(); err != nil {
-		return nil, err
-	}
-	return &f, nil
-}
+func New(stats stats.Stats) (*Factory, error) { _ = "STUB: not implemented"; return nil, nil }
 
 func (f *Factory) CheckLimitReached(context context.Context, workspaceId string, eventCount int64) (bool, error) {
-	t := f.get(workspaceId)
-	return t.checkLimitReached(context, workspaceId, eventCount)
+	_ = "STUB: not implemented"
+	return false, nil
 }
 
-func (f *Factory) get(workspaceId string) *throttler {
-	f.throttlersMu.Lock()
-	defer f.throttlersMu.Unlock()
-	if t, ok := f.throttlers[workspaceId]; ok {
-		return t
-	}
+func (f *Factory) get(workspaceId string) *throttler { _ = "STUB: not implemented"; return nil }
 
-	var conf throttlingConfig
-	conf.readThrottlingConfig(workspaceId)
-	f.throttlers[workspaceId] = &throttler{
-		limiter: f.limiter,
-		config:  conf,
-	}
-	return f.throttlers[workspaceId]
-}
-
-func (f *Factory) initThrottlerFactory() error {
-	throttlingAlgorithm := config.GetStringVar(throttlingAlgoTypeGCRA, "Gateway.throttler.algorithm")
-
-	var (
-		err  error
-		l    *throttling.Limiter
-		opts []throttling.Option
-	)
-	if f.Stats != nil {
-		opts = append(opts, throttling.WithStatsCollector(f.Stats))
-	}
-	switch throttlingAlgorithm {
-	case throttlingAlgoTypeGCRA:
-		l, err = throttling.New(append(opts, throttling.WithInMemoryGCRA(0))...)
-	default:
-		return fmt.Errorf("invalid throttling algorithm: %s", throttlingAlgorithm)
-	}
-	if err != nil {
-		return fmt.Errorf("failed to create throttler: %w", err)
-	}
-
-	f.limiter = l
-
-	return nil
-}
+func (f *Factory) initThrottlerFactory() error { _ = "STUB: not implemented"; return nil }
 
 type throttler struct {
 	limiter Limiter
@@ -99,15 +49,11 @@ type throttler struct {
 
 // checkLimitReached returns true if we're not allowed to process the number of event
 func (t *throttler) checkLimitReached(ctx context.Context, key string, count int64) (limited bool, retErr error) {
-	allowed, _, err := t.limiter.Allow(ctx, count, t.config.limit, getWindowInSecs(t.config.window), key)
-	if err != nil {
-		return false, fmt.Errorf("could not limit: %w", err)
-	}
-	if !allowed {
-		return true, nil // no token to return when limited
-	}
+	_ = "STUB: not implemented"
 	return false, nil
 }
+
+// no token to return when limited
 
 type throttlingConfig struct {
 	limit  int64
@@ -115,21 +61,8 @@ type throttlingConfig struct {
 }
 
 func (c *throttlingConfig) readThrottlingConfig(workspaceID string) {
-	rateLimitKey := fmt.Sprintf("RateLimit.%s.eventLimit", workspaceID)
-	if config.IsSet(rateLimitKey) {
-		c.limit = config.GetInt64Var(1000, 1, rateLimitKey)
-	} else {
-		c.limit = config.GetInt64Var(1000, 1, "RateLimit.eventLimit")
-	}
-
-	rateLimitWindowKey := fmt.Sprintf("RateLimit.%s.rateLimitWindow", workspaceID)
-	if config.IsSet(rateLimitWindowKey) {
-		c.window = config.GetDurationVar(60, time.Second, rateLimitWindowKey)
-	} else {
-		c.window = config.GetDurationVar(60, time.Second, "RateLimit.rateLimitWindow")
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
-func getWindowInSecs(d time.Duration) int64 {
-	return int64(d.Seconds())
-}
+func getWindowInSecs(d time.Duration) int64 { _ = "STUB: not implemented"; return 0 }

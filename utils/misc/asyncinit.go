@@ -7,13 +7,7 @@ import (
 )
 
 // NewAsyncInit returns a new AsyncInit object with the given expected initialization events count.
-func NewAsyncInit(count int64) *AsyncInit {
-	a := &AsyncInit{
-		c: make(chan struct{}),
-	}
-	a.count.Store(count)
-	return a
-}
+func NewAsyncInit(count int64) *AsyncInit { _ = "STUB: not implemented"; return nil }
 
 // AsyncInit is a helper object to wait for multiple asynchronous initialization events.
 type AsyncInit struct {
@@ -23,32 +17,12 @@ type AsyncInit struct {
 }
 
 // Done decrements the initialization events count
-func (ia *AsyncInit) Done() {
-	if ia.count.Add(-1) == 0 {
-		close(ia.channel())
-	}
-}
+func (ia *AsyncInit) Done() { _ = "STUB: not implemented"; return }
 
 // Wait returns the channel that will be closed when the initialization events count reaches zero.
-func (ia *AsyncInit) Wait() chan struct{} {
-	return ia.channel()
-}
+func (ia *AsyncInit) Wait() chan struct{} { _ = "STUB: not implemented"; return nil }
 
 // WaitContext returns no error if initialization events happen before the provided context is done. It returns the context's error otherwise
-func (ia *AsyncInit) WaitContext(ctx context.Context) error {
-	select {
-	case <-ctx.Done():
-		return ctx.Err()
-	case <-ia.Wait():
-		return nil
-	}
-}
+func (ia *AsyncInit) WaitContext(ctx context.Context) error { _ = "STUB: not implemented"; return nil }
 
-func (ia *AsyncInit) channel() chan struct{} {
-	ia.mu.Lock()
-	defer ia.mu.Unlock()
-	if ia.c == nil {
-		ia.c = make(chan struct{})
-	}
-	return ia.c
-}
+func (ia *AsyncInit) channel() chan struct{} { _ = "STUB: not implemented"; return nil }

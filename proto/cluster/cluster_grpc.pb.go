@@ -8,9 +8,8 @@ package proto
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
-	codes "google.golang.org/grpc/codes"
-	status "google.golang.org/grpc/status"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -35,16 +34,13 @@ type partitionMigrationClient struct {
 }
 
 func NewPartitionMigrationClient(cc grpc.ClientConnInterface) PartitionMigrationClient {
-	return &partitionMigrationClient{cc}
+	_ = "STUB: not implemented"
+	return *new(PartitionMigrationClient)
 }
 
 func (c *partitionMigrationClient) StreamJobs(ctx context.Context, opts ...grpc.CallOption) (PartitionMigration_StreamJobsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &PartitionMigration_ServiceDesc.Streams[0], PartitionMigration_StreamJobs_FullMethodName, opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &partitionMigrationStreamJobsClient{stream}
-	return x, nil
+	_ = "STUB: not implemented"
+	return *new(PartitionMigration_StreamJobsClient), nil
 }
 
 type PartitionMigration_StreamJobsClient interface {
@@ -58,15 +54,13 @@ type partitionMigrationStreamJobsClient struct {
 }
 
 func (x *partitionMigrationStreamJobsClient) Send(m *StreamJobsRequest) error {
-	return x.ClientStream.SendMsg(m)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func (x *partitionMigrationStreamJobsClient) Recv() (*JobsBatchAck, error) {
-	m := new(JobsBatchAck)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // PartitionMigrationServer is the server API for PartitionMigration service.
@@ -83,23 +77,31 @@ type UnimplementedPartitionMigrationServer struct {
 }
 
 func (UnimplementedPartitionMigrationServer) StreamJobs(PartitionMigration_StreamJobsServer) error {
-	return status.Errorf(codes.Unimplemented, "method StreamJobs not implemented")
+	_ = "STUB: not implemented"
+	return nil
 }
-func (UnimplementedPartitionMigrationServer) mustEmbedUnimplementedPartitionMigrationServer() {}
 
-// UnsafePartitionMigrationServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to PartitionMigrationServer will
-// result in compilation errors.
+func (UnimplementedPartitionMigrationServer) mustEmbedUnimplementedPartitionMigrationServer() {
+	_ = "STUB: not implemented"
+
+	// UnsafePartitionMigrationServer may be embedded to opt out of forward compatibility for this service.
+	// Use of this interface is not recommended, as added methods to PartitionMigrationServer will
+	// result in compilation errors.
+	return
+}
+
 type UnsafePartitionMigrationServer interface {
 	mustEmbedUnimplementedPartitionMigrationServer()
 }
 
 func RegisterPartitionMigrationServer(s grpc.ServiceRegistrar, srv PartitionMigrationServer) {
-	s.RegisterService(&PartitionMigration_ServiceDesc, srv)
+	_ = "STUB: not implemented"
+	return
 }
 
 func _PartitionMigration_StreamJobs_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(PartitionMigrationServer).StreamJobs(&partitionMigrationStreamJobsServer{stream})
+	_ = "STUB: not implemented"
+	return nil
 }
 
 type PartitionMigration_StreamJobsServer interface {
@@ -113,15 +115,13 @@ type partitionMigrationStreamJobsServer struct {
 }
 
 func (x *partitionMigrationStreamJobsServer) Send(m *JobsBatchAck) error {
-	return x.ServerStream.SendMsg(m)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func (x *partitionMigrationStreamJobsServer) Recv() (*StreamJobsRequest, error) {
-	m := new(StreamJobsRequest)
-	if err := x.ServerStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // PartitionMigration_ServiceDesc is the grpc.ServiceDesc for PartitionMigration service.

@@ -1,12 +1,9 @@
 package v2
 
 import (
-	"bytes"
 	"encoding/json"
 	"errors"
 	"time"
-
-	"github.com/rudderlabs/rudder-go-kit/stats"
 
 	"github.com/rudderlabs/rudder-server/services/oauth/v2/common"
 )
@@ -19,14 +16,8 @@ var (
 // isOauthTokenExpired checks if the token is expired or is about to expire within the refreshBeforeExpiry duration.
 // If the token is not expired, but its secret is the same as the previous secret, it is also considered to be expired.
 func isOauthTokenExpired(oauthToken OAuthToken, previousSecret json.RawMessage, refreshBeforeExpiry time.Duration, statsHandler OAuthStatsHandler) bool {
-	expires, err := oauthToken.Expires(refreshBeforeExpiry)
-	if err != nil {
-		statsHandler.Increment("proactive_token_refresh", stats.Tags{"errorMessage": "parsing failed"})
-	}
-	return expires || bytes.Equal(oauthToken.Secret, previousSecret)
+	_ = "STUB: not implemented"
+	return false
 }
 
-func IsValidAuthErrorCategory(category string) bool {
-	_, ok := ErrorCategoriesMap[category]
-	return ok
-}
+func IsValidAuthErrorCategory(category string) bool { _ = "STUB: not implemented"; return false }

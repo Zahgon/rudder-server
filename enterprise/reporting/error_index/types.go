@@ -3,7 +3,6 @@ package error_index
 import (
 	"context"
 	"os"
-	"strconv"
 	"time"
 
 	"github.com/rudderlabs/rudder-go-kit/filemanager"
@@ -38,24 +37,10 @@ type payload struct {
 	FailedAt         int64  `json:"failedAt" parquet:"name=failed_at, type=INT64, encoding=DELTA_BINARY_PACKED"`     // In Microseconds
 }
 
-func (p *payload) SetReceivedAt(t time.Time) {
-	p.ReceivedAt = t.UTC().UnixMicro()
-}
+func (p *payload) SetReceivedAt(t time.Time) { _ = "STUB: not implemented"; return }
 
-func (p *payload) SetFailedAt(t time.Time) {
-	p.FailedAt = t.UTC().UnixMicro()
-}
+func (p *payload) SetFailedAt(t time.Time) { _ = "STUB: not implemented"; return }
 
-func (p *payload) FailedAtTime() time.Time {
-	return time.UnixMicro(p.FailedAt).UTC()
-}
+func (p *payload) FailedAtTime() time.Time { _ = "STUB: not implemented"; return *new(time.Time) }
 
-func (p *payload) SortingKey() string {
-	const sep = "_"
-	return strconv.FormatInt(p.FailedAt, 10) + sep +
-		p.DestinationID + sep +
-		p.EventType + sep +
-		p.EventName + sep +
-		p.TransformationID + sep +
-		p.TrackingPlanID
-}
+func (p *payload) SortingKey() string { _ = "STUB: not implemented"; return "" }

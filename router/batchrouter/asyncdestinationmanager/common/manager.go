@@ -2,8 +2,6 @@ package common
 
 import (
 	"context"
-	"errors"
-	"fmt"
 
 	"github.com/rudderlabs/rudder-server/jobsdb"
 )
@@ -13,28 +11,23 @@ type InvalidManager struct {
 }
 
 func (*InvalidManager) Transform(job *jobsdb.JobT) (string, error) {
-	return "", errors.New("invalid job")
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
 func (*InvalidManager) Upload(_ context.Context, asyncDestStruct *AsyncDestinationStruct) AsyncUploadOutput {
-	abortedJobIDs := append(asyncDestStruct.ImportingJobIDs, asyncDestStruct.FailedJobIDs...)
-	return AsyncUploadOutput{
-		AbortJobIDs: abortedJobIDs,
-		// AbortReason:   `{"error":"BingAds could not be initialized. Please check account settings."}`,
-		AbortReason:   `{"error":"` + fmt.Sprintf("%s could not be initialized. Please check account settings.", asyncDestStruct.Destination.Name) + `"}`,
-		DestinationID: asyncDestStruct.Destination.ID,
-		AbortCount:    len(abortedJobIDs),
-	}
+	_ = "STUB: not implemented"
+	return *new(AsyncUploadOutput)
 }
 
+// AbortReason:   `{"error":"BingAds could not be initialized. Please check account settings."}`,
+
 func (*InvalidManager) Poll(_ context.Context, _ AsyncPoll) PollStatusResponse {
-	return PollStatusResponse{
-		StatusCode: 400,
-	}
+	_ = "STUB: not implemented"
+	return *new(PollStatusResponse)
 }
 
 func (*InvalidManager) GetUploadStats(_ GetUploadStatsInput) GetUploadStatsResponse {
-	return GetUploadStatsResponse{
-		StatusCode: 400,
-	}
+	_ = "STUB: not implemented"
+	return *new(GetUploadStatsResponse)
 }

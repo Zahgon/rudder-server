@@ -4,7 +4,6 @@ import (
 	"strings"
 
 	"github.com/dlclark/regexp2"
-	"github.com/samber/lo"
 )
 
 const (
@@ -100,62 +99,30 @@ var (
 )
 
 // ToSnakeCase converts a string to snake_case using regular word separation.
-func ToSnakeCase(s string) string {
-	return snakeCase(s, extractWords)
-}
+func ToSnakeCase(s string) string { _ = "STUB: not implemented"; return "" }
 
 // ToSnakeCaseWithNumbers converts a string to snake_case, preserving numbers.
-func ToSnakeCaseWithNumbers(s string) string {
-	return snakeCase(s, extractWordsWithNumbers)
-}
+func ToSnakeCaseWithNumbers(s string) string { _ = "STUB: not implemented"; return "" }
 
-func extractWords(s string) []string {
-	if hasUnicodeWord(s) {
-		return unicodeWords(s)
-	}
-	return asciiWords(s)
-}
+func extractWords(s string) []string { _ = "STUB: not implemented"; return nil }
 
-func hasUnicodeWord(s string) bool {
-	isMatch, _ := reHasUnicodeWord.MatchString(s)
-	return isMatch
-}
+func hasUnicodeWord(s string) bool { _ = "STUB: not implemented"; return false }
 
-func extractWordsWithNumbers(s string) []string {
-	if hasUnicodeWord(s) {
-		return unicodeWordsWithNumbers(s)
-	}
-	return asciiWords(s)
-}
+func extractWordsWithNumbers(s string) []string { _ = "STUB: not implemented"; return nil }
 
-func unicodeWords(s string) []string {
-	return regexp2FindAllString(reUnicodeWords, s)
-}
+func unicodeWords(s string) []string { _ = "STUB: not implemented"; return nil }
 
-func unicodeWordsWithNumbers(s string) []string {
-	return regexp2FindAllString(reUnicodeWordsWithNumbers, s)
-}
+func unicodeWordsWithNumbers(s string) []string { _ = "STUB: not implemented"; return nil }
 
-func asciiWords(s string) []string {
-	return regexp2FindAllString(reAsciiWord, s)
-}
+func asciiWords(s string) []string { _ = "STUB: not implemented"; return nil }
 
 func regexp2FindAllString(re *regexp2.Regexp, s string) []string {
-	var matches []string
-	m, _ := re.FindStringMatch(s)
-	for m != nil {
-		matches = append(matches, m.String())
-		m, _ = re.FindNextMatch(m)
-	}
-	return matches
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // snakeCase converts a string to snake_case based on a word extraction function.
 func snakeCase(s string, wordExtractor func(s string) []string) string {
-	s = strings.NewReplacer("'", "", "\u2019", "").Replace(s)
-	words := wordExtractor(s)
-	words = lo.Map(words, func(word string, _ int) string {
-		return strings.ToLower(word)
-	})
-	return strings.Join(words, "_")
+	_ = "STUB: not implemented"
+	return ""
 }

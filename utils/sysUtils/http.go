@@ -32,14 +32,18 @@ type Http struct{}
 
 // NewHttp returns a Http instance
 func NewHttp() *Http {
-	return &Http{}
+	_ = "STUB: not implemented"
+
+	// NewRequest wraps NewRequestWithContext using the background context.
+	return nil
 }
 
-// NewRequest wraps NewRequestWithContext using the background context.
 func (*Http) NewRequest(method, url string, body io.Reader) (*http.Request, error) {
-	return http.NewRequest(method, url, body)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (*Http) NewRequestWithContext(ctx context.Context, method, url string, body io.Reader) (*http.Request, error) {
-	return http.NewRequestWithContext(ctx, method, url, body)
+	_ = "STUB: not implemented"
+	return nil, nil
 }

@@ -29,17 +29,11 @@ type Workspace struct {
 	WorkspaceToken string
 }
 
-func (w *Workspace) ID() string {
-	return w.WorkspaceID
-}
+func (w *Workspace) ID() string { _ = "STUB: not implemented"; return "" }
 
-func (w *Workspace) BasicAuth() (string, string) {
-	return w.WorkspaceToken, ""
-}
+func (w *Workspace) BasicAuth() (string, string) { _ = "STUB: not implemented"; return "", "" }
 
-func (*Workspace) Type() deployment.Type {
-	return deployment.DedicatedType
-}
+func (*Workspace) Type() deployment.Type { _ = "STUB: not implemented"; return *new(deployment.Type) }
 
 // Namespace identifier represents a group of workspaces that share a common resource.
 //
@@ -50,48 +44,36 @@ type Namespace struct {
 	HostedSecret string
 }
 
-func (n *Namespace) ID() string {
-	return n.Namespace
-}
+func (n *Namespace) ID() string { _ = "STUB: not implemented"; return "" }
 
-func (n *Namespace) BasicAuth() (string, string) {
-	return n.HostedSecret, ""
-}
+func (n *Namespace) BasicAuth() (string, string) { _ = "STUB: not implemented"; return "", "" }
 
-func (*Namespace) Type() deployment.Type {
-	return deployment.MultiTenantType
-}
+func (*Namespace) Type() deployment.Type { _ = "STUB: not implemented"; return *new(deployment.Type) }
 
 // NOOP is a no-op implementation of the Identifier interface.
 // Used only for testing purposes.
 type NOOP struct{}
 
-func (*NOOP) ID() string {
-	return ""
-}
+func (*NOOP) ID() string { _ = "STUB: not implemented"; return "" }
 
-func (*NOOP) BasicAuth() (string, string) {
-	return "", ""
-}
+func (*NOOP) BasicAuth() (string, string) { _ = "STUB: not implemented"; return "", "" }
 
 func (*NOOP) Type() deployment.Type {
-	return ""
+	_ = "STUB: not implemented"
+
+	// Admin is an implementation of the Authorizer interface for data-plane admin endpoints.
+	return *new(deployment.Type)
 }
 
-// Admin is an implementation of the Authorizer interface for data-plane admin endpoints.
 type Admin struct {
 	Username, Password string
 }
 
-func (a *Admin) BasicAuth() (string, string) {
-	return a.Username, a.Password
-}
+func (a *Admin) BasicAuth() (string, string) { _ = "STUB: not implemented"; return "", "" }
 
 type IdentifierDecorator struct {
 	Identifier
 	Id string
 }
 
-func (d *IdentifierDecorator) ID() string {
-	return d.Id
-}
+func (d *IdentifierDecorator) ID() string { _ = "STUB: not implemented"; return "" }

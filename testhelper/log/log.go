@@ -1,8 +1,6 @@
 package log
 
 import (
-	"github.com/onsi/ginkgo/v2"
-
 	"github.com/rudderlabs/rudder-go-kit/logger"
 )
 
@@ -12,43 +10,35 @@ type ginkgoLogger struct {
 	logger.Logger
 }
 
-func (ginkgoLogger) Debug(args ...any) { ginkgo.GinkgoT().Log(args...) }
-func (ginkgoLogger) Info(args ...any)  { ginkgo.GinkgoT().Log(args...) }
-func (ginkgoLogger) Warn(args ...any)  { ginkgo.GinkgoT().Log(args...) }
-func (ginkgoLogger) Error(args ...any) { ginkgo.GinkgoT().Log(args...) }
-func (ginkgoLogger) Fatal(args ...any) { ginkgo.GinkgoT().Log(args...) }
-func (ginkgoLogger) Debugf(format string, args ...any) {
-	ginkgo.GinkgoT().Logf(format, args...)
-}
-func (ginkgoLogger) Infof(format string, args ...any) { ginkgo.GinkgoT().Logf(format, args...) }
-func (ginkgoLogger) Warnf(format string, args ...any) { ginkgo.GinkgoT().Logf(format, args...) }
-func (ginkgoLogger) Errorf(format string, args ...any) {
-	ginkgo.GinkgoT().Logf(format, args...)
-}
+func (ginkgoLogger) Debug(args ...any)                 { _ = "STUB: not implemented"; return }
+func (ginkgoLogger) Info(args ...any)                  { _ = "STUB: not implemented"; return }
+func (ginkgoLogger) Warn(args ...any)                  { _ = "STUB: not implemented"; return }
+func (ginkgoLogger) Error(args ...any)                 { _ = "STUB: not implemented"; return }
+func (ginkgoLogger) Fatal(args ...any)                 { _ = "STUB: not implemented"; return }
+func (ginkgoLogger) Debugf(format string, args ...any) { _ = "STUB: not implemented"; return }
 
-func (ginkgoLogger) Fatalf(format string, args ...any) {
-	ginkgo.GinkgoT().Logf(format, args...)
-}
+func (ginkgoLogger) Infof(format string, args ...any)  { _ = "STUB: not implemented"; return }
+func (ginkgoLogger) Warnf(format string, args ...any)  { _ = "STUB: not implemented"; return }
+func (ginkgoLogger) Errorf(format string, args ...any) { _ = "STUB: not implemented"; return }
 
-func (ginkgoLogger) Debugw(format string, args ...any) {
-	ginkgo.GinkgoT().Logf(format, args...)
-}
+func (ginkgoLogger) Fatalf(format string, args ...any) { _ = "STUB: not implemented"; return }
 
-func (ginkgoLogger) Infow(msg string, keysAndValues ...any) {
-	ginkgo.GinkgoT().Log(append([]any{msg}, keysAndValues...)...)
-}
+func (ginkgoLogger) Debugw(format string, args ...any) { _ = "STUB: not implemented"; return }
 
-func (ginkgoLogger) Warnw(msg string, keysAndValues ...any) {
-	ginkgo.GinkgoT().Log(append([]any{msg}, keysAndValues...)...)
-}
+func (ginkgoLogger) Infow(msg string, keysAndValues ...any) { _ = "STUB: not implemented"; return }
 
-func (ginkgoLogger) Errorw(msg string, keysAndValues ...any) {
-	ginkgo.GinkgoT().Log(append([]any{msg}, keysAndValues...)...)
-}
+func (ginkgoLogger) Warnw(msg string, keysAndValues ...any) { _ = "STUB: not implemented"; return }
 
-func (ginkgoLogger) Fatalw(msg string, keysAndValues ...any) {
-	ginkgo.GinkgoT().Log(append([]any{msg}, keysAndValues...)...)
+func (ginkgoLogger) Errorw(msg string, keysAndValues ...any) { _ = "STUB: not implemented"; return }
+
+func (ginkgoLogger) Fatalw(msg string, keysAndValues ...any) { _ = "STUB: not implemented"; return }
+
+func (ginkgoLogger) With(_ ...any) logger.Logger {
+	_ = "STUB: not implemented"
+	return *new(logger.Logger)
 }
-func (ginkgoLogger) With(_ ...any) logger.Logger  { return GinkgoLogger }
-func (ginkgoLogger) Child(_ string) logger.Logger { return GinkgoLogger }
-func (ginkgoLogger) IsDebugLevel() bool           { return true }
+func (ginkgoLogger) Child(_ string) logger.Logger {
+	_ = "STUB: not implemented"
+	return *new(logger.Logger)
+}
+func (ginkgoLogger) IsDebugLevel() bool { _ = "STUB: not implemented"; return false }

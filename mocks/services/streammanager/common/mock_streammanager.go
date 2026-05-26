@@ -11,7 +11,6 @@ package mock_streammanager
 
 import (
 	json "encoding/json"
-	reflect "reflect"
 
 	gomock "go.uber.org/mock/gomock"
 )
@@ -30,42 +29,34 @@ type MockStreamProducerMockRecorder struct {
 
 // NewMockStreamProducer creates a new mock instance.
 func NewMockStreamProducer(ctrl *gomock.Controller) *MockStreamProducer {
-	mock := &MockStreamProducer{ctrl: ctrl}
-	mock.recorder = &MockStreamProducerMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockStreamProducer) EXPECT() *MockStreamProducerMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Close mocks base method.
+	return nil
 }
 
-// Close mocks base method.
-func (m *MockStreamProducer) Close() error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Close")
-	ret0, _ := ret[0].(error)
-	return ret0
-}
+func (m *MockStreamProducer) Close() error { _ = "STUB: not implemented"; return nil }
 
 // Close indicates an expected call of Close.
 func (mr *MockStreamProducerMockRecorder) Close() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Close", reflect.TypeOf((*MockStreamProducer)(nil).Close))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Produce mocks base method.
 func (m *MockStreamProducer) Produce(jsonData json.RawMessage, destConfig any) (int, string, string) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Produce", jsonData, destConfig)
-	ret0, _ := ret[0].(int)
-	ret1, _ := ret[1].(string)
-	ret2, _ := ret[2].(string)
-	return ret0, ret1, ret2
+	_ = "STUB: not implemented"
+	return 0, "", ""
 }
 
 // Produce indicates an expected call of Produce.
 func (mr *MockStreamProducerMockRecorder) Produce(jsonData, destConfig any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Produce", reflect.TypeOf((*MockStreamProducer)(nil).Produce), jsonData, destConfig)
+	_ = "STUB: not implemented"
+	return nil
 }

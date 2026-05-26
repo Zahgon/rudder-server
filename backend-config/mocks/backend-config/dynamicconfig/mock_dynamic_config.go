@@ -10,8 +10,6 @@
 package mock_backendconfig
 
 import (
-	reflect "reflect"
-
 	dynamicconfig "github.com/rudderlabs/rudder-server/backend-config/dynamicconfig"
 	gomock "go.uber.org/mock/gomock"
 )
@@ -29,54 +27,41 @@ type MockCacheMockRecorder struct {
 }
 
 // NewMockCache creates a new mock instance.
-func NewMockCache(ctrl *gomock.Controller) *MockCache {
-	mock := &MockCache{ctrl: ctrl}
-	mock.recorder = &MockCacheMockRecorder{mock}
-	return mock
-}
+func NewMockCache(ctrl *gomock.Controller) *MockCache { _ = "STUB: not implemented"; return nil }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockCache) EXPECT() *MockCacheMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Get mocks base method.
+	return nil
 }
 
-// Get mocks base method.
 func (m *MockCache) Get(destID string) (*dynamicconfig.DestinationRevisionInfo, bool) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", destID)
-	ret0, _ := ret[0].(*dynamicconfig.DestinationRevisionInfo)
-	ret1, _ := ret[1].(bool)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, false
 }
 
 // Get indicates an expected call of Get.
 func (mr *MockCacheMockRecorder) Get(destID any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockCache)(nil).Get), destID)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Len mocks base method.
-func (m *MockCache) Len() int {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Len")
-	ret0, _ := ret[0].(int)
-	return ret0
-}
+func (m *MockCache) Len() int { _ = "STUB: not implemented"; return 0 }
 
 // Len indicates an expected call of Len.
-func (mr *MockCacheMockRecorder) Len() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Len", reflect.TypeOf((*MockCache)(nil).Len))
-}
+func (mr *MockCacheMockRecorder) Len() *gomock.Call { _ = "STUB: not implemented"; return nil }
 
 // Set mocks base method.
 func (m *MockCache) Set(destID string, info *dynamicconfig.DestinationRevisionInfo) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Set", destID, info)
+	_ = "STUB: not implemented"
+	return
 }
 
 // Set indicates an expected call of Set.
 func (mr *MockCacheMockRecorder) Set(destID, info any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Set", reflect.TypeOf((*MockCache)(nil).Set), destID, info)
+	_ = "STUB: not implemented"
+	return nil
 }

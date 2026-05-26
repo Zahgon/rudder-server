@@ -1,20 +1,8 @@
 package extensions
 
 import (
-	"bytes"
 	"encoding/json"
-	"errors"
-	"fmt"
-	"io"
 	"net/http"
-
-	"github.com/tidwall/gjson"
-	"github.com/tidwall/sjson"
-
-	"github.com/rudderlabs/rudder-go-kit/jsonrs"
-
-	v2 "github.com/rudderlabs/rudder-server/services/oauth/v2"
-	"github.com/rudderlabs/rudder-server/services/oauth/v2/common"
 )
 
 // Augmenter is an extension point for adding the appropriate authorization information to oauth requests.
@@ -49,42 +37,17 @@ var RouterHeaderAugmenter = &routerHeaderAugmenter{
 
 // Augment adds the secret information to request body
 func (t *routerBodyAugmenter) Augment(r *http.Request, body []byte, secret json.RawMessage) error {
-	totalInputs := gjson.GetBytes(body, fmt.Sprintf("%s.#", t.AugmenterPath)).Int()
-	augmentedBody := body
-	var err error
-	for i := 0; i < int(totalInputs); i++ {
-		augmentedBody, err = sjson.SetRawBytes(augmentedBody, fmt.Sprintf("%s.%d.metadata.%s", t.AugmenterPath, i, common.SecretKey), secret)
-		if err != nil {
-			return fmt.Errorf("augmenting request body: %w", err)
-		}
-	}
-	r.ContentLength = int64(len(augmentedBody))
-	r.Body = io.NopCloser(bytes.NewReader(augmentedBody))
+	_ = "STUB: not implemented"
 	return nil
 }
 
 // Augment adds secret to request header to the request and sets the request body.
 func (t *headerAugmenter) Augment(r *http.Request, body []byte, secret json.RawMessage) error {
-	if secret == nil {
-		return errors.New("secret is nil")
-	}
-	oauthToken := v2.OAuthToken{
-		Secret: secret,
-	}
-	secretJson, err := jsonrs.Marshal(oauthToken)
-	if err != nil {
-		return fmt.Errorf("marshalling secret: %w", err)
-	}
-	r.Header.Set(t.HeaderName, string(secretJson))
-	r.Body = io.NopCloser(bytes.NewReader(body))
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (t *routerHeaderAugmenter) Augment(r *http.Request, body []byte, secret json.RawMessage) error {
-	if secret == nil {
-		return errors.New("secret is nil")
-	}
-	r.Header.Set(t.HeaderName, string(secret))
-	r.Body = io.NopCloser(bytes.NewReader(body))
+	_ = "STUB: not implemented"
 	return nil
 }

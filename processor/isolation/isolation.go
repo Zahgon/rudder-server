@@ -2,7 +2,6 @@ package isolation
 
 import (
 	"context"
-	"errors"
 
 	"github.com/rudderlabs/rudder-server/jobsdb"
 )
@@ -17,16 +16,8 @@ const (
 
 // GetStrategy returns the strategy for the given isolation mode. An error is returned if the mode is invalid
 func GetStrategy(mode Mode) (Strategy, error) {
-	switch mode {
-	case ModeNone:
-		return noneStrategy{}, nil
-	case ModeWorkspace:
-		return workspaceStrategy{}, nil
-	case ModeSource:
-		return sourceStrategy{}, nil
-	default:
-		return noneStrategy{}, errors.New("unsupported isolation mode")
-	}
+	_ = "STUB: not implemented"
+	return *new(Strategy), nil
 }
 
 // Strategy defines the operations that every different isolation strategy in processor must implement
@@ -41,23 +32,29 @@ type Strategy interface {
 type noneStrategy struct{}
 
 func (noneStrategy) ActivePartitions(_ context.Context, _ jobsdb.JobsDB) ([]string, error) {
-	return []string{""}, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (noneStrategy) AugmentQueryParams(_ string, _ *jobsdb.GetQueryParams) {
+	_ = "STUB: not implemented"
 	// no-op
+
+	// workspaceStrategy implements isolation at workspace level
+	return
 }
 
-// workspaceStrategy implements isolation at workspace level
 type workspaceStrategy struct{}
 
 // ActivePartitions returns the list of active workspaceIDs in jobsdb
 func (workspaceStrategy) ActivePartitions(ctx context.Context, db jobsdb.JobsDB) ([]string, error) {
-	return db.GetDistinctParameterValues(ctx, jobsdb.WorkspaceID, "")
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (workspaceStrategy) AugmentQueryParams(partition string, params *jobsdb.GetQueryParams) {
-	params.WorkspaceID = partition
+	_ = "STUB: not implemented"
+	return
 }
 
 // sourceStrategy implements isolation at source level
@@ -65,10 +62,12 @@ type sourceStrategy struct{}
 
 // ActivePartitions returns the list of active sourceIDs in jobsdb
 func (sourceStrategy) ActivePartitions(ctx context.Context, db jobsdb.JobsDB) ([]string, error) {
-	return db.GetDistinctParameterValues(ctx, jobsdb.SourceID, "")
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // AugmentQueryParams augments the given GetQueryParamsT by adding the partition as sourceID parameter filter
 func (sourceStrategy) AugmentQueryParams(partition string, params *jobsdb.GetQueryParams) {
-	params.ParameterFilters = append(params.ParameterFilters, jobsdb.ParameterFilterT{Name: "source_id", Value: partition})
+	_ = "STUB: not implemented"
+	return
 }

@@ -4,9 +4,6 @@ import (
 	"time"
 
 	"github.com/rudderlabs/analytics-go"
-	"github.com/rudderlabs/rudder-go-kit/config"
-
-	"github.com/rudderlabs/rudder-server/utils/misc"
 )
 
 const (
@@ -68,76 +65,20 @@ type diagnostics struct {
 	InstanceId string
 }
 
-func Init() {
-	loadConfig()
-}
+func Init() { _ = "STUB: not implemented"; return }
 
-func loadConfig() {
-	EnableDiagnostics = config.GetBoolVar(true, "Diagnostics.enableDiagnostics")
-	endpoint = config.GetStringVar("https://rudderstack-dataplane.rudderstack.com", "Diagnostics.endpoint")
-	writekey = config.GetStringVar("1aWPBIROQvFYW9FHxgc03nUsLza", "Diagnostics.writekey")
-	EnableServerStartMetric = config.GetBoolVar(true, "Diagnostics.enableServerStartMetric")
-	EnableConfigIdentifyMetric = config.GetBoolVar(true, "Diagnostics.enableConfigIdentifyMetric")
-	EnableServerStartedMetric = config.GetBoolVar(true, "Diagnostics.enableServerStartedMetric")
-	EnableConfigProcessedMetric = config.GetBoolVar(true, "Diagnostics.enableConfigProcessedMetric")
-	EnableGatewayMetric = config.GetBoolVar(true, "Diagnostics.enableGatewayMetric")
-	EnableRouterMetric = config.GetBoolVar(true, "Diagnostics.enableRouterMetric")
-	EnableBatchRouterMetric = config.GetBoolVar(true, "Diagnostics.enableBatchRouterMetric")
-	EnableDestinationFailuresMetric = config.GetBoolVar(true, "Diagnostics.enableDestinationFailuresMetric")
-	Diagnostics = newDiagnostics()
-}
+func loadConfig() { _ = "STUB: not implemented"; return }
 
 // newDiagnostics return new instace of diagnostics
-func newDiagnostics() *diagnostics {
-	instanceId := config.GetStringVar("1", "INSTANCE_ID")
-
-	client := analytics.New(writekey, endpoint)
-	return &diagnostics{
-		InstanceId: instanceId,
-		Client:     client,
-		StartTime:  time.Now(),
-		UniqueId:   misc.GetMD5Hash(misc.GetMacAddress()),
-	}
-}
+func newDiagnostics() *diagnostics { _ = "STUB: not implemented"; return nil }
 
 func (d *diagnostics) Track(event string, properties map[string]any) {
-	if EnableDiagnostics {
-		properties[StartTime] = d.StartTime
-		properties[InstanceId] = d.InstanceId
-
-		_ = d.Client.Enqueue(
-			analytics.Track{
-				Event:       event,
-				Properties:  properties,
-				AnonymousId: d.UniqueId,
-				UserId:      d.UserId,
-			},
-		)
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
-func (*diagnostics) DisableMetrics(enableMetrics bool) {
-	if !enableMetrics {
-		EnableServerStartedMetric = false
-		EnableConfigProcessedMetric = false
-		EnableGatewayMetric = false
-		EnableRouterMetric = false
-		EnableBatchRouterMetric = false
-		EnableDestinationFailuresMetric = false
-	}
-}
+func (*diagnostics) DisableMetrics(enableMetrics bool) { _ = "STUB: not implemented"; return }
 
-func (d *diagnostics) Identify(properties map[string]any) {
-	if EnableDiagnostics {
-		// add in traits
-		if val, ok := properties[ConfigIdentify]; ok {
-			d.UserId = val.(string)
-		}
-		_ = d.Client.Enqueue(
-			analytics.Identify{
-				AnonymousId: d.UniqueId,
-				UserId:      d.UserId,
-			},
-		)
-	}
-}
+func (d *diagnostics) Identify(properties map[string]any) { _ = "STUB: not implemented"; return }
+
+// add in traits

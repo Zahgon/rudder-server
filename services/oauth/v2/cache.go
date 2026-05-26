@@ -5,9 +5,7 @@ import (
 )
 
 // NewOauthTokenCache returns a new cache for storing OAuth tokens.
-func NewOauthTokenCache() OauthTokenCache {
-	return &syncMapCache[OAuthToken]{}
-}
+func NewOauthTokenCache() OauthTokenCache { _ = "STUB: not implemented"; return *new(OauthTokenCache) }
 
 // OauthTokenCache is an interface for a cache that stores OAuth tokens.
 type OauthTokenCache interface {
@@ -24,18 +22,10 @@ type syncMapCache[T any] struct {
 }
 
 func (c *syncMapCache[T]) Load(key string) (T, bool) {
-	value, ok := c.m.Load(key)
-	if !ok {
-		var zero T
-		return zero, false
-	}
-	return value.(T), true
+	_ = "STUB: not implemented"
+	return *new(T), false
 }
 
-func (c *syncMapCache[T]) Store(key string, value T) {
-	c.m.Store(key, value)
-}
+func (c *syncMapCache[T]) Store(key string, value T) { _ = "STUB: not implemented"; return }
 
-func (c *syncMapCache[T]) Delete(key string) {
-	c.m.Delete(key)
-}
+func (c *syncMapCache[T]) Delete(key string) { _ = "STUB: not implemented"; return }

@@ -3,18 +3,9 @@ package transformer
 import (
 	"context"
 	"encoding/json"
-	"fmt"
-	"reflect"
-	"sync"
 	"time"
 
-	"github.com/jeremywohl/flatten"
-	"github.com/tidwall/gjson"
-	"golang.org/x/sync/errgroup"
-	"google.golang.org/protobuf/types/known/timestamppb"
-
 	"github.com/rudderlabs/rudder-go-kit/config"
-	"github.com/rudderlabs/rudder-go-kit/jsonrs"
 
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
 	"github.com/rudderlabs/rudder-server/jobsdb"
@@ -29,177 +20,73 @@ type Transformer interface {
 
 // New returns a new instance of Schema Transformer
 func New(backendConfig backendconfig.BackendConfig, config *config.Config) Transformer {
-	return &transformer{
-		backendConfig:        backendConfig,
-		captureNilAsUnknowns: config.GetBoolVar(false, "EventSchemas.captureUnknowns"),
-		keysLimit:            config.GetIntVar(500, 1, "EventSchemas.keysLimit"),
-		identifierLimit:      config.GetIntVar(100, 1, "EventSchemas.identifierLimit"),
-	}
+	_ = "STUB: not implemented"
+	return *new(Transformer)
 }
 
 // Start starts the schema transformer
-func (st *transformer) Start() {
-	ctx, cancel := context.WithCancel(context.Background())
-	st.cancel = cancel
-	st.g, ctx = errgroup.WithContext(ctx)
-
-	var initialisedOnce sync.Once
-	initialised := make(chan struct{})
-	loopFn := func() {
-		initialisedOnce.Do(func() {
-			close(initialised)
-		})
-	}
-
-	st.g.Go(func() error {
-		st.backendConfigSubscriber(ctx, loopFn)
-		return nil
-	})
-
-	<-initialised
-}
+func (st *transformer) Start() { _ = "STUB: not implemented"; return }
 
 // Stop stops the schema transformer
-func (st *transformer) Stop() {
-	st.cancel()
-	_ = st.g.Wait()
-}
+func (st *transformer) Stop() { _ = "STUB: not implemented"; return }
 
 // Transform transforms the job into a schema message and returns the schema message along with write key
 func (st *transformer) Transform(job *jobsdb.JobT) (*proto.EventSchemaMessage, error) {
-	var eventPayload map[string]any
-	if err := jsonrs.Unmarshal(job.EventPayload, &eventPayload); err != nil {
-		return nil, err
-	}
-	writeKey := st.getWriteKeyFromParams(job.Parameters)
-	if writeKey == "" {
-		return nil, fmt.Errorf("writeKey could not be found")
-	}
-	schemaKey := st.getSchemaKeyFromJob(eventPayload, writeKey)
-	if st.identifierLimit > 0 && len(schemaKey.EventIdentifier) > st.identifierLimit {
-		return nil, fmt.Errorf("event identifier size is greater than %d", st.identifierLimit)
-	}
-	schemaMessage, err := st.getSchemaMessage(schemaKey, eventPayload, []byte("{}"), job.WorkspaceId, job.CreatedAt)
-	if err != nil {
-		return nil, err
-	}
-
-	return schemaMessage, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // getSchemaKeyFromJob returns the schema key from the job based on the event type and event identifier
 func (st *transformer) getSchemaKeyFromJob(eventPayload map[string]any, writeKey string) *proto.EventSchemaKey {
-	eventType := st.getEventType(eventPayload)
-	return &proto.EventSchemaKey{
-		WriteKey:        writeKey,
-		EventType:       eventType,
-		EventIdentifier: st.getEventIdentifier(eventPayload, eventType),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func (st *transformer) backendConfigSubscriber(ctx context.Context, loopFn func()) {
-	ch := st.backendConfig.Subscribe(ctx, backendconfig.TopicProcessConfig)
-	for data := range ch {
-		configData := data.Data.(map[string]backendconfig.ConfigT)
-		sourceWriteKeyMap := map[string]string{}
-		newPIIReportingSettings := map[string]bool{}
-		for _, wConfig := range configData {
-			for i := range wConfig.Sources {
-				source := &wConfig.Sources[i]
-				sourceWriteKeyMap[source.ID] = source.WriteKey
-				newPIIReportingSettings[source.WriteKey] = wConfig.Settings.DataRetention.DisableReportingPII
-			}
-		}
-		st.mu.Lock()
-		st.sourceWriteKeyMap = sourceWriteKeyMap
-		st.newPIIReportingSettings = newPIIReportingSettings
-		st.mu.Unlock()
-		loopFn()
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 // getEventType returns the event type from the event
 func (st *transformer) getEventType(event map[string]any) string {
-	eventType, ok := event["type"].(string)
-	if !ok {
-		return ""
-	}
-	return eventType
+	_ = "STUB: not implemented"
+	return ""
 }
 
 // getEventIdentifier returns the event identifier from the event
 func (st *transformer) getEventIdentifier(event map[string]any, eventType string) string {
-	eventIdentifier := ""
-	if eventType == "track" {
-		eventIdentifier, ok := event["event"].(string)
-		if !ok {
-			return ""
-		}
-		return eventIdentifier
-	}
-	return eventIdentifier
+	_ = "STUB: not implemented"
+	return ""
 }
 
 // getSchemaMessage returns the schema message from the event by flattening the event and getting the schema
 func (st *transformer) getSchemaMessage(key *proto.EventSchemaKey, event map[string]any, sample json.RawMessage, workspaceId string, observedAt time.Time) (*proto.EventSchemaMessage, error) {
-	flattenedEvent, err := st.flattenEvent(event)
-	if err != nil {
-		return nil, err
-	}
-	if st.keysLimit > 0 && len(flattenedEvent) > st.keysLimit {
-		return nil, fmt.Errorf("event schema has more than %d keys", st.keysLimit)
-	}
-	schema := st.getSchema(flattenedEvent)
-	if st.disablePIIReporting(key.WriteKey) {
-		sample = []byte("{}") // redact event
-	}
-	return &proto.EventSchemaMessage{
-		WorkspaceID: workspaceId,
-		Key:         key,
-		Schema:      schema,
-		Hash:        proto.SchemaHash(schema),
-		ObservedAt:  timestamppb.New(observedAt),
-		Sample:      sample,
-	}, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
+
+// redact event
 
 // getSchema returns the schema from the flattened event
 func (st *transformer) getSchema(flattenedEvent map[string]any) map[string]string {
-	schema := make(map[string]string)
-	for k, v := range flattenedEvent {
-		reflectType := reflect.TypeOf(v)
-		if reflectType != nil {
-			schema[k] = reflectType.String()
-		} else if v != nil || st.captureNilAsUnknowns {
-			schema[k] = "unknown"
-		}
-	}
-	return schema
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // flattenEvent flattens the event
 func (st *transformer) flattenEvent(event map[string]any) (map[string]any, error) {
-	flattenedEvent, err := flatten.Flatten(event, "", flatten.DotStyle)
-	if err != nil {
-		return nil, err
-	}
-	return flattenedEvent, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // disablePIIReporting returns whether PII reporting is disabled for the write key
 func (st *transformer) disablePIIReporting(writeKey string) bool {
-	st.mu.RLock()
-	defer st.mu.RUnlock()
-	return st.newPIIReportingSettings[writeKey]
+	_ = "STUB: not implemented"
+	return false
 }
 
 // getWriteKeyFromParams returns the write key from the job parameters
 func (st *transformer) getWriteKeyFromParams(parameters json.RawMessage) string {
-	sourceId := gjson.GetBytes(parameters, "source_id").Str
-	if sourceId == "" {
-		return sourceId
-	}
-	st.mu.RLock()
-	defer st.mu.RUnlock()
-	return st.sourceWriteKeyMap[sourceId]
+	_ = "STUB: not implemented"
+	return ""
 }

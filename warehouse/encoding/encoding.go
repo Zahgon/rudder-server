@@ -6,9 +6,7 @@ import (
 
 	"github.com/rudderlabs/rudder-go-kit/config"
 
-	"github.com/rudderlabs/rudder-server/utils/misc"
 	"github.com/rudderlabs/rudder-server/warehouse/internal/model"
-	warehouseutils "github.com/rudderlabs/rudder-server/warehouse/utils"
 )
 
 const (
@@ -26,14 +24,7 @@ type Factory struct {
 	}
 }
 
-func NewFactory(conf *config.Config) *Factory {
-	m := &Factory{}
-
-	m.config.maxStagingFileReadBufferCapacityInK = conf.GetIntVar(10240, 1, "Warehouse.maxStagingFileReadBufferCapacityInK")
-	m.config.parquetParallelWriters = conf.GetReloadableInt64Var(8, 1, "Warehouse.parquetParallelWriters")
-	m.config.disableParquetColumnIndex = conf.GetReloadableBoolVar(true, "Warehouse.disableParquetColumnIndex")
-	return m
-}
+func NewFactory(conf *config.Config) *Factory { _ = "STUB: not implemented"; return nil }
 
 // LoadFileWriter is an interface for writing events to a load file
 type LoadFileWriter interface {
@@ -45,12 +36,8 @@ type LoadFileWriter interface {
 }
 
 func (m *Factory) NewLoadFileWriter(loadFileType, outputFilePath string, schema model.TableSchema, destType string) (LoadFileWriter, error) {
-	switch loadFileType {
-	case warehouseutils.LoadFileTypeParquet:
-		return createParquetWriter(outputFilePath, schema, destType, m.config.parquetParallelWriters.Load(), m.config.disableParquetColumnIndex.Load())
-	default:
-		return misc.CreateGZ(outputFilePath)
-	}
+	_ = "STUB: not implemented"
+	return *new(LoadFileWriter), nil
 }
 
 // EventLoader is an interface for loading events into a load file
@@ -66,14 +53,8 @@ type EventLoader interface {
 }
 
 func (m *Factory) NewEventLoader(w LoadFileWriter, loadFileType, destinationType string) EventLoader {
-	switch loadFileType {
-	case warehouseutils.LoadFileTypeJson:
-		return newJSONLoader(w, destinationType)
-	case warehouseutils.LoadFileTypeParquet:
-		return newParquetLoader(w, destinationType)
-	default:
-		return newCSVLoader(w, destinationType)
-	}
+	_ = "STUB: not implemented"
+	return *new(EventLoader)
 }
 
 // EventReader is an interface for reading events from a load file
@@ -82,10 +63,6 @@ type EventReader interface {
 }
 
 func (m *Factory) NewEventReader(r io.Reader, destType string) EventReader {
-	switch destType {
-	case warehouseutils.BQ:
-		return newJSONReader(r, m.config.maxStagingFileReadBufferCapacityInK)
-	default:
-		return newCsvReader(r)
-	}
+	_ = "STUB: not implemented"
+	return *new(EventReader)
 }

@@ -7,14 +7,14 @@
 package proto
 
 import (
+	sync "sync"
+
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	structpb "google.golang.org/protobuf/types/known/structpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
-	reflect "reflect"
-	sync "sync"
 )
 
 const (
@@ -34,58 +34,25 @@ type Pagination struct {
 	Offset int32 `protobuf:"varint,3,opt,name=offset,proto3" json:"offset,omitempty"`
 }
 
-func (x *Pagination) Reset() {
-	*x = Pagination{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *Pagination) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *Pagination) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *Pagination) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*Pagination) ProtoMessage() {}
+func (*Pagination) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *Pagination) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use Pagination.ProtoReflect.Descriptor instead.
-func (*Pagination) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{0}
-}
+func (*Pagination) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (x *Pagination) GetTotal() int32 {
-	if x != nil {
-		return x.Total
-	}
-	return 0
-}
+func (x *Pagination) GetTotal() int32 { _ = "STUB: not implemented"; return 0 }
 
-func (x *Pagination) GetLimit() int32 {
-	if x != nil {
-		return x.Limit
-	}
-	return 0
-}
+func (x *Pagination) GetLimit() int32 { _ = "STUB: not implemented"; return 0 }
 
-func (x *Pagination) GetOffset() int32 {
-	if x != nil {
-		return x.Offset
-	}
-	return 0
-}
+func (x *Pagination) GetOffset() int32 { _ = "STUB: not implemented"; return 0 }
 
 type WHTable struct {
 	state         protoimpl.MessageState
@@ -102,93 +69,35 @@ type WHTable struct {
 	Duration   int32                  `protobuf:"varint,8,opt,name=duration,proto3" json:"duration,omitempty"`
 }
 
-func (x *WHTable) Reset() {
-	*x = WHTable{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *WHTable) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *WHTable) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *WHTable) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*WHTable) ProtoMessage() {}
+func (*WHTable) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *WHTable) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use WHTable.ProtoReflect.Descriptor instead.
-func (*WHTable) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{1}
-}
+func (*WHTable) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (x *WHTable) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
+func (x *WHTable) GetId() int64 { _ = "STUB: not implemented"; return 0 }
 
-func (x *WHTable) GetUploadId() int64 {
-	if x != nil {
-		return x.UploadId
-	}
-	return 0
-}
+func (x *WHTable) GetUploadId() int64 { _ = "STUB: not implemented"; return 0 }
 
-func (x *WHTable) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
+func (x *WHTable) GetName() string { _ = "STUB: not implemented"; return "" }
 
-func (x *WHTable) GetStatus() string {
-	if x != nil {
-		return x.Status
-	}
-	return ""
-}
+func (x *WHTable) GetStatus() string { _ = "STUB: not implemented"; return "" }
 
-func (x *WHTable) GetError() string {
-	if x != nil {
-		return x.Error
-	}
-	return ""
-}
+func (x *WHTable) GetError() string { _ = "STUB: not implemented"; return "" }
 
-func (x *WHTable) GetLastExecAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.LastExecAt
-	}
-	return nil
-}
+func (x *WHTable) GetLastExecAt() *timestamppb.Timestamp { _ = "STUB: not implemented"; return nil }
 
-func (x *WHTable) GetCount() int32 {
-	if x != nil {
-		return x.Count
-	}
-	return 0
-}
+func (x *WHTable) GetCount() int32 { _ = "STUB: not implemented"; return 0 }
 
-func (x *WHTable) GetDuration() int32 {
-	if x != nil {
-		return x.Duration
-	}
-	return 0
-}
+func (x *WHTable) GetDuration() int32 { _ = "STUB: not implemented"; return 0 }
 
 type WHUploadsRequest struct {
 	state         protoimpl.MessageState
@@ -204,86 +113,33 @@ type WHUploadsRequest struct {
 	WorkspaceId     string `protobuf:"bytes,7,opt,name=workspace_id,json=workspaceId,proto3" json:"workspace_id,omitempty"`
 }
 
-func (x *WHUploadsRequest) Reset() {
-	*x = WHUploadsRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *WHUploadsRequest) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *WHUploadsRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *WHUploadsRequest) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*WHUploadsRequest) ProtoMessage() {}
+func (*WHUploadsRequest) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *WHUploadsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use WHUploadsRequest.ProtoReflect.Descriptor instead.
-func (*WHUploadsRequest) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{2}
-}
+func (*WHUploadsRequest) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (x *WHUploadsRequest) GetSourceId() string {
-	if x != nil {
-		return x.SourceId
-	}
-	return ""
-}
+func (x *WHUploadsRequest) GetSourceId() string { _ = "STUB: not implemented"; return "" }
 
-func (x *WHUploadsRequest) GetDestinationId() string {
-	if x != nil {
-		return x.DestinationId
-	}
-	return ""
-}
+func (x *WHUploadsRequest) GetDestinationId() string { _ = "STUB: not implemented"; return "" }
 
-func (x *WHUploadsRequest) GetDestinationType() string {
-	if x != nil {
-		return x.DestinationType
-	}
-	return ""
-}
+func (x *WHUploadsRequest) GetDestinationType() string { _ = "STUB: not implemented"; return "" }
 
-func (x *WHUploadsRequest) GetStatus() string {
-	if x != nil {
-		return x.Status
-	}
-	return ""
-}
+func (x *WHUploadsRequest) GetStatus() string { _ = "STUB: not implemented"; return "" }
 
-func (x *WHUploadsRequest) GetLimit() int32 {
-	if x != nil {
-		return x.Limit
-	}
-	return 0
-}
+func (x *WHUploadsRequest) GetLimit() int32 { _ = "STUB: not implemented"; return 0 }
 
-func (x *WHUploadsRequest) GetOffset() int32 {
-	if x != nil {
-		return x.Offset
-	}
-	return 0
-}
+func (x *WHUploadsRequest) GetOffset() int32 { _ = "STUB: not implemented"; return 0 }
 
-func (x *WHUploadsRequest) GetWorkspaceId() string {
-	if x != nil {
-		return x.WorkspaceId
-	}
-	return ""
-}
+func (x *WHUploadsRequest) GetWorkspaceId() string { _ = "STUB: not implemented"; return "" }
 
 type WHUploadsResponse struct {
 	state         protoimpl.MessageState
@@ -294,51 +150,23 @@ type WHUploadsResponse struct {
 	Pagination *Pagination         `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
-func (x *WHUploadsResponse) Reset() {
-	*x = WHUploadsResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *WHUploadsResponse) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *WHUploadsResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *WHUploadsResponse) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*WHUploadsResponse) ProtoMessage() {}
+func (*WHUploadsResponse) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *WHUploadsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use WHUploadsResponse.ProtoReflect.Descriptor instead.
-func (*WHUploadsResponse) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{3}
-}
+func (*WHUploadsResponse) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (x *WHUploadsResponse) GetUploads() []*WHUploadResponse {
-	if x != nil {
-		return x.Uploads
-	}
-	return nil
-}
+func (x *WHUploadsResponse) GetUploads() []*WHUploadResponse { _ = "STUB: not implemented"; return nil }
 
-func (x *WHUploadsResponse) GetPagination() *Pagination {
-	if x != nil {
-		return x.Pagination
-	}
-	return nil
-}
+func (x *WHUploadsResponse) GetPagination() *Pagination { _ = "STUB: not implemented"; return nil }
 
 type WHUploadRequest struct {
 	state         protoimpl.MessageState
@@ -349,51 +177,23 @@ type WHUploadRequest struct {
 	WorkspaceId string `protobuf:"bytes,2,opt,name=workspace_id,json=workspaceId,proto3" json:"workspace_id,omitempty"`
 }
 
-func (x *WHUploadRequest) Reset() {
-	*x = WHUploadRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *WHUploadRequest) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *WHUploadRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *WHUploadRequest) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*WHUploadRequest) ProtoMessage() {}
+func (*WHUploadRequest) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *WHUploadRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use WHUploadRequest.ProtoReflect.Descriptor instead.
-func (*WHUploadRequest) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{4}
-}
+func (*WHUploadRequest) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (x *WHUploadRequest) GetUploadId() int64 {
-	if x != nil {
-		return x.UploadId
-	}
-	return 0
-}
+func (x *WHUploadRequest) GetUploadId() int64 { _ = "STUB: not implemented"; return 0 }
 
-func (x *WHUploadRequest) GetWorkspaceId() string {
-	if x != nil {
-		return x.WorkspaceId
-	}
-	return ""
-}
+func (x *WHUploadRequest) GetWorkspaceId() string { _ = "STUB: not implemented"; return "" }
 
 type WHUploadResponse struct {
 	state         protoimpl.MessageState
@@ -418,149 +218,66 @@ type WHUploadResponse struct {
 	IsArchivedUpload bool                   `protobuf:"varint,16,opt,name=isArchivedUpload,proto3" json:"isArchivedUpload,omitempty"`
 }
 
-func (x *WHUploadResponse) Reset() {
-	*x = WHUploadResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[5]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *WHUploadResponse) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *WHUploadResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *WHUploadResponse) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*WHUploadResponse) ProtoMessage() {}
+func (*WHUploadResponse) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *WHUploadResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[5]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use WHUploadResponse.ProtoReflect.Descriptor instead.
-func (*WHUploadResponse) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{5}
-}
+func (*WHUploadResponse) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (x *WHUploadResponse) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
+func (x *WHUploadResponse) GetId() int64 { _ = "STUB: not implemented"; return 0 }
 
-func (x *WHUploadResponse) GetSourceId() string {
-	if x != nil {
-		return x.SourceId
-	}
-	return ""
-}
+func (x *WHUploadResponse) GetSourceId() string { _ = "STUB: not implemented"; return "" }
 
-func (x *WHUploadResponse) GetDestinationId() string {
-	if x != nil {
-		return x.DestinationId
-	}
-	return ""
-}
+func (x *WHUploadResponse) GetDestinationId() string { _ = "STUB: not implemented"; return "" }
 
-func (x *WHUploadResponse) GetDestinationType() string {
-	if x != nil {
-		return x.DestinationType
-	}
-	return ""
-}
+func (x *WHUploadResponse) GetDestinationType() string { _ = "STUB: not implemented"; return "" }
 
-func (x *WHUploadResponse) GetNamespace() string {
-	if x != nil {
-		return x.Namespace
-	}
-	return ""
-}
+func (x *WHUploadResponse) GetNamespace() string { _ = "STUB: not implemented"; return "" }
 
-func (x *WHUploadResponse) GetError() string {
-	if x != nil {
-		return x.Error
-	}
-	return ""
-}
+func (x *WHUploadResponse) GetError() string { _ = "STUB: not implemented"; return "" }
 
-func (x *WHUploadResponse) GetAttempt() int32 {
-	if x != nil {
-		return x.Attempt
-	}
-	return 0
-}
+func (x *WHUploadResponse) GetAttempt() int32 { _ = "STUB: not implemented"; return 0 }
 
-func (x *WHUploadResponse) GetStatus() string {
-	if x != nil {
-		return x.Status
-	}
-	return ""
-}
+func (x *WHUploadResponse) GetStatus() string { _ = "STUB: not implemented"; return "" }
 
 func (x *WHUploadResponse) GetCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CreatedAt
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (x *WHUploadResponse) GetFirstEventAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.FirstEventAt
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (x *WHUploadResponse) GetLastEventAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.LastEventAt
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (x *WHUploadResponse) GetLastExecAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.LastExecAt
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (x *WHUploadResponse) GetNextRetryTime() *timestamppb.Timestamp {
-	if x != nil {
-		return x.NextRetryTime
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
-func (x *WHUploadResponse) GetDuration() int32 {
-	if x != nil {
-		return x.Duration
-	}
-	return 0
-}
+func (x *WHUploadResponse) GetDuration() int32 { _ = "STUB: not implemented"; return 0 }
 
-func (x *WHUploadResponse) GetTables() []*WHTable {
-	if x != nil {
-		return x.Tables
-	}
-	return nil
-}
+func (x *WHUploadResponse) GetTables() []*WHTable { _ = "STUB: not implemented"; return nil }
 
-func (x *WHUploadResponse) GetIsArchivedUpload() bool {
-	if x != nil {
-		return x.IsArchivedUpload
-	}
-	return false
-}
+func (x *WHUploadResponse) GetIsArchivedUpload() bool { _ = "STUB: not implemented"; return false }
 
 type TriggerWhUploadsResponse struct {
 	state         protoimpl.MessageState
@@ -571,51 +288,26 @@ type TriggerWhUploadsResponse struct {
 	StatusCode int32  `protobuf:"varint,2,opt,name=status_code,json=statusCode,proto3" json:"status_code,omitempty"`
 }
 
-func (x *TriggerWhUploadsResponse) Reset() {
-	*x = TriggerWhUploadsResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[6]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *TriggerWhUploadsResponse) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *TriggerWhUploadsResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *TriggerWhUploadsResponse) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*TriggerWhUploadsResponse) ProtoMessage() {}
+func (*TriggerWhUploadsResponse) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *TriggerWhUploadsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[6]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use TriggerWhUploadsResponse.ProtoReflect.Descriptor instead.
 func (*TriggerWhUploadsResponse) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{6}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func (x *TriggerWhUploadsResponse) GetMessage() string {
-	if x != nil {
-		return x.Message
-	}
-	return ""
-}
+func (x *TriggerWhUploadsResponse) GetMessage() string { _ = "STUB: not implemented"; return "" }
 
-func (x *TriggerWhUploadsResponse) GetStatusCode() int32 {
-	if x != nil {
-		return x.StatusCode
-	}
-	return 0
-}
+func (x *TriggerWhUploadsResponse) GetStatusCode() int32 { _ = "STUB: not implemented"; return 0 }
 
 type WHValidationRequest struct {
 	state         protoimpl.MessageState
@@ -628,65 +320,30 @@ type WHValidationRequest struct {
 	Body string `protobuf:"bytes,4,opt,name=body,proto3" json:"body,omitempty"`
 }
 
-func (x *WHValidationRequest) Reset() {
-	*x = WHValidationRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[7]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *WHValidationRequest) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *WHValidationRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *WHValidationRequest) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*WHValidationRequest) ProtoMessage() {}
+func (*WHValidationRequest) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *WHValidationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[7]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use WHValidationRequest.ProtoReflect.Descriptor instead.
 func (*WHValidationRequest) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{7}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func (x *WHValidationRequest) GetRole() string {
-	if x != nil {
-		return x.Role
-	}
-	return ""
-}
+func (x *WHValidationRequest) GetRole() string { _ = "STUB: not implemented"; return "" }
 
-func (x *WHValidationRequest) GetPath() string {
-	if x != nil {
-		return x.Path
-	}
-	return ""
-}
+func (x *WHValidationRequest) GetPath() string { _ = "STUB: not implemented"; return "" }
 
-func (x *WHValidationRequest) GetStep() string {
-	if x != nil {
-		return x.Step
-	}
-	return ""
-}
+func (x *WHValidationRequest) GetStep() string { _ = "STUB: not implemented"; return "" }
 
-func (x *WHValidationRequest) GetBody() string {
-	if x != nil {
-		return x.Body
-	}
-	return ""
-}
+func (x *WHValidationRequest) GetBody() string { _ = "STUB: not implemented"; return "" }
 
 type WHValidationResponse struct {
 	state         protoimpl.MessageState
@@ -697,51 +354,26 @@ type WHValidationResponse struct {
 	Data  string `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
 }
 
-func (x *WHValidationResponse) Reset() {
-	*x = WHValidationResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[8]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *WHValidationResponse) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *WHValidationResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *WHValidationResponse) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*WHValidationResponse) ProtoMessage() {}
+func (*WHValidationResponse) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *WHValidationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[8]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use WHValidationResponse.ProtoReflect.Descriptor instead.
 func (*WHValidationResponse) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{8}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func (x *WHValidationResponse) GetError() string {
-	if x != nil {
-		return x.Error
-	}
-	return ""
-}
+func (x *WHValidationResponse) GetError() string { _ = "STUB: not implemented"; return "" }
 
-func (x *WHValidationResponse) GetData() string {
-	if x != nil {
-		return x.Data
-	}
-	return ""
-}
+func (x *WHValidationResponse) GetData() string { _ = "STUB: not implemented"; return "" }
 
 type RetryWHUploadsRequest struct {
 	state         protoimpl.MessageState
@@ -757,86 +389,36 @@ type RetryWHUploadsRequest struct {
 	ForceRetry      bool    `protobuf:"varint,7,opt,name=forceRetry,proto3" json:"forceRetry,omitempty"`
 }
 
-func (x *RetryWHUploadsRequest) Reset() {
-	*x = RetryWHUploadsRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[9]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *RetryWHUploadsRequest) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *RetryWHUploadsRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *RetryWHUploadsRequest) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*RetryWHUploadsRequest) ProtoMessage() {}
+func (*RetryWHUploadsRequest) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *RetryWHUploadsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[9]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use RetryWHUploadsRequest.ProtoReflect.Descriptor instead.
 func (*RetryWHUploadsRequest) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{9}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func (x *RetryWHUploadsRequest) GetWorkspaceId() string {
-	if x != nil {
-		return x.WorkspaceId
-	}
-	return ""
-}
+func (x *RetryWHUploadsRequest) GetWorkspaceId() string { _ = "STUB: not implemented"; return "" }
 
-func (x *RetryWHUploadsRequest) GetSourceId() string {
-	if x != nil {
-		return x.SourceId
-	}
-	return ""
-}
+func (x *RetryWHUploadsRequest) GetSourceId() string { _ = "STUB: not implemented"; return "" }
 
-func (x *RetryWHUploadsRequest) GetDestinationId() string {
-	if x != nil {
-		return x.DestinationId
-	}
-	return ""
-}
+func (x *RetryWHUploadsRequest) GetDestinationId() string { _ = "STUB: not implemented"; return "" }
 
-func (x *RetryWHUploadsRequest) GetDestinationType() string {
-	if x != nil {
-		return x.DestinationType
-	}
-	return ""
-}
+func (x *RetryWHUploadsRequest) GetDestinationType() string { _ = "STUB: not implemented"; return "" }
 
-func (x *RetryWHUploadsRequest) GetIntervalInHours() int64 {
-	if x != nil {
-		return x.IntervalInHours
-	}
-	return 0
-}
+func (x *RetryWHUploadsRequest) GetIntervalInHours() int64 { _ = "STUB: not implemented"; return 0 }
 
-func (x *RetryWHUploadsRequest) GetUploadIds() []int64 {
-	if x != nil {
-		return x.UploadIds
-	}
-	return nil
-}
+func (x *RetryWHUploadsRequest) GetUploadIds() []int64 { _ = "STUB: not implemented"; return nil }
 
-func (x *RetryWHUploadsRequest) GetForceRetry() bool {
-	if x != nil {
-		return x.ForceRetry
-	}
-	return false
-}
+func (x *RetryWHUploadsRequest) GetForceRetry() bool { _ = "STUB: not implemented"; return false }
 
 type RetryWHUploadsResponse struct {
 	state         protoimpl.MessageState
@@ -848,58 +430,28 @@ type RetryWHUploadsResponse struct {
 	StatusCode int32  `protobuf:"varint,3,opt,name=status_code,json=statusCode,proto3" json:"status_code,omitempty"`
 }
 
-func (x *RetryWHUploadsResponse) Reset() {
-	*x = RetryWHUploadsResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[10]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *RetryWHUploadsResponse) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *RetryWHUploadsResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *RetryWHUploadsResponse) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*RetryWHUploadsResponse) ProtoMessage() {}
+func (*RetryWHUploadsResponse) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *RetryWHUploadsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[10]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use RetryWHUploadsResponse.ProtoReflect.Descriptor instead.
 func (*RetryWHUploadsResponse) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{10}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func (x *RetryWHUploadsResponse) GetMessage() string {
-	if x != nil {
-		return x.Message
-	}
-	return ""
-}
+func (x *RetryWHUploadsResponse) GetMessage() string { _ = "STUB: not implemented"; return "" }
 
-func (x *RetryWHUploadsResponse) GetCount() int64 {
-	if x != nil {
-		return x.Count
-	}
-	return 0
-}
+func (x *RetryWHUploadsResponse) GetCount() int64 { _ = "STUB: not implemented"; return 0 }
 
-func (x *RetryWHUploadsResponse) GetStatusCode() int32 {
-	if x != nil {
-		return x.StatusCode
-	}
-	return 0
-}
+func (x *RetryWHUploadsResponse) GetStatusCode() int32 { _ = "STUB: not implemented"; return 0 }
 
 type ValidateObjectStorageRequest struct {
 	state         protoimpl.MessageState
@@ -910,49 +462,27 @@ type ValidateObjectStorageRequest struct {
 	Config *structpb.Struct `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`
 }
 
-func (x *ValidateObjectStorageRequest) Reset() {
-	*x = ValidateObjectStorageRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[11]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *ValidateObjectStorageRequest) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *ValidateObjectStorageRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *ValidateObjectStorageRequest) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*ValidateObjectStorageRequest) ProtoMessage() {}
+func (*ValidateObjectStorageRequest) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *ValidateObjectStorageRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[11]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use ValidateObjectStorageRequest.ProtoReflect.Descriptor instead.
 func (*ValidateObjectStorageRequest) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{11}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func (x *ValidateObjectStorageRequest) GetType() string {
-	if x != nil {
-		return x.Type
-	}
-	return ""
-}
+func (x *ValidateObjectStorageRequest) GetType() string { _ = "STUB: not implemented"; return "" }
 
 func (x *ValidateObjectStorageRequest) GetConfig() *structpb.Struct {
-	if x != nil {
-		return x.Config
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
@@ -965,51 +495,26 @@ type ValidateObjectStorageResponse struct {
 	Error   string `protobuf:"bytes,3,opt,name=error,proto3" json:"error,omitempty"`
 }
 
-func (x *ValidateObjectStorageResponse) Reset() {
-	*x = ValidateObjectStorageResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[12]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *ValidateObjectStorageResponse) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *ValidateObjectStorageResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *ValidateObjectStorageResponse) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*ValidateObjectStorageResponse) ProtoMessage() {}
+func (*ValidateObjectStorageResponse) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *ValidateObjectStorageResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[12]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use ValidateObjectStorageResponse.ProtoReflect.Descriptor instead.
 func (*ValidateObjectStorageResponse) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{12}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func (x *ValidateObjectStorageResponse) GetIsValid() bool {
-	if x != nil {
-		return x.IsValid
-	}
-	return false
-}
+func (x *ValidateObjectStorageResponse) GetIsValid() bool { _ = "STUB: not implemented"; return false }
 
-func (x *ValidateObjectStorageResponse) GetError() string {
-	if x != nil {
-		return x.Error
-	}
-	return ""
-}
+func (x *ValidateObjectStorageResponse) GetError() string { _ = "STUB: not implemented"; return "" }
 
 type FailedBatchInfo struct {
 	state         protoimpl.MessageState
@@ -1026,93 +531,41 @@ type FailedBatchInfo struct {
 	Status            string                 `protobuf:"bytes,8,opt,name=status,proto3" json:"status,omitempty"`
 }
 
-func (x *FailedBatchInfo) Reset() {
-	*x = FailedBatchInfo{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[13]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *FailedBatchInfo) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *FailedBatchInfo) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *FailedBatchInfo) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*FailedBatchInfo) ProtoMessage() {}
+func (*FailedBatchInfo) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *FailedBatchInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[13]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use FailedBatchInfo.ProtoReflect.Descriptor instead.
-func (*FailedBatchInfo) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{13}
-}
+func (*FailedBatchInfo) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (x *FailedBatchInfo) GetError() string {
-	if x != nil {
-		return x.Error
-	}
-	return ""
-}
+func (x *FailedBatchInfo) GetError() string { _ = "STUB: not implemented"; return "" }
 
-func (x *FailedBatchInfo) GetErrorCategory() string {
-	if x != nil {
-		return x.ErrorCategory
-	}
-	return ""
-}
+func (x *FailedBatchInfo) GetErrorCategory() string { _ = "STUB: not implemented"; return "" }
 
-func (x *FailedBatchInfo) GetSourceID() string {
-	if x != nil {
-		return x.SourceID
-	}
-	return ""
-}
+func (x *FailedBatchInfo) GetSourceID() string { _ = "STUB: not implemented"; return "" }
 
-func (x *FailedBatchInfo) GetFailedEventsCount() int64 {
-	if x != nil {
-		return x.FailedEventsCount
-	}
-	return 0
-}
+func (x *FailedBatchInfo) GetFailedEventsCount() int64 { _ = "STUB: not implemented"; return 0 }
 
-func (x *FailedBatchInfo) GetFailedSyncsCount() int64 {
-	if x != nil {
-		return x.FailedSyncsCount
-	}
-	return 0
-}
+func (x *FailedBatchInfo) GetFailedSyncsCount() int64 { _ = "STUB: not implemented"; return 0 }
 
 func (x *FailedBatchInfo) GetLastHappened() *timestamppb.Timestamp {
-	if x != nil {
-		return x.LastHappened
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (x *FailedBatchInfo) GetFirstHappened() *timestamppb.Timestamp {
-	if x != nil {
-		return x.FirstHappened
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
-func (x *FailedBatchInfo) GetStatus() string {
-	if x != nil {
-		return x.Status
-	}
-	return ""
-}
+func (x *FailedBatchInfo) GetStatus() string { _ = "STUB: not implemented"; return "" }
 
 type RetrieveFailedBatchesRequest struct {
 	state         protoimpl.MessageState
@@ -1125,65 +578,36 @@ type RetrieveFailedBatchesRequest struct {
 	End           string `protobuf:"bytes,4,opt,name=end,proto3" json:"end,omitempty"`
 }
 
-func (x *RetrieveFailedBatchesRequest) Reset() {
-	*x = RetrieveFailedBatchesRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[14]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *RetrieveFailedBatchesRequest) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *RetrieveFailedBatchesRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *RetrieveFailedBatchesRequest) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*RetrieveFailedBatchesRequest) ProtoMessage() {}
+func (*RetrieveFailedBatchesRequest) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *RetrieveFailedBatchesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[14]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use RetrieveFailedBatchesRequest.ProtoReflect.Descriptor instead.
 func (*RetrieveFailedBatchesRequest) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{14}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (x *RetrieveFailedBatchesRequest) GetWorkspaceID() string {
-	if x != nil {
-		return x.WorkspaceID
-	}
+	_ = "STUB: not implemented"
 	return ""
 }
 
 func (x *RetrieveFailedBatchesRequest) GetDestinationID() string {
-	if x != nil {
-		return x.DestinationID
-	}
+	_ = "STUB: not implemented"
 	return ""
 }
 
-func (x *RetrieveFailedBatchesRequest) GetStart() string {
-	if x != nil {
-		return x.Start
-	}
-	return ""
-}
+func (x *RetrieveFailedBatchesRequest) GetStart() string { _ = "STUB: not implemented"; return "" }
 
-func (x *RetrieveFailedBatchesRequest) GetEnd() string {
-	if x != nil {
-		return x.End
-	}
-	return ""
-}
+func (x *RetrieveFailedBatchesRequest) GetEnd() string { _ = "STUB: not implemented"; return "" }
 
 type RetrieveFailedBatchesResponse struct {
 	state         protoimpl.MessageState
@@ -1193,42 +617,25 @@ type RetrieveFailedBatchesResponse struct {
 	FailedBatches []*FailedBatchInfo `protobuf:"bytes,1,rep,name=failedBatches,proto3" json:"failedBatches,omitempty"`
 }
 
-func (x *RetrieveFailedBatchesResponse) Reset() {
-	*x = RetrieveFailedBatchesResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[15]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *RetrieveFailedBatchesResponse) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *RetrieveFailedBatchesResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *RetrieveFailedBatchesResponse) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*RetrieveFailedBatchesResponse) ProtoMessage() {}
+func (*RetrieveFailedBatchesResponse) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *RetrieveFailedBatchesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[15]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use RetrieveFailedBatchesResponse.ProtoReflect.Descriptor instead.
 func (*RetrieveFailedBatchesResponse) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{15}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (x *RetrieveFailedBatchesResponse) GetFailedBatches() []*FailedBatchInfo {
-	if x != nil {
-		return x.FailedBatches
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
@@ -1246,86 +653,36 @@ type RetryFailedBatchesRequest struct {
 	Status        string `protobuf:"bytes,7,opt,name=status,proto3" json:"status,omitempty"`
 }
 
-func (x *RetryFailedBatchesRequest) Reset() {
-	*x = RetryFailedBatchesRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[16]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *RetryFailedBatchesRequest) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *RetryFailedBatchesRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *RetryFailedBatchesRequest) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*RetryFailedBatchesRequest) ProtoMessage() {}
+func (*RetryFailedBatchesRequest) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *RetryFailedBatchesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[16]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use RetryFailedBatchesRequest.ProtoReflect.Descriptor instead.
 func (*RetryFailedBatchesRequest) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{16}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func (x *RetryFailedBatchesRequest) GetWorkspaceID() string {
-	if x != nil {
-		return x.WorkspaceID
-	}
-	return ""
-}
+func (x *RetryFailedBatchesRequest) GetWorkspaceID() string { _ = "STUB: not implemented"; return "" }
 
-func (x *RetryFailedBatchesRequest) GetDestinationID() string {
-	if x != nil {
-		return x.DestinationID
-	}
-	return ""
-}
+func (x *RetryFailedBatchesRequest) GetDestinationID() string { _ = "STUB: not implemented"; return "" }
 
-func (x *RetryFailedBatchesRequest) GetStart() string {
-	if x != nil {
-		return x.Start
-	}
-	return ""
-}
+func (x *RetryFailedBatchesRequest) GetStart() string { _ = "STUB: not implemented"; return "" }
 
-func (x *RetryFailedBatchesRequest) GetEnd() string {
-	if x != nil {
-		return x.End
-	}
-	return ""
-}
+func (x *RetryFailedBatchesRequest) GetEnd() string { _ = "STUB: not implemented"; return "" }
 
-func (x *RetryFailedBatchesRequest) GetErrorCategory() string {
-	if x != nil {
-		return x.ErrorCategory
-	}
-	return ""
-}
+func (x *RetryFailedBatchesRequest) GetErrorCategory() string { _ = "STUB: not implemented"; return "" }
 
-func (x *RetryFailedBatchesRequest) GetSourceID() string {
-	if x != nil {
-		return x.SourceID
-	}
-	return ""
-}
+func (x *RetryFailedBatchesRequest) GetSourceID() string { _ = "STUB: not implemented"; return "" }
 
-func (x *RetryFailedBatchesRequest) GetStatus() string {
-	if x != nil {
-		return x.Status
-	}
-	return ""
-}
+func (x *RetryFailedBatchesRequest) GetStatus() string { _ = "STUB: not implemented"; return "" }
 
 type RetryFailedBatchesResponse struct {
 	state         protoimpl.MessageState
@@ -1335,42 +692,25 @@ type RetryFailedBatchesResponse struct {
 	RetriedSyncsCount int64 `protobuf:"varint,1,opt,name=retriedSyncsCount,proto3" json:"retriedSyncsCount,omitempty"`
 }
 
-func (x *RetryFailedBatchesResponse) Reset() {
-	*x = RetryFailedBatchesResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[17]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *RetryFailedBatchesResponse) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *RetryFailedBatchesResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *RetryFailedBatchesResponse) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*RetryFailedBatchesResponse) ProtoMessage() {}
+func (*RetryFailedBatchesResponse) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *RetryFailedBatchesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[17]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use RetryFailedBatchesResponse.ProtoReflect.Descriptor instead.
 func (*RetryFailedBatchesResponse) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{17}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (x *RetryFailedBatchesResponse) GetRetriedSyncsCount() int64 {
-	if x != nil {
-		return x.RetriedSyncsCount
-	}
+	_ = "STUB: not implemented"
 	return 0
 }
 
@@ -1384,48 +724,38 @@ type FirstAbortedUploadInContinuousAbortsByDestinationRequest struct {
 }
 
 func (x *FirstAbortedUploadInContinuousAbortsByDestinationRequest) Reset() {
-	*x = FirstAbortedUploadInContinuousAbortsByDestinationRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[18]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 func (x *FirstAbortedUploadInContinuousAbortsByDestinationRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
+	_ = "STUB: not implemented"
+	return ""
 }
 
-func (*FirstAbortedUploadInContinuousAbortsByDestinationRequest) ProtoMessage() {}
+func (*FirstAbortedUploadInContinuousAbortsByDestinationRequest) ProtoMessage() {
+	_ = "STUB: not implemented"
+	return
+}
 
 func (x *FirstAbortedUploadInContinuousAbortsByDestinationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[18]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use FirstAbortedUploadInContinuousAbortsByDestinationRequest.ProtoReflect.Descriptor instead.
 func (*FirstAbortedUploadInContinuousAbortsByDestinationRequest) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{18}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (x *FirstAbortedUploadInContinuousAbortsByDestinationRequest) GetWorkspaceId() string {
-	if x != nil {
-		return x.WorkspaceId
-	}
+	_ = "STUB: not implemented"
 	return ""
 }
 
 func (x *FirstAbortedUploadInContinuousAbortsByDestinationRequest) GetStart() string {
-	if x != nil {
-		return x.Start
-	}
+	_ = "STUB: not implemented"
 	return ""
 }
 
@@ -1437,44 +767,24 @@ type SyncWHSchemaRequest struct {
 	DestinationId string `protobuf:"bytes,1,opt,name=destination_id,json=destinationId,proto3" json:"destination_id,omitempty"`
 }
 
-func (x *SyncWHSchemaRequest) Reset() {
-	*x = SyncWHSchemaRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[19]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *SyncWHSchemaRequest) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *SyncWHSchemaRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *SyncWHSchemaRequest) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*SyncWHSchemaRequest) ProtoMessage() {}
+func (*SyncWHSchemaRequest) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *SyncWHSchemaRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[19]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use SyncWHSchemaRequest.ProtoReflect.Descriptor instead.
 func (*SyncWHSchemaRequest) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{19}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func (x *SyncWHSchemaRequest) GetDestinationId() string {
-	if x != nil {
-		return x.DestinationId
-	}
-	return ""
-}
+func (x *SyncWHSchemaRequest) GetDestinationId() string { _ = "STUB: not implemented"; return "" }
 
 type FirstAbortedUploadResponse struct {
 	state         protoimpl.MessageState
@@ -1489,77 +799,44 @@ type FirstAbortedUploadResponse struct {
 	LastEventAt   *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=last_event_at,json=lastEventAt,proto3" json:"last_event_at,omitempty"`
 }
 
-func (x *FirstAbortedUploadResponse) Reset() {
-	*x = FirstAbortedUploadResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[20]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *FirstAbortedUploadResponse) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *FirstAbortedUploadResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *FirstAbortedUploadResponse) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*FirstAbortedUploadResponse) ProtoMessage() {}
+func (*FirstAbortedUploadResponse) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *FirstAbortedUploadResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[20]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use FirstAbortedUploadResponse.ProtoReflect.Descriptor instead.
 func (*FirstAbortedUploadResponse) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{20}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func (x *FirstAbortedUploadResponse) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
+func (x *FirstAbortedUploadResponse) GetId() int64 { _ = "STUB: not implemented"; return 0 }
 
-func (x *FirstAbortedUploadResponse) GetSourceId() string {
-	if x != nil {
-		return x.SourceId
-	}
-	return ""
-}
+func (x *FirstAbortedUploadResponse) GetSourceId() string { _ = "STUB: not implemented"; return "" }
 
 func (x *FirstAbortedUploadResponse) GetDestinationId() string {
-	if x != nil {
-		return x.DestinationId
-	}
+	_ = "STUB: not implemented"
 	return ""
 }
 
 func (x *FirstAbortedUploadResponse) GetCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CreatedAt
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (x *FirstAbortedUploadResponse) GetFirstEventAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.FirstEventAt
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (x *FirstAbortedUploadResponse) GetLastEventAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.LastEventAt
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
@@ -1572,41 +849,33 @@ type FirstAbortedUploadInContinuousAbortsByDestinationResponse struct {
 }
 
 func (x *FirstAbortedUploadInContinuousAbortsByDestinationResponse) Reset() {
-	*x = FirstAbortedUploadInContinuousAbortsByDestinationResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[21]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 func (x *FirstAbortedUploadInContinuousAbortsByDestinationResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
+	_ = "STUB: not implemented"
+	return ""
 }
 
-func (*FirstAbortedUploadInContinuousAbortsByDestinationResponse) ProtoMessage() {}
+func (*FirstAbortedUploadInContinuousAbortsByDestinationResponse) ProtoMessage() {
+	_ = "STUB: not implemented"
+	return
+}
 
 func (x *FirstAbortedUploadInContinuousAbortsByDestinationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[21]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use FirstAbortedUploadInContinuousAbortsByDestinationResponse.ProtoReflect.Descriptor instead.
 func (*FirstAbortedUploadInContinuousAbortsByDestinationResponse) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{21}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (x *FirstAbortedUploadInContinuousAbortsByDestinationResponse) GetUploads() []*FirstAbortedUploadResponse {
-	if x != nil {
-		return x.Uploads
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
@@ -1622,72 +891,29 @@ type SyncLatencyRequest struct {
 	SourceId           string `protobuf:"bytes,5,opt,name=source_id,json=sourceId,proto3" json:"source_id,omitempty"`
 }
 
-func (x *SyncLatencyRequest) Reset() {
-	*x = SyncLatencyRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[22]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *SyncLatencyRequest) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *SyncLatencyRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *SyncLatencyRequest) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*SyncLatencyRequest) ProtoMessage() {}
+func (*SyncLatencyRequest) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *SyncLatencyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[22]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use SyncLatencyRequest.ProtoReflect.Descriptor instead.
-func (*SyncLatencyRequest) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{22}
-}
+func (*SyncLatencyRequest) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (x *SyncLatencyRequest) GetDestinationId() string {
-	if x != nil {
-		return x.DestinationId
-	}
-	return ""
-}
+func (x *SyncLatencyRequest) GetDestinationId() string { _ = "STUB: not implemented"; return "" }
 
-func (x *SyncLatencyRequest) GetWorkspaceId() string {
-	if x != nil {
-		return x.WorkspaceId
-	}
-	return ""
-}
+func (x *SyncLatencyRequest) GetWorkspaceId() string { _ = "STUB: not implemented"; return "" }
 
-func (x *SyncLatencyRequest) GetStartTime() string {
-	if x != nil {
-		return x.StartTime
-	}
-	return ""
-}
+func (x *SyncLatencyRequest) GetStartTime() string { _ = "STUB: not implemented"; return "" }
 
-func (x *SyncLatencyRequest) GetAggregationMinutes() string {
-	if x != nil {
-		return x.AggregationMinutes
-	}
-	return ""
-}
+func (x *SyncLatencyRequest) GetAggregationMinutes() string { _ = "STUB: not implemented"; return "" }
 
-func (x *SyncLatencyRequest) GetSourceId() string {
-	if x != nil {
-		return x.SourceId
-	}
-	return ""
-}
+func (x *SyncLatencyRequest) GetSourceId() string { _ = "STUB: not implemented"; return "" }
 
 type SyncLatencyResponse struct {
 	state         protoimpl.MessageState
@@ -1697,42 +923,25 @@ type SyncLatencyResponse struct {
 	TimeSeriesDataPoints []*LatencyTimeSeriesDataPoint `protobuf:"bytes,1,rep,name=time_series_data_points,json=graph,proto3" json:"time_series_data_points,omitempty"`
 }
 
-func (x *SyncLatencyResponse) Reset() {
-	*x = SyncLatencyResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[23]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *SyncLatencyResponse) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *SyncLatencyResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *SyncLatencyResponse) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*SyncLatencyResponse) ProtoMessage() {}
+func (*SyncLatencyResponse) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *SyncLatencyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[23]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use SyncLatencyResponse.ProtoReflect.Descriptor instead.
 func (*SyncLatencyResponse) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{23}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (x *SyncLatencyResponse) GetTimeSeriesDataPoints() []*LatencyTimeSeriesDataPoint {
-	if x != nil {
-		return x.TimeSeriesDataPoints
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
@@ -1745,49 +954,30 @@ type LatencyTimeSeriesDataPoint struct {
 	LatencySeconds  *wrapperspb.DoubleValue `protobuf:"bytes,2,opt,name=latency_seconds,json=latency,proto3" json:"latency_seconds,omitempty"`
 }
 
-func (x *LatencyTimeSeriesDataPoint) Reset() {
-	*x = LatencyTimeSeriesDataPoint{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[24]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *LatencyTimeSeriesDataPoint) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *LatencyTimeSeriesDataPoint) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *LatencyTimeSeriesDataPoint) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*LatencyTimeSeriesDataPoint) ProtoMessage() {}
+func (*LatencyTimeSeriesDataPoint) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *LatencyTimeSeriesDataPoint) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[24]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use LatencyTimeSeriesDataPoint.ProtoReflect.Descriptor instead.
 func (*LatencyTimeSeriesDataPoint) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{24}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (x *LatencyTimeSeriesDataPoint) GetTimestampMillis() *wrapperspb.DoubleValue {
-	if x != nil {
-		return x.TimestampMillis
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (x *LatencyTimeSeriesDataPoint) GetLatencySeconds() *wrapperspb.DoubleValue {
-	if x != nil {
-		return x.LatencySeconds
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
@@ -1799,42 +989,25 @@ type GetDestinationNamespacesRequest struct {
 	DestinationId string `protobuf:"bytes,1,opt,name=destination_id,json=destinationId,proto3" json:"destination_id,omitempty"`
 }
 
-func (x *GetDestinationNamespacesRequest) Reset() {
-	*x = GetDestinationNamespacesRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[25]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *GetDestinationNamespacesRequest) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *GetDestinationNamespacesRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *GetDestinationNamespacesRequest) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*GetDestinationNamespacesRequest) ProtoMessage() {}
+func (*GetDestinationNamespacesRequest) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *GetDestinationNamespacesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[25]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use GetDestinationNamespacesRequest.ProtoReflect.Descriptor instead.
 func (*GetDestinationNamespacesRequest) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{25}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (x *GetDestinationNamespacesRequest) GetDestinationId() string {
-	if x != nil {
-		return x.DestinationId
-	}
+	_ = "STUB: not implemented"
 	return ""
 }
 
@@ -1846,42 +1019,25 @@ type GetDestinationNamespacesResponse struct {
 	NamespaceMappings []*NamespaceMapping `protobuf:"bytes,1,rep,name=namespace_mappings,json=namespaceMappings,proto3" json:"namespace_mappings,omitempty"`
 }
 
-func (x *GetDestinationNamespacesResponse) Reset() {
-	*x = GetDestinationNamespacesResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[26]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *GetDestinationNamespacesResponse) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *GetDestinationNamespacesResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *GetDestinationNamespacesResponse) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*GetDestinationNamespacesResponse) ProtoMessage() {}
+func (*GetDestinationNamespacesResponse) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *GetDestinationNamespacesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[26]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use GetDestinationNamespacesResponse.ProtoReflect.Descriptor instead.
 func (*GetDestinationNamespacesResponse) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{26}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (x *GetDestinationNamespacesResponse) GetNamespaceMappings() []*NamespaceMapping {
-	if x != nil {
-		return x.NamespaceMappings
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
@@ -1894,51 +1050,23 @@ type NamespaceMapping struct {
 	Namespace string `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
 }
 
-func (x *NamespaceMapping) Reset() {
-	*x = NamespaceMapping{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_warehouse_warehouse_proto_msgTypes[27]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *NamespaceMapping) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *NamespaceMapping) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *NamespaceMapping) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*NamespaceMapping) ProtoMessage() {}
+func (*NamespaceMapping) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *NamespaceMapping) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_warehouse_warehouse_proto_msgTypes[27]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use NamespaceMapping.ProtoReflect.Descriptor instead.
-func (*NamespaceMapping) Descriptor() ([]byte, []int) {
-	return file_proto_warehouse_warehouse_proto_rawDescGZIP(), []int{27}
-}
+func (*NamespaceMapping) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (x *NamespaceMapping) GetSourceId() string {
-	if x != nil {
-		return x.SourceId
-	}
-	return ""
-}
+func (x *NamespaceMapping) GetSourceId() string { _ = "STUB: not implemented"; return "" }
 
-func (x *NamespaceMapping) GetNamespace() string {
-	if x != nil {
-		return x.Namespace
-	}
-	return ""
-}
+func (x *NamespaceMapping) GetNamespace() string { _ = "STUB: not implemented"; return "" }
 
 var File_proto_warehouse_warehouse_proto protoreflect.FileDescriptor
 
@@ -2327,10 +1455,8 @@ var (
 )
 
 func file_proto_warehouse_warehouse_proto_rawDescGZIP() []byte {
-	file_proto_warehouse_warehouse_proto_rawDescOnce.Do(func() {
-		file_proto_warehouse_warehouse_proto_rawDescData = protoimpl.X.CompressGZIP(file_proto_warehouse_warehouse_proto_rawDescData)
-	})
-	return file_proto_warehouse_warehouse_proto_rawDescData
+	_ = "STUB: not implemented"
+	return nil
 }
 
 var file_proto_warehouse_warehouse_proto_msgTypes = make([]protoimpl.MessageInfo, 28)
@@ -2428,365 +1554,5 @@ var file_proto_warehouse_warehouse_proto_depIdxs = []int32{
 	0,  // [0:21] is the sub-list for field type_name
 }
 
-func init() { file_proto_warehouse_warehouse_proto_init() }
-func file_proto_warehouse_warehouse_proto_init() {
-	if File_proto_warehouse_warehouse_proto != nil {
-		return
-	}
-	if !protoimpl.UnsafeEnabled {
-		file_proto_warehouse_warehouse_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Pagination); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WHTable); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WHUploadsRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WHUploadsResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WHUploadRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WHUploadResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TriggerWhUploadsResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WHValidationRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WHValidationResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RetryWHUploadsRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RetryWHUploadsResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ValidateObjectStorageRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ValidateObjectStorageResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*FailedBatchInfo); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RetrieveFailedBatchesRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RetrieveFailedBatchesResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RetryFailedBatchesRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RetryFailedBatchesResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*FirstAbortedUploadInContinuousAbortsByDestinationRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SyncWHSchemaRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*FirstAbortedUploadResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*FirstAbortedUploadInContinuousAbortsByDestinationResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SyncLatencyRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SyncLatencyResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*LatencyTimeSeriesDataPoint); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetDestinationNamespacesRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetDestinationNamespacesResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_warehouse_warehouse_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*NamespaceMapping); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-	}
-	type x struct{}
-	out := protoimpl.TypeBuilder{
-		File: protoimpl.DescBuilder{
-			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_proto_warehouse_warehouse_proto_rawDesc,
-			NumEnums:      0,
-			NumMessages:   28,
-			NumExtensions: 0,
-			NumServices:   1,
-		},
-		GoTypes:           file_proto_warehouse_warehouse_proto_goTypes,
-		DependencyIndexes: file_proto_warehouse_warehouse_proto_depIdxs,
-		MessageInfos:      file_proto_warehouse_warehouse_proto_msgTypes,
-	}.Build()
-	File_proto_warehouse_warehouse_proto = out.File
-	file_proto_warehouse_warehouse_proto_rawDesc = nil
-	file_proto_warehouse_warehouse_proto_goTypes = nil
-	file_proto_warehouse_warehouse_proto_depIdxs = nil
-}
+func init()                                      { file_proto_warehouse_warehouse_proto_init() }
+func file_proto_warehouse_warehouse_proto_init() { _ = "STUB: not implemented"; return }

@@ -7,7 +7,6 @@ import (
 	"github.com/rudderlabs/rudder-go-kit/config"
 	"github.com/rudderlabs/rudder-go-kit/logger"
 
-	"github.com/rudderlabs/rudder-server/utils/misc"
 	"github.com/rudderlabs/rudder-server/warehouse/internal/model"
 	warehouseutils "github.com/rudderlabs/rudder-server/warehouse/utils"
 )
@@ -44,15 +43,9 @@ type SchemaRepository interface {
 	RefreshPartitions(ctx context.Context, tableName string, loadFiles []warehouseutils.LoadFile) error
 }
 
-func UseGlue(w *model.Warehouse) bool {
-	glueConfig := w.GetBoolDestinationConfig(model.UseGlueSetting)
-	hasAWSRegion := misc.HasAWSRegionInConfig(w.Destination.Config)
-	return glueConfig && hasAWSRegion
-}
+func UseGlue(w *model.Warehouse) bool { _ = "STUB: not implemented"; return false }
 
 func NewSchemaRepository(conf *config.Config, logger logger.Logger, wh model.Warehouse, uploader warehouseutils.Uploader) (SchemaRepository, error) {
-	if UseGlue(&wh) {
-		return NewGlueSchemaRepository(conf, logger, wh)
-	}
-	return NewLocalSchemaRepository(wh, uploader)
+	_ = "STUB: not implemented"
+	return *new(SchemaRepository), nil
 }

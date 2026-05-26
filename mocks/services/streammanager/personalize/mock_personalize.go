@@ -11,7 +11,6 @@ package mock_personalize
 
 import (
 	context "context"
-	reflect "reflect"
 
 	personalizeevents "github.com/aws/aws-sdk-go-v2/service/personalizeevents"
 	gomock "go.uber.org/mock/gomock"
@@ -31,72 +30,49 @@ type MockPersonalizeClientMockRecorder struct {
 
 // NewMockPersonalizeClient creates a new mock instance.
 func NewMockPersonalizeClient(ctrl *gomock.Controller) *MockPersonalizeClient {
-	mock := &MockPersonalizeClient{ctrl: ctrl}
-	mock.recorder = &MockPersonalizeClientMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockPersonalizeClient) EXPECT() *MockPersonalizeClientMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// PutEvents mocks base method.
+	return nil
 }
 
-// PutEvents mocks base method.
 func (m *MockPersonalizeClient) PutEvents(ctx context.Context, input *personalizeevents.PutEventsInput, opts ...func(*personalizeevents.Options)) (*personalizeevents.PutEventsOutput, error) {
-	m.ctrl.T.Helper()
-	varargs := []any{ctx, input}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "PutEvents", varargs...)
-	ret0, _ := ret[0].(*personalizeevents.PutEventsOutput)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // PutEvents indicates an expected call of PutEvents.
 func (mr *MockPersonalizeClientMockRecorder) PutEvents(ctx, input any, opts ...any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{ctx, input}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutEvents", reflect.TypeOf((*MockPersonalizeClient)(nil).PutEvents), varargs...)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // PutItems mocks base method.
 func (m *MockPersonalizeClient) PutItems(ctx context.Context, input *personalizeevents.PutItemsInput, opts ...func(*personalizeevents.Options)) (*personalizeevents.PutItemsOutput, error) {
-	m.ctrl.T.Helper()
-	varargs := []any{ctx, input}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "PutItems", varargs...)
-	ret0, _ := ret[0].(*personalizeevents.PutItemsOutput)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // PutItems indicates an expected call of PutItems.
 func (mr *MockPersonalizeClientMockRecorder) PutItems(ctx, input any, opts ...any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{ctx, input}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutItems", reflect.TypeOf((*MockPersonalizeClient)(nil).PutItems), varargs...)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // PutUsers mocks base method.
 func (m *MockPersonalizeClient) PutUsers(ctx context.Context, input *personalizeevents.PutUsersInput, opts ...func(*personalizeevents.Options)) (*personalizeevents.PutUsersOutput, error) {
-	m.ctrl.T.Helper()
-	varargs := []any{ctx, input}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "PutUsers", varargs...)
-	ret0, _ := ret[0].(*personalizeevents.PutUsersOutput)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // PutUsers indicates an expected call of PutUsers.
 func (mr *MockPersonalizeClientMockRecorder) PutUsers(ctx, input any, opts ...any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{ctx, input}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutUsers", reflect.TypeOf((*MockPersonalizeClient)(nil).PutUsers), varargs...)
+	_ = "STUB: not implemented"
+	return nil
 }

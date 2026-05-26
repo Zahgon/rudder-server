@@ -4,8 +4,6 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/rudderlabs/rudder-go-kit/testhelper/rand"
-
 	whUtil "github.com/rudderlabs/rudder-server/testhelper/webhook"
 )
 
@@ -18,39 +16,16 @@ type webhook struct {
 	name string
 }
 
-func (w *webhook) ID() string {
-	w.once.Do(func() {
-		w.id = rand.String(27)
-	})
-	return w.id
-}
+func (w *webhook) ID() string { _ = "STUB: not implemented"; return "" }
 
-func (w *webhook) Name() string {
-	return w.name
-}
+func (w *webhook) Name() string { _ = "STUB: not implemented"; return "" }
 
-func (w *webhook) TypeName() string {
-	return "WEBHOOK"
-}
+func (w *webhook) TypeName() string { _ = "STUB: not implemented"; return "" }
 
-func (w *webhook) Config() map[string]any {
-	return map[string]any{
-		"webhookUrl":    w.Recorder.Server.URL,
-		"webhookMethod": "POST",
-	}
-}
+func (w *webhook) Config() map[string]any { _ = "STUB: not implemented"; return nil }
 
-func (w *webhook) Start(t *testing.T) {
-	w.Recorder = whUtil.NewRecorder()
-	t.Cleanup(w.Recorder.Close)
+func (w *webhook) Start(t *testing.T) { _ = "STUB: not implemented"; return }
 
-	t.Logf("Webhook URL: %s", w.Recorder.Server.URL)
-}
+func (w *webhook) Shutdown(*testing.T) { _ = "STUB: not implemented"; return }
 
-func (w *webhook) Shutdown(*testing.T) {
-	w.Recorder.Close()
-}
-
-func (w *webhook) Count() int {
-	return w.Recorder.RequestsCount()
-}
+func (w *webhook) Count() int { _ = "STUB: not implemented"; return 0 }

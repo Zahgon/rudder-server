@@ -2,19 +2,15 @@ package forwarder
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"golang.org/x/sync/errgroup"
 
-	"github.com/rudderlabs/rudder-go-kit/bytesize"
 	"github.com/rudderlabs/rudder-go-kit/config"
 	"github.com/rudderlabs/rudder-go-kit/logger"
 	"github.com/rudderlabs/rudder-go-kit/stats"
-	obskit "github.com/rudderlabs/rudder-observability-kit/go/labels"
 
 	"github.com/rudderlabs/rudder-server/jobsdb"
-	"github.com/rudderlabs/rudder-server/utils/misc"
 )
 
 type BaseForwarder struct {
@@ -37,53 +33,26 @@ type BaseForwarder struct {
 
 // LoadMetaData loads the metadata required by the forwarders
 func (bf *BaseForwarder) LoadMetaData(terminalErrFn func(error), schemaDB jobsdb.JobsDB, log logger.Logger, config *config.Config, stat stats.Stats) {
-	bf.terminalErrFn = terminalErrFn
-	bf.log = log
-	bf.stat = stat
-	bf.jobsDB = schemaDB
-
-	bf.conf.pickupSize = config.GetIntVar(10000, 1, "SchemaForwarder.eventCount")
-	bf.conf.loopSleepTime = config.GetDurationVar(10, time.Second, "SchemaForwarder.loopSleepTime")
-	bf.conf.jobsDBQueryRequestTimeout = config.GetDurationVar(10, time.Second, "SchemaForwarder.queryTimeout")
-	bf.conf.jobsDBMaxRetries = config.GetIntVar(3, 1, "SchemaForwarder.maxRetries")
-	bf.conf.jobsDBPayloadSize = config.GetInt64Var(20*bytesize.MB, 1, "SchemaForwarder.payloadSize")
+	_ = "STUB: not implemented"
+	return
 }
 
 // GetJobs is an abstraction over the GetUnprocessed method of the jobsdb which includes retries
 func (bf *BaseForwarder) GetJobs(ctx context.Context) ([]*jobsdb.JobT, bool, error) {
-	unprocessed, err := misc.QueryWithRetriesAndNotify(ctx, bf.conf.jobsDBQueryRequestTimeout, bf.conf.jobsDBMaxRetries, func(ctx context.Context) (jobsdb.JobsResult, error) {
-		return bf.jobsDB.GetUnprocessed(ctx, jobsdb.GetQueryParams{
-			EventsLimit:      bf.conf.pickupSize,
-			JobsLimit:        bf.conf.pickupSize,
-			PayloadSizeLimit: bf.conf.jobsDBPayloadSize,
-		})
-	}, bf.sendQueryRetryStats)
-	if err != nil {
-		bf.log.Errorn("forwarder error while reading unprocessed from DB", obskit.Error(err))
-		return nil, false, err
-	}
-	return unprocessed.Jobs, unprocessed.LimitsReached, nil
+	_ = "STUB: not implemented"
+	return nil, false, nil
 }
 
 // MarkJobStatuses is an abstraction over the UpdateJobStatusInTx method of the jobsdb which includes retries
 func (bf *BaseForwarder) MarkJobStatuses(ctx context.Context, statusList []*jobsdb.JobStatusT) error {
-	err := misc.RetryWithNotify(ctx, bf.conf.jobsDBQueryRequestTimeout, bf.conf.jobsDBMaxRetries, func(ctx context.Context) error {
-		return bf.jobsDB.WithUpdateSafeTx(ctx, func(txn jobsdb.UpdateSafeTx) error {
-			return bf.jobsDB.UpdateJobStatusInTx(ctx, txn, statusList)
-		})
-	}, bf.sendQueryRetryStats)
-	return err
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // GetSleepTime returns the sleep time based on the limitReached flag
 func (bf *BaseForwarder) GetSleepTime(limitReached bool) time.Duration {
-	if limitReached {
-		return time.Duration(0)
-	}
-	return bf.conf.loopSleepTime
+	_ = "STUB: not implemented"
+	return *new(time.Duration)
 }
 
-func (bf *BaseForwarder) sendQueryRetryStats(attempt int) {
-	bf.log.Warnn("Timeout during query jobs in jobs forwarder", logger.NewIntField("attempt", int64(attempt)))
-	stats.Default.NewTaggedStat("jobsdb_query_timeout", stats.CountType, stats.Tags{"attempt": fmt.Sprint(attempt), "module": "jobs_forwarder"}).Count(1)
-}
+func (bf *BaseForwarder) sendQueryRetryStats(attempt int) { _ = "STUB: not implemented"; return }

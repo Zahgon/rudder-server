@@ -1,12 +1,7 @@
 package deployment
 
 import (
-	"errors"
-	"fmt"
-
-	"github.com/rudderlabs/rudder-go-kit/config"
 	"github.com/rudderlabs/rudder-go-kit/logger"
-	obskit "github.com/rudderlabs/rudder-observability-kit/go/labels"
 )
 
 type Type string // skipcq: RVV-B0009
@@ -26,50 +21,11 @@ const defaultClusterType = DedicatedType
 
 var pkgLogger = logger.NewLogger().Child("deployment")
 
-func GetFromEnv() (Type, error) {
-	t := Type(config.GetStringVar("", "DEPLOYMENT_TYPE"))
-	if t == "" {
-		t = defaultClusterType
-	}
-	if !t.Valid() {
-		return "", fmt.Errorf("invalid deployment type: %q", t)
-	}
+func GetFromEnv() (Type, error) { _ = "STUB: not implemented"; return *new(Type), nil }
 
-	return t, nil
-}
-
-func (t Type) Valid() bool {
-	if t == DedicatedType || t == MultiTenantType {
-		return true
-	}
-	return false
-}
+func (t Type) Valid() bool { _ = "STUB: not implemented"; return false }
 
 func GetConnectionToken() (string, string, bool, error) {
-	deploymentType, err := GetFromEnv()
-	if err != nil {
-		pkgLogger.Errorn("error getting deployment type", obskit.Error(err))
-		return "", "", false, err
-	}
-	var connectionToken, tokenType string
-	var isMultiWorkspace bool
-	switch deploymentType {
-	case DedicatedType:
-		connectionToken = config.GetWorkspaceToken()
-		tokenType = workspaceToken
-	case MultiTenantType:
-		isMultiWorkspace = true
-		tokenType = namespace
-		isNamespaced := config.IsSet("WORKSPACE_NAMESPACE")
-		if isNamespaced {
-			connectionToken = config.GetStringVar("", "WORKSPACE_NAMESPACE")
-		} else {
-			if !config.IsSet("HOSTED_SERVICE_SECRET") {
-				pkgLogger.Errorn("hosted service secret not set")
-				return "", "", false, errors.New("hosted service secret not set")
-			}
-			connectionToken = config.GetStringVar("", "HOSTED_SERVICE_SECRET")
-		}
-	}
-	return connectionToken, tokenType, isMultiWorkspace, nil
+	_ = "STUB: not implemented"
+	return "", "", false, nil
 }

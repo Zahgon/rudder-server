@@ -10,8 +10,6 @@
 package mocks
 
 import (
-	reflect "reflect"
-
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -29,38 +27,34 @@ type MockSourceDebuggerMockRecorder struct {
 
 // NewMockSourceDebugger creates a new mock instance.
 func NewMockSourceDebugger(ctrl *gomock.Controller) *MockSourceDebugger {
-	mock := &MockSourceDebugger{ctrl: ctrl}
-	mock.recorder = &MockSourceDebuggerMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockSourceDebugger) EXPECT() *MockSourceDebuggerMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// RecordEvent mocks base method.
+	return nil
 }
 
-// RecordEvent mocks base method.
 func (m *MockSourceDebugger) RecordEvent(writeKey string, eventBatch []byte) bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RecordEvent", writeKey, eventBatch)
-	ret0, _ := ret[0].(bool)
-	return ret0
+	_ = "STUB: not implemented"
+	return false
 }
 
 // RecordEvent indicates an expected call of RecordEvent.
 func (mr *MockSourceDebuggerMockRecorder) RecordEvent(writeKey, eventBatch any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RecordEvent", reflect.TypeOf((*MockSourceDebugger)(nil).RecordEvent), writeKey, eventBatch)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Stop mocks base method.
-func (m *MockSourceDebugger) Stop() {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Stop")
-}
+func (m *MockSourceDebugger) Stop() { _ = "STUB: not implemented"; return }
 
 // Stop indicates an expected call of Stop.
 func (mr *MockSourceDebuggerMockRecorder) Stop() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Stop", reflect.TypeOf((*MockSourceDebugger)(nil).Stop))
+	_ = "STUB: not implemented"
+	return nil
 }

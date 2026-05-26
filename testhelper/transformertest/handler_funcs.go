@@ -3,8 +3,6 @@ package transformertest
 import (
 	"net/http"
 
-	"github.com/rudderlabs/rudder-go-kit/jsonrs"
-
 	"github.com/rudderlabs/rudder-server/processor/integrations"
 	proctypes "github.com/rudderlabs/rudder-server/processor/types"
 	"github.com/rudderlabs/rudder-server/router/types"
@@ -50,35 +48,14 @@ var MirroringRouterTransformerHandler RouterTransformerHandler = func(request ty
 
 // ErrorTransformerHandler mirrors the request payload in the response but uses an error status code
 func ErrorTransformerHandler(code int, err string) TransformerHandler {
-	return func(request []proctypes.TransformerEvent) (response []proctypes.TransformerResponse) {
-		for i := range request {
-			req := request[i]
-			response = append(response, proctypes.TransformerResponse{
-				Metadata:   req.Metadata,
-				Output:     req.Message,
-				StatusCode: code,
-				Error:      err,
-			})
-		}
-		return response
-	}
+	_ = "STUB: not implemented"
+	return *new(TransformerHandler)
 }
 
 // ViolationErrorTransformerHandler mirrors the request payload in the response but uses an error status code along with the provided validation errors
 func ViolationErrorTransformerHandler(code int, err string, validationErrors []proctypes.ValidationError) TransformerHandler {
-	return func(request []proctypes.TransformerEvent) (response []proctypes.TransformerResponse) {
-		for i := range request {
-			req := request[i]
-			response = append(response, proctypes.TransformerResponse{
-				Metadata:         req.Metadata,
-				Output:           req.Message,
-				StatusCode:       code,
-				Error:            err,
-				ValidationErrors: validationErrors,
-			})
-		}
-		return response
-	}
+	_ = "STUB: not implemented"
+	return *new(TransformerHandler)
 }
 
 // EmptyTransformerHandler returns an empty response
@@ -88,55 +65,18 @@ var EmptyTransformerHandler TransformerHandler = func(request []proctypes.Transf
 
 // DestTransformerHandler returns an empty response
 func DestTransformerHandler(f func(event proctypes.TransformerEvent) integrations.PostParametersT) func(request []proctypes.TransformerEvent) []proctypes.TransformerResponse {
-	return func(request []proctypes.TransformerEvent) (res []proctypes.TransformerResponse) {
-		for _, req := range request {
-			postParameters := f(req)
-			jsonString, _ := jsonrs.Marshal(postParameters)
-			var output map[string]any
-			_ = jsonrs.Unmarshal(jsonString, &output)
-			res = append(res, proctypes.TransformerResponse{
-				Metadata:   req.Metadata,
-				Output:     output,
-				StatusCode: http.StatusOK,
-			})
-		}
-		return res
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // RESTJSONDestTransformerHandler transforms the request payload into a REST JSON destination request using the original message as the payload
 func RESTJSONDestTransformerHandler(method, url string) func(request []proctypes.TransformerEvent) []proctypes.TransformerResponse {
-	return DestTransformerHandler(func(event proctypes.TransformerEvent) integrations.PostParametersT {
-		return integrations.PostParametersT{
-			Type:          "REST",
-			URL:           url,
-			RequestMethod: method,
-			Body: map[string]any{
-				"JSON": event.Message,
-			},
-		}
-	})
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // WarehouseTransformerHandler mirrors the request payload in the response but uses an error, status code along with warehouse compatible output
 func WarehouseTransformerHandler(tableName string, code int, err string) TransformerHandler {
-	return func(request []proctypes.TransformerEvent) (response []proctypes.TransformerResponse) {
-		for i := range request {
-			req := request[i]
-			response = append(response, proctypes.TransformerResponse{
-				Metadata: req.Metadata,
-				Output: map[string]any{
-					"table": tableName,
-					"data":  req.Message,
-					"metadata": map[string]any{
-						"table":   tableName,
-						"columns": map[string]any{},
-					},
-				},
-				StatusCode: code,
-				Error:      err,
-			})
-		}
-		return response
-	}
+	_ = "STUB: not implemented"
+	return *new(TransformerHandler)
 }

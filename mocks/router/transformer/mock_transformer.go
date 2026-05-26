@@ -11,7 +11,6 @@ package mocks_transformer
 
 import (
 	context "context"
-	reflect "reflect"
 
 	transformer "github.com/rudderlabs/rudder-server/router/transformer"
 	types "github.com/rudderlabs/rudder-server/router/types"
@@ -32,40 +31,37 @@ type MockTransformerMockRecorder struct {
 
 // NewMockTransformer creates a new mock instance.
 func NewMockTransformer(ctrl *gomock.Controller) *MockTransformer {
-	mock := &MockTransformer{ctrl: ctrl}
-	mock.recorder = &MockTransformerMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockTransformer) EXPECT() *MockTransformerMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// ProxyRequest mocks base method.
+	return nil
 }
 
-// ProxyRequest mocks base method.
 func (m *MockTransformer) ProxyRequest(ctx context.Context, proxyReqParams *transformer.ProxyRequestParams) transformer.ProxyRequestResponse {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ProxyRequest", ctx, proxyReqParams)
-	ret0, _ := ret[0].(transformer.ProxyRequestResponse)
-	return ret0
+	_ = "STUB: not implemented"
+	return *new(transformer.ProxyRequestResponse)
 }
 
 // ProxyRequest indicates an expected call of ProxyRequest.
 func (mr *MockTransformerMockRecorder) ProxyRequest(ctx, proxyReqParams any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ProxyRequest", reflect.TypeOf((*MockTransformer)(nil).ProxyRequest), ctx, proxyReqParams)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Transform mocks base method.
 func (m *MockTransformer) Transform(transformType string, transformMessage *types.TransformMessageT) []types.DestinationJobT {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Transform", transformType, transformMessage)
-	ret0, _ := ret[0].([]types.DestinationJobT)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Transform indicates an expected call of Transform.
 func (mr *MockTransformerMockRecorder) Transform(transformType, transformMessage any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Transform", reflect.TypeOf((*MockTransformer)(nil).Transform), transformType, transformMessage)
+	_ = "STUB: not implemented"
+	return nil
 }

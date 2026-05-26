@@ -11,7 +11,6 @@ package service
 
 import (
 	context "context"
-	reflect "reflect"
 
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
 	model "github.com/rudderlabs/rudder-server/regulation-worker/internal/model"
@@ -32,43 +31,39 @@ type MockAPIClientMockRecorder struct {
 
 // NewMockAPIClient creates a new mock instance.
 func NewMockAPIClient(ctrl *gomock.Controller) *MockAPIClient {
-	mock := &MockAPIClient{ctrl: ctrl}
-	mock.recorder = &MockAPIClientMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockAPIClient) EXPECT() *MockAPIClientMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Get mocks base method.
+	return nil
 }
 
-// Get mocks base method.
 func (m *MockAPIClient) Get(ctx context.Context) (model.Job, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", ctx)
-	ret0, _ := ret[0].(model.Job)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return *new(model.Job), nil
 }
 
 // Get indicates an expected call of Get.
 func (mr *MockAPIClientMockRecorder) Get(ctx any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockAPIClient)(nil).Get), ctx)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // UpdateStatus mocks base method.
 func (m *MockAPIClient) UpdateStatus(ctx context.Context, status model.JobStatus, jobID int) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateStatus", ctx, status, jobID)
-	ret0, _ := ret[0].(error)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // UpdateStatus indicates an expected call of UpdateStatus.
 func (mr *MockAPIClientMockRecorder) UpdateStatus(ctx, status, jobID any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateStatus", reflect.TypeOf((*MockAPIClient)(nil).UpdateStatus), ctx, status, jobID)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Mockdest is a mock of dest interface.
@@ -84,30 +79,25 @@ type MockdestMockRecorder struct {
 }
 
 // NewMockdest creates a new mock instance.
-func NewMockdest(ctrl *gomock.Controller) *Mockdest {
-	mock := &Mockdest{ctrl: ctrl}
-	mock.recorder = &MockdestMockRecorder{mock}
-	return mock
-}
+func NewMockdest(ctrl *gomock.Controller) *Mockdest { _ = "STUB: not implemented"; return nil }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *Mockdest) EXPECT() *MockdestMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// GetDestination mocks base method.
+	return nil
 }
 
-// GetDestination mocks base method.
 func (m *Mockdest) GetDestination(destID string) (*backendconfig.DestinationT, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetDestination", destID)
-	ret0, _ := ret[0].(*backendconfig.DestinationT)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // GetDestination indicates an expected call of GetDestination.
 func (mr *MockdestMockRecorder) GetDestination(destID any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDestination", reflect.TypeOf((*Mockdest)(nil).GetDestination), destID)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Mockdeleter is a mock of deleter interface.
@@ -123,27 +113,23 @@ type MockdeleterMockRecorder struct {
 }
 
 // NewMockdeleter creates a new mock instance.
-func NewMockdeleter(ctrl *gomock.Controller) *Mockdeleter {
-	mock := &Mockdeleter{ctrl: ctrl}
-	mock.recorder = &MockdeleterMockRecorder{mock}
-	return mock
-}
+func NewMockdeleter(ctrl *gomock.Controller) *Mockdeleter { _ = "STUB: not implemented"; return nil }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *Mockdeleter) EXPECT() *MockdeleterMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Delete mocks base method.
+	return nil
 }
 
-// Delete mocks base method.
 func (m *Mockdeleter) Delete(ctx context.Context, job model.Job, dest *backendconfig.DestinationT) model.JobStatus {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delete", ctx, job, dest)
-	ret0, _ := ret[0].(model.JobStatus)
-	return ret0
+	_ = "STUB: not implemented"
+	return *new(model.JobStatus)
 }
 
 // Delete indicates an expected call of Delete.
 func (mr *MockdeleterMockRecorder) Delete(ctx, job, dest any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*Mockdeleter)(nil).Delete), ctx, job, dest)
+	_ = "STUB: not implemented"
+	return nil
 }

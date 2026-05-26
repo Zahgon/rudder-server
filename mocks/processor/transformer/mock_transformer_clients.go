@@ -10,8 +10,6 @@
 package mocks_transformer_clients
 
 import (
-	reflect "reflect"
-
 	transformer "github.com/rudderlabs/rudder-server/processor/transformer"
 	gomock "go.uber.org/mock/gomock"
 )
@@ -30,82 +28,73 @@ type MockTransformerClientsMockRecorder struct {
 
 // NewMockTransformerClients creates a new mock instance.
 func NewMockTransformerClients(ctrl *gomock.Controller) *MockTransformerClients {
-	mock := &MockTransformerClients{ctrl: ctrl}
-	mock.recorder = &MockTransformerClientsMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockTransformerClients) EXPECT() *MockTransformerClientsMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Destination mocks base method.
+	return nil
 }
 
-// Destination mocks base method.
 func (m *MockTransformerClients) Destination() transformer.DestinationClient {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Destination")
-	ret0, _ := ret[0].(transformer.DestinationClient)
-	return ret0
+	_ = "STUB: not implemented"
+	return *new(transformer.DestinationClient)
 }
 
 // Destination indicates an expected call of Destination.
 func (mr *MockTransformerClientsMockRecorder) Destination() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destination", reflect.TypeOf((*MockTransformerClients)(nil).Destination))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SrcHydration mocks base method.
 func (m *MockTransformerClients) SrcHydration() transformer.SrcHydrationClient {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SrcHydration")
-	ret0, _ := ret[0].(transformer.SrcHydrationClient)
-	return ret0
+	_ = "STUB: not implemented"
+	return *new(transformer.SrcHydrationClient)
 }
 
 // SrcHydration indicates an expected call of SrcHydration.
 func (mr *MockTransformerClientsMockRecorder) SrcHydration() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SrcHydration", reflect.TypeOf((*MockTransformerClients)(nil).SrcHydration))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // TrackingPlan mocks base method.
 func (m *MockTransformerClients) TrackingPlan() transformer.TrackingPlanClient {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "TrackingPlan")
-	ret0, _ := ret[0].(transformer.TrackingPlanClient)
-	return ret0
+	_ = "STUB: not implemented"
+	return *new(transformer.TrackingPlanClient)
 }
 
 // TrackingPlan indicates an expected call of TrackingPlan.
 func (mr *MockTransformerClientsMockRecorder) TrackingPlan() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TrackingPlan", reflect.TypeOf((*MockTransformerClients)(nil).TrackingPlan))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // User mocks base method.
 func (m *MockTransformerClients) User() transformer.UserClient {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "User")
-	ret0, _ := ret[0].(transformer.UserClient)
-	return ret0
+	_ = "STUB: not implemented"
+	return *new(transformer.UserClient)
 }
 
 // User indicates an expected call of User.
 func (mr *MockTransformerClientsMockRecorder) User() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "User", reflect.TypeOf((*MockTransformerClients)(nil).User))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // UserMirror mocks base method.
 func (m *MockTransformerClients) UserMirror() transformer.UserClient {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UserMirror")
-	ret0, _ := ret[0].(transformer.UserClient)
-	return ret0
+	_ = "STUB: not implemented"
+	return *new(transformer.UserClient)
 }
 
 // UserMirror indicates an expected call of UserMirror.
 func (mr *MockTransformerClientsMockRecorder) UserMirror() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UserMirror", reflect.TypeOf((*MockTransformerClients)(nil).UserMirror))
+	_ = "STUB: not implemented"
+	return nil
 }

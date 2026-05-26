@@ -3,11 +3,7 @@ package snowpipestreaming
 import (
 	"context"
 	"errors"
-	"fmt"
 
-	"github.com/rudderlabs/rudder-go-kit/logger"
-
-	internalapi "github.com/rudderlabs/rudder-server/router/batchrouter/asyncdestinationmanager/snowpipestreaming/internal/api"
 	"github.com/rudderlabs/rudder-server/router/batchrouter/asyncdestinationmanager/snowpipestreaming/internal/model"
 	"github.com/rudderlabs/rudder-server/warehouse/integrations/manager"
 	whutils "github.com/rudderlabs/rudder-server/warehouse/utils"
@@ -25,52 +21,18 @@ func (m *Manager) initializeChannelWithSchema(
 	tableName string,
 	eventSchema whutils.ModelTableSchema,
 ) (*model.ChannelResponse, error) {
-	channelResponse, err := m.createChannel(ctx, destinationID, destConf, tableName, eventSchema)
-	if err != nil {
-		return nil, fmt.Errorf("creating channel for table %s: %w", tableName, err)
-	}
-
-	columnInfos := findNewColumns(eventSchema, channelResponse.SnowpipeSchema)
-	if len(columnInfos) > 0 {
-		if err := m.addColumns(ctx, destConf.Namespace, tableName, columnInfos); err != nil {
-			return nil, fmt.Errorf("adding columns for table %s: %w", tableName, err)
-		}
-
-		channelResponse, err = m.recreateChannel(ctx, destinationID, destConf, tableName, eventSchema, channelResponse.ChannelID)
-		if err != nil {
-			return nil, fmt.Errorf("recreating channel for table %s: %w", tableName, err)
-		}
-	}
-	return channelResponse, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func findNewColumns(eventSchema, snowpipeSchema whutils.ModelTableSchema) []whutils.ColumnInfo {
-	var newColumns []whutils.ColumnInfo
-	for column, dataType := range eventSchema {
-		if _, exists := snowpipeSchema[column]; !exists {
-			newColumns = append(newColumns, whutils.ColumnInfo{
-				Name: column,
-				Type: dataType,
-			})
-		}
-	}
-	return newColumns
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // addColumns adds columns to a Snowflake table one at a time, as ALTER TABLE does not support IF NOT EXISTS with multiple columns.
 func (m *Manager) addColumns(ctx context.Context, namespace, tableName string, columns []whutils.ColumnInfo) error {
-	m.logger.Infon("Adding columns", logger.NewStringField("table", tableName))
-
-	snowflakeManager, err := m.createSnowflakeManager(ctx, namespace)
-	if err != nil {
-		return fmt.Errorf("creating snowflake manager: %w", err)
-	}
-	defer func() {
-		snowflakeManager.Cleanup(ctx)
-	}()
-	if err = snowflakeManager.AddColumns(ctx, tableName, columns); err != nil {
-		return fmt.Errorf("adding column: %w, %w", errAbort, err)
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
@@ -84,50 +46,8 @@ func (m *Manager) createChannel(
 	tableName string,
 	eventSchema whutils.ModelTableSchema,
 ) (*model.ChannelResponse, error) {
-	if response, ok := m.channelCache.Load(tableName); ok {
-		return response.(*model.ChannelResponse), nil
-	}
-
-	req := buildCreateChannelRequest(rudderIdentifier, m.config.instanceID, destConf, tableName)
-
-	resp, err := m.api.CreateChannel(ctx, req)
-	if err != nil {
-		return nil, fmt.Errorf("creating channel: %w", err)
-	}
-	if resp.Success {
-		m.channelCache.Store(tableName, resp)
-		return resp, nil
-	}
-
-	switch resp.Code {
-	case internalapi.ErrSchemaDoesNotExistOrNotAuthorized:
-		resp, err = m.handleSchemaError(ctx, req, eventSchema)
-		if err != nil {
-			return nil, fmt.Errorf("creating channel for schema error: %w", err)
-		}
-		if !resp.Success {
-			return nil, fmt.Errorf("creating channel for schema error with code %s, message: %s and error: %s", resp.Code, resp.SnowflakeAPIMessage, resp.Error)
-		}
-		m.channelCache.Store(tableName, resp)
-		return resp, nil
-	case internalapi.ErrTableDoesNotExistOrNotAuthorized:
-		resp, err = m.handleTableError(ctx, req, eventSchema)
-		if err != nil {
-			return nil, fmt.Errorf("creating channel for table error: %w", err)
-		}
-		if !resp.Success {
-			return nil, fmt.Errorf("creating channel for table error with code %s, message: %s and error: %s", resp.Code, resp.SnowflakeAPIMessage, resp.Error)
-		}
-		m.channelCache.Store(tableName, resp)
-		return resp, nil
-	case internalapi.ErrValidationError, internalapi.ErrAuthenticationFailed, internalapi.ErrRoleDoesNotExistOrNotAuthorized, internalapi.ErrDatabaseDoesNotExistOrNotAuthorized:
-		return nil, fmt.Errorf("%w: validation or authorization error", errAbort)
-	default:
-		if resp.SnowflakeAPIHttpCode == internalapi.ApiStatusUnsupportedColumn {
-			return nil, fmt.Errorf("%w: creating channel with code %s, message: %s and error: %s", errAbort, resp.Code, resp.SnowflakeAPIMessage, resp.Error)
-		}
-		return nil, fmt.Errorf("creating channel with code %s, message: %s and error: %s", resp.Code, resp.SnowflakeAPIMessage, resp.Error)
-	}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // handleSchemaError handles errors related to missing schemas.
@@ -137,25 +57,8 @@ func (m *Manager) handleSchemaError(
 	channelReq *model.CreateChannelRequest,
 	eventSchema whutils.ModelTableSchema,
 ) (*model.ChannelResponse, error) {
-	m.logger.Infon("Handling schema error",
-		logger.NewStringField("schema", channelReq.TableConfig.Schema),
-		logger.NewStringField("table", channelReq.TableConfig.Table),
-	)
-
-	snowflakeManager, err := m.createSnowflakeManager(ctx, channelReq.TableConfig.Schema)
-	if err != nil {
-		return nil, fmt.Errorf("creating snowflake manager: %w", err)
-	}
-	defer func() {
-		snowflakeManager.Cleanup(ctx)
-	}()
-	if err := snowflakeManager.CreateSchema(ctx); err != nil {
-		return nil, fmt.Errorf("creating schema: %w, %w", errAbort, err)
-	}
-	if err := snowflakeManager.CreateTable(ctx, channelReq.TableConfig.Table, eventSchema); err != nil {
-		return nil, fmt.Errorf("creating table: %w, %w", errAbort, err)
-	}
-	return m.api.CreateChannel(ctx, channelReq)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // handleTableError handles errors related to missing tables.
@@ -165,22 +68,8 @@ func (m *Manager) handleTableError(
 	channelReq *model.CreateChannelRequest,
 	eventSchema whutils.ModelTableSchema,
 ) (*model.ChannelResponse, error) {
-	m.logger.Infon("Handling table error",
-		logger.NewStringField("schema", channelReq.TableConfig.Schema),
-		logger.NewStringField("table", channelReq.TableConfig.Table),
-	)
-
-	snowflakeManager, err := m.createSnowflakeManager(ctx, channelReq.TableConfig.Schema)
-	if err != nil {
-		return nil, fmt.Errorf("creating snowflake manager: %w", err)
-	}
-	defer func() {
-		snowflakeManager.Cleanup(ctx)
-	}()
-	if err := snowflakeManager.CreateTable(ctx, channelReq.TableConfig.Table, eventSchema); err != nil {
-		return nil, fmt.Errorf("creating table: %w, %w", errAbort, err)
-	}
-	return m.api.CreateChannel(ctx, channelReq)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // recreateChannel deletes an existing channel and then creates a new one.
@@ -192,43 +81,20 @@ func (m *Manager) recreateChannel(
 	eventSchema whutils.ModelTableSchema,
 	existingChannelID string,
 ) (*model.ChannelResponse, error) {
-	m.logger.Infon("Recreating channel",
-		logger.NewStringField("destinationID", destinationID),
-		logger.NewStringField("tableName", tableName),
-	)
-
-	if err := m.deleteChannel(ctx, tableName, existingChannelID); err != nil {
-		return nil, fmt.Errorf("deleting channel: %w", err)
-	}
-
-	channelResponse, err := m.createChannel(ctx, destinationID, destConf, tableName, eventSchema)
-	if err != nil {
-		return nil, fmt.Errorf("recreating channel: %w", err)
-	}
-	return channelResponse, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // deleteChannel removes a channel from the cache and deletes it from the Snowpipe.
 func (m *Manager) deleteChannel(ctx context.Context, tableName, channelID string) error {
-	m.deleteChannelFromCache(tableName)
-	if err := m.api.DeleteChannel(ctx, channelID, true); err != nil {
-		return fmt.Errorf("deleting channel: %w", err)
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
 // deleteChannelFromCache removes a channel from the cache
-func (m *Manager) deleteChannelFromCache(tableName string) {
-	m.channelCache.Delete(tableName)
-}
+func (m *Manager) deleteChannelFromCache(tableName string) { _ = "STUB: not implemented"; return }
 
 func (m *Manager) createSnowflakeManager(ctx context.Context, namespace string) (manager.Manager, error) {
-	modelWarehouse := whutils.ModelWarehouse{
-		WorkspaceID: m.destination.WorkspaceID,
-		Destination: *m.destination,
-		Namespace:   namespace,
-		Type:        m.destination.DestinationDefinition.Name,
-		Identifier:  m.destination.WorkspaceID + ":" + m.destination.ID,
-	}
-	return m.managerCreator(ctx, modelWarehouse, m.appConfig, m.logger, m.statsFactory)
+	_ = "STUB: not implemented"
+	return *new(manager.Manager), nil
 }

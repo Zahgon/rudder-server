@@ -11,7 +11,6 @@ package mock_uploader
 
 import (
 	context "context"
-	reflect "reflect"
 
 	model "github.com/rudderlabs/rudder-server/warehouse/internal/model"
 	warehouseutils "github.com/rudderlabs/rudder-server/warehouse/utils"
@@ -31,185 +30,137 @@ type MockUploaderMockRecorder struct {
 }
 
 // NewMockUploader creates a new mock instance.
-func NewMockUploader(ctrl *gomock.Controller) *MockUploader {
-	mock := &MockUploader{ctrl: ctrl}
-	mock.recorder = &MockUploaderMockRecorder{mock}
-	return mock
-}
+func NewMockUploader(ctrl *gomock.Controller) *MockUploader { _ = "STUB: not implemented"; return nil }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockUploader) EXPECT() *MockUploaderMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// CanAppend mocks base method.
+	return nil
 }
 
-// CanAppend mocks base method.
-func (m *MockUploader) CanAppend() bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CanAppend")
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
+func (m *MockUploader) CanAppend() bool { _ = "STUB: not implemented"; return false }
 
 // CanAppend indicates an expected call of CanAppend.
-func (mr *MockUploaderMockRecorder) CanAppend() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CanAppend", reflect.TypeOf((*MockUploader)(nil).CanAppend))
-}
+func (mr *MockUploaderMockRecorder) CanAppend() *gomock.Call { _ = "STUB: not implemented"; return nil }
 
 // GetLoadFileType mocks base method.
-func (m *MockUploader) GetLoadFileType() string {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetLoadFileType")
-	ret0, _ := ret[0].(string)
-	return ret0
-}
+func (m *MockUploader) GetLoadFileType() string { _ = "STUB: not implemented"; return "" }
 
 // GetLoadFileType indicates an expected call of GetLoadFileType.
 func (mr *MockUploaderMockRecorder) GetLoadFileType() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLoadFileType", reflect.TypeOf((*MockUploader)(nil).GetLoadFileType))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // GetLoadFilesMetadata mocks base method.
 func (m *MockUploader) GetLoadFilesMetadata(ctx context.Context, options warehouseutils.GetLoadFilesOptions) ([]warehouseutils.LoadFile, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetLoadFilesMetadata", ctx, options)
-	ret0, _ := ret[0].([]warehouseutils.LoadFile)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // GetLoadFilesMetadata indicates an expected call of GetLoadFilesMetadata.
 func (mr *MockUploaderMockRecorder) GetLoadFilesMetadata(ctx, options any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLoadFilesMetadata", reflect.TypeOf((*MockUploader)(nil).GetLoadFilesMetadata), ctx, options)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // GetLocalSchema mocks base method.
 func (m *MockUploader) GetLocalSchema(ctx context.Context) (model.Schema, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetLocalSchema", ctx)
-	ret0, _ := ret[0].(model.Schema)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return *new(model.Schema), nil
 }
 
 // GetLocalSchema indicates an expected call of GetLocalSchema.
 func (mr *MockUploaderMockRecorder) GetLocalSchema(ctx any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLocalSchema", reflect.TypeOf((*MockUploader)(nil).GetLocalSchema), ctx)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // GetSampleLoadFileLocation mocks base method.
 func (m *MockUploader) GetSampleLoadFileLocation(ctx context.Context, tableName string) (string, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetSampleLoadFileLocation", ctx, tableName)
-	ret0, _ := ret[0].(string)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
 // GetSampleLoadFileLocation indicates an expected call of GetSampleLoadFileLocation.
 func (mr *MockUploaderMockRecorder) GetSampleLoadFileLocation(ctx, tableName any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSampleLoadFileLocation", reflect.TypeOf((*MockUploader)(nil).GetSampleLoadFileLocation), ctx, tableName)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // GetSingleLoadFile mocks base method.
 func (m *MockUploader) GetSingleLoadFile(ctx context.Context, tableName string) (warehouseutils.LoadFile, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetSingleLoadFile", ctx, tableName)
-	ret0, _ := ret[0].(warehouseutils.LoadFile)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return *new(warehouseutils.LoadFile), nil
 }
 
 // GetSingleLoadFile indicates an expected call of GetSingleLoadFile.
 func (mr *MockUploaderMockRecorder) GetSingleLoadFile(ctx, tableName any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSingleLoadFile", reflect.TypeOf((*MockUploader)(nil).GetSingleLoadFile), ctx, tableName)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // GetTableSchemaInUpload mocks base method.
 func (m *MockUploader) GetTableSchemaInUpload(tableName string) model.TableSchema {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetTableSchemaInUpload", tableName)
-	ret0, _ := ret[0].(model.TableSchema)
-	return ret0
+	_ = "STUB: not implemented"
+	return *new(model.TableSchema)
 }
 
 // GetTableSchemaInUpload indicates an expected call of GetTableSchemaInUpload.
 func (mr *MockUploaderMockRecorder) GetTableSchemaInUpload(tableName any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTableSchemaInUpload", reflect.TypeOf((*MockUploader)(nil).GetTableSchemaInUpload), tableName)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // GetTableSchemaInWarehouse mocks base method.
 func (m *MockUploader) GetTableSchemaInWarehouse(tableName string) model.TableSchema {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetTableSchemaInWarehouse", tableName)
-	ret0, _ := ret[0].(model.TableSchema)
-	return ret0
+	_ = "STUB: not implemented"
+	return *new(model.TableSchema)
 }
 
 // GetTableSchemaInWarehouse indicates an expected call of GetTableSchemaInWarehouse.
 func (mr *MockUploaderMockRecorder) GetTableSchemaInWarehouse(tableName any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTableSchemaInWarehouse", reflect.TypeOf((*MockUploader)(nil).GetTableSchemaInWarehouse), tableName)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // IsWarehouseSchemaEmpty mocks base method.
-func (m *MockUploader) IsWarehouseSchemaEmpty() bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "IsWarehouseSchemaEmpty")
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
+func (m *MockUploader) IsWarehouseSchemaEmpty() bool { _ = "STUB: not implemented"; return false }
 
 // IsWarehouseSchemaEmpty indicates an expected call of IsWarehouseSchemaEmpty.
 func (mr *MockUploaderMockRecorder) IsWarehouseSchemaEmpty() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IsWarehouseSchemaEmpty", reflect.TypeOf((*MockUploader)(nil).IsWarehouseSchemaEmpty))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // ShouldOnDedupUseNewRecord mocks base method.
-func (m *MockUploader) ShouldOnDedupUseNewRecord() bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ShouldOnDedupUseNewRecord")
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
+func (m *MockUploader) ShouldOnDedupUseNewRecord() bool { _ = "STUB: not implemented"; return false }
 
 // ShouldOnDedupUseNewRecord indicates an expected call of ShouldOnDedupUseNewRecord.
 func (mr *MockUploaderMockRecorder) ShouldOnDedupUseNewRecord() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ShouldOnDedupUseNewRecord", reflect.TypeOf((*MockUploader)(nil).ShouldOnDedupUseNewRecord))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // UpdateLocalSchema mocks base method.
 func (m *MockUploader) UpdateLocalSchema(ctx context.Context, schema model.Schema) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateLocalSchema", ctx, schema)
-	ret0, _ := ret[0].(error)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // UpdateLocalSchema indicates an expected call of UpdateLocalSchema.
 func (mr *MockUploaderMockRecorder) UpdateLocalSchema(ctx, schema any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateLocalSchema", reflect.TypeOf((*MockUploader)(nil).UpdateLocalSchema), ctx, schema)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // UseRudderStorage mocks base method.
-func (m *MockUploader) UseRudderStorage() bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UseRudderStorage")
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
+func (m *MockUploader) UseRudderStorage() bool { _ = "STUB: not implemented"; return false }
 
 // UseRudderStorage indicates an expected call of UseRudderStorage.
 func (mr *MockUploaderMockRecorder) UseRudderStorage() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UseRudderStorage", reflect.TypeOf((*MockUploader)(nil).UseRudderStorage))
+	_ = "STUB: not implemented"
+	return nil
 }

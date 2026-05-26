@@ -15,17 +15,10 @@ type ExponentialNumber[T Number] struct {
 
 // Reset resets the number to zero.
 func (expo *ExponentialNumber[T]) Reset() {
-	expo.value = 0
+	_ = "STUB: not implemented"
+
+	// Next returns the next number, which is the previous one multiplied by 2, always abiding by the min and max provided.
+	return
 }
 
-// Next returns the next number, which is the previous one multiplied by 2, always abiding by the min and max provided.
-func (expo *ExponentialNumber[T]) Next(min, max T) T {
-	expo.value *= 2
-	if expo.value > max {
-		expo.value = max
-	}
-	if expo.value < min {
-		expo.value = min
-	}
-	return expo.value
-}
+func (expo *ExponentialNumber[T]) Next(min, max T) T { _ = "STUB: not implemented"; return *new(T) }

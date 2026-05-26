@@ -33,23 +33,26 @@ type Io struct{}
 
 // NewIo returns an Io instance
 func NewIo() IoI {
-	return &Io{}
+	_ = "STUB: not implemented"
+
+	// Copy copies from src to dst until either EOF is reached
+	// on src or an error occurs. It returns the number of bytes
+	// copied and the first error encountered while copying, if any.
+	//
+	// A successful Copy returns err == nil, not err == EOF.
+	// Because Copy is defined to read from src until EOF, it does
+	// not treat an EOF from Read as an error to be reported.
+	//
+	// If src implements the WriterTo interface,
+	// the copy is implemented by calling src.WriteTo(dst).
+	// Otherwise, if dst implements the ReaderFrom interface,
+	// the copy is implemented by calling dst.ReadFrom(src).
+	return *new(IoI)
 }
 
-// Copy copies from src to dst until either EOF is reached
-// on src or an error occurs. It returns the number of bytes
-// copied and the first error encountered while copying, if any.
-//
-// A successful Copy returns err == nil, not err == EOF.
-// Because Copy is defined to read from src until EOF, it does
-// not treat an EOF from Read as an error to be reported.
-//
-// If src implements the WriterTo interface,
-// the copy is implemented by calling src.WriteTo(dst).
-// Otherwise, if dst implements the ReaderFrom interface,
-// the copy is implemented by calling dst.ReadFrom(src).
 func (*Io) Copy(dst io.Writer, src io.Reader) (written int64, err error) {
-	return io.Copy(dst, src)
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 type IoUtilI interface {
@@ -63,22 +66,27 @@ type IoUtil struct{}
 
 // NewIo returns an Io instance
 func NewIoUtil() IoUtilI {
-	return &IoUtil{}
+	_ = "STUB: not implemented"
+
+	// ReadFile reads the file named by filename and returns the contents.
+	// A successful call returns err == nil, not err == EOF. Because ReadFile
+	// reads the whole file, it does not treat an EOF from Read as an error
+	// to be reported.
+	return *new(IoUtilI)
 }
 
-// ReadFile reads the file named by filename and returns the contents.
-// A successful call returns err == nil, not err == EOF. Because ReadFile
-// reads the whole file, it does not treat an EOF from Read as an error
-// to be reported.
 func (*IoUtil) ReadFile(filename string) ([]byte, error) {
-	return os.ReadFile(filename)
+	_ = "STUB: not implemented"
+	return nil, nil
+
+	// WriteFile writes data to a file named by filename.
+	// If the file does not exist, WriteFile creates it with permissions perm
+	// (before umask); otherwise WriteFile truncates it before writing.
 }
 
-// WriteFile writes data to a file named by filename.
-// If the file does not exist, WriteFile creates it with permissions perm
-// (before umask); otherwise WriteFile truncates it before writing.
 func (*IoUtil) WriteFile(filename string, data []byte, perm os.FileMode) error {
-	return os.WriteFile(filename, data, perm)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // ReadAll reads from r until an error or EOF and returns the data it read.
@@ -86,11 +94,15 @@ func (*IoUtil) WriteFile(filename string, data []byte, perm os.FileMode) error {
 // defined to read from src until EOF, it does not treat an EOF from Read
 // as an error to be reported.
 func (*IoUtil) ReadAll(r io.Reader) ([]byte, error) {
-	return io.ReadAll(r)
+	_ = "STUB: not implemented"
+	return nil,
+
+		// NopCloser returns a ReadCloser with a no-op Close method wrapping
+		// the provided Reader r.
+		nil
 }
 
-// NopCloser returns a ReadCloser with a no-op Close method wrapping
-// the provided Reader r.
 func (*IoUtil) NopCloser(r io.Reader) io.ReadCloser {
-	return io.NopCloser(r)
+	_ = "STUB: not implemented"
+	return *new(io.ReadCloser)
 }

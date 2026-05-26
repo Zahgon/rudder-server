@@ -5,8 +5,6 @@
 package mocks
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/golang/mock/gomock"
 	marketobulkupload "github.com/rudderlabs/rudder-server/router/batchrouter/asyncdestinationmanager/marketo-bulk-upload"
 )
@@ -24,57 +22,49 @@ type MockMarketoAPIServiceInterfaceMockRecorder struct {
 
 // NewMockMarketoAPIServiceInterface creates a new mock instance.
 func NewMockMarketoAPIServiceInterface(ctrl *gomock.Controller) *MockMarketoAPIServiceInterface {
-	mock := &MockMarketoAPIServiceInterface{ctrl: ctrl}
-	mock.recorder = &MockMarketoAPIServiceInterfaceMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockMarketoAPIServiceInterface) EXPECT() *MockMarketoAPIServiceInterfaceMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// GetLeadStatus mocks base method.
+	return nil
 }
 
-// GetLeadStatus mocks base method.
 func (m *MockMarketoAPIServiceInterface) GetLeadStatus(arg0 string) ([]map[string]string, *marketobulkupload.APIError) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetLeadStatus", arg0)
-	ret0, _ := ret[0].([]map[string]string)
-	ret1, _ := ret[1].(*marketobulkupload.APIError)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // GetLeadStatus indicates an expected call of GetLeadStatus.
 func (mr *MockMarketoAPIServiceInterfaceMockRecorder) GetLeadStatus(arg0 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLeadStatus", reflect.TypeOf((*MockMarketoAPIServiceInterface)(nil).GetLeadStatus), arg0)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // ImportLeads mocks base method.
 func (m *MockMarketoAPIServiceInterface) ImportLeads(arg0, arg1 string) (string, *marketobulkupload.APIError) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ImportLeads", arg0, arg1)
-	ret0, _ := ret[0].(string)
-	ret1, _ := ret[1].(*marketobulkupload.APIError)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
 // ImportLeads indicates an expected call of ImportLeads.
 func (mr *MockMarketoAPIServiceInterfaceMockRecorder) ImportLeads(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ImportLeads", reflect.TypeOf((*MockMarketoAPIServiceInterface)(nil).ImportLeads), arg0, arg1)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // PollImportStatus mocks base method.
 func (m *MockMarketoAPIServiceInterface) PollImportStatus(arg0 string) (*marketobulkupload.MarketoResponse, *marketobulkupload.APIError) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PollImportStatus", arg0)
-	ret0, _ := ret[0].(*marketobulkupload.MarketoResponse)
-	ret1, _ := ret[1].(*marketobulkupload.APIError)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // PollImportStatus indicates an expected call of PollImportStatus.
 func (mr *MockMarketoAPIServiceInterfaceMockRecorder) PollImportStatus(arg0 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PollImportStatus", reflect.TypeOf((*MockMarketoAPIServiceInterface)(nil).PollImportStatus), arg0)
+	_ = "STUB: not implemented"
+	return nil
 }

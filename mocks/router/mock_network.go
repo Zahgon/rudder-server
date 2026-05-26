@@ -11,7 +11,6 @@ package mock_network
 
 import (
 	context "context"
-	reflect "reflect"
 
 	integrations "github.com/rudderlabs/rudder-server/processor/integrations"
 	utils "github.com/rudderlabs/rudder-server/router/utils"
@@ -32,26 +31,25 @@ type MockNetHandleMockRecorder struct {
 
 // NewMockNetHandle creates a new mock instance.
 func NewMockNetHandle(ctrl *gomock.Controller) *MockNetHandle {
-	mock := &MockNetHandle{ctrl: ctrl}
-	mock.recorder = &MockNetHandleMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockNetHandle) EXPECT() *MockNetHandleMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// SendPost mocks base method.
+	return nil
 }
 
-// SendPost mocks base method.
 func (m *MockNetHandle) SendPost(ctx context.Context, structData integrations.PostParametersT) *utils.SendPostResponse {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SendPost", ctx, structData)
-	ret0, _ := ret[0].(*utils.SendPostResponse)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SendPost indicates an expected call of SendPost.
 func (mr *MockNetHandleMockRecorder) SendPost(ctx, structData any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendPost", reflect.TypeOf((*MockNetHandle)(nil).SendPost), ctx, structData)
+	_ = "STUB: not implemented"
+	return nil
 }

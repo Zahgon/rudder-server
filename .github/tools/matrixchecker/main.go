@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"os"
-	"path/filepath"
 	"slices"
 
 	"gopkg.in/yaml.v3"
@@ -80,16 +79,4 @@ func main() {
 }
 
 // getSubfolders returns a list of subfolders in the specified directory.
-func getSubfolders(dir string) ([]string, error) {
-	var folders []string
-	entries, err := os.ReadDir(dir)
-	if err != nil {
-		return nil, err
-	}
-	for _, entry := range entries {
-		if entry.IsDir() {
-			folders = append(folders, filepath.Join(dir, entry.Name()))
-		}
-	}
-	return folders, nil
-}
+func getSubfolders(dir string) ([]string, error) { _ = "STUB: not implemented"; return nil, nil }

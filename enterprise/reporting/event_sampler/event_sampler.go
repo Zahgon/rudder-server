@@ -33,19 +33,6 @@ func NewEventSampler(
 	log logger.Logger,
 	stats stats.Stats,
 ) (es EventSampler, err error) {
-	switch eventSamplerType.Load() {
-	case BadgerTypeEventSampler:
-		es, err = NewBadgerEventSampler(ctx, module, ttl, conf, log, stats)
-	case InMemoryCacheTypeEventSampler:
-		es, err = NewInMemoryCacheEventSampler(ctx, module, ttl, eventSamplingCardinality, stats)
-	default:
-		log.Warnn("invalid event sampler type. Using default badger event sampler",
-			logger.NewStringField("eventSamplerType", eventSamplerType.Load()))
-		es, err = NewBadgerEventSampler(ctx, module, ttl, conf, log, stats)
-	}
-
-	if err != nil {
-		return nil, err
-	}
-	return es, nil
+	_ = "STUB: not implemented"
+	return *new(EventSampler), nil
 }

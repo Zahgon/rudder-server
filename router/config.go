@@ -5,26 +5,23 @@ import (
 )
 
 func getRouterConfigBool(key, destType string, defaultValue bool) bool {
-	return config.GetBoolVar(defaultValue, getRouterConfigKeys(key, destType)...)
+	_ = "STUB: not implemented"
+	return false
 }
 
 func getRouterConfigInt(key, destType string, defaultValue int) int {
-	return config.GetIntVar(defaultValue, 1, getRouterConfigKeys(key, destType)...)
+	_ = "STUB: not implemented"
+	return 0
 }
 
 func getHierarchicalRouterConfigInt(destType string, defaultValue int, keys ...string) int {
-	orderedKeys := make([]string, 0, len(keys)*2)
-	for i := range keys {
-		orderedKeys = append(orderedKeys, "Router."+destType+"."+keys[i])
-		orderedKeys = append(orderedKeys, "Router."+keys[i])
-	}
-	return config.GetIntVar(defaultValue, 1, orderedKeys...)
+	_ = "STUB: not implemented"
+	return 0
 }
 
 func getReloadableRouterConfigInt(key, destType string, defaultValue int) config.ValueLoader[int] {
-	return config.GetReloadableIntVar(defaultValue, 1, getRouterConfigKeys(key, destType)...)
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func getRouterConfigKeys(key, destType string) []string {
-	return []string{"Router." + destType + "." + key, "Router." + key}
-}
+func getRouterConfigKeys(key, destType string) []string { _ = "STUB: not implemented"; return nil }

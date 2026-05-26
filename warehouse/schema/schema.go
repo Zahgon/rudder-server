@@ -2,27 +2,15 @@ package schema
 
 import (
 	"context"
-	"fmt"
-	"maps"
-	"math"
-	"reflect"
 	"regexp"
-	"slices"
 	"sync"
 	"time"
 
-	"github.com/samber/lo"
-
 	"github.com/rudderlabs/rudder-go-kit/config"
-	"github.com/rudderlabs/rudder-go-kit/jsonrs"
 	"github.com/rudderlabs/rudder-go-kit/logger"
 	"github.com/rudderlabs/rudder-go-kit/stats"
-	obskit "github.com/rudderlabs/rudder-observability-kit/go/labels"
 
-	"github.com/rudderlabs/rudder-server/utils/timeutil"
 	"github.com/rudderlabs/rudder-server/warehouse/internal/model"
-	"github.com/rudderlabs/rudder-server/warehouse/internal/repo"
-	"github.com/rudderlabs/rudder-server/warehouse/logfield"
 	whutils "github.com/rudderlabs/rudder-server/warehouse/utils"
 )
 
@@ -94,163 +82,58 @@ func New(
 	schemaRepo schemaRepo,
 	stagingFileRepo stagingFileRepo,
 ) (Handler, error) {
-	ttlInMinutes := conf.GetDurationVar(720, time.Minute, "Warehouse.schemaTTLInMinutes")
-	sh := &schema{
-		warehouse:                        warehouse,
-		log:                              slogger.Child("schema"),
-		ttlInMinutes:                     ttlInMinutes,
-		schemaRepo:                       schemaRepo,
-		stagingFilesSchemaPaginationSize: conf.GetIntVar(100, 1, "Warehouse.stagingFilesSchemaPaginationSize"),
-		stagingFileRepo:                  stagingFileRepo,
-		fetchSchemaRepo:                  fetchSchemaRepo,
-		enableIDResolution:               conf.GetBoolVar(false, "Warehouse.enableIDResolution"),
-		now:                              timeutil.Now,
-	}
-	sh.stats.schemaSize = statsFactory.NewTaggedStat("warehouse_schema_size", stats.HistogramType, stats.Tags{
-		"module":        "warehouse",
-		"workspaceId":   sh.warehouse.WorkspaceID,
-		"sourceId":      sh.warehouse.Source.ID,
-		"sourceType":    sh.warehouse.Source.SourceDefinition.Name,
-		"destinationId": sh.warehouse.Destination.ID,
-		"destType":      sh.warehouse.Destination.DestinationDefinition.Name,
-	})
-	// cachedSchema can be computed in the constructor
-	// we need not worry about it getting expired in the middle of the job
-	// since we need the schema to be the same for the entireduration of the job
-	whSchema, err := sh.schemaRepo.GetForNamespace(
-		ctx,
-		sh.warehouse.Destination.ID,
-		sh.warehouse.Namespace,
-	)
-	if err != nil {
-		return nil, fmt.Errorf("getting schema for namespace: %w", err)
-	}
-	if whSchema.Schema == nil {
-		// No schema found in DB, try fetching from warehouse
-		err := sh.fetchSchemaFromWarehouse(ctx)
-		if err != nil {
-			return nil, fmt.Errorf("fetching schema from warehouse: %w", err)
-		}
-		return sh, nil
-	}
-	if whSchema.ExpiresAt.After(sh.now()) {
-		sh.cachedSchema = whSchema.Schema
-		sh.cachedSchemaExpiresAt = whSchema.ExpiresAt
-		return sh, nil
-	}
-	sh.log.Infon("Schema expired", obskit.DestinationID(sh.warehouse.Destination.ID), obskit.Namespace(sh.warehouse.Namespace), logger.NewTimeField("expiresAt", whSchema.ExpiresAt))
-	return sh, sh.fetchSchemaFromWarehouse(ctx)
+	_ = "STUB: not implemented"
+	return *new(Handler), nil
 }
 
-func (sh *schema) fetchSchemaFromWarehouse(ctx context.Context) error {
-	start := sh.now()
-	warehouseSchema, err := sh.fetchSchemaRepo.FetchSchema(ctx)
-	if err != nil {
-		return fmt.Errorf("fetching schema: %w", err)
-	}
-	duration := math.Round((sh.now().Sub(start).Minutes() * 1000)) / 1000
-	sh.log.Infon("Fetched schema from warehouse", obskit.DestinationID(sh.warehouse.Destination.ID), obskit.Namespace(sh.warehouse.Type), logger.NewFloatField("timeTakenInMinutes", duration))
-	removeDeprecatedColumns(warehouseSchema, sh.warehouse, sh.log)
+// cachedSchema can be computed in the constructor
+// we need not worry about it getting expired in the middle of the job
+// since we need the schema to be the same for the entireduration of the job
 
-	expiresAt := sh.now().Add(sh.ttlInMinutes)
-	err = sh.saveSchema(ctx, warehouseSchema, expiresAt)
-	if err != nil {
-		return fmt.Errorf("saving schema: %w", err)
-	}
-	sh.cachedSchema = warehouseSchema
-	sh.cachedSchemaExpiresAt = expiresAt
+// No schema found in DB, try fetching from warehouse
+
+func (sh *schema) fetchSchemaFromWarehouse(ctx context.Context) error {
+	_ = "STUB: not implemented"
 	return nil
 }
 
-func (sh *schema) IsSchemaEmpty(ctx context.Context) bool {
-	sh.cachedSchemaMu.RLock()
-	defer sh.cachedSchemaMu.RUnlock()
-	return len(sh.cachedSchema) == 0
-}
+func (sh *schema) IsSchemaEmpty(ctx context.Context) bool { _ = "STUB: not implemented"; return false }
 
 func (sh *schema) GetTableSchema(ctx context.Context, tableName string) model.TableSchema {
-	sh.cachedSchemaMu.RLock()
-	defer sh.cachedSchemaMu.RUnlock()
-	return sh.cachedSchema[tableName]
+	_ = "STUB: not implemented"
+	return *new(model.TableSchema)
 }
 
 func (sh *schema) UpdateSchema(ctx context.Context, updatedSchema model.Schema) error {
-	sh.cachedSchemaMu.Lock()
-	defer sh.cachedSchemaMu.Unlock()
-	err := sh.saveSchema(ctx, updatedSchema, sh.cachedSchemaExpiresAt)
-	if err != nil {
-		return fmt.Errorf("saving schema: %w", err)
-	}
-	sh.cachedSchema = updatedSchema
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (sh *schema) UpdateTableSchema(ctx context.Context, tableName string, tableSchema model.TableSchema) error {
-	sh.cachedSchemaMu.Lock()
-	defer sh.cachedSchemaMu.Unlock()
-	sh.cachedSchema[tableName] = tableSchema
-	err := sh.saveSchema(ctx, sh.cachedSchema, sh.cachedSchemaExpiresAt)
-	if err != nil {
-		return fmt.Errorf("saving schema: %w", err)
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (sh *schema) GetColumnsCount(ctx context.Context, tableName string) (int, error) {
-	sh.cachedSchemaMu.RLock()
-	defer sh.cachedSchemaMu.RUnlock()
-	return len(sh.cachedSchema[tableName]), nil
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 func (sh *schema) ConsolidateStagingFilesSchema(ctx context.Context, stagingFiles []*model.StagingFile) (model.Schema, error) {
-	consolidatedSchema := model.Schema{}
-	batches := lo.Chunk(stagingFiles, sh.stagingFilesSchemaPaginationSize)
-	for _, batch := range batches {
-		schemas, err := sh.stagingFileRepo.GetSchemasByIDs(ctx, repo.StagingFileIDs(batch))
-		if err != nil {
-			return nil, fmt.Errorf("getting staging files schema: %v", err)
-		}
-
-		consolidatedSchema = consolidateStagingSchemas(consolidatedSchema, schemas)
-	}
-	sh.cachedSchemaMu.RLock()
-	defer sh.cachedSchemaMu.RUnlock()
-	consolidatedSchema = consolidateWarehouseSchema(consolidatedSchema, sh.cachedSchema)
-	consolidatedSchema = overrideUsersWithIdentifiesSchema(consolidatedSchema, sh.warehouse.Type, sh.cachedSchema)
-	consolidatedSchema = enhanceDiscardsSchema(consolidatedSchema, sh.warehouse.Type)
-	consolidatedSchema = enhanceSchemaWithIDResolution(consolidatedSchema, sh.isIDResolutionEnabled(), sh.warehouse.Type)
-
-	return consolidatedSchema, nil
+	_ = "STUB: not implemented"
+	return *new(model.Schema), nil
 }
 
 func (sh *schema) IsSchemaOutdated(ctx context.Context) (bool, error) {
-	sh.cachedSchemaMu.RLock()
-	original := make(model.Schema, len(sh.cachedSchema))
-	for k, v := range sh.cachedSchema {
-		cols := make(model.TableSchema, len(v))
-		maps.Copy(cols, v)
-		original[k] = cols
-	}
-	sh.cachedSchemaMu.RUnlock()
-
-	if err := sh.fetchSchemaFromWarehouse(ctx); err != nil {
-		return false, fmt.Errorf("fetching schema from warehouse for comparison: %w", err)
-	}
-
-	sh.cachedSchemaMu.RLock()
-	outdated := !reflect.DeepEqual(original, sh.cachedSchema)
-	sh.cachedSchemaMu.RUnlock()
-	return outdated, nil
+	_ = "STUB: not implemented"
+	return false, nil
 }
 
-func (sh *schema) isIDResolutionEnabled() bool {
-	return sh.enableIDResolution && slices.Contains(whutils.IdentityEnabledWarehouses, sh.warehouse.Type)
-}
+func (sh *schema) isIDResolutionEnabled() bool { _ = "STUB: not implemented"; return false }
 
 func (sh *schema) TableSchemaDiff(ctx context.Context, tableName string, tableSchema model.TableSchema) (whutils.TableSchemaDiff, error) {
-	sh.cachedSchemaMu.RLock()
-	defer sh.cachedSchemaMu.RUnlock()
-	return tableSchemaDiff(tableName, sh.cachedSchema, tableSchema), nil
+	_ = "STUB: not implemented"
+	return *new(whutils.TableSchemaDiff), nil
 }
 
 /*
@@ -266,205 +149,51 @@ Warehouse fetch:
 	Only when saving a schema as a result of a successful warehouse fetch should an updated expiresAt be passed (i.e., to extend the expiry).
 */
 func (sh *schema) saveSchema(ctx context.Context, updatedSchema model.Schema, expiresAt time.Time) error {
-	updatedSchemaInBytes, err := jsonrs.Marshal(updatedSchema)
-	if err != nil {
-		return fmt.Errorf("marshaling schema: %w", err)
-	}
-	sh.stats.schemaSize.Observe(float64(len(updatedSchemaInBytes)))
-
-	err = sh.schemaRepo.Insert(ctx,
-		&model.WHSchema{
-			SourceID:        sh.warehouse.Source.ID,
-			Namespace:       sh.warehouse.Namespace,
-			DestinationID:   sh.warehouse.Destination.ID,
-			DestinationType: sh.warehouse.Type,
-			Schema:          updatedSchema,
-			ExpiresAt:       expiresAt,
-		},
-	)
-	if err != nil {
-		return fmt.Errorf("inserting schema: %w", err)
-	}
-	sh.log.Infon("Saved schema", obskit.DestinationID(sh.warehouse.Destination.ID), obskit.Namespace(sh.warehouse.Namespace))
+	_ = "STUB: not implemented"
 	return nil
 }
 
 // consolidateStagingSchemas merges multiple schemas into one
 // Prefer the type of the first schema, If the type is text, prefer text
 func consolidateStagingSchemas(consolidatedSchema model.Schema, schemas []model.Schema) model.Schema {
-	for _, schema := range schemas {
-		for tableName, columnMap := range schema {
-			if _, ok := consolidatedSchema[tableName]; !ok {
-				consolidatedSchema[tableName] = model.TableSchema{}
-			}
-			for columnName, columnType := range columnMap {
-				if columnType == model.TextDataType {
-					consolidatedSchema[tableName][columnName] = model.TextDataType
-					continue
-				}
-
-				if _, ok := consolidatedSchema[tableName][columnName]; !ok {
-					consolidatedSchema[tableName][columnName] = columnType
-				}
-			}
-		}
-	}
-	return consolidatedSchema
+	_ = "STUB: not implemented"
+	return *new(model.Schema)
 }
 
 // consolidateWarehouseSchema overwrites the consolidatedSchema with the schemaInWarehouse
 // Prefer the type of the schemaInWarehouse, If the type is text, prefer text
 func consolidateWarehouseSchema(consolidatedSchema, warehouseSchema model.Schema) model.Schema {
-	for tableName, columnMap := range warehouseSchema {
-		if _, ok := consolidatedSchema[tableName]; !ok {
-			continue
-		}
-
-		for columnName, columnType := range columnMap {
-			if _, ok := consolidatedSchema[tableName][columnName]; !ok {
-				continue
-			}
-
-			var (
-				consolidatedSchemaType = consolidatedSchema[tableName][columnName]
-				warehouseSchemaType    = columnType
-			)
-
-			if consolidatedSchemaType == model.TextDataType && warehouseSchemaType == model.StringDataType {
-				continue
-			}
-
-			consolidatedSchema[tableName][columnName] = columnType
-		}
-	}
-
-	return consolidatedSchema
+	_ = "STUB: not implemented"
+	return *new(model.Schema)
 }
 
 // overrideUsersWithIdentifiesSchema overrides the users table with the identifies table
 // users(id) <-> identifies(user_id)
 // Removes the user_id column from the users table
 func overrideUsersWithIdentifiesSchema(consolidatedSchema model.Schema, warehouseType string, warehouseSchema model.Schema) model.Schema {
-	var (
-		usersTable      = whutils.ToProviderCase(warehouseType, whutils.UsersTable)
-		identifiesTable = whutils.ToProviderCase(warehouseType, whutils.IdentifiesTable)
-		userIDColumn    = whutils.ToProviderCase(warehouseType, "user_id")
-		IDColumn        = whutils.ToProviderCase(warehouseType, "id")
-	)
-	if _, ok := consolidatedSchema[usersTable]; !ok {
-		return consolidatedSchema
-	}
-	if _, ok := consolidatedSchema[identifiesTable]; !ok {
-		return consolidatedSchema
-	}
-
-	maps.Copy(consolidatedSchema[usersTable], consolidatedSchema[identifiesTable])
-	for k, v := range warehouseSchema[usersTable] {
-		if _, ok := warehouseSchema[identifiesTable][k]; !ok {
-			consolidatedSchema[usersTable][k] = v
-			consolidatedSchema[identifiesTable][k] = v
-		}
-	}
-	consolidatedSchema[usersTable][IDColumn] = consolidatedSchema[identifiesTable][userIDColumn]
-	delete(consolidatedSchema[usersTable], userIDColumn)
-	return consolidatedSchema
+	_ = "STUB: not implemented"
+	return *new(model.Schema)
 }
 
 // enhanceDiscardsSchema adds the discards table to the schema
 // For bq, adds the loaded_at column to be segment compatible
 func enhanceDiscardsSchema(consolidatedSchema model.Schema, warehouseType string) model.Schema {
-	discards := model.TableSchema{}
-
-	for colName, colType := range whutils.DiscardsSchema {
-		discards[whutils.ToProviderCase(warehouseType, colName)] = colType
-	}
-
-	if warehouseType == whutils.BQ {
-		discards[whutils.ToProviderCase(warehouseType, "loaded_at")] = "datetime"
-	}
-
-	consolidatedSchema[whutils.ToProviderCase(warehouseType, whutils.DiscardsTable)] = discards
-	return consolidatedSchema
+	_ = "STUB: not implemented"
+	return *new(model.Schema)
 }
 
 // enhanceSchemaWithIDResolution adds the merge rules and mappings table to the schema if IDResolution is enabled
 func enhanceSchemaWithIDResolution(consolidatedSchema model.Schema, isIDResolutionEnabled bool, warehouseType string) model.Schema {
-	if !isIDResolutionEnabled {
-		return consolidatedSchema
-	}
-	var (
-		mergeRulesTable = whutils.ToProviderCase(warehouseType, whutils.IdentityMergeRulesTable)
-		mappingsTable   = whutils.ToProviderCase(warehouseType, whutils.IdentityMappingsTable)
-	)
-	if _, ok := consolidatedSchema[mergeRulesTable]; ok {
-		consolidatedSchema[mergeRulesTable] = model.TableSchema{
-			whutils.ToProviderCase(warehouseType, "merge_property_1_type"):  "string",
-			whutils.ToProviderCase(warehouseType, "merge_property_1_value"): "string",
-			whutils.ToProviderCase(warehouseType, "merge_property_2_type"):  "string",
-			whutils.ToProviderCase(warehouseType, "merge_property_2_value"): "string",
-		}
-		consolidatedSchema[mappingsTable] = model.TableSchema{
-			whutils.ToProviderCase(warehouseType, "merge_property_type"):  "string",
-			whutils.ToProviderCase(warehouseType, "merge_property_value"): "string",
-			whutils.ToProviderCase(warehouseType, "rudder_id"):            "string",
-			whutils.ToProviderCase(warehouseType, "updated_at"):           "datetime",
-		}
-	}
-	return consolidatedSchema
+	_ = "STUB: not implemented"
+	return *new(model.Schema)
 }
 
 func removeDeprecatedColumns(schema model.Schema, warehouse model.Warehouse, log logger.Logger) {
-	for tableName, columnMap := range schema {
-		for columnName := range columnMap {
-			if deprecatedColumnsRegex.MatchString(columnName) {
-				log.Debugn("skipping deprecated column",
-					logger.NewStringField(logfield.SourceID, warehouse.Source.ID),
-					logger.NewStringField(logfield.DestinationID, warehouse.Destination.ID),
-					logger.NewStringField(logfield.DestinationType, warehouse.Destination.DestinationDefinition.Name),
-					logger.NewStringField(logfield.WorkspaceID, warehouse.WorkspaceID),
-					logger.NewStringField(logfield.Namespace, warehouse.Namespace),
-					logger.NewStringField(logfield.TableName, tableName),
-					logger.NewStringField(logfield.ColumnName, columnName),
-				)
-				delete(schema[tableName], columnName)
-			}
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 func tableSchemaDiff(tableName string, schemaMap model.Schema, tableSchema model.TableSchema) whutils.TableSchemaDiff {
-	diff := whutils.TableSchemaDiff{
-		ColumnMap:        make(model.TableSchema),
-		UpdatedSchema:    make(model.TableSchema),
-		AlteredColumnMap: make(model.TableSchema),
-	}
-
-	currentTableSchema, ok := schemaMap[tableName]
-
-	if !ok {
-		if len(tableSchema) == 0 {
-			return diff
-		}
-		diff.Exists = true
-		diff.TableToBeCreated = true
-		diff.ColumnMap = tableSchema
-		diff.UpdatedSchema = tableSchema
-		return diff
-	}
-
-	maps.Copy(diff.UpdatedSchema, currentTableSchema)
-
-	diff.ColumnMap = make(model.TableSchema)
-	for columnName, columnType := range tableSchema {
-		if _, ok := currentTableSchema[columnName]; !ok {
-			diff.ColumnMap[columnName] = columnType
-			diff.UpdatedSchema[columnName] = columnType
-			diff.Exists = true
-		} else if columnType == model.TextDataType && currentTableSchema[columnName] == model.StringDataType {
-			diff.AlteredColumnMap[columnName] = columnType
-			diff.UpdatedSchema[columnName] = columnType
-			diff.Exists = true
-		}
-	}
-	return diff
+	_ = "STUB: not implemented"
+	return *new(whutils.TableSchemaDiff)
 }

@@ -4,10 +4,8 @@ import (
 	"io"
 
 	"github.com/rudderlabs/rudder-go-kit/logger"
-	"github.com/rudderlabs/rudder-go-kit/stats"
 
 	"github.com/rudderlabs/rudder-server/enterprise/suppress-user/internal/badgerdb"
-	"github.com/rudderlabs/rudder-server/enterprise/suppress-user/internal/memory"
 	"github.com/rudderlabs/rudder-server/enterprise/suppress-user/model"
 )
 
@@ -34,7 +32,8 @@ type Repository interface {
 
 // NewMemoryRepository returns a new repository backed by memory.
 func NewMemoryRepository(log logger.Logger) Repository {
-	return memory.NewRepository(log)
+	_ = "STUB: not implemented"
+	return *new(Repository)
 }
 
 var (
@@ -44,5 +43,6 @@ var (
 
 // NewBadgerRepository returns a new repository backed by badgerDB.
 func NewBadgerRepository(path string, log logger.Logger, opts ...badgerdb.Opt) (Repository, error) {
-	return badgerdb.NewRepository(path, log, stats.Default, opts...)
+	_ = "STUB: not implemented"
+	return *new(Repository), nil
 }

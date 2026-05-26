@@ -5,16 +5,12 @@ package destinationdebugger
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"sync"
 
 	"github.com/rudderlabs/rudder-go-kit/config"
-	"github.com/rudderlabs/rudder-go-kit/jsonrs"
 	"github.com/rudderlabs/rudder-go-kit/logger"
-	obskit "github.com/rudderlabs/rudder-observability-kit/go/labels"
 
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
-	"github.com/rudderlabs/rudder-server/rruntime"
 	"github.com/rudderlabs/rudder-server/services/debugger"
 	"github.com/rudderlabs/rudder-server/services/debugger/cache"
 )
@@ -55,57 +51,20 @@ type Handle struct {
 }
 
 func NewHandle(backendConfig backendconfig.BackendConfig) (DestinationDebugger, error) {
-	h := &Handle{
-		log:              logger.NewLogger().Child("debugger").Child("destination"),
-		configBackendURL: config.GetStringVar("https://api.rudderstack.com", "CONFIG_BACKEND_URL"),
-		disableEventDeliveryStatusUploads: config.GetReloadableBoolVar(
-			false, "DestinationDebugger.disableEventDeliveryStatusUploads",
-		),
-	}
-	var err error
-	url := fmt.Sprintf("%s/dataplane/v2/eventDeliveryStatus", h.configBackendURL)
-	eventUploader := NewEventDeliveryStatusUploader(h.log)
-	h.uploader = debugger.New[*DeliveryStatusT](url, backendConfig.Identity(), eventUploader)
-	h.uploader.Start()
-
-	cacheType := cache.CacheType(config.GetIntVar(int(cache.MemoryCacheType), 1, "DestinationDebugger.cacheType"))
-	h.eventsDeliveryCache, err = cache.New[*DeliveryStatusT](cacheType, "destination", h.log)
-	if err != nil {
-		return nil, err
-	}
-
-	h.start(backendConfig)
-	return h, nil
+	_ = "STUB: not implemented"
+	return *new(DestinationDebugger), nil
 }
 
 func (h *Handle) start(backendConfig backendconfig.BackendConfig) {
-	ctx, cancel := context.WithCancel(context.Background())
-	h.ctx = ctx
-	h.cancel = cancel
-	h.initialized = make(chan struct{})
-	h.done = make(chan struct{})
-
-	rruntime.Go(func() {
-		h.backendConfigSubscriber(backendConfig)
-	})
-	h.started = true
+	_ = "STUB: not implemented"
+	return
 }
 
-func (h *Handle) Stop() {
-	if !h.started {
-		return
-	}
-	h.cancel()
-	<-h.done
-	if h.eventsDeliveryCache != nil {
-		_ = h.eventsDeliveryCache.Stop()
-	}
-	h.uploader.Stop()
-	h.started = false
-}
+func (h *Handle) Stop() { _ = "STUB: not implemented"; return }
 
 func NewEventDeliveryStatusUploader(log logger.Logger) *EventDeliveryStatusUploader {
-	return &EventDeliveryStatusUploader{log: log}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 type EventDeliveryStatusUploader struct {
@@ -115,116 +74,49 @@ type EventDeliveryStatusUploader struct {
 // RecordEventDeliveryStatus is used to put the delivery status in the deliveryStatusesBatchChannel,
 // which will be processed by handleJobs.
 func (h *Handle) RecordEventDeliveryStatus(destinationID string, deliveryStatus *DeliveryStatusT) bool {
+	_ = "STUB: not implemented"
 	// if disableEventDeliveryStatusUploads is true, return;
-	if !h.started || h.disableEventDeliveryStatusUploads.Load() {
-		return false
-	}
-	<-h.initialized
-	// Check if destinationID part of enabled destinations, if not then push the job in cache to keep track
-	if !h.HasUploadEnabled(destinationID) {
-		err := h.eventsDeliveryCache.Update(destinationID, deliveryStatus)
-		if err != nil {
-			h.log.Errorn("DestinationDebugger: Error while updating cache", obskit.Error(err))
-		}
-		return false
-	}
-
-	h.uploader.RecordEvent(deliveryStatus)
-	return true
+	return false
 }
 
-func (h *Handle) HasUploadEnabled(destID string) bool {
-	<-h.initialized
-	h.uploadEnabledDestinationIDsMu.RLock()
-	defer h.uploadEnabledDestinationIDsMu.RUnlock()
-	_, ok := h.uploadEnabledDestinationIDs[destID]
-	return ok
-}
+// Check if destinationID part of enabled destinations, if not then push the job in cache to keep track
+
+func (h *Handle) HasUploadEnabled(destID string) bool { _ = "STUB: not implemented"; return false }
 
 func (e *EventDeliveryStatusUploader) Transform(deliveryStatusesBuffer []*DeliveryStatusT) ([]byte, error) {
-	res := make(map[string]any)
-	res["version"] = "v2"
-	for _, job := range deliveryStatusesBuffer {
-		var arr []*DeliveryStatusT
-		if value, ok := res[job.DestinationID]; ok {
-			arr, _ = value.([]*DeliveryStatusT)
-		}
-		arr = append(arr, job)
-		res[job.DestinationID] = arr
-	}
-
-	rawJSON, err := jsonrs.Marshal(res)
-	if err != nil {
-		e.log.Errorn("[Destination live events] Failed to marshal payload", obskit.Error(err))
-		return nil, err
-	}
-
-	return rawJSON, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (h *Handle) updateConfig(config map[string]backendconfig.ConfigT) {
-	uploadEnabledDestinationIDs := make(map[string]bool)
-	var uploadEnabledDestinationIdsList []string
-	for _, wConfig := range config {
-		for _, source := range wConfig.Sources {
-			for _, destination := range source.Destinations {
-				if destination.Config != nil {
-					if destination.Enabled && destination.Config["eventDelivery"] == true {
-						uploadEnabledDestinationIdsList = append(uploadEnabledDestinationIdsList, destination.ID)
-						uploadEnabledDestinationIDs[destination.ID] = true
-					}
-				}
-			}
-		}
-	}
-	h.uploadEnabledDestinationIDsMu.Lock()
-	h.uploadEnabledDestinationIDs = uploadEnabledDestinationIDs
-	h.uploadEnabledDestinationIDsMu.Unlock()
-
-	h.recordHistoricEventsDelivery(uploadEnabledDestinationIdsList)
+	_ = "STUB: not implemented"
+	return
 }
 
 func (h *Handle) backendConfigSubscriber(backendConfig backendconfig.BackendConfig) {
-	configChannel := backendConfig.Subscribe(h.ctx, "backendConfig")
-	for c := range configChannel {
-		h.updateConfig(c.Data.(map[string]backendconfig.ConfigT))
-		select {
-		case <-h.initialized:
-		default:
-			close(h.initialized)
-		}
-	}
-	close(h.done)
+	_ = "STUB: not implemented"
+	return
 }
 
 func (h *Handle) recordHistoricEventsDelivery(destinationIDs []string) {
-	for _, destinationID := range destinationIDs {
-		historicEventsDelivery, err := h.eventsDeliveryCache.Read(destinationID)
-		if err != nil {
-			continue
-		}
-		for _, event := range historicEventsDelivery {
-			h.uploader.RecordEvent(event)
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 func NewNoOpService() DestinationDebugger {
-	return &noopService{}
+	_ = "STUB: not implemented"
+	return *new(DestinationDebugger)
 }
 
 type noopService struct{}
 
 func (*noopService) RecordEventDeliveryStatus(_ string, _ *DeliveryStatusT) bool {
+	_ = "STUB: not implemented"
 	return false
 }
 
-func (*noopService) HasUploadEnabled(_ string) bool {
-	return false
-}
+func (*noopService) HasUploadEnabled(_ string) bool { _ = "STUB: not implemented"; return false }
 
-func (*noopService) Start(_ backendconfig.BackendConfig) {
-}
+func (*noopService) Start(_ backendconfig.BackendConfig) { _ = "STUB: not implemented"; return }
 
-func (*noopService) Stop() {
-}
+func (*noopService) Stop() { _ = "STUB: not implemented"; return }

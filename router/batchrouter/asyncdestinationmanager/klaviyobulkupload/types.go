@@ -3,10 +3,6 @@ package klaviyobulkupload
 //go:generate mockgen -destination=../../../../mocks/router/klaviyobulkupload/klaviyobulkupload_mock.go -package=mocks github.com/rudderlabs/rudder-server/router/batchrouter/asyncdestinationmanager/klaviyobulkupload KlaviyoAPIService
 
 import (
-	"strings"
-
-	"github.com/samber/lo"
-
 	"github.com/rudderlabs/rudder-go-kit/logger"
 	"github.com/rudderlabs/rudder-go-kit/stats"
 )
@@ -37,16 +33,11 @@ type ErrorDetail struct {
 	Source ErrorSource `json:"source"`
 }
 
-func (e ErrorDetail) String() string {
-	return "{ID=" + e.ID + ", Code=" + e.Code + ", Title=" + e.Title + ", Detail=" + e.Detail +
-		", Source={Pointer=" + e.Source.Pointer + ", Parameter=" + e.Source.Parameter + "}}"
-}
+func (e ErrorDetail) String() string { _ = "STUB: not implemented"; return "" }
 
 type ErrorDetailList []ErrorDetail
 
-func (e ErrorDetailList) String() string {
-	return strings.Join(lo.Map(e, func(ed ErrorDetail, _ int) string { return ed.String() }), ",")
-}
+func (e ErrorDetailList) String() string { _ = "STUB: not implemented"; return "" }
 
 type ErrorSource struct {
 	Pointer   string `json:"pointer"`

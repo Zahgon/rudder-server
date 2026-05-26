@@ -13,66 +13,28 @@ type Tx struct {
 }
 
 // AddSuccessListener registers a listener to be executed after the transaction has been committed successfully.
-func (tx *Tx) AddSuccessListener(listener func()) {
-	tx.successListeners = append(tx.successListeners, listener)
-}
+func (tx *Tx) AddSuccessListener(listener func()) { _ = "STUB: not implemented"; return }
 
 // AddFailureListener registers a listener to be executed after the transaction has been rolled back.
-func (tx *Tx) AddFailureListener(listener func()) {
-	tx.failureListeners = append(tx.failureListeners, listener)
-}
+func (tx *Tx) AddFailureListener(listener func()) { _ = "STUB: not implemented"; return }
 
 // AddFinallyListener registers a listener to be executed after the transaction completes,
 // regardless of whether it was committed or rolled back. Finally listeners are executed
 // after success/failure listeners. Useful for cleanup that should always happen.
-func (tx *Tx) AddFinallyListener(listener func()) {
-	tx.finallyListeners = append(tx.finallyListeners, listener)
-}
+func (tx *Tx) AddFinallyListener(listener func()) { _ = "STUB: not implemented"; return }
 
 // Commit commits the transaction and executes all success listeners on success,
 // or failure listeners if the commit fails. Finally listeners are always executed.
 // Failure and finally listeners are cleared to prevent double-firing if Rollback is called afterward.
-func (tx *Tx) Commit() error {
-	err := tx.Tx.Commit()
+func (tx *Tx) Commit() error { _ = "STUB: not implemented"; return nil }
 
-	if err == nil {
-		for _, successListener := range tx.successListeners {
-			successListener()
-		}
-	} else {
-		for _, failureListener := range tx.failureListeners {
-			failureListener()
-		}
-	}
-	for _, finallyListener := range tx.finallyListeners {
-		finallyListener()
-	}
-
-	// Clear failure and finally listeners to prevent double-firing if Rollback() is called after Commit()
-	// Success listeners don't need clearing as they only fire in Commit() on success
-	tx.failureListeners = nil
-	tx.finallyListeners = nil
-
-	return err
-}
+// Clear failure and finally listeners to prevent double-firing if Rollback() is called after Commit()
+// Success listeners don't need clearing as they only fire in Commit() on success
 
 // Rollback rolls back the transaction and executes all failure listeners,
 // followed by finally listeners.
 // Failure and finally listeners are cleared to prevent double-firing if Commit is called afterward.
-func (tx *Tx) Rollback() error {
-	err := tx.Tx.Rollback()
+func (tx *Tx) Rollback() error { _ = "STUB: not implemented"; return nil }
 
-	for _, failureListener := range tx.failureListeners {
-		failureListener()
-	}
-	for _, finallyListener := range tx.finallyListeners {
-		finallyListener()
-	}
-
-	// Clear failure and finally listeners to prevent double-firing if Commit() is called after Rollback()
-	// Success listeners don't need clearing as they won't fire in Commit() after a Rollback()
-	tx.failureListeners = nil
-	tx.finallyListeners = nil
-
-	return err
-}
+// Clear failure and finally listeners to prevent double-firing if Commit() is called after Rollback()
+// Success listeners don't need clearing as they won't fire in Commit() after a Rollback()

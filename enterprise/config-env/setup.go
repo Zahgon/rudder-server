@@ -13,18 +13,6 @@ type Factory struct {
 
 // Setup initializes Suppress User feature
 func (m *Factory) Setup() types.ConfigEnvI {
-	if m.Log == nil {
-		m.Log = logger.NewLogger().Child("enterprise").Child("config-env")
-	}
-	if m.EnterpriseToken == "" {
-		return &NOOP{}
-	}
-
-	loadConfig()
-	m.Log = logger.NewLogger().Child("enterprise").Child("config-env")
-
-	m.Log.Infon("[[ ConfigEnv ]] Setting up config env handler")
-	handle := &HandleT{Log: m.Log}
-
-	return handle
+	_ = "STUB: not implemented"
+	return *new(types.ConfigEnvI)
 }

@@ -10,8 +10,6 @@
 package mocks
 
 import (
-	reflect "reflect"
-
 	salesforcebulkupload "github.com/rudderlabs/rudder-server/router/batchrouter/asyncdestinationmanager/salesforce-bulk-upload"
 	gomock "go.uber.org/mock/gomock"
 )
@@ -30,114 +28,97 @@ type MockAPIServiceInterfaceMockRecorder struct {
 
 // NewMockAPIServiceInterface creates a new mock instance.
 func NewMockAPIServiceInterface(ctrl *gomock.Controller) *MockAPIServiceInterface {
-	mock := &MockAPIServiceInterface{ctrl: ctrl}
-	mock.recorder = &MockAPIServiceInterfaceMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockAPIServiceInterface) EXPECT() *MockAPIServiceInterfaceMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// CloseJob mocks base method.
+	return nil
 }
 
-// CloseJob mocks base method.
 func (m *MockAPIServiceInterface) CloseJob(jobID string) *salesforcebulkupload.APIError {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CloseJob", jobID)
-	ret0, _ := ret[0].(*salesforcebulkupload.APIError)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // CloseJob indicates an expected call of CloseJob.
 func (mr *MockAPIServiceInterfaceMockRecorder) CloseJob(jobID any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CloseJob", reflect.TypeOf((*MockAPIServiceInterface)(nil).CloseJob), jobID)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // CreateJob mocks base method.
 func (m *MockAPIServiceInterface) CreateJob(objectName, operation, externalIDField string) (string, *salesforcebulkupload.APIError) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateJob", objectName, operation, externalIDField)
-	ret0, _ := ret[0].(string)
-	ret1, _ := ret[1].(*salesforcebulkupload.APIError)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
 // CreateJob indicates an expected call of CreateJob.
 func (mr *MockAPIServiceInterfaceMockRecorder) CreateJob(objectName, operation, externalIDField any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateJob", reflect.TypeOf((*MockAPIServiceInterface)(nil).CreateJob), objectName, operation, externalIDField)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // DeleteJob mocks base method.
 func (m *MockAPIServiceInterface) DeleteJob(jobID string) *salesforcebulkupload.APIError {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteJob", jobID)
-	ret0, _ := ret[0].(*salesforcebulkupload.APIError)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // DeleteJob indicates an expected call of DeleteJob.
 func (mr *MockAPIServiceInterfaceMockRecorder) DeleteJob(jobID any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteJob", reflect.TypeOf((*MockAPIServiceInterface)(nil).DeleteJob), jobID)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // GetFailedRecords mocks base method.
 func (m *MockAPIServiceInterface) GetFailedRecords(jobID string) ([]map[string]string, *salesforcebulkupload.APIError) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetFailedRecords", jobID)
-	ret0, _ := ret[0].([]map[string]string)
-	ret1, _ := ret[1].(*salesforcebulkupload.APIError)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // GetFailedRecords indicates an expected call of GetFailedRecords.
 func (mr *MockAPIServiceInterfaceMockRecorder) GetFailedRecords(jobID any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFailedRecords", reflect.TypeOf((*MockAPIServiceInterface)(nil).GetFailedRecords), jobID)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // GetJobStatus mocks base method.
 func (m *MockAPIServiceInterface) GetJobStatus(jobID string) (*salesforcebulkupload.JobResponse, *salesforcebulkupload.APIError) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetJobStatus", jobID)
-	ret0, _ := ret[0].(*salesforcebulkupload.JobResponse)
-	ret1, _ := ret[1].(*salesforcebulkupload.APIError)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // GetJobStatus indicates an expected call of GetJobStatus.
 func (mr *MockAPIServiceInterfaceMockRecorder) GetJobStatus(jobID any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetJobStatus", reflect.TypeOf((*MockAPIServiceInterface)(nil).GetJobStatus), jobID)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // GetSuccessfulRecords mocks base method.
 func (m *MockAPIServiceInterface) GetSuccessfulRecords(jobID string) ([]map[string]string, *salesforcebulkupload.APIError) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetSuccessfulRecords", jobID)
-	ret0, _ := ret[0].([]map[string]string)
-	ret1, _ := ret[1].(*salesforcebulkupload.APIError)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // GetSuccessfulRecords indicates an expected call of GetSuccessfulRecords.
 func (mr *MockAPIServiceInterfaceMockRecorder) GetSuccessfulRecords(jobID any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSuccessfulRecords", reflect.TypeOf((*MockAPIServiceInterface)(nil).GetSuccessfulRecords), jobID)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // UploadData mocks base method.
 func (m *MockAPIServiceInterface) UploadData(jobID, csvFilePath string) *salesforcebulkupload.APIError {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UploadData", jobID, csvFilePath)
-	ret0, _ := ret[0].(*salesforcebulkupload.APIError)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // UploadData indicates an expected call of UploadData.
 func (mr *MockAPIServiceInterfaceMockRecorder) UploadData(jobID, csvFilePath any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UploadData", reflect.TypeOf((*MockAPIServiceInterface)(nil).UploadData), jobID, csvFilePath)
+	_ = "STUB: not implemented"
+	return nil
 }

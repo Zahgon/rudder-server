@@ -3,16 +3,12 @@ package rsources
 import (
 	"context"
 	"database/sql"
-	"encoding/base64"
 	"encoding/json"
 	"errors"
-	"fmt"
 
 	"github.com/rudderlabs/rudder-go-kit/config"
-	"github.com/rudderlabs/rudder-go-kit/jsonrs"
 	"github.com/rudderlabs/rudder-go-kit/logger"
 	"github.com/rudderlabs/rudder-go-kit/stats"
-	"github.com/rudderlabs/rudder-go-kit/stats/collectors"
 )
 
 //go:generate mockgen -source=rsources.go -destination=mock_rsources.go -package=rsources github.com/rudderlabs/rudder-server/services/rsources JobService
@@ -28,9 +24,7 @@ type JobTargetKey struct {
 	DestinationID string `json:"destination_id"`
 }
 
-func (k JobTargetKey) String() string {
-	return k.TaskRunID + ":" + k.SourceID + ":" + k.DestinationID
-}
+func (k JobTargetKey) String() string { _ = "STUB: not implemented"; return "" }
 
 type Stats struct {
 	In     uint `json:"in"`
@@ -38,59 +32,18 @@ type Stats struct {
 	Failed uint `json:"failed"`
 }
 
-func (r *Stats) completed() bool {
-	return r.In == r.Out+r.Failed
-}
+func (r *Stats) completed() bool { _ = "STUB: not implemented"; return false }
 
-func (r *Stats) corrupted() bool {
-	return r.In < r.Out+r.Failed
-}
+func (r *Stats) corrupted() bool { _ = "STUB: not implemented"; return false }
 
-func (r *Stats) fixCorrupted() {
-	if r.corrupted() {
-		r.In = r.Out + r.Failed
-	}
-}
+func (r *Stats) fixCorrupted() { _ = "STUB: not implemented"; return }
 
 type JobStatus struct {
 	ID          string       `json:"id"`
 	TasksStatus []TaskStatus `json:"tasks"`
 }
 
-func (js *JobStatus) FixCorruptedStats(log logger.Logger) {
-	isCorrupted := func() bool {
-		for ti := range js.TasksStatus {
-			for si := range js.TasksStatus[ti].SourcesStatus {
-				if js.TasksStatus[ti].SourcesStatus[si].Stats.corrupted() {
-					return true
-				}
-				for di := range js.TasksStatus[ti].SourcesStatus[si].DestinationsStatus {
-					if js.TasksStatus[ti].SourcesStatus[si].DestinationsStatus[di].Stats.corrupted() {
-						return true
-					}
-				}
-			}
-		}
-		return false
-	}
-	fixCorrupted := func() {
-		for ti := range js.TasksStatus {
-			for si := range js.TasksStatus[ti].SourcesStatus {
-				js.TasksStatus[ti].SourcesStatus[si].Stats.fixCorrupted()
-				js.TasksStatus[ti].SourcesStatus[si].Completed = js.TasksStatus[ti].SourcesStatus[si].Stats.completed()
-				for di := range js.TasksStatus[ti].SourcesStatus[si].DestinationsStatus {
-					js.TasksStatus[ti].SourcesStatus[si].DestinationsStatus[di].Stats.fixCorrupted()
-					js.TasksStatus[ti].SourcesStatus[si].DestinationsStatus[di].Completed = js.TasksStatus[ti].SourcesStatus[si].DestinationsStatus[di].Stats.completed()
-				}
-			}
-		}
-	}
-	if isCorrupted() {
-		corruptedJson, _ := jsonrs.Marshal(js)
-		log.Warnn("Corrupted job status stats detected, fixing", logger.NewStringField("job_status", string(corruptedJson)))
-		fixCorrupted()
-	}
-}
+func (js *JobStatus) FixCorruptedStats(log logger.Logger) { _ = "STUB: not implemented"; return }
 
 type TaskStatus struct {
 	ID            string         `json:"id"`
@@ -104,19 +57,7 @@ type SourceStatus struct {
 	DestinationsStatus []DestinationStatus `json:"destinations"`
 }
 
-func (sourceStatus *SourceStatus) calculateCompleted() {
-	if !sourceStatus.Stats.completed() {
-		sourceStatus.Completed = false
-		return
-	}
-	for _, destStatus := range sourceStatus.DestinationsStatus {
-		if !destStatus.Completed {
-			sourceStatus.Completed = false
-			return
-		}
-	}
-	sourceStatus.Completed = true
-}
+func (sourceStatus *SourceStatus) calculateCompleted() { _ = "STUB: not implemented"; return }
 
 type DestinationStatus struct {
 	ID        string `json:"id"`
@@ -130,16 +71,8 @@ type PagingInfo struct {
 }
 
 func NextPageTokenFromString(v string) (NextPageToken, error) {
-	var npt NextPageToken
-	if v == "" {
-		return npt, nil
-	}
-	s, err := base64.URLEncoding.DecodeString(v)
-	if err != nil {
-		return npt, err
-	}
-	err = jsonrs.Unmarshal(s, &npt)
-	return npt, err
+	_ = "STUB: not implemented"
+	return *new(NextPageToken), nil
 }
 
 type NextPageToken struct {
@@ -147,10 +80,7 @@ type NextPageToken struct {
 	RecordID string `json:"record_id"`
 }
 
-func (npt *NextPageToken) String() string {
-	s, _ := jsonrs.Marshal(npt)
-	return base64.URLEncoding.EncodeToString(s)
-}
+func (npt *NextPageToken) String() string { _ = "STUB: not implemented"; return "" }
 
 type (
 	JobFailedRecordsV2      JobFailedRecords[FailedRecord]
@@ -248,97 +178,56 @@ type Gauger interface {
 }
 
 func NewJobService(ctx context.Context, jobServiceConfig JobServiceConfig, stats stats.Stats) (JobService, error) {
-	if jobServiceConfig.Log == nil {
-		jobServiceConfig.Log = logger.NewLogger().Child("rsources")
-	}
-	if jobServiceConfig.MaxPoolSize <= 2 {
-		jobServiceConfig.MaxPoolSize = 2 // minimum 2 connections in the pool for proper startup
-	}
-	if jobServiceConfig.MinPoolSize <= 0 {
-		jobServiceConfig.MinPoolSize = 1
-	}
-	var (
-		localDB, sharedDB *sql.DB
-		err               error
-	)
-
-	localDB, err = sql.Open("postgres", jobServiceConfig.LocalConn)
-	if err != nil {
-		return nil, fmt.Errorf("failed to create local postgresql connection pool: %w", err)
-	}
-	localDB.SetMaxOpenConns(jobServiceConfig.MaxPoolSize)
-	err = stats.RegisterCollector(collectors.NewDatabaseSQLStats("rsources-local", localDB))
-	if err != nil {
-		return nil, fmt.Errorf("register local database stats collector: %w", err)
-	}
-	if jobServiceConfig.SharedConn != "" {
-		sharedDB, err = sql.Open("postgres", jobServiceConfig.SharedConn)
-		if err != nil {
-			return nil, fmt.Errorf("failed to create shared postgresql connection pool: %w", err)
-		}
-		sharedDB.SetMaxOpenConns(jobServiceConfig.MaxPoolSize)
-		sharedDB.SetMaxIdleConns(jobServiceConfig.MinPoolSize)
-		err = stats.RegisterCollector(collectors.NewDatabaseSQLStats("rsources-shared", sharedDB))
-		if err != nil {
-			return nil, fmt.Errorf("register shared database stats collector: %w", err)
-		}
-	}
-
-	if jobServiceConfig.FailedRecordsInsertBatchSize == nil {
-		jobServiceConfig.FailedRecordsInsertBatchSize = config.SingleValueLoader(5000)
-	}
-
-	handler := &sourcesHandler{
-		log:      jobServiceConfig.Log,
-		config:   jobServiceConfig,
-		localDB:  localDB,
-		sharedDB: sharedDB,
-	}
-	err = handler.init(ctx)
-	return handler, err
+	_ = "STUB: not implemented"
+	return *new(JobService), nil
 }
 
-func NewNoOpService() JobService {
-	return &noopService{}
-}
+// minimum 2 connections in the pool for proper startup
+
+func NewNoOpService() JobService { _ = "STUB: not implemented"; return *new(JobService) }
 
 type noopService struct{}
 
 func (*noopService) Delete(_ context.Context, _ string, _ JobFilter) error {
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (*noopService) DeleteJobStatus(_ context.Context, _ string, _ JobFilter) error {
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (*noopService) DeleteFailedRecords(_ context.Context, _ string, _ JobFilter) error {
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (*noopService) GetStatus(_ context.Context, _ string, _ JobFilter) (JobStatus, error) {
-	return JobStatus{}, nil
+	_ = "STUB: not implemented"
+	return *new(JobStatus), nil
 }
 
 func (*noopService) IncrementStats(_ context.Context, _ *sql.Tx, _ string, _ JobTargetKey, _ Stats) error {
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (*noopService) AddFailedRecords(_ context.Context, _ *sql.Tx, _ string, _ JobTargetKey, _ []FailedRecord) error {
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (*noopService) GetFailedRecords(_ context.Context, _ string, _ JobFilter, _ PagingInfo) (JobFailedRecordsV2, error) {
-	return JobFailedRecordsV2{}, nil
+	_ = "STUB: not implemented"
+	return *new(JobFailedRecordsV2), nil
 }
 
 func (*noopService) GetFailedRecordsV1(_ context.Context, _ string, _ JobFilter, _ PagingInfo) (JobFailedRecordsV1, error) {
-	return JobFailedRecordsV1{}, nil
+	_ = "STUB: not implemented"
+	return *new(JobFailedRecordsV1), nil
 }
 
-func (*noopService) CleanupLoop(ctx context.Context) error {
-	<-ctx.Done()
-	return nil
-}
+func (*noopService) CleanupLoop(ctx context.Context) error { _ = "STUB: not implemented"; return nil }
 
-func (*noopService) Monitor(_ context.Context, _, _ Gauger) {}
+func (*noopService) Monitor(_ context.Context, _, _ Gauger) { _ = "STUB: not implemented"; return }

@@ -44,14 +44,4 @@ func init() {
 }
 
 // GetQueryType returns the type of the query.
-func GetQueryType(query string) (string, bool) {
-	for i, match := range queryTypeRegex.FindStringSubmatch(query) {
-		if match == "" {
-			continue
-		}
-		if queryType, ok := queryTypeIndexes[i]; ok {
-			return queryType, true
-		}
-	}
-	return "UNKNOWN", false
-}
+func GetQueryType(query string) (string, bool) { _ = "STUB: not implemented"; return "", false }

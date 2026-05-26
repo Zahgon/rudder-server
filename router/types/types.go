@@ -35,15 +35,8 @@ type DestinationJobs []DestinationJobT
 
 // Hydrate jobs in the destination jobs' job metadata array
 func (djs DestinationJobs) Hydrate(jobs map[int64]lo.Tuple2[*jobsdb.JobT, routerutils.JobParameters]) {
-	for i := range djs {
-		for j := range djs[i].JobMetadataArray {
-			t := jobs[djs[i].JobMetadataArray[j].JobID]
-			if djs[i].JobMetadataArray[j].JobT == nil {
-				djs[i].JobMetadataArray[j].JobT = t.A
-			}
-			djs[i].JobMetadataArray[j].Parameters = t.B
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 // DestinationJobT holds the job to be sent to destination
@@ -60,20 +53,10 @@ type DestinationJobT struct {
 	StatTags          map[string]string          `json:"statTags"`
 }
 
-func (dj *DestinationJobT) MinJobID() int64 {
-	return lo.Min(lo.Map(dj.JobMetadataArray, func(item JobMetadataT, _ int) int64 {
-		return item.JobID
-	}))
-}
+func (dj *DestinationJobT) MinJobID() int64 { _ = "STUB: not implemented"; return 0 }
 
 // JobIDs returns the set of all job ids contained in the message
-func (dj *DestinationJobT) JobIDs() map[int64]struct{} {
-	jobIDs := make(map[int64]struct{})
-	for i := range dj.JobMetadataArray {
-		jobIDs[dj.JobMetadataArray[i].JobID] = struct{}{}
-	}
-	return jobIDs
-}
+func (dj *DestinationJobT) JobIDs() map[int64]struct{} { _ = "STUB: not implemented"; return nil }
 
 // JobMetadataT holds the job metadata
 type JobMetadataT struct {
@@ -104,27 +87,8 @@ type TransformMessageT struct {
 }
 
 func (tm *TransformMessageT) Compacted() *CompactedTransformMessageT {
-	res := CompactedTransformMessageT{
-		Data: make([]struct {
-			Message     json.RawMessage `json:"message"`
-			JobMetadata JobMetadataT    `json:"metadata"`
-		}, len(tm.Data)),
-		DestType:     tm.DestType,
-		Destinations: make(map[string]backendconfig.DestinationT),
-		Connections:  make(map[string]backendconfig.Connection),
-	}
-	for i := range tm.Data {
-		res.Data[i].Message = tm.Data[i].Message
-		res.Data[i].JobMetadata = tm.Data[i].JobMetadata
-		if _, ok := res.Destinations[tm.Data[i].JobMetadata.DestinationID]; !ok {
-			res.Destinations[tm.Data[i].JobMetadata.DestinationID] = tm.Data[i].Destination
-		}
-		connectionKey := tm.Data[i].JobMetadata.SourceID + ":" + tm.Data[i].JobMetadata.DestinationID
-		if _, ok := res.Connections[connectionKey]; !ok {
-			res.Connections[connectionKey] = tm.Data[i].Connection
-		}
-	}
-	return &res
+	_ = "STUB: not implemented"
+	return nil
 }
 
 type CompactedTransformMessageT struct {
@@ -139,44 +103,23 @@ type CompactedTransformMessageT struct {
 
 // Dehydrate JobT information from RouterJobT.JobMetadata returning the dehydrated message along with the jobs
 func (tm *TransformMessageT) Dehydrate() (*TransformMessageT, map[int64]lo.Tuple2[*jobsdb.JobT, routerutils.JobParameters]) {
-	jobs := make(map[int64]lo.Tuple2[*jobsdb.JobT, routerutils.JobParameters])
-	tmCopy := *tm
-	tmCopy.Data = nil
-	for i := range tm.Data {
-		tmCopy.Data = append(tmCopy.Data, tm.Data[i])
-		jobs[tmCopy.Data[i].JobMetadata.JobID] = lo.T2(tmCopy.Data[i].JobMetadata.JobT, tmCopy.Data[i].JobMetadata.Parameters)
-		tmCopy.Data[i].JobMetadata.JobT = nil
-		tmCopy.Data[i].JobMetadata.Parameters = routerutils.JobParameters{}
-	}
-	return &tmCopy, jobs
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // JobIDs returns the set of all job ids of the jobs in the message
-func (tm *TransformMessageT) JobIDs() map[int64]struct{} {
-	jobIDs := make(map[int64]struct{})
-	for i := range tm.Data {
-		jobIDs[tm.Data[i].JobMetadata.JobID] = struct{}{}
-	}
-	return jobIDs
-}
+func (tm *TransformMessageT) JobIDs() map[int64]struct{} { _ = "STUB: not implemented"; return nil }
 
 func NewEventTypeThrottlingCost(m map[string]any) (v EventTypeThrottlingCost) {
-	if et, ok := m["eventType"].(map[string]any); ok {
-		v = et
-	}
-	return v
+	_ = "STUB: not implemented"
+	return *new(EventTypeThrottlingCost)
 }
 
 type EventTypeThrottlingCost map[string]any
 
 func (e *EventTypeThrottlingCost) Cost(eventType string) (cost int64) {
-	if v, ok := (*e)[eventType].(float64); ok && v > 0 {
-		return int64(v)
-	}
-	if defaultCost, ok := (*e)["default"].(float64); ok && defaultCost > 0 {
-		return int64(defaultCost)
-	}
-	return 1
+	_ = "STUB: not implemented"
+	return 0
 }
 
 var (

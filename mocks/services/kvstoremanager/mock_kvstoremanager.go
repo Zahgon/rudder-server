@@ -11,7 +11,6 @@ package mock_kvstoremanager
 
 import (
 	json "encoding/json"
-	reflect "reflect"
 
 	gomock "go.uber.org/mock/gomock"
 )
@@ -30,158 +29,121 @@ type MockKVStoreManagerMockRecorder struct {
 
 // NewMockKVStoreManager creates a new mock instance.
 func NewMockKVStoreManager(ctrl *gomock.Controller) *MockKVStoreManager {
-	mock := &MockKVStoreManager{ctrl: ctrl}
-	mock.recorder = &MockKVStoreManagerMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockKVStoreManager) EXPECT() *MockKVStoreManagerMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Close mocks base method.
+	return nil
 }
 
-// Close mocks base method.
-func (m *MockKVStoreManager) Close() error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Close")
-	ret0, _ := ret[0].(error)
-	return ret0
-}
+func (m *MockKVStoreManager) Close() error { _ = "STUB: not implemented"; return nil }
 
 // Close indicates an expected call of Close.
 func (mr *MockKVStoreManagerMockRecorder) Close() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Close", reflect.TypeOf((*MockKVStoreManager)(nil).Close))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // CreateClient mocks base method.
-func (m *MockKVStoreManager) CreateClient() {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "CreateClient")
-}
+func (m *MockKVStoreManager) CreateClient() { _ = "STUB: not implemented"; return }
 
 // CreateClient indicates an expected call of CreateClient.
 func (mr *MockKVStoreManagerMockRecorder) CreateClient() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateClient", reflect.TypeOf((*MockKVStoreManager)(nil).CreateClient))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // DeleteKey mocks base method.
-func (m *MockKVStoreManager) DeleteKey(key string) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteKey", key)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
+func (m *MockKVStoreManager) DeleteKey(key string) error { _ = "STUB: not implemented"; return nil }
 
 // DeleteKey indicates an expected call of DeleteKey.
 func (mr *MockKVStoreManagerMockRecorder) DeleteKey(key any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteKey", reflect.TypeOf((*MockKVStoreManager)(nil).DeleteKey), key)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // HGetAll mocks base method.
 func (m *MockKVStoreManager) HGetAll(key string) (map[string]string, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "HGetAll", key)
-	ret0, _ := ret[0].(map[string]string)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // HGetAll indicates an expected call of HGetAll.
 func (mr *MockKVStoreManagerMockRecorder) HGetAll(key any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HGetAll", reflect.TypeOf((*MockKVStoreManager)(nil).HGetAll), key)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // HMGet mocks base method.
 func (m *MockKVStoreManager) HMGet(key string, fields ...string) ([]any, error) {
-	m.ctrl.T.Helper()
-	varargs := []any{key}
-	for _, a := range fields {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "HMGet", varargs...)
-	ret0, _ := ret[0].([]any)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // HMGet indicates an expected call of HMGet.
 func (mr *MockKVStoreManagerMockRecorder) HMGet(key any, fields ...any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{key}, fields...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HMGet", reflect.TypeOf((*MockKVStoreManager)(nil).HMGet), varargs...)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // HMSet mocks base method.
 func (m *MockKVStoreManager) HMSet(key string, fields map[string]any) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "HMSet", key, fields)
-	ret0, _ := ret[0].(error)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // HMSet indicates an expected call of HMSet.
 func (mr *MockKVStoreManagerMockRecorder) HMSet(key, fields any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HMSet", reflect.TypeOf((*MockKVStoreManager)(nil).HMSet), key, fields)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // HSet mocks base method.
 func (m *MockKVStoreManager) HSet(key, field string, value any) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "HSet", key, field, value)
-	ret0, _ := ret[0].(error)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // HSet indicates an expected call of HSet.
 func (mr *MockKVStoreManagerMockRecorder) HSet(key, field, value any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HSet", reflect.TypeOf((*MockKVStoreManager)(nil).HSet), key, field, value)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SendDataAsJSON mocks base method.
 func (m *MockKVStoreManager) SendDataAsJSON(jsonData json.RawMessage, config map[string]any) (any, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SendDataAsJSON", jsonData, config)
-	ret0, _ := ret[0].(any)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return *new(any), nil
 }
 
 // SendDataAsJSON indicates an expected call of SendDataAsJSON.
 func (mr *MockKVStoreManagerMockRecorder) SendDataAsJSON(jsonData, config any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendDataAsJSON", reflect.TypeOf((*MockKVStoreManager)(nil).SendDataAsJSON), jsonData, config)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // ShouldSendDataAsJSON mocks base method.
 func (m *MockKVStoreManager) ShouldSendDataAsJSON(config map[string]any) bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ShouldSendDataAsJSON", config)
-	ret0, _ := ret[0].(bool)
-	return ret0
+	_ = "STUB: not implemented"
+	return false
 }
 
 // ShouldSendDataAsJSON indicates an expected call of ShouldSendDataAsJSON.
 func (mr *MockKVStoreManagerMockRecorder) ShouldSendDataAsJSON(config any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ShouldSendDataAsJSON", reflect.TypeOf((*MockKVStoreManager)(nil).ShouldSendDataAsJSON), config)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // StatusCode mocks base method.
-func (m *MockKVStoreManager) StatusCode(err error) int {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "StatusCode", err)
-	ret0, _ := ret[0].(int)
-	return ret0
-}
+func (m *MockKVStoreManager) StatusCode(err error) int { _ = "STUB: not implemented"; return 0 }
 
 // StatusCode indicates an expected call of StatusCode.
 func (mr *MockKVStoreManagerMockRecorder) StatusCode(err any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "StatusCode", reflect.TypeOf((*MockKVStoreManager)(nil).StatusCode), err)
+	_ = "STUB: not implemented"
+	return nil
 }

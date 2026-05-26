@@ -1,25 +1,15 @@
 package googlesheets
 
 import (
-	"context"
-	"crypto/tls"
 	"encoding/json"
-	"errors"
-	"fmt"
 	"net/http"
-	"strconv"
 	"sync"
 
-	"github.com/go-viper/mapstructure/v2"
 	"github.com/tidwall/gjson"
-	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/google"
-	"google.golang.org/api/googleapi"
 	"google.golang.org/api/option"
 	"google.golang.org/api/sheets/v4"
 
 	"github.com/rudderlabs/rudder-go-kit/logger"
-	obskit "github.com/rudderlabs/rudder-observability-kit/go/labels"
 
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
 	"github.com/rudderlabs/rudder-server/services/streammanager/common"
@@ -59,137 +49,39 @@ type GoogleSheetsProducer struct {
 
 // NewProducer creates a producer based on destination config
 func NewProducer(destination *backendconfig.DestinationT, o common.Opts) (*GoogleSheetsProducer, error) {
-	var config Config
-	if err := mapstructure.Decode(destination.Config, &config); err != nil {
-		return nil, fmt.Errorf("[GoogleSheets] error  :: error in GoogleSheets while parsing destination config:: %w", err)
-	}
-
-	opts, err := prepareClientOptions(&config)
-	if err != nil {
-		return nil, fmt.Errorf("[GoogleSheets] error :: preparing client options :: %w", err)
-	}
-
-	service, err := sheets.NewService(context.Background(), opts...)
-	// If err is not nil then retrun
-	if err != nil {
-		pkgLogger.Errorn("[Googlesheets] error :: creating service client", obskit.Error(err))
-		return nil, fmt.Errorf("[GoogleSheets] error :: creating service client :: %w", err)
-	}
-
-	return &GoogleSheetsProducer{
-		config:          config,
-		client:          &Client{service, o},
-		lock:            sync.RWMutex{},
-		isHeaderUpdated: false,
-	}, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func (p *GoogleSheetsProducer) updateHeader() error {
-	p.lock.RLock()
-	if p.isHeaderUpdated {
-		p.lock.RUnlock()
-		return nil
-	}
-	p.lock.RUnlock()
+// If err is not nil then retrun
 
-	p.lock.Lock()
-	defer p.lock.Unlock()
-	if p.isHeaderUpdated {
-		return nil
-	}
+func (p *GoogleSheetsProducer) updateHeader() error { _ = "STUB: not implemented"; return nil }
 
-	var headerRowStr []string
-	// ** Preparing the Header Data **
-	// Creating the array of string which are then converted in to an array of interface which are to
-	// be added as header to each of the above spreadsheets.
-	// Example: | First Name | Last Name | Birth Day | Item Purchased | ..
-	// Here messageId is by default the first column
-	headerRowStr = append(headerRowStr, "messageId")
-	for _, eventmap := range p.config.EventKeyMap {
-		headerRowStr = append(headerRowStr, eventmap["to"])
-	}
-	headerRow := getSheetsData(headerRowStr)
-
-	if err := p.insertHeaderDataToSheet(headerRow); err != nil {
-		return err
-	}
-	p.isHeaderUpdated = true
-	return nil
-}
+// ** Preparing the Header Data **
+// Creating the array of string which are then converted in to an array of interface which are to
+// be added as header to each of the above spreadsheets.
+// Example: | First Name | Last Name | Birth Day | Item Purchased | ..
+// Here messageId is by default the first column
 
 func (p *GoogleSheetsProducer) Produce(jsonData json.RawMessage, _ any) (statusCode int, respStatus, responseMessage string) {
-	if p.client == nil {
-		respStatus = "Failure"
-		responseMessage = "[GoogleSheets] error  :: Failed to initialize google-sheets client"
-		return 400, respStatus, responseMessage
-	}
-	if err := p.updateHeader(); err != nil {
-		statCode, serviceMessage := handleServiceError(err)
-		respStatus = "Failure"
-		responseMessage = "[GoogleSheets] error :: Failed to update header :: " + serviceMessage
-		pkgLogger.Errorn("[Googlesheets] error while updating header", obskit.Error(err))
-		return statCode, respStatus, responseMessage
-	}
-
-	parsedJSON := gjson.ParseBytes(jsonData)
-	valueList, parseErr := parseTransformedData(parsedJSON)
-
-	if parseErr != nil {
-		respStatus = "Failure"
-		responseMessage = "[GoogleSheets] error :: Failed to parse transformed data ::" + parseErr.Error()
-		pkgLogger.Errorn("[Googlesheets] error while parsing transformed data", obskit.Error(parseErr))
-		return 400, respStatus, responseMessage
-
-	}
-
-	if err := p.insertRowDataToSheet(valueList); err != nil {
-		statCode, serviceMessage := handleServiceError(err)
-		respStatus = "Failure"
-		responseMessage = "[GoogleSheets] error :: Failed to insert Payload :: " + serviceMessage
-		pkgLogger.Errorn("[Googlesheets] error while inserting data to sheet", obskit.Error(err))
-		return statCode, respStatus, responseMessage
-	}
-
-	respStatus = "Success"
-	responseMessage = "[GoogleSheets] :: Message Payload inserted with messageId :: " + parsedJSON.Get("id").String()
-	return 200, respStatus, responseMessage
+	_ = "STUB: not implemented"
+	return 0, "", ""
 }
 
 // insertHeaderDataToSheet inserts header data.
 // Returns error for failure cases of API calls otherwise returns nil
 func (p *GoogleSheetsProducer) insertHeaderDataToSheet(data []any) error {
+	_ = "STUB: not implemented"
 	// Creating value range for inserting row into sheet
-	var vr sheets.ValueRange
-	vr.MajorDimension = "ROWS"
-	vr.Range = p.config.SheetName + "!A1"
-	vr.Values = append(vr.Values, data)
-	var err error
-
-	ctx, cancel := context.WithTimeout(context.Background(), p.client.opts.Timeout)
-	defer cancel()
-
-	_, err = p.client.service.Spreadsheets.Values.Update(p.config.SheetId, p.config.SheetName+"!A1", &vr).ValueInputOption("RAW").Context(ctx).Do()
-
-	return err
+	return nil
 }
 
 // insertRowDataToSheet appends row data list.
 // Returns error for failure cases of API calls otherwise returns nil
 func (p *GoogleSheetsProducer) insertRowDataToSheet(dataList [][]any) error {
+	_ = "STUB: not implemented"
 	// Creating value range for inserting row into sheet
-	vr := sheets.ValueRange{
-		MajorDimension: "ROWS",
-		Range:          p.config.SheetName + "!A1",
-		Values:         dataList,
-	}
-	var err error
-
-	ctx, cancel := context.WithTimeout(context.Background(), p.client.opts.Timeout)
-	defer cancel()
-
-	_, err = p.client.service.Spreadsheets.Values.Append(p.config.SheetId, p.config.SheetName+"!A1", &vr).ValueInputOption("RAW").Context(ctx).Do()
-
-	return err
+	return nil
 }
 
 // parseTransformedData returns array of values from a json.
@@ -227,109 +119,48 @@ func (p *GoogleSheetsProducer) insertRowDataToSheet(dataList [][]any) error {
 //			]
 //	}
 func parseTransformedData(source gjson.Result) ([][]any, error) {
-	batch := source.Get("batch")
-	messages := batch.Array()
-	if len(messages) == 0 {
-		messages = append(messages, source)
-	}
-	var valueList [][]any
-	for _, messageElement := range messages {
-		messagefields := messageElement.Get("message")
-		values := make([]any, len(messagefields.Map()))
-		var pos int
-		var err error
-		if messagefields.IsObject() {
-			for k, v := range messagefields.Map() {
-				pos, err = strconv.Atoi(k)
-				if err != nil {
-					return nil, err
-				}
-				// Adding support for numeric type data
-				attrValue := v.Get("attributeValue")
-				switch attrValue.Type {
-				case gjson.Number:
-					values[pos] = attrValue.Float()
-				default:
-					values[pos] = attrValue.String()
-				}
-
-			}
-		}
-		valueList = append(valueList, values)
-	}
-
-	return valueList, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
+
+// Adding support for numeric type data
 
 // getSheetsData is used to parse a string array to an interface array for compatibility
 // with sheets-api
-func getSheetsData(typedata []string) []any {
-	data := make([]any, len(typedata))
-	for key, value := range typedata {
-		data[key] = value
-	}
-	return data
-}
+func getSheetsData(typedata []string) []any { _ = "STUB: not implemented"; return nil }
 
 // handleServiceError is created for fail safety, if in any case when err type is not googleapi.Error
 // server should not crash with a type error.
 func handleServiceError(err error) (statusCode int, responseMessage string) {
-	statusCode = 500
-	responseMessage = err.Error()
-
-	if errors.Is(err, context.DeadlineExceeded) {
-		return 504, responseMessage
-	}
-
-	var serviceErr *googleapi.Error
-	if errors.As(err, &serviceErr) {
-		return serviceErr.Code, serviceErr.Message
-	}
-	return statusCode, responseMessage
+	_ = "STUB: not implemented"
+	return 0, ""
 }
 
 func newOAuth2Client(config *Config) (*http.Client, error) {
-	ctx := context.Background()
-	jwtConfig, err := google.JWTConfigFromJSON([]byte(config.Credentials), sheets.SpreadsheetsScope)
-	if err != nil {
-		return nil, fmt.Errorf("[GoogleSheets] error :: parsing credentials :: %w", err)
-	}
-	oauth2Client := oauth2.NewClient(ctx, jwtConfig.TokenSource(ctx))
-	return oauth2Client, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func testClientOptions(config *Config) []option.ClientOption {
-	token := &oauth2.Token{
-		AccessToken:  config.TestConfig.AccessToken,
-		RefreshToken: config.TestConfig.RefreshToken,
-	}
-	// skipcq: GO-S1020
-	tlsConfig := &tls.Config{
-		// skipcq: GSC-G402
-		InsecureSkipVerify: true,
-	}
-	client := oauth2.NewClient(context.Background(), oauth2.StaticTokenSource(token))
-	trans := client.Transport.(*oauth2.Transport)
-	trans.Base = &http.Transport{TLSClientConfig: tlsConfig}
-	return []option.ClientOption{option.WithEndpoint(config.TestConfig.Endpoint), option.WithHTTPClient(client)}
-}
+func testClientOptions(config *Config) []option.ClientOption { _ = "STUB: not implemented"; return nil }
+
+// skipcq: GO-S1020
+
+// skipcq: GSC-G402
 
 func realClientOptions(config *Config) ([]option.ClientOption, error) {
-	oauth2Client, err := newOAuth2Client(config)
-	if err != nil {
-		return nil, err
-	}
-	return []option.ClientOption{option.WithHTTPClient(oauth2Client)}, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func prepareClientOptions(config *Config) ([]option.ClientOption, error) {
-	if config.TestConfig.Endpoint != "" { // test configuration
-		return testClientOptions(config), nil
-	}
-	return realClientOptions(config)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
+// test configuration
+
 func (*GoogleSheetsProducer) Close() error {
+	_ = "STUB: not implemented"
 	// no-op
 	return nil
 }

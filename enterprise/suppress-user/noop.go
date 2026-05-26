@@ -5,5 +5,6 @@ import "github.com/rudderlabs/rudder-server/enterprise/suppress-user/model"
 type NOOP struct{}
 
 func (*NOOP) GetSuppressedUser(_, _, _ string) *model.Metadata {
+	_ = "STUB: not implemented"
 	return nil
 }

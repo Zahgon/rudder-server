@@ -1,10 +1,6 @@
 package lyticsBulkUpload
 
 import (
-	"fmt"
-
-	"github.com/rudderlabs/rudder-go-kit/bytesize"
-	"github.com/rudderlabs/rudder-go-kit/jsonrs"
 	"github.com/rudderlabs/rudder-go-kit/logger"
 	"github.com/rudderlabs/rudder-go-kit/stats"
 
@@ -13,34 +9,11 @@ import (
 )
 
 func NewLyticsBulkUploader(logger logger.Logger, statsFactory stats.Stats, destinationName, authorization, endpoint string, lytics LyticsService) common.AsyncUploadAndTransformManager {
-	return &LyticsBulkUploader{
-		destName:      destinationName,
-		logger:        logger.Child("Lytics").Child("LyticsBulkUploader"),
-		statsFactory:  statsFactory,
-		authorization: authorization,
-		baseEndpoint:  endpoint,
-		fileSizeLimit: common.GetBatchRouterConfigInt64("MaxUploadLimit", destinationName, 10*bytesize.MB),
-		jobToCSVMap:   map[int64]int64{},
-		service:       lytics,
-	}
+	_ = "STUB: not implemented"
+	return *new(common.AsyncUploadAndTransformManager)
 }
 
 func NewManager(logger logger.Logger, statsFactory stats.Stats, destination *backendconfig.DestinationT) (common.AsyncDestinationManager, error) {
-	destConfig := DestinationConfig{}
-	jsonConfig, err := jsonrs.Marshal(destination.Config)
-	if err != nil {
-		return nil, fmt.Errorf("error in marshalling destination config: %v", err)
-	}
-	err = jsonrs.Unmarshal(jsonConfig, &destConfig)
-	if err != nil {
-		return nil, fmt.Errorf("error in unmarshalling destination config: %v", err)
-	}
-	destName := destination.DestinationDefinition.Name
-
-	lyticsService := &LyticsServiceImpl{}
-	lyticsImpl := lyticsService.getBulkApi(destConfig)
-
-	return common.SimpleAsyncDestinationManager{
-		UploaderAndTransformer: NewLyticsBulkUploader(logger, statsFactory, destName, destConfig.LyticsApiKey, lyticsImpl.BulkApi, lyticsService),
-	}, nil
+	_ = "STUB: not implemented"
+	return *new(common.AsyncDestinationManager), nil
 }

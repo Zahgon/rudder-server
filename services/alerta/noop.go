@@ -8,5 +8,6 @@ import (
 type NOOP struct{}
 
 func (*NOOP) SendAlert(context.Context, string, SendAlertOpts) error {
+	_ = "STUB: not implemented"
 	return nil
 }

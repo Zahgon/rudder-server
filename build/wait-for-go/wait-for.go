@@ -2,8 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
-	"net"
 	"os"
 	"strings"
 	"time"
@@ -11,33 +9,10 @@ import (
 
 // Usage example
 // go run build/wait-for-go/wait-for.go -u -t 10 localhost:8125 && go run main.go
-func canConnect(host, port, protocol string) bool {
-	timeout := time.Second
-	conn, err := net.DialTimeout(protocol, net.JoinHostPort(host, port), timeout)
-	if err != nil {
-		fmt.Println("Connecting error:", err)
-	}
-	// When using UDP do a quick check to see if something is listening on the
-	// given port to return an error as soon as possible.
+func canConnect(host, port, protocol string) bool { _ = "STUB: not implemented"; return false }
 
-	if conn != nil {
-		if protocol == "udp" {
-			for range 2 {
-				_, err = conn.Write(nil)
-				time.Sleep(1 * time.Second)
-				fmt.Println("UDP error:", err)
-				if err != nil {
-					_ = conn.Close()
-					return false
-				}
-			}
-		}
-		_ = conn.Close()
-		fmt.Println("Opened", net.JoinHostPort(host, port))
-		return true
-	}
-	return false
-}
+// When using UDP do a quick check to see if something is listening on the
+// given port to return an error as soon as possible.
 
 func main() {
 	protocol := "tcp"

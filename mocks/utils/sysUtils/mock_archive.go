@@ -13,7 +13,6 @@ import (
 	zip "archive/zip"
 	io "io"
 	os "os"
-	reflect "reflect"
 
 	gomock "go.uber.org/mock/gomock"
 )
@@ -31,57 +30,44 @@ type MockZipIMockRecorder struct {
 }
 
 // NewMockZipI creates a new mock instance.
-func NewMockZipI(ctrl *gomock.Controller) *MockZipI {
-	mock := &MockZipI{ctrl: ctrl}
-	mock.recorder = &MockZipIMockRecorder{mock}
-	return mock
-}
+func NewMockZipI(ctrl *gomock.Controller) *MockZipI { _ = "STUB: not implemented"; return nil }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockZipI) EXPECT() *MockZipIMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// FileInfoHeader mocks base method.
+	return nil
 }
 
-// FileInfoHeader mocks base method.
 func (m *MockZipI) FileInfoHeader(fi os.FileInfo) (*zip.FileHeader, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FileInfoHeader", fi)
-	ret0, _ := ret[0].(*zip.FileHeader)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // FileInfoHeader indicates an expected call of FileInfoHeader.
 func (mr *MockZipIMockRecorder) FileInfoHeader(fi any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FileInfoHeader", reflect.TypeOf((*MockZipI)(nil).FileInfoHeader), fi)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // NewWriter mocks base method.
-func (m *MockZipI) NewWriter(w io.Writer) *zip.Writer {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewWriter", w)
-	ret0, _ := ret[0].(*zip.Writer)
-	return ret0
-}
+func (m *MockZipI) NewWriter(w io.Writer) *zip.Writer { _ = "STUB: not implemented"; return nil }
 
 // NewWriter indicates an expected call of NewWriter.
 func (mr *MockZipIMockRecorder) NewWriter(w any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewWriter", reflect.TypeOf((*MockZipI)(nil).NewWriter), w)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // OpenReader mocks base method.
 func (m *MockZipI) OpenReader(name string) (*zip.ReadCloser, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "OpenReader", name)
-	ret0, _ := ret[0].(*zip.ReadCloser)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // OpenReader indicates an expected call of OpenReader.
 func (mr *MockZipIMockRecorder) OpenReader(name any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OpenReader", reflect.TypeOf((*MockZipI)(nil).OpenReader), name)
+	_ = "STUB: not implemented"
+	return nil
 }

@@ -2,7 +2,6 @@ package model
 
 import (
 	"encoding/json"
-	"fmt"
 	"time"
 )
 
@@ -13,18 +12,14 @@ type SourceJobType interface {
 
 type sourceJobType string
 
-func (s sourceJobType) String() string          { return string(s) }
-func (s sourceJobType) sourceJobTypeProtected() {}
+func (s sourceJobType) String() string          { _ = "STUB: not implemented"; return "" }
+func (s sourceJobType) sourceJobTypeProtected() { _ = "STUB: not implemented"; return }
 
 var SourceJobTypeDeleteByJobRunID SourceJobType = sourceJobType("deletebyjobrunid")
 
 func FromSourceJobType(jobType string) (SourceJobType, error) {
-	switch jobType {
-	case SourceJobTypeDeleteByJobRunID.String():
-		return SourceJobTypeDeleteByJobRunID, nil
-	default:
-		return nil, fmt.Errorf("invalid job type %s", jobType)
-	}
+	_ = "STUB: not implemented"
+	return *new(SourceJobType), nil
 }
 
 type SourceJobStatus interface {
@@ -34,8 +29,8 @@ type SourceJobStatus interface {
 
 type sourceJobStatus string
 
-func (s sourceJobStatus) String() string            { return string(s) }
-func (s sourceJobStatus) sourceJobStatusProtected() {}
+func (s sourceJobStatus) String() string            { _ = "STUB: not implemented"; return "" }
+func (s sourceJobStatus) sourceJobStatusProtected() { _ = "STUB: not implemented"; return }
 
 var (
 	SourceJobStatusWaiting   SourceJobStatus = sourceJobStatus("waiting")
@@ -46,20 +41,8 @@ var (
 )
 
 func FromSourceJobStatus(status string) (SourceJobStatus, error) {
-	switch status {
-	case SourceJobStatusWaiting.String():
-		return SourceJobStatusWaiting, nil
-	case SourceJobStatusExecuting.String():
-		return SourceJobStatusExecuting, nil
-	case SourceJobStatusFailed.String():
-		return SourceJobStatusFailed, nil
-	case SourceJobStatusAborted.String():
-		return SourceJobStatusAborted, nil
-	case SourceJobStatusSucceeded.String():
-		return SourceJobStatusSucceeded, nil
-	default:
-		return nil, fmt.Errorf("invalid job status %s", status)
-	}
+	_ = "STUB: not implemented"
+	return *new(SourceJobStatus), nil
 }
 
 type SourceJob struct {

@@ -5,8 +5,6 @@ import (
 	"encoding/json"
 	"sync"
 
-	"github.com/tidwall/gjson"
-
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
 	"github.com/rudderlabs/rudder-server/jobsdb"
 )
@@ -32,30 +30,17 @@ type Service interface {
 // NewService creates a new service that updates its transient source ids while
 // backend configuration gets updated.
 func NewService(ctx context.Context, config backendconfig.BackendConfig) Service {
-	s := &service{
-		init: make(chan struct{}),
-	}
-	go s.updateLoop(ctx, config)
-	return s
+	_ = "STUB: not implemented"
+	return *new(Service)
 }
 
 // NewEmptyService creates a new service that operates against an empty list of transient source ids
 // Useful for tests, when you are not interested in testing for transient sources.
-func NewEmptyService() Service {
-	return NewStaticService([]string{})
-}
+func NewEmptyService() Service { _ = "STUB: not implemented"; return *new(Service) }
 
 // NewStaticService creates a new service that operates against a predefined list of transient source ids.
 // Useful for tests.
-func NewStaticService(sourceIds []string) Service {
-	s := &service{
-		init:         make(chan struct{}),
-		sourceIds:    sourceIds,
-		sourceIdsMap: asMap(sourceIds),
-	}
-	close(s.init)
-	return s
-}
+func NewStaticService(sourceIds []string) Service { _ = "STUB: not implemented"; return *new(Service) }
 
 type service struct {
 	onceInit     sync.Once
@@ -64,70 +49,25 @@ type service struct {
 	sourceIdsMap map[string]struct{}
 }
 
-func (r *service) SourceIdsSupplier() func() []string {
-	return func() []string {
-		<-r.init
-		return r.sourceIds
-	}
-}
+func (r *service) SourceIdsSupplier() func() []string { _ = "STUB: not implemented"; return nil }
 
-func (r *service) Apply(sourceId string) bool {
-	<-r.init
-	_, ok := r.sourceIdsMap[sourceId]
-	return ok
-}
+func (r *service) Apply(sourceId string) bool { _ = "STUB: not implemented"; return false }
 
-func (r *service) ApplyParams(params json.RawMessage) bool {
-	sourceId := gjson.GetBytes(params, "source_id").String()
-	return r.Apply(sourceId)
-}
+func (r *service) ApplyParams(params json.RawMessage) bool { _ = "STUB: not implemented"; return false }
 
-func (r *service) ApplyJob(job *jobsdb.JobT) bool {
-	return r.ApplyParams(job.Parameters)
-}
+func (r *service) ApplyJob(job *jobsdb.JobT) bool { _ = "STUB: not implemented"; return false }
 
 // updateLoop uses backend config to retrieve & keep up-to-date the list of transient source ids
 func (r *service) updateLoop(ctx context.Context, config backendconfig.BackendConfig) {
-	ch := config.Subscribe(ctx, backendconfig.TopicBackendConfig)
-
-	for ev := range ch {
-		configs := ev.Data.(map[string]backendconfig.ConfigT)
-		var newSourceIds []string
-		for _, c := range configs {
-			newSourceIds = append(newSourceIds, transientSourceIds(&c)...)
-		}
-		r.sourceIds = newSourceIds
-		r.sourceIdsMap = asMap(newSourceIds)
-		r.onceInit.Do(func() {
-			close(r.init)
-		})
-	}
-
-	r.onceInit.Do(func() {
-		close(r.init)
-	})
+	_ = "STUB: not implemented"
+	return
 }
 
 // transientSourceIds scans a backend configuration and extracts
 // source ids which have the following configuration option
 //
 //	transient : true
-func transientSourceIds(c *backendconfig.ConfigT) []string {
-	r := make([]string, 0)
-	for i := range c.Sources {
-		source := &c.Sources[i]
-		if source.Transient {
-			r = append(r, source.ID)
-		}
-	}
-	return r
-}
+func transientSourceIds(c *backendconfig.ConfigT) []string { _ = "STUB: not implemented"; return nil }
 
 // asMap converts a slice of strings to a set, i.e. a map of strings to empty structs
-func asMap(arr []string) map[string]struct{} {
-	res := map[string]struct{}{}
-	for _, excludedSourceId := range arr {
-		res[excludedSourceId] = struct{}{}
-	}
-	return res
-}
+func asMap(arr []string) map[string]struct{} { _ = "STUB: not implemented"; return nil }

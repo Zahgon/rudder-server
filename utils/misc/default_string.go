@@ -17,8 +17,6 @@ type DefaultString string
 
 // OnError returns the default value if the err argument is not nil, otherwise the value
 func (r DefaultString) OnError(value string, err error) string {
-	if err != nil {
-		return string(r)
-	}
-	return value
+	_ = "STUB: not implemented"
+	return ""
 }

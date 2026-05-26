@@ -11,7 +11,6 @@ package mock_bqstream
 
 import (
 	context "context"
-	reflect "reflect"
 
 	bqstream "github.com/rudderlabs/rudder-server/services/streammanager/bqstream"
 	gomock "go.uber.org/mock/gomock"
@@ -30,41 +29,29 @@ type MockBQClientMockRecorder struct {
 }
 
 // NewMockBQClient creates a new mock instance.
-func NewMockBQClient(ctrl *gomock.Controller) *MockBQClient {
-	mock := &MockBQClient{ctrl: ctrl}
-	mock.recorder = &MockBQClientMockRecorder{mock}
-	return mock
-}
+func NewMockBQClient(ctrl *gomock.Controller) *MockBQClient { _ = "STUB: not implemented"; return nil }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockBQClient) EXPECT() *MockBQClientMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Close mocks base method.
+	return nil
 }
 
-// Close mocks base method.
-func (m *MockBQClient) Close() error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Close")
-	ret0, _ := ret[0].(error)
-	return ret0
-}
+func (m *MockBQClient) Close() error { _ = "STUB: not implemented"; return nil }
 
 // Close indicates an expected call of Close.
-func (mr *MockBQClientMockRecorder) Close() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Close", reflect.TypeOf((*MockBQClient)(nil).Close))
-}
+func (mr *MockBQClientMockRecorder) Close() *gomock.Call { _ = "STUB: not implemented"; return nil }
 
 // Put mocks base method.
 func (m *MockBQClient) Put(ctx context.Context, datasetID, tableID string, records []*bqstream.GenericRecord) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Put", ctx, datasetID, tableID, records)
-	ret0, _ := ret[0].(error)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Put indicates an expected call of Put.
 func (mr *MockBQClientMockRecorder) Put(ctx, datasetID, tableID, records any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Put", reflect.TypeOf((*MockBQClient)(nil).Put), ctx, datasetID, tableID, records)
+	_ = "STUB: not implemented"
+	return nil
 }

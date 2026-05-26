@@ -2,29 +2,17 @@ package notifier
 
 import (
 	"context"
-	"database/sql"
 	"encoding/json"
-	"errors"
-	"fmt"
 	"math/rand"
 	"time"
 
-	"github.com/allisson/go-pglock/v3"
-	"github.com/cenkalti/backoff/v5"
 	"github.com/google/uuid"
-	"github.com/lib/pq"
-	"github.com/spaolacci/murmur3"
 	"golang.org/x/sync/errgroup"
 
 	"github.com/rudderlabs/rudder-go-kit/config"
 	"github.com/rudderlabs/rudder-go-kit/logger"
 	"github.com/rudderlabs/rudder-go-kit/stats"
-	"github.com/rudderlabs/rudder-go-kit/stats/collectors"
-	obskit "github.com/rudderlabs/rudder-observability-kit/go/labels"
 
-	migrator "github.com/rudderlabs/rudder-server/services/sql-migrator"
-	"github.com/rudderlabs/rudder-server/utils/backoffvoid"
-	"github.com/rudderlabs/rudder-server/utils/misc"
 	sqlmw "github.com/rudderlabs/rudder-server/warehouse/integrations/middleware/sqlquerywrapper"
 )
 
@@ -156,262 +144,48 @@ func New(
 	workspaceIdentifier string,
 	canRunMigrations bool,
 ) *Notifier {
-	n := &Notifier{
-		conf:                conf,
-		logger:              log.Child("notifier"),
-		statsFactory:        statsFactory,
-		workspaceIdentifier: workspaceIdentifier,
-		canRunMigrations:    canRunMigrations,
-		batchIDGenerator:    misc.FastUUID,
-		randGenerator:       rand.New(rand.NewSource(time.Now().UnixNano())),
-		now:                 time.Now,
-	}
-
-	n.logger.Infon("Initializing Notifier...")
-
-	n.config.host = n.conf.GetStringVar("localhost", "PGNOTIFIER_DB_HOST")
-	n.config.user = n.conf.GetStringVar("ubuntu", "PGNOTIFIER_DB_USER")
-	n.config.database = n.conf.GetStringVar("ubuntu", "PGNOTIFIER_DB_NAME")
-	n.config.port = n.conf.GetIntVar(5432, 1, "PGNOTIFIER_DB_PORT")
-	n.config.password = n.conf.GetStringVar("ubuntu", "PGNOTIFIER_DB_PASSWORD")
-	n.config.sslMode = n.conf.GetStringVar("disable", "PGNOTIFIER_DB_SSL_MODE")
-	n.config.maxAttempt = n.conf.GetIntVar(3, 1, "PgNotifier.maxAttempt")
-	n.config.maxOpenConnections = n.conf.GetIntVar(20, 1, "PgNotifier.maxOpenConnections")
-	n.config.shouldForceSetLowerVersion = n.conf.GetBoolVar(true, "SQLMigrator.forceSetLowerVersion")
-	n.config.trackBatchInterval = n.conf.GetDurationVar(2, time.Second, "PgNotifier.trackBatchIntervalInS")
-	n.config.queryTimeout = n.conf.GetDurationVar(5, time.Minute, "Warehouse.pgNotifierQueryTimeout")
-	n.config.maxPollSleep = n.conf.GetReloadableDurationVar(5000, time.Millisecond, "PgNotifier.maxPollSleep")
-	n.config.jobOrphanTimeout = n.conf.GetReloadableDurationVar(120, time.Second, "PgNotifier.jobOrphanTimeout")
-
-	n.stats.insertRecords = n.statsFactory.NewTaggedStat("pg_notifier.insert_records", stats.CountType, stats.Tags{
-		"module":    "pg_notifier",
-		"queueName": queueName,
-	})
-	n.stats.publish = n.statsFactory.NewTaggedStat("pgnotifier.publish", stats.CountType, stats.Tags{
-		"module": module,
-	})
-	n.stats.claimSucceeded = n.statsFactory.NewTaggedStat("pgnotifier.claim", stats.CountType, stats.Tags{
-		"module": module,
-		"status": string(Succeeded),
-	})
-	n.stats.claimFailed = n.statsFactory.NewTaggedStat("pgnotifier.claim", stats.CountType, stats.Tags{
-		"module": module,
-		"status": string(Failed),
-	})
-	n.stats.claimUpdateFailed = n.statsFactory.NewStat("pgnotifier.claimUpdateFailed", stats.CountType)
-	n.stats.publishTime = n.statsFactory.NewTaggedStat("pgnotifier.publishTime", stats.TimerType, stats.Tags{
-		"module": module,
-	})
-	n.stats.claimSucceededTime = n.statsFactory.NewTaggedStat("pgnotifier.claimTime", stats.TimerType, stats.Tags{
-		"module": module,
-		"status": string(Succeeded),
-	})
-	n.stats.claimFailedTime = n.statsFactory.NewTaggedStat("pgnotifier.claimTime", stats.TimerType, stats.Tags{
-		"module": module,
-		"status": string(Failed),
-	})
-	n.stats.abortedRecords = n.statsFactory.NewTaggedStat("pg_notifier.aborted_records", stats.CountType, stats.Tags{
-		"workspace": n.workspaceIdentifier,
-		"module":    "pg_notifier",
-		"queueName": queueName,
-	})
-	return n
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func (n *Notifier) Setup(
 	ctx context.Context,
 	fallbackDSN string,
 ) error {
-	dsn := fallbackDSN
-	if n.checkForNotifierEnvVars() {
-		dsn = n.connectionString()
-	}
-
-	if err := n.setupDatabase(ctx, dsn); err != nil {
-		return fmt.Errorf("could not setup db: %w", err)
-	}
-	n.repo = newRepo(n.db, WithStats(n.statsFactory))
-
-	groupCtx, groupCancel := context.WithCancel(ctx)
-	n.background.group, n.background.groupCtx = errgroup.WithContext(groupCtx)
-	n.background.groupCancel = groupCancel
-	n.background.groupWait = n.background.group.Wait
-
+	_ = "STUB: not implemented"
 	return nil
 }
 
-func (n *Notifier) checkForNotifierEnvVars() bool {
-	return n.conf.IsSet("PGNOTIFIER_DB_HOST") &&
-		n.conf.IsSet("PGNOTIFIER_DB_USER") &&
-		n.conf.IsSet("PGNOTIFIER_DB_NAME") &&
-		n.conf.IsSet("PGNOTIFIER_DB_PASSWORD")
-}
+func (n *Notifier) checkForNotifierEnvVars() bool { _ = "STUB: not implemented"; return false }
 
-func (n *Notifier) connectionString() string {
-	return fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s application_name=%s",
-		n.config.host,
-		n.config.port,
-		n.config.user,
-		n.config.password,
-		n.config.database,
-		n.config.sslMode,
-		"notifier",
-	)
-}
+func (n *Notifier) connectionString() string { _ = "STUB: not implemented"; return "" }
 
 func (n *Notifier) setupDatabase(
 	ctx context.Context,
 	dsn string,
 ) error {
-	database, err := sql.Open("postgres", dsn)
-	if err != nil {
-		return fmt.Errorf("could not open: %w", err)
-	}
-	database.SetMaxOpenConns(n.config.maxOpenConnections)
-	err = n.statsFactory.RegisterCollector(collectors.NewDatabaseSQLStats("notifier-"+n.workspaceIdentifier, database))
-	if err != nil {
-		return fmt.Errorf("registering collector: %w", err)
-	}
-
-	if err := database.PingContext(ctx); err != nil {
-		return fmt.Errorf("could not ping: %w", err)
-	}
-
-	n.db = sqlmw.New(
-		database,
-		sqlmw.WithLogger(n.logger.Child("notifier-db")),
-		sqlmw.WithQueryTimeout(n.config.queryTimeout),
-		sqlmw.WithStats(n.statsFactory),
-	)
-
-	if n.canRunMigrations {
-		if err := n.setupTables(); err != nil {
-			return fmt.Errorf("could not setup tables: %w", err)
-		}
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
-func (n *Notifier) setupTables() error {
-	err := n.migrate()
-	if err != nil {
-		return fmt.Errorf("could not migrate: %w", err)
-	}
-	err = n.migrateAlways()
-	if err != nil {
-		return fmt.Errorf("could not migrate always: %w", err)
-	}
-	return nil
-}
+func (n *Notifier) setupTables() error { _ = "STUB: not implemented"; return nil }
 
-func (n *Notifier) migrate() error {
-	m := &migrator.Migrator{
-		Handle:                     n.db.DB,
-		MigrationsTable:            "pg_notifier_queue_migrations",
-		ShouldForceSetLowerVersion: n.config.shouldForceSetLowerVersion,
-	}
+func (n *Notifier) migrate() error { _ = "STUB: not implemented"; return nil }
 
-	operation := func() error {
-		return m.Migrate("pg_notifier_queue")
-	}
-
-	err := backoffvoid.Retry(context.TODO(),
-		operation,
-		backoff.WithMaxTries(3+1),
-		backoff.WithNotify(func(err error, t time.Duration) {
-			n.logger.Warnn("retrying warehouse database migration",
-				logger.NewDurationField("backoffDelay", t),
-				obskit.Error(err))
-		}),
-	)
-	if err != nil {
-		return fmt.Errorf("could not migrate pg_notifier_queue: %w", err)
-	}
-	return nil
-}
-
-func (n *Notifier) migrateAlways() error {
-	m := &migrator.Migrator{
-		Handle:                     n.db.DB,
-		MigrationsTable:            "pg_notifier_queue_runalways_migrations",
-		ShouldForceSetLowerVersion: n.config.shouldForceSetLowerVersion,
-		RunAlways:                  true,
-	}
-
-	operation := func() error {
-		return m.MigrateFromTemplates("pg_notifier_queue_always", map[string]any{
-			"config": n.conf,
-		})
-	}
-
-	err := backoffvoid.Retry(context.TODO(),
-		operation,
-		backoff.WithMaxTries(3+1),
-		backoff.WithNotify(func(err error, t time.Duration) {
-			n.logger.Warnn("retrying warehouse database run always migration",
-				logger.NewDurationField("backoffDelay", t),
-				obskit.Error(err))
-		}),
-	)
-	if err != nil {
-		return fmt.Errorf("could not migrate pg_notifier_queue always: %w", err)
-	}
-	return nil
-}
+func (n *Notifier) migrateAlways() error { _ = "STUB: not implemented"; return nil }
 
 // ClearJobs deletes all jobs for the current workspace.
-func (n *Notifier) ClearJobs(ctx context.Context) error {
-	if n.workspaceIdentifier == "" {
-		return nil
-	}
+func (n *Notifier) ClearJobs(ctx context.Context) error { _ = "STUB: not implemented"; return nil }
 
-	n.logger.Infon("Deleting all jobs for workspace", obskit.WorkspaceID(n.workspaceIdentifier))
-
-	err := n.repo.resetForWorkspace(ctx, n.workspaceIdentifier)
-	if err != nil {
-		return fmt.Errorf("could not reset notifier for workspace: %s: %w", n.workspaceIdentifier, err)
-	}
-	return nil
-}
-
-func (n *Notifier) CheckHealth(ctx context.Context) bool {
-	healthCheckMsg := "Rudder Warehouse DB Health Check"
-	msg := ""
-
-	err := n.db.QueryRowContext(ctx, `SELECT '`+healthCheckMsg+`'::text as message;`).Scan(&msg)
-	if err != nil {
-		return false
-	}
-
-	return healthCheckMsg == msg
-}
+func (n *Notifier) CheckHealth(ctx context.Context) bool { _ = "STUB: not implemented"; return false }
 
 // Publish inserts the payloads into the database and returns a channel of type PublishResponse
 func (n *Notifier) Publish(
 	ctx context.Context,
 	publishRequest *PublishRequest,
 ) (<-chan *PublishResponse, error) {
-	publishStartTime := n.now()
-
-	batchID := n.batchIDGenerator().String()
-
-	if err := n.repo.insert(ctx, publishRequest, n.workspaceIdentifier, batchID); err != nil {
-		return nil, fmt.Errorf("inserting jobs: %w", err)
-	}
-
-	n.logger.Infon("Inserted records",
-		logger.NewIntField("noOfRecords", int64(len(publishRequest.Payloads))),
-		logger.NewStringField("target", queueName),
-		logger.NewStringField("batch", batchID))
-
-	n.stats.insertRecords.Count(len(publishRequest.Payloads))
-
-	defer func() {
-		n.stats.publishTime.Since(publishStartTime)
-		n.stats.publish.Increment()
-	}()
-
-	return n.trackBatch(ctx, batchID), nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // trackBatch tracks the batch and returns a channel of type PublishResponse
@@ -419,65 +193,8 @@ func (n *Notifier) trackBatch(
 	ctx context.Context,
 	batchID string,
 ) <-chan *PublishResponse {
-	publishResCh := make(chan *PublishResponse, 1)
-
-	n.background.group.Go(func() error {
-		defer close(publishResCh)
-
-		onUpdate := func(response *PublishResponse) {
-			select {
-			case <-ctx.Done():
-				return
-			case <-n.background.groupCtx.Done():
-				return
-			case publishResCh <- response:
-			}
-		}
-
-		for {
-			select {
-			case <-ctx.Done():
-				return nil
-			case <-n.background.groupCtx.Done():
-				return nil
-			case <-time.After(n.config.trackBatchInterval):
-			}
-
-			count, err := n.repo.pendingByBatchID(ctx, batchID)
-			if err != nil {
-				onUpdate(&PublishResponse{
-					Err: fmt.Errorf("could not get pending count for batch: %s: %w", batchID, err),
-				})
-				return nil
-			} else if count != 0 {
-				continue
-			}
-
-			jobs, err := n.repo.getByBatchID(ctx, batchID)
-			if err != nil {
-				onUpdate(&PublishResponse{
-					Err: fmt.Errorf("could not get jobs for batch: %s: %w", batchID, err),
-				})
-				return nil
-			}
-
-			err = n.repo.deleteByBatchID(ctx, batchID)
-			if err != nil {
-				onUpdate(&PublishResponse{
-					Err: fmt.Errorf("could not delete jobs for batch: %s: %w", batchID, err),
-				})
-				return nil
-			}
-
-			n.logger.Infon("Completed processing all files in batch", logger.NewStringField("batch", batchID))
-
-			onUpdate(&PublishResponse{
-				Jobs: jobs,
-			})
-			return nil
-		}
-	})
-	return publishResCh
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Subscribe returns a channel of type Job
@@ -486,56 +203,8 @@ func (n *Notifier) Subscribe(
 	workerId string,
 	bufferSize int,
 ) <-chan *ClaimJob {
-	jobsCh := make(chan *ClaimJob, bufferSize)
-
-	nextPollInterval := func(pollSleep time.Duration) time.Duration {
-		pollSleep = 2*pollSleep + time.Duration(n.randGenerator.Intn(100))*time.Millisecond
-
-		if pollSleep < n.config.maxPollSleep.Load() {
-			return pollSleep
-		}
-
-		return n.config.maxPollSleep.Load()
-	}
-
-	n.background.group.Go(func() error {
-		defer close(jobsCh)
-
-		pollSleep := time.Duration(0)
-
-		for {
-			job, err := n.claim(ctx, workerId)
-			if err != nil {
-				var pqErr *pq.Error
-
-				switch {
-				case errors.Is(err, sql.ErrNoRows),
-					errors.Is(err, context.Canceled),
-					errors.Is(err, context.DeadlineExceeded),
-					errors.As(err, &pqErr) && pqErr.Code == "57014":
-				default:
-					n.logger.Warnn("claiming job", obskit.Error(err))
-				}
-
-				pollSleep = nextPollInterval(pollSleep)
-			} else {
-				jobsCh <- &ClaimJob{
-					Job: job,
-				}
-
-				pollSleep = time.Duration(0)
-			}
-
-			select {
-			case <-ctx.Done():
-				return nil
-			case <-n.background.groupCtx.Done():
-				return nil
-			case <-time.After(pollSleep):
-			}
-		}
-	})
-	return jobsCh
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Claim claims a job from the notifier queue
@@ -543,23 +212,8 @@ func (n *Notifier) claim(
 	ctx context.Context,
 	workerID string,
 ) (*Job, error) {
-	claimStartTime := n.now()
-
-	claimedJob, err := n.repo.claim(ctx, workerID)
-	if errors.Is(err, sql.ErrNoRows) {
-		return nil, fmt.Errorf("no jobs found: %w", err)
-	}
-	if err != nil {
-		n.stats.claimFailedTime.Since(claimStartTime)
-		n.stats.claimFailed.Increment()
-
-		return nil, fmt.Errorf("claiming job: %w", err)
-	}
-
-	n.stats.claimSucceededTime.Since(claimStartTime)
-	n.stats.claimSucceeded.Increment()
-
-	return claimedJob, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // UpdateClaim updates the notifier with the claimResponse
@@ -572,95 +226,18 @@ func (n *Notifier) UpdateClaim(
 	claimedJob *ClaimJob,
 	response *ClaimJobResponse,
 ) {
-	if response.Err != nil {
-		if err := n.repo.onClaimFailed(ctx, claimedJob.Job, response.Err, n.config.maxAttempt); err != nil {
-			n.stats.claimUpdateFailed.Increment()
-			n.logger.Errorn("update claimed: on claimed failed", obskit.Error(err))
-		}
-
-		if claimedJob.Job.Attempt > n.config.maxAttempt {
-			n.stats.abortedRecords.Increment()
-		}
-		return
-	}
-
-	if err := n.repo.onClaimSuccess(ctx, claimedJob.Job, response.Payload); err != nil {
-		n.stats.claimUpdateFailed.Increment()
-		n.logger.Errorn("update claimed: on claimed success", obskit.Error(err))
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 // RunMaintenance re-triggers zombie jobs which were left behind by dead workers in executing state
 // Since it's a blocking call, it should be run in a separate goroutine
-func (n *Notifier) RunMaintenance(ctx context.Context) error {
-	maintenanceWorkerLockID := murmur3.Sum64([]byte(queueName))
-	maintenanceWorkerLock, err := pglock.NewLock(ctx, int64(maintenanceWorkerLockID), n.db.DB)
-	if err != nil {
-		return fmt.Errorf("creating maintenance worker lock: %w", err)
-	}
-
-	var locked bool
-	defer func() {
-		if locked {
-			if err := maintenanceWorkerLock.Unlock(ctx); err != nil {
-				n.logger.Warnn("unlocking maintenance worker lock", obskit.Error(err))
-			}
-		}
-		err := maintenanceWorkerLock.Close()
-		if err != nil {
-			n.logger.Warnn("closing maintenance worker lock", obskit.Error(err))
-		}
-	}()
-
-	for {
-		if locked, err = maintenanceWorkerLock.Lock(ctx); err != nil {
-			n.logger.Warnn("acquiring maintenance worker lock", obskit.Error(err))
-		} else if locked {
-			break
-		}
-
-		select {
-		case <-ctx.Done():
-			return nil
-		case <-time.After(n.config.jobOrphanTimeout.Load() / 5):
-		}
-	}
-
-	for {
-		orphanJobIDs, err := n.repo.orphanJobIDs(ctx, int(n.config.jobOrphanTimeout.Load()/time.Second))
-		if err != nil {
-			var pqErr *pq.Error
-
-			switch {
-			case errors.Is(err, context.Canceled),
-				errors.Is(err, context.DeadlineExceeded),
-				errors.As(err, &pqErr) && pqErr.Code == "57014":
-				return nil
-			default:
-				return fmt.Errorf("fetching orphan job ids: %w", err)
-			}
-		}
-
-		if len(orphanJobIDs) > 0 {
-			n.logger.Infon("Re-triggered job ids", logger.NewIntSliceField("jobIds", orphanJobIDs))
-		}
-
-		select {
-		case <-ctx.Done():
-			return nil
-		case <-time.After(n.config.jobOrphanTimeout.Load() / 5):
-		}
-	}
-}
+func (n *Notifier) RunMaintenance(ctx context.Context) error { _ = "STUB: not implemented"; return nil }
 
 // Shutdown waits for all the background jobs to be drained off.
-func (n *Notifier) Shutdown() error {
-	n.logger.Infon("Shutting down notifier")
-
-	n.background.groupCancel()
-	return n.background.group.Wait()
-}
+func (n *Notifier) Shutdown() error { _ = "STUB: not implemented"; return nil }
 
 func (n *Notifier) RefreshClaim(ctx context.Context, jobId int64) error {
-	return n.repo.refreshClaim(ctx, jobId)
+	_ = "STUB: not implemented"
+	return nil
 }

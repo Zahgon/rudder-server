@@ -1,24 +1,12 @@
 package alerta
 
 import (
-	"bytes"
 	"context"
-	"fmt"
-	"io"
-	"maps"
 	"net/http"
-	"sort"
-	"strings"
 	"time"
 
-	"github.com/cenkalti/backoff/v5"
-
 	"github.com/rudderlabs/rudder-go-kit/config"
-	"github.com/rudderlabs/rudder-go-kit/jsonrs"
 	"github.com/rudderlabs/rudder-go-kit/logger"
-
-	"github.com/rudderlabs/rudder-server/utils/backoffvoid"
-	"github.com/rudderlabs/rudder-server/utils/httputil"
 )
 
 type OptFn func(*Client)
@@ -90,41 +78,17 @@ type Client struct {
 	kuberNamespace string
 }
 
-func WithHTTPClient(httpClient *http.Client) OptFn {
-	return func(c *Client) {
-		c.client = httpClient
-	}
-}
+func WithHTTPClient(httpClient *http.Client) OptFn { _ = "STUB: not implemented"; return *new(OptFn) }
 
-func WithTimeout(timeout time.Duration) OptFn {
-	return func(c *Client) {
-		c.client.Timeout = timeout
-	}
-}
+func WithTimeout(timeout time.Duration) OptFn { _ = "STUB: not implemented"; return *new(OptFn) }
 
-func WithMaxRetries(retries int) OptFn {
-	return func(c *Client) {
-		c.retries = retries
-	}
-}
+func WithMaxRetries(retries int) OptFn { _ = "STUB: not implemented"; return *new(OptFn) }
 
-func WithConfig(config *config.Config) OptFn {
-	return func(c *Client) {
-		c.config = config
-	}
-}
+func WithConfig(config *config.Config) OptFn { _ = "STUB: not implemented"; return *new(OptFn) }
 
-func WithAlertTimeout(timeout int) OptFn {
-	return func(c *Client) {
-		c.alertTimeout = timeout
-	}
-}
+func WithAlertTimeout(timeout int) OptFn { _ = "STUB: not implemented"; return *new(OptFn) }
 
-func WithKubeNamespace(namespace string) OptFn {
-	return func(c *Client) {
-		c.kuberNamespace = namespace
-	}
-}
+func WithKubeNamespace(namespace string) OptFn { _ = "STUB: not implemented"; return *new(OptFn) }
 
 var pkgLogger logger.Logger
 
@@ -133,130 +97,30 @@ func init() {
 }
 
 func NewClient(baseURL string, fns ...OptFn) AlertSender {
-	c := &Client{
-		url: baseURL,
-		client: &http.Client{
-			Timeout: defaultTimeout,
-		},
-
-		retries: defaultMaxRetries,
-		config:  config.Default,
-	}
-
-	for _, fn := range fns {
-		fn(c)
-	}
-
-	if !c.isEnabled() {
-		pkgLogger.Infon("Alerta client is disabled")
-		return &NOOP{}
-	}
-
-	return c
+	_ = "STUB: not implemented"
+	return *new(AlertSender)
 }
 
 func (c *Client) retry(ctx context.Context, fn func() error) error {
-	return backoffvoid.Retry(ctx, fn, backoff.WithMaxTries(uint(c.retries+1)))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func (c *Client) defaultTags(opts *SendAlertOpts) Tags {
-	var (
-		tags      = make(Tags)
-		namespace = c.kuberNamespace
-	)
-
-	if namespace == "" {
-		namespace = config.GetNamespaceIdentifier()
-	}
-
-	tags["namespace"] = namespace
-	tags["priority"] = string(opts.Priority)
-
-	return tags
+	_ = "STUB: not implemented"
+	return *new(Tags)
 }
 
-func (c *Client) isEnabled() bool {
-	return c.config.GetBoolVar(true, "ALERTA_ENABLED")
-}
+func (c *Client) isEnabled() bool { _ = "STUB: not implemented"; return false }
 
 func (c *Client) setDefaultsOpts(resource string, opts *SendAlertOpts) {
-	if opts.Priority == "" {
-		opts.Priority = defaultPriority
-	}
-	if opts.Severity == "" {
-		opts.Severity = defaultSeverity
-	}
-	if opts.Text == "" {
-		opts.Text = fmt.Sprintf("%s is %s", resource, opts.Severity)
-	}
-	if opts.Environment == "" {
-		opts.Environment = defaultEnvironment
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 func (c *Client) SendAlert(ctx context.Context, resource string, opts SendAlertOpts) error {
-	c.setDefaultsOpts(resource, &opts)
-
-	// default tags
-	tags := c.defaultTags(&opts)
-	maps.Copy(tags, opts.Tags)
-
-	var tagList []string
-	for k, v := range tags {
-		tagList = append(tagList, fmt.Sprintf("%s=%s", k, v))
-	}
-	sort.Strings(tagList)
-
-	var (
-		event        = strings.Join(tagList, ",")
-		alertTimeout = c.alertTimeout
-	)
-
-	if alertTimeout == 0 {
-		alertTimeout = c.config.GetIntVar(86400, 1, "alerta.timeout")
-	}
-
-	payload := Alert{
-		Resource:    resource,
-		Timeout:     alertTimeout,
-		Event:       event,
-		TagList:     tagList,
-		Environment: opts.Environment,
-		Severity:    opts.Severity,
-		Text:        opts.Text,
-	}
-
-	body, err := jsonrs.Marshal(payload)
-	if err != nil {
-		return fmt.Errorf("marshalling alerta: %w", err)
-	}
-
-	return c.retry(ctx, func() error {
-		url := fmt.Sprintf("%s/alert", c.url)
-
-		req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewReader(body))
-		if err != nil {
-			return fmt.Errorf("creating http request: %w", err)
-		}
-
-		req.Header.Set("Content-Type", "application/json; charset=utf-8")
-		req.Header.Set("Authorization", c.config.GetStringVar("", "ALERTA_AUTH_TOKEN"))
-
-		resp, err := c.client.Do(req)
-		if err != nil {
-			return fmt.Errorf("http request to %q: %w", c.url, err)
-		}
-		defer func() { httputil.CloseResponse(resp) }()
-
-		if resp.StatusCode != http.StatusCreated {
-			body, _ := io.ReadAll(resp.Body)
-
-			err = fmt.Errorf("unexpected status code %d: %s", resp.StatusCode, string(body))
-			if !httputil.RetriableStatus(resp.StatusCode) {
-				return backoff.Permanent(fmt.Errorf("non retriable: %w", err))
-			}
-			return err
-		}
-		return err
-	})
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// default tags

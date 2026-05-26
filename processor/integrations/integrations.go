@@ -1,9 +1,6 @@
 package integrations
 
 import (
-	"github.com/rudderlabs/rudder-go-kit/jsonrs"
-	"github.com/rudderlabs/rudder-go-kit/stats"
-
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
 	"github.com/rudderlabs/rudder-server/processor/types"
 )
@@ -26,69 +23,21 @@ type TransStatsT struct {
 	StatTags map[string]string `json:"statTags"`
 }
 
-func CollectDestErrorStats(input []byte) {
-	var integrationStat TransStatsT
-	err := jsonrs.Unmarshal(input, &integrationStat)
-	if err == nil {
-		if len(integrationStat.StatTags) > 0 {
-			stats.Default.NewTaggedStat("integration.failure_detailed", stats.CountType, integrationStat.StatTags).Increment()
-		}
-	}
-}
+func CollectDestErrorStats(input []byte) { _ = "STUB: not implemented"; return }
 
-func CollectIntgTransformErrorStats(input []byte) {
-	var integrationStats []TransStatsT
-	err := jsonrs.Unmarshal(input, &integrationStats)
-	if err == nil {
-		for _, integrationStat := range integrationStats {
-			if len(integrationStat.StatTags) > 0 {
-				stats.Default.NewTaggedStat("integration.failure_detailed", stats.CountType, integrationStat.StatTags).Increment()
-			}
-		}
-	}
-}
+func CollectIntgTransformErrorStats(input []byte) { _ = "STUB: not implemented"; return }
 
 // FilterClientIntegrations parses the destination names from the
 // input JSON, matches them with enabled destinations from controle plane and returns the IDSs
 func FilterClientIntegrations(clientEvent types.SingularEventT, destNameIDMap map[string]backendconfig.DestinationDefinitionT) (retVal []string) {
-	clientIntgs, ok := types.GetRudderEventVal("integrations", clientEvent)
-	if !ok {
-		clientIntgs = make(map[string]any)
-	}
-	clientIntgsList, ok := clientIntgs.(map[string]any)
-	if !ok {
-		return retVal
-	}
-	// All is by default true, if not present make it true
-	allVal, found := clientIntgsList["All"]
-	if !found {
-		allVal = true
-	}
-	_, isAllBoolean := allVal.(bool)
-	if !isAllBoolean {
-		return retVal
-	}
-	var outVal []string
-	for dest := range destNameIDMap {
-		_, isBoolean := clientIntgsList[dest].(bool)
-		// if dest is bool and is present in clientIntgretaion list, check if true/false
-		if isBoolean {
-			if clientIntgsList[dest] == true {
-				outVal = append(outVal, destNameIDMap[dest].Name)
-			}
-			continue
-		}
-		// Always add for syntax dest:{...}
-		_, isMap := clientIntgsList[dest].(map[string]any)
-		if isMap {
-			outVal = append(outVal, destNameIDMap[dest].Name)
-			continue
-		}
-		// if dest  not present in clientIntgretaion list, add based on All flag
-		if allVal.(bool) {
-			outVal = append(outVal, destNameIDMap[dest].Name)
-		}
-	}
-	retVal = outVal
-	return retVal
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// All is by default true, if not present make it true
+
+// if dest is bool and is present in clientIntgretaion list, check if true/false
+
+// Always add for syntax dest:{...}
+
+// if dest  not present in clientIntgretaion list, add based on All flag

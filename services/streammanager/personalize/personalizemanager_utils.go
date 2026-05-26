@@ -4,10 +4,8 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/personalizeevents"
 	"github.com/aws/aws-sdk-go-v2/service/personalizeevents/types"
-	"github.com/samber/lo"
 
 	"github.com/rudderlabs/rudder-go-kit/logger"
 )
@@ -42,35 +40,15 @@ type MetricAttribution struct {
 }
 
 func (ma *MetricAttribution) ToAWSEventAttribution() *types.MetricAttribution {
-	if ma == nil {
-		return nil
-	}
-	return &types.MetricAttribution{
-		EventAttributionSource: ma.EventAttributionSource,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func (e *Event) ToAWSEvent() types.Event {
-	return types.Event{
-		EventId:           e.EventId,
-		EventType:         e.EventType,
-		ItemId:            e.ItemId,
-		SentAt:            e.SentAt,
-		Properties:        stringifyJsonRaw(e.Properties),
-		Impression:        e.Impression,
-		RecommendationId:  e.RecommendationId,
-		EventValue:        e.EventValue,
-		MetricAttribution: e.MetricAttribution.ToAWSEventAttribution(),
-	}
-}
+func (e *Event) ToAWSEvent() types.Event { _ = "STUB: not implemented"; return *new(types.Event) }
 
 func (p *PersonalizeEvent) ToPutEventsInput() *personalizeevents.PutEventsInput {
-	return &personalizeevents.PutEventsInput{
-		EventList:  lo.Map(p.EventList, func(e Event, _ int) types.Event { return e.ToAWSEvent() }),
-		SessionId:  p.SessionId,
-		TrackingId: p.TrackingId,
-		UserId:     p.UserId,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 type Users struct {
@@ -83,18 +61,11 @@ type User struct {
 	Properties *json.RawMessage
 }
 
-func (u *User) ToAWSUser() types.User {
-	return types.User{
-		UserId:     u.UserId,
-		Properties: stringifyJsonRaw(u.Properties),
-	}
-}
+func (u *User) ToAWSUser() types.User { _ = "STUB: not implemented"; return *new(types.User) }
 
 func (u *Users) ToPutUsersInput() *personalizeevents.PutUsersInput {
-	return &personalizeevents.PutUsersInput{
-		Users:      lo.Map(u.Users, func(u User, _ int) types.User { return u.ToAWSUser() }),
-		DatasetArn: u.DatasetArn,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 type Items struct {
@@ -107,23 +78,11 @@ type Item struct {
 	Properties *json.RawMessage
 }
 
-func (i *Item) ToAWSItem() types.Item {
-	return types.Item{
-		ItemId:     i.ItemId,
-		Properties: stringifyJsonRaw(i.Properties),
-	}
-}
+func (i *Item) ToAWSItem() types.Item { _ = "STUB: not implemented"; return *new(types.Item) }
 
 func (i *Items) ToPutItemsInput() *personalizeevents.PutItemsInput {
-	return &personalizeevents.PutItemsInput{
-		DatasetArn: i.DatasetArn,
-		Items:      lo.Map(i.Items, func(item Item, _ int) types.Item { return item.ToAWSItem() }),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func stringifyJsonRaw(raw *json.RawMessage) *string {
-	if raw == nil {
-		return nil
-	}
-	return aws.String(string(*raw))
-}
+func stringifyJsonRaw(raw *json.RawMessage) *string { _ = "STUB: not implemented"; return nil }

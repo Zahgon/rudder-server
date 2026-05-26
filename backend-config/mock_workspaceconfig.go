@@ -11,7 +11,6 @@ package backendconfig
 
 import (
 	context "context"
-	reflect "reflect"
 
 	identity "github.com/rudderlabs/rudder-server/services/controlplane/identity"
 	pubsub "github.com/rudderlabs/rudder-server/utils/pubsub"
@@ -32,71 +31,57 @@ type MockworkspaceConfigMockRecorder struct {
 
 // NewMockworkspaceConfig creates a new mock instance.
 func NewMockworkspaceConfig(ctrl *gomock.Controller) *MockworkspaceConfig {
-	mock := &MockworkspaceConfig{ctrl: ctrl}
-	mock.recorder = &MockworkspaceConfigMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockworkspaceConfig) EXPECT() *MockworkspaceConfigMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// AccessToken mocks base method.
+	return nil
 }
 
-// AccessToken mocks base method.
-func (m *MockworkspaceConfig) AccessToken() string {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AccessToken")
-	ret0, _ := ret[0].(string)
-	return ret0
-}
+func (m *MockworkspaceConfig) AccessToken() string { _ = "STUB: not implemented"; return "" }
 
 // AccessToken indicates an expected call of AccessToken.
 func (mr *MockworkspaceConfigMockRecorder) AccessToken() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AccessToken", reflect.TypeOf((*MockworkspaceConfig)(nil).AccessToken))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Get mocks base method.
 func (m *MockworkspaceConfig) Get(arg0 context.Context) (map[string]ConfigT, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", arg0)
-	ret0, _ := ret[0].(map[string]ConfigT)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Get indicates an expected call of Get.
 func (mr *MockworkspaceConfigMockRecorder) Get(arg0 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockworkspaceConfig)(nil).Get), arg0)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Identity mocks base method.
 func (m *MockworkspaceConfig) Identity() identity.Identifier {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Identity")
-	ret0, _ := ret[0].(identity.Identifier)
-	return ret0
+	_ = "STUB: not implemented"
+	return *new(identity.Identifier)
 }
 
 // Identity indicates an expected call of Identity.
 func (mr *MockworkspaceConfigMockRecorder) Identity() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Identity", reflect.TypeOf((*MockworkspaceConfig)(nil).Identity))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetUp mocks base method.
-func (m *MockworkspaceConfig) SetUp() error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetUp")
-	ret0, _ := ret[0].(error)
-	return ret0
-}
+func (m *MockworkspaceConfig) SetUp() error { _ = "STUB: not implemented"; return nil }
 
 // SetUp indicates an expected call of SetUp.
 func (mr *MockworkspaceConfigMockRecorder) SetUp() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUp", reflect.TypeOf((*MockworkspaceConfig)(nil).SetUp))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // MockBackendConfig is a mock of BackendConfig interface.
@@ -113,119 +98,94 @@ type MockBackendConfigMockRecorder struct {
 
 // NewMockBackendConfig creates a new mock instance.
 func NewMockBackendConfig(ctrl *gomock.Controller) *MockBackendConfig {
-	mock := &MockBackendConfig{ctrl: ctrl}
-	mock.recorder = &MockBackendConfigMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockBackendConfig) EXPECT() *MockBackendConfigMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// AccessToken mocks base method.
+	return nil
 }
 
-// AccessToken mocks base method.
-func (m *MockBackendConfig) AccessToken() string {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AccessToken")
-	ret0, _ := ret[0].(string)
-	return ret0
-}
+func (m *MockBackendConfig) AccessToken() string { _ = "STUB: not implemented"; return "" }
 
 // AccessToken indicates an expected call of AccessToken.
 func (mr *MockBackendConfigMockRecorder) AccessToken() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AccessToken", reflect.TypeOf((*MockBackendConfig)(nil).AccessToken))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Get mocks base method.
 func (m *MockBackendConfig) Get(arg0 context.Context) (map[string]ConfigT, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", arg0)
-	ret0, _ := ret[0].(map[string]ConfigT)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Get indicates an expected call of Get.
 func (mr *MockBackendConfigMockRecorder) Get(arg0 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockBackendConfig)(nil).Get), arg0)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Identity mocks base method.
 func (m *MockBackendConfig) Identity() identity.Identifier {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Identity")
-	ret0, _ := ret[0].(identity.Identifier)
-	return ret0
+	_ = "STUB: not implemented"
+	return *new(identity.Identifier)
 }
 
 // Identity indicates an expected call of Identity.
 func (mr *MockBackendConfigMockRecorder) Identity() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Identity", reflect.TypeOf((*MockBackendConfig)(nil).Identity))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetUp mocks base method.
-func (m *MockBackendConfig) SetUp() error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetUp")
-	ret0, _ := ret[0].(error)
-	return ret0
-}
+func (m *MockBackendConfig) SetUp() error { _ = "STUB: not implemented"; return nil }
 
 // SetUp indicates an expected call of SetUp.
 func (mr *MockBackendConfigMockRecorder) SetUp() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUp", reflect.TypeOf((*MockBackendConfig)(nil).SetUp))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // StartWithIDs mocks base method.
 func (m *MockBackendConfig) StartWithIDs(ctx context.Context, workspaces string) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "StartWithIDs", ctx, workspaces)
+	_ = "STUB: not implemented"
+	return
 }
 
 // StartWithIDs indicates an expected call of StartWithIDs.
 func (mr *MockBackendConfigMockRecorder) StartWithIDs(ctx, workspaces any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "StartWithIDs", reflect.TypeOf((*MockBackendConfig)(nil).StartWithIDs), ctx, workspaces)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Stop mocks base method.
-func (m *MockBackendConfig) Stop() {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Stop")
-}
+func (m *MockBackendConfig) Stop() { _ = "STUB: not implemented"; return }
 
 // Stop indicates an expected call of Stop.
-func (mr *MockBackendConfigMockRecorder) Stop() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Stop", reflect.TypeOf((*MockBackendConfig)(nil).Stop))
-}
+func (mr *MockBackendConfigMockRecorder) Stop() *gomock.Call { _ = "STUB: not implemented"; return nil }
 
 // Subscribe mocks base method.
 func (m *MockBackendConfig) Subscribe(ctx context.Context, topic Topic) pubsub.DataChannel {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Subscribe", ctx, topic)
-	ret0, _ := ret[0].(pubsub.DataChannel)
-	return ret0
+	_ = "STUB: not implemented"
+	return *new(pubsub.DataChannel)
 }
 
 // Subscribe indicates an expected call of Subscribe.
 func (mr *MockBackendConfigMockRecorder) Subscribe(ctx, topic any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Subscribe", reflect.TypeOf((*MockBackendConfig)(nil).Subscribe), ctx, topic)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // WaitForConfig mocks base method.
-func (m *MockBackendConfig) WaitForConfig(ctx context.Context) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "WaitForConfig", ctx)
-}
+func (m *MockBackendConfig) WaitForConfig(ctx context.Context) { _ = "STUB: not implemented"; return }
 
 // WaitForConfig indicates an expected call of WaitForConfig.
 func (mr *MockBackendConfigMockRecorder) WaitForConfig(ctx any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WaitForConfig", reflect.TypeOf((*MockBackendConfig)(nil).WaitForConfig), ctx)
+	_ = "STUB: not implemented"
+	return nil
 }

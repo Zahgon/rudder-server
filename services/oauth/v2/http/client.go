@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/rudderlabs/rudder-go-kit/logger"
-	"github.com/rudderlabs/rudder-go-kit/stats"
 	"github.com/rudderlabs/rudder-go-kit/sync"
 
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
@@ -26,31 +25,6 @@ type HttpClientOptionalArgs struct {
 
 // NewOAuthHttpClient returns a http client that will add the appropriate authorization information to oauth requests.
 func NewOAuthHttpClient(client *http.Client, flowType common.RudderFlow, tokenCache *oauth.OauthTokenCache, backendConfig backendconfig.BackendConfig, getAuthErrorCategory func([]byte) (string, error), opArgs *HttpClientOptionalArgs) *http.Client {
-	oauthHandler := opArgs.OAuthHandler
-	originalTransport := opArgs.Transport
-	if oauthHandler == nil {
-		oauthHandler = oauth.NewOAuthHandler(backendConfig,
-			oauth.WithCache(*tokenCache),
-			oauth.WithLocker(opArgs.Locker),
-			oauth.WithRefreshBeforeExpiry(opArgs.ExpirationTimeDiff),
-			oauth.WithLogger(opArgs.Logger),
-			oauth.WithStats(stats.Default),
-			oauth.WithOauthBreakerOptions(opArgs.OAuthBreakerOptions),
-		)
-	}
-	if originalTransport == nil {
-		originalTransport = client.Transport
-	}
-	client.Transport = NewOAuthTransport(&TransportArgs{
-		BackendConfig:        backendConfig,
-		FlowType:             flowType,
-		TokenCache:           tokenCache,
-		Locker:               opArgs.Locker,
-		GetAuthErrorCategory: getAuthErrorCategory,
-		Augmenter:            opArgs.Augmenter,
-		OAuthHandler:         oauthHandler,
-		OriginalTransport:    originalTransport,
-		logger:               opArgs.Logger,
-	})
-	return client
+	_ = "STUB: not implemented"
+	return nil
 }

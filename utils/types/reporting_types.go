@@ -206,87 +206,32 @@ func PUReportedMetricToEDReportsDB(
 	metric *PUReportedMetric,
 	params ErrorMetricParams,
 ) *EDReportsDB {
-	if metric == nil {
-		return nil
-	}
-
-	var statusCode int
-	var eventType, eventName string
-	var sampleResponse string
-	var sampleEvent json.RawMessage
-	var count int64
-
-	if metric.StatusDetail != nil {
-		statusCode = metric.StatusDetail.StatusCode
-		eventType = metric.StatusDetail.EventType
-		eventName = metric.StatusDetail.EventName
-		sampleResponse = metric.StatusDetail.SampleResponse
-		sampleEvent = metric.StatusDetail.SampleEvent
-		count = metric.StatusDetail.Count
-	}
-
-	return &EDReportsDB{
-		EDInstanceDetails: EDInstanceDetails{
-			WorkspaceID: params.WorkspaceID,
-			Namespace:   params.Namespace,
-			InstanceID:  params.InstanceID,
-		},
-		EDConnectionDetails: EDConnectionDetails{
-			SourceID:                metric.SourceID,
-			DestinationID:           metric.DestinationID,
-			SourceDefinitionId:      metric.SourceDefinitionID,
-			DestinationDefinitionId: params.DestinationDefinitionID,
-			DestType:                params.DestType,
-		},
-		ReportMetadata: ReportMetadata{
-			ReportedAt: time.Now().UTC().Unix() / 60,
-		},
-		PU: metric.PU,
-		EDErrorDetails: EDErrorDetails{
-			EDErrorDetailsKey: EDErrorDetailsKey{
-				StatusCode:   statusCode,
-				ErrorCode:    params.ErrorDetails.Code,
-				ErrorMessage: params.ErrorDetails.Message,
-				EventType:    eventType,
-				EventName:    eventName,
-			},
-			SampleResponse: sampleResponse,
-			SampleEvent:    sampleEvent,
-			ErrorCount:     count,
-		},
-		Count: count,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func CreatePUDetails(inPU, pu string, terminalPU, initialPU bool) *PUDetails {
-	return &PUDetails{
-		InPU:       inPU,
-		PU:         pu,
-		TerminalPU: terminalPU,
-		InitialPU:  initialPU,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func AssertSameKeys[V1, V2 any](m1 map[string]V1, m2 map[string]V2) {
-	if len(m1) != len(m2) {
-		panic("maps length don't match") // TODO improve msg
-	}
-	for k := range m1 {
-		if _, ok := m2[k]; !ok {
-			panic("key in map1 not found in map2") // TODO improve msg
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }
+
+// TODO improve msg
+
+// TODO improve msg
 
 // AssertKeysSubset checks that all keys from the subset map are a subset of keys in the superset map
 // The superset map can have additional keys that are not in the subset map
 func AssertKeysSubset[V1, V2 any](superset map[string]V1, subset map[string]V2) {
-	for k := range subset {
-		if _, ok := superset[k]; !ok {
-			panic("key in subset not found in superset") // TODO improve msg
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }
+
+// TODO improve msg
 
 // ErrorDetailGroupKey represents the key for grouping error detail reports
 type ErrorDetailGroupKey struct {

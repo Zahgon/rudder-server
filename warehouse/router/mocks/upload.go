@@ -11,7 +11,6 @@ package mocks
 
 import (
 	context "context"
-	reflect "reflect"
 	time "time"
 
 	model "github.com/rudderlabs/rudder-server/warehouse/internal/model"
@@ -32,88 +31,75 @@ type MockloadFilesRepoMockRecorder struct {
 
 // NewMockloadFilesRepo creates a new mock instance.
 func NewMockloadFilesRepo(ctrl *gomock.Controller) *MockloadFilesRepo {
-	mock := &MockloadFilesRepo{ctrl: ctrl}
-	mock.recorder = &MockloadFilesRepoMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockloadFilesRepo) EXPECT() *MockloadFilesRepoMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Delete mocks base method.
+	return nil
 }
 
-// Delete mocks base method.
 func (m *MockloadFilesRepo) Delete(ctx context.Context, uploadID int64) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delete", ctx, uploadID)
-	ret0, _ := ret[0].(error)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Delete indicates an expected call of Delete.
 func (mr *MockloadFilesRepoMockRecorder) Delete(ctx, uploadID any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockloadFilesRepo)(nil).Delete), ctx, uploadID)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // DistinctTableName mocks base method.
 func (m *MockloadFilesRepo) DistinctTableName(ctx context.Context, sourceID, destinationID string, startID, endID int64) ([]string, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DistinctTableName", ctx, sourceID, destinationID, startID, endID)
-	ret0, _ := ret[0].([]string)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // DistinctTableName indicates an expected call of DistinctTableName.
 func (mr *MockloadFilesRepoMockRecorder) DistinctTableName(ctx, sourceID, destinationID, startID, endID any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DistinctTableName", reflect.TypeOf((*MockloadFilesRepo)(nil).DistinctTableName), ctx, sourceID, destinationID, startID, endID)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Get mocks base method.
 func (m *MockloadFilesRepo) Get(ctx context.Context, uploadID int64) ([]model.LoadFile, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", ctx, uploadID)
-	ret0, _ := ret[0].([]model.LoadFile)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Get indicates an expected call of Get.
 func (mr *MockloadFilesRepoMockRecorder) Get(ctx, uploadID any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockloadFilesRepo)(nil).Get), ctx, uploadID)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // GetByID mocks base method.
 func (m *MockloadFilesRepo) GetByID(ctx context.Context, id int64) (*model.LoadFile, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetByID", ctx, id)
-	ret0, _ := ret[0].(*model.LoadFile)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // GetByID indicates an expected call of GetByID.
 func (mr *MockloadFilesRepoMockRecorder) GetByID(ctx, id any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByID", reflect.TypeOf((*MockloadFilesRepo)(nil).GetByID), ctx, id)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // TotalExportedEvents mocks base method.
 func (m *MockloadFilesRepo) TotalExportedEvents(ctx context.Context, uploadID int64, skipTables []string) (int64, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "TotalExportedEvents", ctx, uploadID, skipTables)
-	ret0, _ := ret[0].(int64)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 // TotalExportedEvents indicates an expected call of TotalExportedEvents.
 func (mr *MockloadFilesRepoMockRecorder) TotalExportedEvents(ctx, uploadID, skipTables any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TotalExportedEvents", reflect.TypeOf((*MockloadFilesRepo)(nil).TotalExportedEvents), ctx, uploadID, skipTables)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // MockstagingFilesRepo is a mock of stagingFilesRepo interface.
@@ -130,44 +116,39 @@ type MockstagingFilesRepoMockRecorder struct {
 
 // NewMockstagingFilesRepo creates a new mock instance.
 func NewMockstagingFilesRepo(ctrl *gomock.Controller) *MockstagingFilesRepo {
-	mock := &MockstagingFilesRepo{ctrl: ctrl}
-	mock.recorder = &MockstagingFilesRepoMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockstagingFilesRepo) EXPECT() *MockstagingFilesRepoMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// GetEventTimeRangesByUploadID mocks base method.
+	return nil
 }
 
-// GetEventTimeRangesByUploadID mocks base method.
 func (m *MockstagingFilesRepo) GetEventTimeRangesByUploadID(ctx context.Context, uploadID int64) ([]model.EventTimeRange, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetEventTimeRangesByUploadID", ctx, uploadID)
-	ret0, _ := ret[0].([]model.EventTimeRange)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // GetEventTimeRangesByUploadID indicates an expected call of GetEventTimeRangesByUploadID.
 func (mr *MockstagingFilesRepoMockRecorder) GetEventTimeRangesByUploadID(ctx, uploadID any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetEventTimeRangesByUploadID", reflect.TypeOf((*MockstagingFilesRepo)(nil).GetEventTimeRangesByUploadID), ctx, uploadID)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // TotalEventsForUploadID mocks base method.
 func (m *MockstagingFilesRepo) TotalEventsForUploadID(ctx context.Context, uploadID int64) (int64, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "TotalEventsForUploadID", ctx, uploadID)
-	ret0, _ := ret[0].(int64)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 // TotalEventsForUploadID indicates an expected call of TotalEventsForUploadID.
 func (mr *MockstagingFilesRepoMockRecorder) TotalEventsForUploadID(ctx, uploadID any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TotalEventsForUploadID", reflect.TypeOf((*MockstagingFilesRepo)(nil).TotalEventsForUploadID), ctx, uploadID)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // MockpendingTableUploadsRepo is a mock of pendingTableUploadsRepo interface.
@@ -184,27 +165,25 @@ type MockpendingTableUploadsRepoMockRecorder struct {
 
 // NewMockpendingTableUploadsRepo creates a new mock instance.
 func NewMockpendingTableUploadsRepo(ctrl *gomock.Controller) *MockpendingTableUploadsRepo {
-	mock := &MockpendingTableUploadsRepo{ctrl: ctrl}
-	mock.recorder = &MockpendingTableUploadsRepoMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockpendingTableUploadsRepo) EXPECT() *MockpendingTableUploadsRepoMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// PendingTableUploads mocks base method.
+	return nil
 }
 
-// PendingTableUploads mocks base method.
 func (m *MockpendingTableUploadsRepo) PendingTableUploads(ctx context.Context, destID, namespace string, priority int, firstEventAt time.Time, uploadID int64) ([]model.PendingTableUpload, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PendingTableUploads", ctx, destID, namespace, priority, firstEventAt, uploadID)
-	ret0, _ := ret[0].([]model.PendingTableUpload)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // PendingTableUploads indicates an expected call of PendingTableUploads.
 func (mr *MockpendingTableUploadsRepoMockRecorder) PendingTableUploads(ctx, destID, namespace, priority, firstEventAt, uploadID any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PendingTableUploads", reflect.TypeOf((*MockpendingTableUploadsRepo)(nil).PendingTableUploads), ctx, destID, namespace, priority, firstEventAt, uploadID)
+	_ = "STUB: not implemented"
+	return nil
 }

@@ -3,32 +3,11 @@ package backendconfigtest
 import (
 	"encoding/json"
 
-	"github.com/grafana/jsonparser"
-
-	"github.com/rudderlabs/rudder-go-kit/jsonrs"
-	"github.com/rudderlabs/rudder-go-kit/testhelper/rand"
-
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
 )
 
 // NewSourceBuilder returns a new SourceBuilder
-func NewSourceBuilder() *SourceBuilder {
-	var b SourceBuilder
-
-	b.v = &backendconfig.SourceT{
-		ID:       rand.UniqueString(10),
-		Name:     rand.String(5),
-		Enabled:  true,
-		WriteKey: rand.UniqueString(10),
-		SourceDefinition: backendconfig.SourceDefinitionT{
-			ID:       rand.UniqueString(10),
-			Name:     rand.String(5),
-			Category: "eventStream",
-			Type:     "type",
-		},
-	}
-	return &b
-}
+func NewSourceBuilder() *SourceBuilder { _ = "STUB: not implemented"; return nil }
 
 // SourceBuilder is a builder for a source
 type SourceBuilder struct {
@@ -36,81 +15,67 @@ type SourceBuilder struct {
 }
 
 // WithID sets the ID of the source
-func (b *SourceBuilder) WithID(id string) *SourceBuilder {
-	b.v.ID = id
-	return b
-}
+func (b *SourceBuilder) WithID(id string) *SourceBuilder { _ = "STUB: not implemented"; return nil }
 
 // WithWriteKey sets the write key of the source
 func (b *SourceBuilder) WithWriteKey(writeKey string) *SourceBuilder {
-	b.v.WriteKey = writeKey
-	return b
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // WithConfigOption sets a config option for the source
 func (b *SourceBuilder) WithConfigOption(key string, value any) (*SourceBuilder, error) {
-	valueBytes, err := jsonrs.Marshal(value)
-	if err != nil {
-		return b, err
-	}
-	b.v.Config, err = jsonparser.Set(b.v.Config, valueBytes, key)
-	if err != nil {
-		return b, err
-	}
-	return b, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // WithConnection adds a destination to the source
 func (b *SourceBuilder) WithConnection(destination backendconfig.DestinationT) *SourceBuilder {
-	b.v.Destinations = append(b.v.Destinations, destination)
-	return b
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Disabled disables the source
-func (b *SourceBuilder) Disabled() *SourceBuilder {
-	b.v.Enabled = false
-	return b
-}
+func (b *SourceBuilder) Disabled() *SourceBuilder { _ = "STUB: not implemented"; return nil }
 
 // WithTrackingPlan adds a tracking plan to the source
 func (b *SourceBuilder) WithTrackingPlan(id string, version int) *SourceBuilder {
-	b.v.DgSourceTrackingPlanConfig.TrackingPlan.Id = id
-	b.v.DgSourceTrackingPlanConfig.TrackingPlan.Version = version
-	return b
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // WithGeoenrichmentEnabled enables geoenrichment for the source
 func (b *SourceBuilder) WithGeoenrichmentEnabled(enabled bool) *SourceBuilder {
-	b.v.GeoEnrichment.Enabled = enabled
-	return b
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // WithSourceCategory sets the source definition category
 func (b *SourceBuilder) WithSourceCategory(category string) *SourceBuilder {
-	b.v.SourceDefinition.Category = category
-	return b
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // WithSourceDefOptions sets the source definition options
 func (b *SourceBuilder) WithSourceDefOptions(opts backendconfig.SourceDefinitionOptions) *SourceBuilder {
-	b.v.SourceDefinition.Options = opts
-	return b
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // WithSourceType sets the source type
 func (b *SourceBuilder) WithSourceType(sourceType string) *SourceBuilder {
-	b.v.SourceDefinition.Name = sourceType
-	return b
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // WithSourceType sets the source type
 func (b *SourceBuilder) WithWorkspaceID(workspaceID string) *SourceBuilder {
-	b.v.WorkspaceID = workspaceID
-	return b
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // WithInternalSecrets sets the internal secrets for the source
 func (b *SourceBuilder) WithInternalSecrets(secrets json.RawMessage) *SourceBuilder {
-	b.v.InternalSecret = secrets
-	return b
+	_ = "STUB: not implemented"
+	return nil
 }

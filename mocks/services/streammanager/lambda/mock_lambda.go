@@ -11,7 +11,6 @@ package mock_lambda
 
 import (
 	context "context"
-	reflect "reflect"
 
 	lambda "github.com/aws/aws-sdk-go-v2/service/lambda"
 	gomock "go.uber.org/mock/gomock"
@@ -31,32 +30,25 @@ type MockLambdaClientMockRecorder struct {
 
 // NewMockLambdaClient creates a new mock instance.
 func NewMockLambdaClient(ctrl *gomock.Controller) *MockLambdaClient {
-	mock := &MockLambdaClient{ctrl: ctrl}
-	mock.recorder = &MockLambdaClientMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockLambdaClient) EXPECT() *MockLambdaClientMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Invoke mocks base method.
+	return nil
 }
 
-// Invoke mocks base method.
 func (m *MockLambdaClient) Invoke(ctx context.Context, input *lambda.InvokeInput, opts ...func(*lambda.Options)) (*lambda.InvokeOutput, error) {
-	m.ctrl.T.Helper()
-	varargs := []any{ctx, input}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "Invoke", varargs...)
-	ret0, _ := ret[0].(*lambda.InvokeOutput)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Invoke indicates an expected call of Invoke.
 func (mr *MockLambdaClientMockRecorder) Invoke(ctx, input any, opts ...any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{ctx, input}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Invoke", reflect.TypeOf((*MockLambdaClient)(nil).Invoke), varargs...)
+	_ = "STUB: not implemented"
+	return nil
 }

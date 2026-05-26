@@ -4,9 +4,7 @@ import (
 	"context"
 	"errors"
 	"log"
-	"os"
 	"os/signal"
-	"strconv"
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -111,22 +109,6 @@ func main() {
 	}
 }
 
-func getEnvString(envVar, defaultValue string) string {
-	v, ok := os.LookupEnv(envVar)
-	if !ok {
-		return defaultValue
-	}
-	return v
-}
+func getEnvString(envVar, defaultValue string) string { _ = "STUB: not implemented"; return "" }
 
-func getEnvInt64(envVar string, defaultValue int64) int64 {
-	v, ok := os.LookupEnv(envVar)
-	if !ok {
-		return defaultValue
-	}
-	i, err := strconv.ParseInt(v, 10, 64)
-	if err != nil {
-		panic(err)
-	}
-	return i
-}
+func getEnvInt64(envVar string, defaultValue int64) int64 { _ = "STUB: not implemented"; return 0 }

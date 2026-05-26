@@ -16,33 +16,16 @@ type ChangeEvent struct {
 }
 
 func NewChangeEvent(mode Mode, ack func(context.Context) error) ChangeEvent {
-	return ChangeEvent{
-		mode: mode,
-		ack:  ack,
-	}
+	_ = "STUB: not implemented"
+	return *new(ChangeEvent)
 }
 
-func ChangeEventError(err error) ChangeEvent {
-	return ChangeEvent{
-		err: err,
-	}
-}
+func ChangeEventError(err error) ChangeEvent { _ = "STUB: not implemented"; return *new(ChangeEvent) }
 
-func (m ChangeEvent) Ack(ctx context.Context) error {
-	return m.ack(ctx)
-}
+func (m ChangeEvent) Ack(ctx context.Context) error { _ = "STUB: not implemented"; return nil }
 
-func (m ChangeEvent) Mode() Mode {
-	return m.mode
-}
+func (m ChangeEvent) Mode() Mode { _ = "STUB: not implemented"; return *new(Mode) }
 
-func (m ChangeEvent) Err() error {
-	return m.err
-}
+func (m ChangeEvent) Err() error { _ = "STUB: not implemented"; return nil }
 
-func (mode Mode) Valid() bool {
-	if mode == NormalMode || mode == DegradedMode {
-		return true
-	}
-	return false
-}
+func (mode Mode) Valid() bool { _ = "STUB: not implemented"; return false }

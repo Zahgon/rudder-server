@@ -20,20 +20,4 @@ type AdaptiveLimiterConfig struct {
 	Log logger.Logger
 }
 
-func (c *AdaptiveLimiterConfig) parse() {
-	if c.FreeMemThresholdLimit == 0 {
-		c.FreeMemThresholdLimit = 30
-	}
-	if c.FreeMemCriticalLimit == 0 {
-		c.FreeMemCriticalLimit = 10
-	}
-	if c.MaxThresholdFactor < 1 || c.MaxThresholdFactor > 9 {
-		c.MaxThresholdFactor = 9
-	}
-	if c.Log == nil {
-		c.Log = logger.NewLogger().Child("payload-limiter")
-	}
-	if c.FreeMemory == nil {
-		c.FreeMemory = func() (float64, error) { return 100.0, nil }
-	}
-}
+func (c *AdaptiveLimiterConfig) parse() { _ = "STUB: not implemented"; return }

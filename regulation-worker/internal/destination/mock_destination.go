@@ -11,7 +11,6 @@ package destination
 
 import (
 	context "context"
-	reflect "reflect"
 
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
 	pubsub "github.com/rudderlabs/rudder-server/utils/pubsub"
@@ -32,26 +31,25 @@ type MockdestMiddlewareMockRecorder struct {
 
 // NewMockdestMiddleware creates a new mock instance.
 func NewMockdestMiddleware(ctrl *gomock.Controller) *MockdestMiddleware {
-	mock := &MockdestMiddleware{ctrl: ctrl}
-	mock.recorder = &MockdestMiddlewareMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockdestMiddleware) EXPECT() *MockdestMiddlewareMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Subscribe mocks base method.
+	return nil
 }
 
-// Subscribe mocks base method.
 func (m *MockdestMiddleware) Subscribe(ctx context.Context, topic backendconfig.Topic) pubsub.DataChannel {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Subscribe", ctx, topic)
-	ret0, _ := ret[0].(pubsub.DataChannel)
-	return ret0
+	_ = "STUB: not implemented"
+	return *new(pubsub.DataChannel)
 }
 
 // Subscribe indicates an expected call of Subscribe.
 func (mr *MockdestMiddlewareMockRecorder) Subscribe(ctx, topic any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Subscribe", reflect.TypeOf((*MockdestMiddleware)(nil).Subscribe), ctx, topic)
+	_ = "STUB: not implemented"
+	return nil
 }

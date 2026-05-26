@@ -10,8 +10,6 @@
 package mocks
 
 import (
-	reflect "reflect"
-
 	klaviyobulkupload "github.com/rudderlabs/rudder-server/router/batchrouter/asyncdestinationmanager/klaviyobulkupload"
 	gomock "go.uber.org/mock/gomock"
 )
@@ -30,57 +28,49 @@ type MockKlaviyoAPIServiceMockRecorder struct {
 
 // NewMockKlaviyoAPIService creates a new mock instance.
 func NewMockKlaviyoAPIService(ctrl *gomock.Controller) *MockKlaviyoAPIService {
-	mock := &MockKlaviyoAPIService{ctrl: ctrl}
-	mock.recorder = &MockKlaviyoAPIServiceMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockKlaviyoAPIService) EXPECT() *MockKlaviyoAPIServiceMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// GetUploadErrors mocks base method.
+	return nil
 }
 
-// GetUploadErrors mocks base method.
 func (m *MockKlaviyoAPIService) GetUploadErrors(importId string) (*klaviyobulkupload.UploadStatusResp, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUploadErrors", importId)
-	ret0, _ := ret[0].(*klaviyobulkupload.UploadStatusResp)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // GetUploadErrors indicates an expected call of GetUploadErrors.
 func (mr *MockKlaviyoAPIServiceMockRecorder) GetUploadErrors(importId any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUploadErrors", reflect.TypeOf((*MockKlaviyoAPIService)(nil).GetUploadErrors), importId)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // GetUploadStatus mocks base method.
 func (m *MockKlaviyoAPIService) GetUploadStatus(importId string) (*klaviyobulkupload.PollResp, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUploadStatus", importId)
-	ret0, _ := ret[0].(*klaviyobulkupload.PollResp)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // GetUploadStatus indicates an expected call of GetUploadStatus.
 func (mr *MockKlaviyoAPIServiceMockRecorder) GetUploadStatus(importId any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUploadStatus", reflect.TypeOf((*MockKlaviyoAPIService)(nil).GetUploadStatus), importId)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // UploadProfiles mocks base method.
 func (m *MockKlaviyoAPIService) UploadProfiles(profiles klaviyobulkupload.Payload) (*klaviyobulkupload.UploadResp, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UploadProfiles", profiles)
-	ret0, _ := ret[0].(*klaviyobulkupload.UploadResp)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // UploadProfiles indicates an expected call of UploadProfiles.
 func (mr *MockKlaviyoAPIServiceMockRecorder) UploadProfiles(profiles any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UploadProfiles", reflect.TypeOf((*MockKlaviyoAPIService)(nil).UploadProfiles), profiles)
+	_ = "STUB: not implemented"
+	return nil
 }

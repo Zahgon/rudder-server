@@ -1,19 +1,14 @@
 package utils
 
 import (
-	"slices"
-	"strings"
 	"sync"
 	"time"
-
-	"github.com/tidwall/sjson"
 
 	"github.com/rudderlabs/rudder-go-kit/config"
 	"github.com/rudderlabs/rudder-go-kit/stats"
 
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
 	"github.com/rudderlabs/rudder-server/jobsdb"
-	"github.com/rudderlabs/rudder-server/utils/misc"
 )
 
 var EmptyPayload = []byte(`{}`)
@@ -74,34 +69,19 @@ type JobParameters struct {
 
 // ParseReceivedAtTime parses the [ReceivedAt] field and returns the parsed time or a zero value time if parsing fails
 func (jp *JobParameters) ParseReceivedAtTime() time.Time {
-	receivedAt, _ := time.Parse(misc.RFC3339Milli, jp.ReceivedAt)
-	return receivedAt
+	_ = "STUB: not implemented"
+	return *new(time.Time)
 }
 
 // rawMsg passed must be a valid JSON
-func EnhanceJSON(rawMsg []byte, key, val string) []byte {
-	resp, err := sjson.SetBytes(rawMsg, key, val)
-	if err != nil {
-		return []byte(`{}`)
-	}
-
-	return resp
-}
+func EnhanceJSON(rawMsg []byte, key, val string) []byte { _ = "STUB: not implemented"; return nil }
 
 func EnhanceJsonWithTime(t time.Time, key string, resp []byte) []byte {
-	firstAttemptedAtString := t.Format(misc.RFC3339Milli)
-
-	errorRespString, err := sjson.Set(string(resp), key, firstAttemptedAtString)
-	if err == nil {
-		resp = []byte(errorRespString)
-	}
-
-	return resp
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func IsNotEmptyString(s string) bool {
-	return len(strings.TrimSpace(s)) > 0
-}
+func IsNotEmptyString(s string) bool { _ = "STUB: not implemented"; return false }
 
 type Drainer interface {
 	Drain(
@@ -115,18 +95,8 @@ func NewDrainer(
 	conf *config.Config,
 	destDrainFunc func(string) (*DestinationWithSources, bool),
 ) Drainer {
-	return &drainer{
-		destinationIDs: conf.GetReloadableStringSliceVar(
-			nil,
-			"Router.toAbortDestinationIDs",
-		),
-		jobRunIDs: conf.GetReloadableStringSliceVar(
-			nil,
-			"drain.jobRunIDs",
-		),
-		destinationResolver: destDrainFunc,
-		retentionTimes:      make(map[string]config.ValueLoader[time.Duration]),
-	}
+	_ = "STUB: not implemented"
+	return *new(Drainer)
 }
 
 type drainer struct {
@@ -143,79 +113,16 @@ func (d *drainer) Drain(
 	destID string,
 	sourceJobRunID string,
 ) (bool, string) {
-	if time.Since(createdAt) > d.getRetentionTimeForDestination(destID) {
-		return true, DrainReasonJobExpired
-	}
-
-	if destination, ok := d.destinationResolver(destID); !ok {
-		return true, DrainReasonDestNotFound
-	} else if !destination.Destination.Enabled {
-		return true, DrainReasonDestDisabled
-	}
-
-	if slices.Contains(d.destinationIDs.Load(), destID) {
-		return true, DrainReasonDestAbort
-	}
-
-	if sourceJobRunID != "" &&
-		slices.Contains(d.jobRunIDs.Load(), sourceJobRunID) {
-		return true, DrainReasonJobRunIDCancelled
-	}
-
+	_ = "STUB: not implemented"
 	return false, ""
 }
 
 func (d *drainer) getRetentionTimeForDestination(destID string) time.Duration {
-	d.retentionTimesMu.Lock()
-	defer d.retentionTimesMu.Unlock()
-	var (
-		c  config.ValueLoader[time.Duration]
-		ok bool
-	)
-	if c, ok = d.retentionTimes[destID]; !ok {
-		c = config.GetReloadableDurationVar(720, time.Hour, "Router."+destID+".jobRetention", "Router.jobRetention")
-		d.retentionTimes[destID] = c
-	}
-	return c.Load()
+	_ = "STUB: not implemented"
+	return *new(time.Duration)
 }
 
 func UpdateProcessedEventsMetrics(statsHandle stats.Stats, module, destType string, statusList []*jobsdb.JobStatusT, jobIDConnectionDetailsMap map[int64]jobsdb.ConnectionDetails) {
-	eventsPerConnectionInfoAndStateAndCode := map[string]map[string]map[string]int{}
-	for i := range statusList {
-		sourceID := jobIDConnectionDetailsMap[statusList[i].JobID].SourceID
-		destinationID := jobIDConnectionDetailsMap[statusList[i].JobID].DestinationID
-		connectionKey := strings.Join([]string{sourceID, destinationID}, ",")
-		state := statusList[i].JobState
-		code := statusList[i].ErrorCode
-		if _, ok := eventsPerConnectionInfoAndStateAndCode[connectionKey]; !ok {
-			eventsPerConnectionInfoAndStateAndCode[connectionKey] = map[string]map[string]int{}
-			eventsPerStateAndCode := eventsPerConnectionInfoAndStateAndCode[connectionKey]
-			eventsPerStateAndCode[state] = map[string]int{}
-			eventsPerStateAndCode[state][code]++
-
-		} else {
-			eventsPerStateAndCode := eventsPerConnectionInfoAndStateAndCode[connectionKey]
-			if _, ok := eventsPerStateAndCode[state]; !ok {
-				eventsPerStateAndCode[state] = map[string]int{}
-			}
-			eventsPerStateAndCode[state][code]++
-		}
-
-	}
-	for connectionKey, eventsPerStateAndCode := range eventsPerConnectionInfoAndStateAndCode {
-		sourceID := strings.Split(connectionKey, ",")[0]
-		destinationID := strings.Split(connectionKey, ",")[1]
-		for state, codes := range eventsPerStateAndCode {
-			for code, count := range codes {
-				statsHandle.NewTaggedStat(`pipeline_processed_events`, stats.CountType, stats.Tags{
-					"module":        module,
-					"destType":      destType,
-					"state":         state,
-					"code":          code,
-					"sourceId":      sourceID,
-					"destinationId": destinationID,
-				}).Count(count)
-			}
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }

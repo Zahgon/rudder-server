@@ -20,20 +20,17 @@ type StatsCache[T StatsCacheKey] struct {
 
 // NewStatsCache creates a new stats cache instance
 func NewStatsCache[T StatsCacheKey](producer func(T) stats.Measurement) *StatsCache[T] {
-	return &StatsCache[T]{
-		producer: producer,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Get retrieves a measurement from cache, creating it if it doesn't exist
 func (c *StatsCache[T]) Get(key T) stats.Measurement {
+	_ = "STUB: not implemented"
 	// Try to load the value from the map
-	if value, ok := c.cache.Load(key); ok {
-		return value.(stats.Measurement)
-	}
-	// Value not found—create it
-	measurement := c.producer(key)
-	// Store and possibly get actual value (if stored by another goroutine in the meantime)
-	actual, _ := c.cache.LoadOrStore(key, measurement)
-	return actual.(stats.Measurement)
+	return *new(stats.Measurement)
 }
+
+// Value not found—create it
+
+// Store and possibly get actual value (if stored by another goroutine in the meantime)

@@ -4,8 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
-	"strings"
 	"time"
 
 	"github.com/rudderlabs/rudder-server/services/notifier"
@@ -33,22 +31,9 @@ type CustomTime struct {
 
 const CustomTimeLayout = "01-02-2006 15:04:05"
 
-func (ct *CustomTime) UnmarshalJSON(b []byte) (err error) {
-	s := strings.Trim(string(b), "\"")
-	if s == "null" {
-		ct.Time = time.Time{}
-		return err
-	}
-	ct.Time, err = time.Parse(CustomTimeLayout, s)
-	return err
-}
+func (ct *CustomTime) UnmarshalJSON(b []byte) (err error) { _ = "STUB: not implemented"; return nil }
 
-func (ct CustomTime) MarshalJSON() ([]byte, error) {
-	if ct.IsZero() {
-		return []byte("null"), nil
-	}
-	return fmt.Appendf(nil, "\"%s\"", ct.Format(CustomTimeLayout)), nil
-}
+func (ct CustomTime) MarshalJSON() ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
 
 type insertJobResponse struct {
 	JobIds []int64 `json:"jobids"`

@@ -1,13 +1,7 @@
 package warehouse
 
 import (
-	"fmt"
-	"os"
-
-	"github.com/olekukonko/tablewriter"
 	"github.com/urfave/cli/v2"
-
-	"github.com/rudderlabs/rudder-server/cmd/rudder-cli/client"
 )
 
 type QueryResult struct {
@@ -30,64 +24,6 @@ type ConfigurationTestOutput struct {
 	Error string
 }
 
-func Query(c *cli.Context) (err error) {
-	reply := QueryResult{}
+func Query(c *cli.Context) (err error) { _ = "STUB: not implemented"; return nil }
 
-	sqlStmt := c.String("sql")
-	if c.IsSet("file") {
-		var content []byte
-		content, err = os.ReadFile(c.String("file"))
-		if err != nil {
-			return err
-		}
-		sqlStmt = string(content)
-	}
-	if sqlStmt == "" {
-		return fmt.Errorf("no SQL statement provided")
-	}
-
-	input := QueryInput{
-		DestID:       c.String("dest"),
-		SourceID:     c.String("source"),
-		SQLStatement: sqlStmt,
-	}
-	err = client.GetUDSClient().Call("Warehouse.Query", input, &reply)
-	if err != nil {
-		return err
-	}
-
-	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader(reply.Columns)
-	table.SetAutoFormatHeaders(false)
-	var headerColors []tablewriter.Colors
-	for i := 0; i < len(reply.Columns); i++ {
-		headerColors = append(headerColors, tablewriter.Colors{tablewriter.Bold, tablewriter.BgCyanColor})
-	}
-	table.SetHeaderColor(headerColors...)
-
-	for _, v := range reply.Values {
-		table.Append(v)
-	}
-	table.Render()
-	return err
-}
-
-func ConfigurationTest(c *cli.Context) (err error) {
-	reply := ConfigurationTestOutput{}
-
-	input := ConfigurationTestInput{
-		DestID: c.String("dest"),
-	}
-
-	err = client.GetUDSClient().Call("Warehouse.ConfigurationTest", input, &reply)
-	if err != nil {
-		return err
-	}
-
-	if reply.Valid {
-		fmt.Printf("Successfully validated destID: %s \n", input.DestID)
-	} else {
-		fmt.Printf("Failed validation for destID: %s with err: %s \n", input.DestID, reply.Error)
-	}
-	return err
-}
+func ConfigurationTest(c *cli.Context) (err error) { _ = "STUB: not implemented"; return nil }

@@ -1,8 +1,6 @@
 package batchrouter
 
 import (
-	"github.com/rudderlabs/rudder-go-kit/config"
-
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
 	"github.com/rudderlabs/rudder-server/jobsdb"
 	destinationdebugger "github.com/rudderlabs/rudder-server/services/debugger/destination"
@@ -21,20 +19,4 @@ type Factory struct {
 	AdaptiveLimit    func(int64) int64
 }
 
-func (f *Factory) New(destType string) *Handle {
-	r := &Handle{
-		adaptiveLimit: f.AdaptiveLimit,
-	}
-
-	r.Setup(
-		destType,
-		f.BackendConfig,
-		f.RouterDB,
-		f.Reporting,
-		f.TransientSources,
-		f.RsourcesService,
-		f.Debugger,
-		config.Default,
-	)
-	return r
-}
+func (f *Factory) New(destType string) *Handle { _ = "STUB: not implemented"; return nil }

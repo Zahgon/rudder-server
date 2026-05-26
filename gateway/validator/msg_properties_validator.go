@@ -9,18 +9,13 @@ type msgPropertiesValidator struct {
 }
 
 func newMsgPropertiesValidator(validateFn func(*stream.MessageProperties) error) *msgPropertiesValidator {
-	return &msgPropertiesValidator{
-		validateFn: validateFn,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func (p *msgPropertiesValidator) ValidatorName() string {
-	return "msgProperties"
-}
+func (p *msgPropertiesValidator) ValidatorName() string { _ = "STUB: not implemented"; return "" }
 
 func (p *msgPropertiesValidator) Validate(payload []byte, properties *stream.MessageProperties) (bool, error) {
-	if err := p.validateFn(properties); err != nil {
-		return false, err
-	}
-	return true, nil
+	_ = "STUB: not implemented"
+	return false, nil
 }

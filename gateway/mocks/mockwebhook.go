@@ -11,7 +11,6 @@ package mockwebhook
 
 import (
 	http "net/http"
-	reflect "reflect"
 
 	types "github.com/rudderlabs/rudder-server/gateway/types"
 	model "github.com/rudderlabs/rudder-server/gateway/webhook/model"
@@ -31,53 +30,44 @@ type MockGatewayMockRecorder struct {
 }
 
 // NewMockGateway creates a new mock instance.
-func NewMockGateway(ctrl *gomock.Controller) *MockGateway {
-	mock := &MockGateway{ctrl: ctrl}
-	mock.recorder = &MockGatewayMockRecorder{mock}
-	return mock
-}
+func NewMockGateway(ctrl *gomock.Controller) *MockGateway { _ = "STUB: not implemented"; return nil }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockGateway) EXPECT() *MockGatewayMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// ProcessTransformedWebhookRequest mocks base method.
+	return nil
 }
 
-// ProcessTransformedWebhookRequest mocks base method.
 func (m *MockGateway) ProcessTransformedWebhookRequest(writer *http.ResponseWriter, req *http.Request, reqType string, requestPayload []byte, arctx *types.AuthRequestContext) string {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ProcessTransformedWebhookRequest", writer, req, reqType, requestPayload, arctx)
-	ret0, _ := ret[0].(string)
-	return ret0
+	_ = "STUB: not implemented"
+	return ""
 }
 
 // ProcessTransformedWebhookRequest indicates an expected call of ProcessTransformedWebhookRequest.
 func (mr *MockGatewayMockRecorder) ProcessTransformedWebhookRequest(writer, req, reqType, requestPayload, arctx any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ProcessTransformedWebhookRequest", reflect.TypeOf((*MockGateway)(nil).ProcessTransformedWebhookRequest), writer, req, reqType, requestPayload, arctx)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SaveWebhookFailures mocks base method.
 func (m *MockGateway) SaveWebhookFailures(arg0 []*model.FailedWebhookPayload) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SaveWebhookFailures", arg0)
-	ret0, _ := ret[0].(error)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SaveWebhookFailures indicates an expected call of SaveWebhookFailures.
 func (mr *MockGatewayMockRecorder) SaveWebhookFailures(arg0 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveWebhookFailures", reflect.TypeOf((*MockGateway)(nil).SaveWebhookFailures), arg0)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // TrackRequestMetrics mocks base method.
-func (m *MockGateway) TrackRequestMetrics(errorMessage string) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "TrackRequestMetrics", errorMessage)
-}
+func (m *MockGateway) TrackRequestMetrics(errorMessage string) { _ = "STUB: not implemented"; return }
 
 // TrackRequestMetrics indicates an expected call of TrackRequestMetrics.
 func (mr *MockGatewayMockRecorder) TrackRequestMetrics(errorMessage any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TrackRequestMetrics", reflect.TypeOf((*MockGateway)(nil).TrackRequestMetrics), errorMessage)
+	_ = "STUB: not implemented"
+	return nil
 }

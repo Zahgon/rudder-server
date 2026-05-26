@@ -24,29 +24,42 @@ type Uploader interface {
 
 type noopUploader struct{}
 
-func NewNoOpUploader() Uploader {
-	return &noopUploader{}
-}
+func NewNoOpUploader() Uploader { _ = "STUB: not implemented"; return *new(Uploader) }
 
-func (n *noopUploader) IsWarehouseSchemaEmpty() bool {
-	return false
+func (n *noopUploader) IsWarehouseSchemaEmpty() bool { _ = "STUB: not implemented"; return false }
+
+func (n *noopUploader) GetLocalSchema(ctx context.Context) (model.Schema, error) {
+	_ = "STUB: not implemented"
+	return * // nolint:nilnil
+	new(model.Schema), nil
 }
-func (n *noopUploader) GetLocalSchema(ctx context.Context) (model.Schema, error)         { return nil, nil } // nolint:nilnil
-func (n *noopUploader) UpdateLocalSchema(ctx context.Context, schema model.Schema) error { return nil }
-func (n *noopUploader) GetTableSchemaInWarehouse(tableName string) model.TableSchema     { return nil }
-func (n *noopUploader) GetTableSchemaInUpload(tableName string) model.TableSchema        { return nil }
-func (n *noopUploader) ShouldOnDedupUseNewRecord() bool                                  { return false }
-func (n *noopUploader) UseRudderStorage() bool                                           { return false }
-func (n *noopUploader) GetLoadFileType() string                                          { return "" }
-func (n *noopUploader) CanAppend() bool                                                  { return false }
+func (n *noopUploader) UpdateLocalSchema(ctx context.Context, schema model.Schema) error {
+	_ = "STUB: not implemented"
+	return nil
+}
+func (n *noopUploader) GetTableSchemaInWarehouse(tableName string) model.TableSchema {
+	_ = "STUB: not implemented"
+	return *new(model.TableSchema)
+}
+func (n *noopUploader) GetTableSchemaInUpload(tableName string) model.TableSchema {
+	_ = "STUB: not implemented"
+	return *new(model.TableSchema)
+}
+func (n *noopUploader) ShouldOnDedupUseNewRecord() bool { _ = "STUB: not implemented"; return false }
+func (n *noopUploader) UseRudderStorage() bool          { _ = "STUB: not implemented"; return false }
+func (n *noopUploader) GetLoadFileType() string         { _ = "STUB: not implemented"; return "" }
+func (n *noopUploader) CanAppend() bool                 { _ = "STUB: not implemented"; return false }
 func (n *noopUploader) GetLoadFilesMetadata(ctx context.Context, options GetLoadFilesOptions) ([]LoadFile, error) {
+	_ = "STUB: not implemented"
 	return nil, nil
 }
 
 func (n *noopUploader) GetSampleLoadFileLocation(ctx context.Context, tableName string) (string, error) {
+	_ = "STUB: not implemented"
 	return "", nil
 }
 
 func (n *noopUploader) GetSingleLoadFile(ctx context.Context, tableName string) (LoadFile, error) {
-	return LoadFile{}, nil
+	_ = "STUB: not implemented"
+	return *new(LoadFile), nil
 }

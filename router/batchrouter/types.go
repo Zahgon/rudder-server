@@ -86,27 +86,12 @@ type asyncJobMetadata struct {
 
 // newAsyncJobMetadata creates asyncJobMetadata from a list of jobs
 func newAsyncJobMetadata(jobList []*jobsdb.JobT) asyncJobMetadata {
-	metadata := asyncJobMetadata{
-		AttemptNums:       make(map[int64]int),
-		FirstAttemptedAts: make(map[int64]time.Time),
-		JobParameters:     make(map[int64]stdjson.RawMessage),
-		PartitionIDs:      make(map[int64]string),
-	}
-	for _, job := range jobList {
-		metadata.AttemptNums[job.JobID] = job.LastJobStatus.AttemptNum
-		metadata.FirstAttemptedAts[job.JobID] = getFirstAttemptAtFromErrorResponse(job.LastJobStatus.ErrorResponse)
-		metadata.JobParameters[job.JobID] = job.Parameters
-		metadata.PartitionIDs[job.JobID] = job.PartitionID
-	}
-	return metadata
+	_ = "STUB: not implemented"
+	return *new(asyncJobMetadata)
 }
 
 // newAsyncJobMetadataFromDestinationStruct creates asyncJobMetadata from an AsyncDestinationStruct
 func newAsyncJobMetadataFromDestinationStruct(asyncDestinationStruct *common.AsyncDestinationStruct) asyncJobMetadata {
-	return asyncJobMetadata{
-		AttemptNums:       asyncDestinationStruct.AttemptNums,
-		FirstAttemptedAts: asyncDestinationStruct.FirstAttemptedAts,
-		JobParameters:     asyncDestinationStruct.JobParameters,
-		PartitionIDs:      asyncDestinationStruct.PartitionIDs,
-	}
+	_ = "STUB: not implemented"
+	return *new(asyncJobMetadata)
 }

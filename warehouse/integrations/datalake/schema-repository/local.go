@@ -2,7 +2,6 @@ package schemarepository
 
 import (
 	"context"
-	"fmt"
 	"sync"
 
 	"github.com/rudderlabs/rudder-server/warehouse/internal/model"
@@ -27,100 +26,60 @@ type LocalSchemaRepository struct {
 }
 
 func NewLocalSchemaRepository(warehouse model.Warehouse, uploader Uploader) (*LocalSchemaRepository, error) {
-	ls := LocalSchemaRepository{
-		warehouse: warehouse,
-		uploader:  uploader,
-	}
-	return &ls, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (ls *LocalSchemaRepository) FetchSchema(ctx context.Context, _ model.Warehouse) (model.Schema, error) {
-	ls.mu.RLock()
-	defer ls.mu.RUnlock()
-
-	schema, err := ls.uploader.GetLocalSchema(ctx)
-	if err != nil {
-		return model.Schema{}, fmt.Errorf("fetching local schema: %w", err)
-	}
-	return schema, nil
+	_ = "STUB: not implemented"
+	return *new(model.Schema), nil
 }
 
 func (*LocalSchemaRepository) CreateSchema(context.Context) error {
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (ls *LocalSchemaRepository) CreateTable(ctx context.Context, tableName string, columnMap model.TableSchema) error {
-	ls.mu.Lock()
-	defer ls.mu.Unlock()
-
-	// fetch schema from local db
-	schema, err := ls.uploader.GetLocalSchema(ctx)
-	if err != nil {
-		return fmt.Errorf("fetching local schema: %w", err)
-	}
-
-	// check if table already exists
-	if _, ok := schema[tableName]; ok {
-		return fmt.Errorf("failed to create table: table %s already exists", tableName)
-	}
-
-	// add table to schema
-	schema[tableName] = columnMap
-
-	// update schema
-	return ls.uploader.UpdateLocalSchema(ctx, schema)
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// fetch schema from local db
+
+// check if table already exists
+
+// add table to schema
+
+// update schema
 
 func (ls *LocalSchemaRepository) AddColumns(ctx context.Context, tableName string, columnsInfo []whutils.ColumnInfo) error {
-	ls.mu.Lock()
-	defer ls.mu.Unlock()
-
-	// fetch schema from local db
-	schema, err := ls.uploader.GetLocalSchema(ctx)
-	if err != nil {
-		return fmt.Errorf("fetching local schema: %w", err)
-	}
-
-	// check if table exists
-	if _, ok := schema[tableName]; !ok {
-		return fmt.Errorf("failed to add column: table %s does not exist", tableName)
-	}
-
-	for _, columnInfo := range columnsInfo {
-		schema[tableName][columnInfo.Name] = columnInfo.Type
-	}
-
-	// update schema
-	return ls.uploader.UpdateLocalSchema(ctx, schema)
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// fetch schema from local db
+
+// check if table exists
+
+// update schema
 
 func (ls *LocalSchemaRepository) AlterColumn(ctx context.Context, tableName, columnName, columnType string) (model.AlterTableResponse, error) {
-	ls.mu.Lock()
-	defer ls.mu.Unlock()
-
-	// fetch schema from local db
-	schema, err := ls.uploader.GetLocalSchema(ctx)
-	if err != nil {
-		return model.AlterTableResponse{}, fmt.Errorf("fetching local schema: %w", err)
-	}
-
-	// check if table exists
-	if _, ok := schema[tableName]; !ok {
-		return model.AlterTableResponse{}, fmt.Errorf("failed to add column: table %s does not exist", tableName)
-	}
-
-	// check if column exists
-	if _, ok := schema[tableName][columnName]; !ok {
-		return model.AlterTableResponse{}, fmt.Errorf("failed to alter column: column %s does not exist in table %s", columnName, tableName)
-	}
-
-	// update column type
-	schema[tableName][columnName] = columnType
-
-	// update schema
-	return model.AlterTableResponse{}, ls.uploader.UpdateLocalSchema(ctx, schema)
+	_ = "STUB: not implemented"
+	return *new(model.AlterTableResponse), nil
 }
 
+// fetch schema from local db
+
+// check if table exists
+
+// check if column exists
+
+// update column type
+
+// update schema
+
 func (*LocalSchemaRepository) RefreshPartitions(context.Context, string, []whutils.LoadFile) error {
+	_ = "STUB: not implemented"
 	return nil
 }

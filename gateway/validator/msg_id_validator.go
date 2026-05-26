@@ -1,21 +1,16 @@
 package validator
 
 import (
-	"github.com/tidwall/gjson"
-
 	"github.com/rudderlabs/rudder-schemas/go/stream"
 )
 
 type messageIDValidator struct{}
 
-func newMessageIDValidator() *messageIDValidator {
-	return &messageIDValidator{}
-}
+func newMessageIDValidator() *messageIDValidator { _ = "STUB: not implemented"; return nil }
 
-func (p *messageIDValidator) ValidatorName() string {
-	return "messageID"
-}
+func (p *messageIDValidator) ValidatorName() string { _ = "STUB: not implemented"; return "" }
 
 func (p *messageIDValidator) Validate(payload []byte, properties *stream.MessageProperties) (bool, error) {
-	return gjson.GetBytes(payload, "messageId").String() != "", nil
+	_ = "STUB: not implemented"
+	return false, nil
 }

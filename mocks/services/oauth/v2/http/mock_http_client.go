@@ -11,7 +11,6 @@ package mock_http_client
 
 import (
 	http "net/http"
-	reflect "reflect"
 
 	gomock "go.uber.org/mock/gomock"
 )
@@ -30,27 +29,25 @@ type MockHttpClientMockRecorder struct {
 
 // NewMockHttpClient creates a new mock instance.
 func NewMockHttpClient(ctrl *gomock.Controller) *MockHttpClient {
-	mock := &MockHttpClient{ctrl: ctrl}
-	mock.recorder = &MockHttpClientMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockHttpClient) EXPECT() *MockHttpClientMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Do mocks base method.
+	return nil
 }
 
-// Do mocks base method.
 func (m *MockHttpClient) Do(req *http.Request) (*http.Response, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Do", req)
-	ret0, _ := ret[0].(*http.Response)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Do indicates an expected call of Do.
 func (mr *MockHttpClientMockRecorder) Do(req any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Do", reflect.TypeOf((*MockHttpClient)(nil).Do), req)
+	_ = "STUB: not implemented"
+	return nil
 }

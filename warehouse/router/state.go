@@ -1,8 +1,6 @@
 package router
 
 import (
-	"fmt"
-
 	"github.com/rudderlabs/rudder-server/warehouse/internal/model"
 )
 
@@ -81,23 +79,6 @@ func init() {
 	abortState.nextState = nil
 }
 
-func inProgressState(currentState string) string {
-	uploadState, ok := stateTransitions[currentState]
-	if !ok {
-		panic(fmt.Errorf("invalid state: %s", currentState))
-	}
-	return uploadState.inProgress
-}
+func inProgressState(currentState string) string { _ = "STUB: not implemented"; return "" }
 
-func nextState(currentState string) *state {
-	if _, ok := stateTransitions[currentState]; ok {
-		return stateTransitions[currentState].nextState
-	}
-
-	for _, uploadState := range stateTransitions {
-		if currentState == uploadState.inProgress || currentState == uploadState.failed {
-			return uploadState
-		}
-	}
-	return nil
-}
+func nextState(currentState string) *state { _ = "STUB: not implemented"; return nil }

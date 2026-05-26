@@ -1,13 +1,9 @@
 package client
 
 import (
-	"context"
 	"database/sql"
-	"errors"
-	"fmt"
 
 	"cloud.google.com/go/bigquery"
-	"google.golang.org/api/iterator"
 
 	warehouseutils "github.com/rudderlabs/rudder-server/warehouse/utils"
 )
@@ -24,93 +20,18 @@ type Client struct {
 }
 
 func (cl *Client) sqlQuery(statement string) (result warehouseutils.QueryResult, err error) {
-	rows, err := cl.SQL.Query(statement)
-	if err != nil && !errors.Is(err, sql.ErrNoRows) {
-		return result, err
-	}
-	if errors.Is(err, sql.ErrNoRows) {
-		return result, nil
-	}
-	defer func() { _ = rows.Close() }()
-
-	result.Columns, err = rows.Columns()
-	if err != nil {
-		return result, err
-	}
-
-	colCount := len(result.Columns)
-	values := make([]any, colCount)
-	valuePtrs := make([]any, colCount)
-
-	for rows.Next() {
-		for i := range colCount {
-			valuePtrs[i] = &values[i]
-		}
-
-		err = rows.Scan(valuePtrs...)
-		for i := range colCount {
-			switch t := values[i].(type) {
-			case []uint8:
-				values[i] = string(t)
-			}
-		}
-		if err != nil {
-			return result, err
-		}
-		var stringRow []string
-		for i := range colCount {
-			stringRow = append(stringRow, fmt.Sprintf("%+v", values[i]))
-		}
-		result.Values = append(result.Values, stringRow)
-	}
-	err = rows.Err()
-	return result, err
+	_ = "STUB: not implemented"
+	return *new(warehouseutils.QueryResult), nil
 }
 
 func (cl *Client) bqQuery(statement string) (result warehouseutils.QueryResult, err error) {
-	query := cl.BQ.Query(statement)
-	ctx := context.Background()
-	it, err := query.Read(ctx)
-	if err != nil {
-		return result, err
-	}
-
-	for index := 0; index < len(it.Schema); index++ {
-		result.Columns = append(result.Columns, (it.Schema[index]).Name)
-	}
-
-	for {
-		var row []bigquery.Value
-		err = it.Next(&row)
-		if err != nil {
-			if errors.Is(err, iterator.Done) {
-				break
-			}
-			return result, err
-		}
-		var stringRow []string
-		for index := 0; index < len(row); index++ {
-			stringRow = append(stringRow, fmt.Sprintf("%+v", row[index]))
-		}
-		result.Values = append(result.Values, stringRow)
-	}
-	return result, nil
+	_ = "STUB: not implemented"
+	return *new(warehouseutils.QueryResult), nil
 }
 
 func (cl *Client) Query(statement string) (result warehouseutils.QueryResult, err error) {
-	switch cl.Type {
-	case BQClient:
-		return cl.bqQuery(statement)
-	default:
-		return cl.sqlQuery(statement)
-	}
+	_ = "STUB: not implemented"
+	return *new(warehouseutils.QueryResult), nil
 }
 
-func (cl *Client) Close() {
-	switch cl.Type {
-	case BQClient:
-		_ = cl.BQ.Close()
-	default:
-		_ = cl.SQL.Close()
-	}
-}
+func (cl *Client) Close() { _ = "STUB: not implemented"; return }

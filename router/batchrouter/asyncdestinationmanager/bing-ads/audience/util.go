@@ -1,35 +1,11 @@
 package audience
 
-import (
-	"archive/zip"
-	"bufio"
-	"encoding/csv"
-	"fmt"
-	"io"
-	"net/http"
-	"os"
-	"path/filepath"
-	"strconv"
-	"strings"
-
-	"github.com/google/uuid"
-	"github.com/samber/lo"
-
-	"github.com/rudderlabs/rudder-go-kit/jsonrs"
-	"github.com/rudderlabs/rudder-go-kit/stats"
-	obskit "github.com/rudderlabs/rudder-observability-kit/go/labels"
-
-	"github.com/rudderlabs/rudder-server/utils/misc"
-)
-
 // Upload related utils
 
 // returns the clientID struct
 func newClientID(jobID int64, hashedEmail string) ClientID {
-	return ClientID{
-		JobID:       jobID,
-		HashedEmail: hashedEmail,
-	}
+	_ = "STUB: not implemented"
+	return *new(ClientID)
 }
 
 /*
@@ -37,90 +13,20 @@ returns the csv file and zip file path, along with the csv writer that
 contains the template of the uploadable file.
 */
 func createActionFile(audienceId, actionType string) (*ActionFileInfo, error) {
-	tmpDirPath, err := misc.GetTmpDir()
-	if err != nil {
-		return nil, err
-	}
-	path := filepath.Join(tmpDirPath, misc.RudderAsyncDestinationLogs, uuid.NewString())
-	csvFilePath := fmt.Sprintf(`%v.csv`, path)
-	zipFilePath := fmt.Sprintf(`%v.zip`, path)
-	csvFile, err := os.Create(csvFilePath)
-	if err != nil {
-		return nil, err
-	}
-	csvWriter, err := CreateActionFileTemplate(csvFile, audienceId, actionType)
-	if err != nil {
-		return nil, err
-	}
-	return &ActionFileInfo{
-		Action:      actionType,
-		ZipFilePath: zipFilePath,
-		CSVFilePath: csvFilePath,
-		CSVWriter:   csvWriter,
-	}, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func convertCsvToZip(actionFile *ActionFileInfo) error {
-	if actionFile.EventCount == 0 {
-		os.Remove(actionFile.CSVFilePath)
-		os.Remove(actionFile.ZipFilePath)
-		return nil
-	}
-	zipFile, err := os.Create(actionFile.ZipFilePath)
-	if err != nil {
-		return err
-	}
-	defer zipFile.Close()
+func convertCsvToZip(actionFile *ActionFileInfo) error { _ = "STUB: not implemented"; return nil }
 
-	zipWriter := zip.NewWriter(zipFile)
+// Close the ZIP writer
 
-	csvFileInZip, err := zipWriter.Create(filepath.Base(actionFile.CSVFilePath))
-	if err != nil {
-		return err
-	}
-	csvFile, err := os.Open(actionFile.CSVFilePath)
-	if err != nil {
-		return err
-	}
-	if _, err := csvFile.Seek(0, 0); err != nil {
-		return err
-	}
-
-	if _, err = io.Copy(csvFileInZip, csvFile); err != nil {
-		return err
-	}
-
-	// Close the ZIP writer
-	if err = zipWriter.Close(); err != nil {
-		return err
-	}
-	// Remove the csv file after creating the zip file
-	if err = os.Remove(actionFile.CSVFilePath); err != nil {
-		return err
-	}
-	return nil
-}
+// Remove the csv file after creating the zip file
 
 // populateZipFile only if it is within the file size limit 100mb and row number limit 4000000
 // Otherwise event is appended to the failedJobs and will be retried.
 func (b *BingAdsBulkUploader) populateZipFile(actionFile *ActionFileInfo, audienceId, line string, data Data) error {
-	newFileSize := actionFile.FileSize + int64(len(line))
-	if newFileSize < b.fileSizeLimit &&
-		actionFile.EventCount < b.eventsLimit {
-		actionFile.FileSize = newFileSize
-		actionFile.EventCount += 1
-		for _, uploadData := range data.Message.List {
-			clientIdI := newClientID(data.Metadata.JobID, uploadData.HashedEmail)
-			clientIdStr := clientIdI.ToString()
-			err := actionFile.CSVWriter.Write([]string{"Customer List Item", "", "", audienceId, clientIdStr, "", "", "", "", "", "", "Email", uploadData.HashedEmail})
-			if err != nil {
-				return err
-			}
-		}
-		actionFile.SuccessfulJobIDs = append(actionFile.SuccessfulJobIDs, data.Metadata.JobID)
-	} else {
-		actionFile.FailedJobIDs = append(actionFile.FailedJobIDs, data.Metadata.JobID)
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
@@ -133,63 +39,8 @@ The following map indicates the index->actionType mapping
 2-> Update
 */
 func (b *BingAdsBulkUploader) createZipFile(filePath, audienceId string) ([]*ActionFileInfo, error) {
-	if audienceId == "" {
-		return nil, fmt.Errorf("audienceId is empty")
-	}
-	textFile, err := os.Open(filePath)
-	if err != nil {
-		return nil, err
-	}
-	defer textFile.Close()
-
-	actionFiles := map[string]*ActionFileInfo{}
-	for _, actionType := range actionTypes {
-		actionFiles[actionType], err = createActionFile(audienceId, actionType)
-		if err != nil {
-			return nil, err
-		}
-	}
-	scanner := bufio.NewScanner(textFile)
-	scanner.Buffer(nil, 50000*1024)
-	for scanner.Scan() {
-		line := scanner.Text()
-		var data Data
-		if err := jsonrs.Unmarshal([]byte(line), &data); err != nil {
-			return nil, err
-		}
-
-		payloadSizeStat := b.statsFactory.NewTaggedStat("payload_size", stats.HistogramType,
-			map[string]string{
-				"module":   "batch_router",
-				"destType": b.destName,
-			})
-		payloadSizeStat.Observe(float64(len(data.Message.List)))
-		actionFile := actionFiles[data.Message.Action]
-		err := b.populateZipFile(actionFile, audienceId, line, data)
-		if err != nil {
-			return nil, err
-		}
-
-	}
-	scannerErr := scanner.Err()
-	if scannerErr != nil {
-		return nil, scannerErr
-	}
-	actionFilesList := []*ActionFileInfo{}
-	for _, actionType := range actionTypes {
-		actionFile := actionFiles[actionType]
-		actionFile.CSVWriter.Flush()
-		err := convertCsvToZip(actionFile)
-		if err != nil {
-			actionFile.FailedJobIDs = append(actionFile.FailedJobIDs, actionFile.SuccessfulJobIDs...)
-			actionFile.SuccessfulJobIDs = []int64{}
-		}
-		if actionFile.EventCount > 0 {
-			actionFilesList = append(actionFilesList, actionFile)
-		}
-
-	}
-	return actionFilesList, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Poll Related Utils
@@ -199,87 +50,34 @@ From the ResultFileUrl, it downloads the zip file and extracts the contents of t
 and finally Provides file paths containing error information as an array string
 */
 func (b *BingAdsBulkUploader) downloadAndGetUploadStatusFile(ResultFileUrl string) ([]string, error) {
+	_ = "STUB: not implemented"
 	// the final status file needs to be downloaded
-	fileAccessUrl := ResultFileUrl
-	modifiedUrl := strings.ReplaceAll(fileAccessUrl, "&amp;", "&")
-	outputDir := "/tmp"
-	// Create output directory if it doesn't exist
-	if err := os.MkdirAll(outputDir, 0o755); err != nil {
-		panic(fmt.Errorf("error creating output directory: err: %w", err))
-	}
-
-	// Download the zip file
-	fileLoadResp, err := http.Get(modifiedUrl)
-	if err != nil {
-		b.logger.Errorn("Error downloading zip file", obskit.Error(err))
-		panic(fmt.Errorf("BRT: Error downloading zip file:. Err: %w", err))
-	}
-	defer fileLoadResp.Body.Close()
-
-	// Create a temporary file to save the downloaded zip file
-	tempFile, err := os.CreateTemp("", fmt.Sprintf("bingads_%s_*.zip", uuid.NewString()))
-	if err != nil {
-		panic(fmt.Errorf("BRT: Failed creating temporary file. Err: %w", err))
-	}
-	defer os.Remove(tempFile.Name())
-
-	// Save the downloaded zip file to the temporary file
-	_, err = io.Copy(tempFile, fileLoadResp.Body)
-	if err != nil {
-		panic(fmt.Errorf("BRT: Failed saving zip file. Err: %w", err))
-	}
-	// Extract the contents of the zip file to the output directory
-	filePaths, err := unzip(tempFile.Name(), outputDir)
-	return filePaths, err
+	return nil, nil
 }
+
+// Create output directory if it doesn't exist
+
+// Download the zip file
+
+// Create a temporary file to save the downloaded zip file
+
+// Save the downloaded zip file to the temporary file
+
+// Extract the contents of the zip file to the output directory
 
 // unzips the file downloaded from bingads, which contains error informations
 // of a particular event.
-func unzip(zipFile, targetDir string) ([]string, error) {
-	var filePaths []string
+func unzip(zipFile, targetDir string) ([]string, error) { _ = "STUB: not implemented"; return nil, nil }
 
-	r, err := zip.OpenReader(zipFile)
-	if err != nil {
-		return nil, err
-	}
-	defer r.Close()
+// Open each file in the zip archive
 
-	for _, f := range r.File {
-		// Open each file in the zip archive
-		rc, err := f.Open()
-		if err != nil {
-			return nil, err
-		}
-		defer rc.Close()
+// Create the corresponding file in the target directory
 
-		// Create the corresponding file in the target directory
-		path := filepath.Join(targetDir, f.Name)
-		if f.FileInfo().IsDir() {
-			// Create directories if the file is a directory
-			err = os.MkdirAll(path, f.Mode())
-			if err != nil {
-				return nil, err
-			}
-		} else {
-			// Create the file and copy the contents
-			file, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, f.Mode())
-			if err != nil {
-				return nil, err
-			}
-			defer file.Close()
+// Create directories if the file is a directory
 
-			_, err = io.Copy(file, rc)
-			if err != nil {
-				return nil, err
-			}
+// Create the file and copy the contents
 
-			// Append the file path to the list
-			filePaths = append(filePaths, path)
-		}
-	}
-
-	return filePaths, nil
-}
+// Append the file path to the list
 
 /*
 ReadPollResults reads the CSV file and returns the records
@@ -293,58 +91,24 @@ In the below format (only adding relevant keys)
 	}
 */
 func (b *BingAdsBulkUploader) readPollResults(filePath string) ([][]string, error) {
+	_ = "STUB: not implemented"
 	// Open the CSV file
-	file, err := os.Open(filePath)
-	if err != nil {
-		b.logger.Errorn("Error opening the CSV file", obskit.Error(err))
-		return nil, err
-	}
-	// defer file.Close() and remove
-	defer func() {
-		closeErr := file.Close()
-		if closeErr != nil {
-			b.logger.Errorn("Error closing the CSV file", obskit.Error(closeErr))
-			if err == nil {
-				err = closeErr
-			}
-		}
-		// remove the file after the response has been written
-		removeErr := os.Remove(filePath)
-		if removeErr != nil {
-			b.logger.Errorn("Error removing the CSV file", obskit.Error(removeErr))
-			if err == nil {
-				err = removeErr
-			}
-
-		}
-	}()
-	// Create a new CSV reader
-	reader := csv.NewReader(file)
-
-	// Read all records from the CSV file
-	records, err := reader.ReadAll()
-	if err != nil {
-		b.logger.Errorn("Error reading CSV", obskit.Error(err))
-		return nil, err
-	}
-	return records, nil
+	return nil, nil
 }
+
+// defer file.Close() and remove
+
+// remove the file after the response has been written
+
+// Create a new CSV reader
+
+// Read all records from the CSV file
 
 // converting the string clientID to ClientID struct
 
 func newClientIDFromString(clientID string) (*ClientID, error) {
-	clientIDParts := strings.Split(clientID, clientIDSeparator)
-	if len(clientIDParts) != 2 {
-		return nil, fmt.Errorf("invalid client id: %s", clientID)
-	}
-	jobID, err := strconv.ParseInt(clientIDParts[0], 10, 64)
-	if err != nil {
-		return nil, fmt.Errorf("invalid job id in clientId: %s", clientID)
-	}
-	return &ClientID{
-		JobID:       jobID,
-		HashedEmail: clientIDParts[1],
-	}, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 /*
@@ -374,64 +138,30 @@ In the below format:
 ** because we want to avoid duplicate error messages
 */
 func processPollStatusData(records [][]string) (map[int64]map[string]struct{}, error) {
-	clientIDIndex := -1
-	errorIndex := -1
-	typeIndex := 0
-	if len(records) > 0 {
-		header := records[0]
-		for i, column := range header {
-			switch column {
-			case "Client Id":
-				clientIDIndex = i
-			case "Error":
-				errorIndex = i
-			}
-		}
-	}
-
-	// Declare variables for storing data
-
-	clientIDErrors := make(map[int64]map[string]struct{})
-
-	// Iterate over the remaining rows and filter based on the 'Type' field containing the substring 'Error'
-	// The error messages are present on the rows where the corresponding Type column values are "Customer List Error", "Customer List Item Error" etc
-	for _, record := range records[1:] {
-		rowname := record[typeIndex]
-		if typeIndex < len(record) && strings.Contains(rowname, "Customer List Item Error") {
-			if clientIDIndex >= 0 && clientIDIndex < len(record) {
-				// expecting the client ID is present as jobId<<>>clientId
-				clientId, err := newClientIDFromString(record[clientIDIndex])
-				if err != nil {
-					return nil, err
-				}
-				errorSet, ok := clientIDErrors[clientId.JobID]
-				if !ok {
-					errorSet = make(map[string]struct{})
-					// making the structure as jobId: [error1, error2]
-					clientIDErrors[clientId.JobID] = errorSet
-				}
-				errorSet[record[errorIndex]] = struct{}{}
-
-			}
-		}
-	}
-	return clientIDErrors, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
+
+// Declare variables for storing data
+
+// Iterate over the remaining rows and filter based on the 'Type' field containing the substring 'Error'
+// The error messages are present on the rows where the corresponding Type column values are "Customer List Error", "Customer List Item Error" etc
+
+// expecting the client ID is present as jobId<<>>clientId
+
+// making the structure as jobId: [error1, error2]
 
 // GetUploadStats Related utils
 
 // get the list of unique error messages for a particular jobId.
 func getAbortedReasons(clientIDErrors map[int64]map[string]struct{}) map[int64]string {
-	reasons := make(map[int64]string)
-	for key, errors := range clientIDErrors {
-		reasons[key] = strings.Join(lo.Keys(errors), commaSeparator)
-	}
-	return reasons
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // filtering out failed jobIds from the total array of jobIds
 // in order to get jobIds of the successful jobs
 func getSuccessJobIDs(failedEventList, initialEventList []int64) []int64 {
-	successfulEvents, _ := lo.Difference(initialEventList, failedEventList)
-	return successfulEvents
+	_ = "STUB: not implemented"
+	return nil
 }

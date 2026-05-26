@@ -6,8 +6,6 @@ import (
 	"time"
 
 	"github.com/rudderlabs/rudder-go-kit/logger"
-
-	"github.com/rudderlabs/rudder-server/rruntime"
 )
 
 // WorkerPool manages a pool of workers and their lifecycle
@@ -40,33 +38,20 @@ type Worker interface {
 
 // WithCleanupPeriod option sets the cleanup period for the worker pool
 func WithCleanupPeriod(cleanupPeriod time.Duration) func(*workerPool) {
-	return func(wp *workerPool) {
-		wp.cleanupPeriod = cleanupPeriod
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // WithIdleTimeout option sets the idle timeout for the worker pool
 func WithIdleTimeout(idleTimeout time.Duration) func(*workerPool) {
-	return func(wp *workerPool) {
-		wp.idleTimeout = idleTimeout
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // New creates a new worker pool
 func New(ctx context.Context, workerSupplier WorkerSupplier, logger logger.Logger, opts ...func(*workerPool)) WorkerPool {
-	wp := &workerPool{
-		logger:        logger.Child("worker-pool"),
-		supplier:      workerSupplier,
-		workers:       make(map[string]*internalWorker),
-		cleanupPeriod: 10 * time.Second,
-		idleTimeout:   5 * time.Minute,
-	}
-	for _, opt := range opts {
-		opt(wp)
-	}
-	wp.lifecycle.ctx, wp.lifecycle.cancel = context.WithCancel(ctx)
-	wp.startCleanupLoop()
-	return wp
+	_ = "STUB: not implemented"
+	return *new(WorkerPool)
 }
 
 // workerPool manages a pool of workers
@@ -88,76 +73,19 @@ type workerPool struct {
 }
 
 // PingWorker pings the worker for the given partition
-func (wp *workerPool) PingWorker(partition string) {
-	wp.worker(partition).Ping()
-}
+func (wp *workerPool) PingWorker(partition string) { _ = "STUB: not implemented"; return }
 
 // Shutdown stops all workers in the pull and waits for them to stop
-func (wp *workerPool) Shutdown() {
-	wp.logger.Infon("shutting down worker pool")
-	start := time.Now()
-	var wg sync.WaitGroup
-	wg.Add(len(wp.workers))
-	for _, w := range wp.workers {
-		go func() {
-			wstart := time.Now()
-			w.Stop()
-			wg.Done()
-			wp.logger.Debugn("worker stopped",
-				logger.NewStringField("partition", w.partition),
-				logger.NewDurationField("duration", time.Since(wstart)),
-			)
-		}()
-	}
-	wg.Wait()
-	wp.logger.Infon("all workers stopped", logger.NewDurationField("duration", time.Since(start)))
-	wp.lifecycle.cancel()
-	wp.lifecycle.wg.Wait()
-	wp.logger.Infon("worker pool was shut down successfully")
-}
+func (wp *workerPool) Shutdown() { _ = "STUB: not implemented"; return }
 
 // Size returns the number of workers in the pool
-func (wp *workerPool) Size() int {
-	wp.workersMu.RLock()
-	defer wp.workersMu.RUnlock()
-	return len(wp.workers)
-}
+func (wp *workerPool) Size() int { _ = "STUB: not implemented"; return 0 }
 
 // worker gets or creates a worker for the given partition
 func (wp *workerPool) worker(partition string) *internalWorker {
-	wp.workersMu.Lock()
-	defer wp.workersMu.Unlock()
-	w, ok := wp.workers[partition]
-	if !ok {
-		wp.logger.Debugn("adding worker in the pool for partition", logger.NewStringField("partition", partition))
-		w = newInternalWorker(partition, wp.logger, wp.supplier(partition))
-		wp.workers[partition] = w
-	}
-	return w
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // startCleanupLoop starts a loop that cleans up idle workers
-func (wp *workerPool) startCleanupLoop() {
-	wp.lifecycle.wg.Add(1)
-	rruntime.Go(func() {
-		defer wp.lifecycle.wg.Done()
-		for {
-			select {
-			case <-wp.lifecycle.ctx.Done():
-				return
-			case <-time.After(wp.cleanupPeriod):
-			}
-			wp.workersMu.Lock()
-			for partition, w := range wp.workers {
-				idleTime := w.IdleSince()
-				if !idleTime.IsZero() && time.Since(idleTime) > wp.idleTimeout {
-					wp.logger.Debugn("destroying idle worker for partition", logger.NewStringField("partition", partition))
-					w.Stop()
-					delete(wp.workers, partition)
-					wp.logger.Debugn("removed idle worker from pool for partition", logger.NewStringField("partition", partition))
-				}
-			}
-			wp.workersMu.Unlock()
-		}
-	})
-}
+func (wp *workerPool) startCleanupLoop() { _ = "STUB: not implemented"; return }

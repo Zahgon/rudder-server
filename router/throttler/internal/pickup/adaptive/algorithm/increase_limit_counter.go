@@ -2,7 +2,6 @@ package algorithm
 
 import (
 	"context"
-	"net/http"
 	"sync"
 	"time"
 
@@ -17,27 +16,9 @@ type increaseLimitCounter struct {
 	throttledCount     int64
 }
 
-func (c *increaseLimitCounter) ResponseCodeReceived(code int) {
-	if code == http.StatusTooManyRequests {
-		c.throttledCountMu.Lock()
-		c.throttledCount++
-		c.throttledCountMu.Unlock()
-	}
-}
+func (c *increaseLimitCounter) ResponseCodeReceived(code int) { _ = "STUB: not implemented"; return }
 
 func (c *increaseLimitCounter) run(ctx context.Context, wg *sync.WaitGroup) {
-	defer wg.Done()
-	for {
-		select {
-		case <-ctx.Done():
-			return
-		case <-time.After(c.window()):
-			c.throttledCountMu.Lock()
-			if c.throttledCount == 0 {
-				c.limitFactor.Add(float64(c.increasePercentage.Load()) / 100)
-			}
-			c.throttledCount = 0
-			c.throttledCountMu.Unlock()
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }

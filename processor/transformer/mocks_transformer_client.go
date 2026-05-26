@@ -14,10 +14,13 @@ type SimpleMockDestinationClient struct {
 
 // Transform implements the DestinationClient interface
 func (m *SimpleMockDestinationClient) Transform(_ context.Context, _ []types.TransformerEvent) types.Response {
-	return m.TransformOutput
+	_ = "STUB: not implemented"
+	return *
+
+	// SimpleMockUserClient is a minimal mock for UserClient
+	new(types.Response)
 }
 
-// SimpleMockUserClient is a minimal mock for UserClient
 type SimpleMockUserClient struct {
 	// Fixed response to return
 	TransformOutput types.Response
@@ -25,10 +28,13 @@ type SimpleMockUserClient struct {
 
 // Transform implements the UserClient interface
 func (m *SimpleMockUserClient) Transform(_ context.Context, _ []types.TransformerEvent) types.Response {
-	return m.TransformOutput
+	_ = "STUB: not implemented"
+	return *
+
+	// SimpleMockTrackingPlanClient is a minimal mock for TrackingPlanClient
+	new(types.Response)
 }
 
-// SimpleMockTrackingPlanClient is a minimal mock for TrackingPlanClient
 type SimpleMockTrackingPlanClient struct {
 	// Fixed response to return
 	ValidateOutput types.Response
@@ -36,7 +42,8 @@ type SimpleMockTrackingPlanClient struct {
 
 // Validate implements the TrackingPlanClient interface
 func (m *SimpleMockTrackingPlanClient) Validate(_ context.Context, _ []types.TransformerEvent) types.Response {
-	return m.ValidateOutput
+	_ = "STUB: not implemented"
+	return *new(types.Response)
 }
 
 type SimpleMockSrcHydrationClient struct {
@@ -45,7 +52,8 @@ type SimpleMockSrcHydrationClient struct {
 }
 
 func (m *SimpleMockSrcHydrationClient) Hydrate(_ context.Context, _ types.SrcHydrationRequest) (types.SrcHydrationResponse, error) {
-	return m.HydratedOutput, m.err
+	_ = "STUB: not implemented"
+	return *new(types.SrcHydrationResponse), nil
 }
 
 // SimpleClients is a minimal implementation of TransformerClients
@@ -58,110 +66,87 @@ type SimpleClients struct {
 }
 
 // NewSimpleClients creates a new instance of SimpleClients with empty responses
-func NewSimpleClients() *SimpleClients {
-	return &SimpleClients{
-		userClient: &SimpleMockUserClient{
-			TransformOutput: types.Response{
-				Events:       []types.TransformerResponse{},
-				FailedEvents: []types.TransformerResponse{},
-			},
-		},
-		userMirrorClient: &SimpleMockUserClient{
-			TransformOutput: types.Response{
-				Events:       []types.TransformerResponse{},
-				FailedEvents: []types.TransformerResponse{},
-			},
-		},
-		destinationClient: &SimpleMockDestinationClient{
-			TransformOutput: types.Response{
-				Events:       []types.TransformerResponse{},
-				FailedEvents: []types.TransformerResponse{},
-			},
-		},
-		trackingPlanClient: &SimpleMockTrackingPlanClient{
-			ValidateOutput: types.Response{
-				Events:       []types.TransformerResponse{},
-				FailedEvents: []types.TransformerResponse{},
-			},
-		},
-		sycHydrationClient: &SimpleMockSrcHydrationClient{
-			HydratedOutput: types.SrcHydrationResponse{},
-			err:            nil,
-		},
-	}
-}
+func NewSimpleClients() *SimpleClients { _ = "STUB: not implemented"; return nil }
 
 // User returns the user client
-func (s *SimpleClients) User() UserClient {
-	return s.userClient
+func (s *SimpleClients) User() UserClient { _ = "STUB: not implemented"; return *new(UserClient) }
+
+func (s *SimpleClients) UserMirror() UserClient {
+	_ = "STUB: not implemented"
+	return *
+
+	// Destination returns the destination client
+	new(UserClient)
 }
 
-func (s *SimpleClients) UserMirror() UserClient { return s.userMirrorClient }
-
-// Destination returns the destination client
 func (s *SimpleClients) Destination() DestinationClient {
-	return s.destinationClient
+	_ = "STUB: not implemented"
+	return *new(DestinationClient)
 }
 
 // TrackingPlan returns the tracking plan client
 func (s *SimpleClients) TrackingPlan() TrackingPlanClient {
-	return s.trackingPlanClient
+	_ = "STUB: not implemented"
+	return *new(TrackingPlanClient)
 }
 
-func (s *SimpleClients) SrcHydration() SrcHydrationClient { return s.sycHydrationClient }
+func (s *SimpleClients) SrcHydration() SrcHydrationClient {
+	_ = "STUB: not implemented"
+	return *new(SrcHydrationClient)
+}
 
 // SetUserTransformOutput sets the response for the User transformer
 func (s *SimpleClients) SetUserTransformOutput(response types.Response) {
-	s.userClient = &SimpleMockUserClient{
-		TransformOutput: response,
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetDestinationTransformOutput sets the response for the Destination transformer
 func (s *SimpleClients) SetDestinationTransformOutput(response types.Response) {
-	s.destinationClient = &SimpleMockDestinationClient{
-		TransformOutput: response,
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetTrackingPlanValidateOutput sets the response for the TrackingPlan validator
 func (s *SimpleClients) SetTrackingPlanValidateOutput(response types.Response) {
-	s.trackingPlanClient = &SimpleMockTrackingPlanClient{
-		ValidateOutput: response,
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetSrcHydrationOutput sets the response for the Source Hydration client
 func (s *SimpleClients) SetSrcHydrationOutput(response types.SrcHydrationResponse, err error) {
-	s.sycHydrationClient = &SimpleMockSrcHydrationClient{
-		HydratedOutput: response,
-		err:            err,
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 // WithDynamicUserTransform sets a custom function for User transformer
 func (s *SimpleClients) WithDynamicUserTransform(transformFn func(context.Context, []types.TransformerEvent) types.Response) {
-	s.userClient = &dynamicUserClient{transformFn: transformFn}
+	_ = "STUB: not implemented"
+	return
 }
 
 // WithDynamicUserMirrorTransform sets a custom function for UserMirror transformer
 func (s *SimpleClients) WithDynamicUserMirrorTransform(transformFn func(context.Context, []types.TransformerEvent) types.Response) {
-	s.userMirrorClient = &dynamicUserClient{transformFn: transformFn}
+	_ = "STUB: not implemented"
+	return
 }
 
 // WithDynamicDestinationTransform sets a custom function for Destination transformer
 func (s *SimpleClients) WithDynamicDestinationTransform(transformFn func(context.Context, []types.TransformerEvent) types.Response) {
-	s.destinationClient = &dynamicDestinationClient{transformFn: transformFn}
+	_ = "STUB: not implemented"
+	return
 }
 
 // WithDynamicTrackingPlanValidate sets a custom function for TrackingPlan validator
 func (s *SimpleClients) WithDynamicTrackingPlanValidate(validateFn func(context.Context, []types.TransformerEvent) types.Response) {
-	s.trackingPlanClient = &dynamicTrackingPlanClient{validateFn: validateFn}
+	_ = "STUB: not implemented"
+	return
 }
 
 // WithDynamicSrcHydration sets a custom function for Source Hydration
 func (s *SimpleClients) WithDynamicSrcHydration(hydrateFn func(context.Context, types.SrcHydrationRequest) (types.SrcHydrationResponse, error)) {
-	s.sycHydrationClient = &dynamicSrcHydrationClient{hydrateFn: hydrateFn}
+	_ = "STUB: not implemented"
+	return
 }
 
 // Helper types for dynamic behavior
@@ -171,7 +156,8 @@ type dynamicUserClient struct {
 }
 
 func (d *dynamicUserClient) Transform(ctx context.Context, events []types.TransformerEvent) types.Response {
-	return d.transformFn(ctx, events)
+	_ = "STUB: not implemented"
+	return *new(types.Response)
 }
 
 type dynamicDestinationClient struct {
@@ -179,7 +165,8 @@ type dynamicDestinationClient struct {
 }
 
 func (d *dynamicDestinationClient) Transform(ctx context.Context, events []types.TransformerEvent) types.Response {
-	return d.transformFn(ctx, events)
+	_ = "STUB: not implemented"
+	return *new(types.Response)
 }
 
 type dynamicTrackingPlanClient struct {
@@ -187,7 +174,8 @@ type dynamicTrackingPlanClient struct {
 }
 
 func (d *dynamicTrackingPlanClient) Validate(ctx context.Context, events []types.TransformerEvent) types.Response {
-	return d.validateFn(ctx, events)
+	_ = "STUB: not implemented"
+	return *new(types.Response)
 }
 
 type dynamicSrcHydrationClient struct {
@@ -195,50 +183,23 @@ type dynamicSrcHydrationClient struct {
 }
 
 func (d *dynamicSrcHydrationClient) Hydrate(ctx context.Context, req types.SrcHydrationRequest) (types.SrcHydrationResponse, error) {
-	return d.hydrateFn(ctx, req)
+	_ = "STUB: not implemented"
+	return *new(types.SrcHydrationResponse), nil
 }
 
 // Helper functions to create common responses
 
 // EmptySuccessResponse creates an empty successful response
-func EmptySuccessResponse() types.Response {
-	return types.Response{
-		Events:       []types.TransformerResponse{},
-		FailedEvents: []types.TransformerResponse{},
-	}
-}
+func EmptySuccessResponse() types.Response { _ = "STUB: not implemented"; return *new(types.Response) }
 
 // SuccessResponse creates a response with successfully processed events
 func SuccessResponse(outputs []map[string]any, metadatas []types.Metadata) types.Response {
-	responses := make([]types.TransformerResponse, len(outputs))
-	for i, output := range outputs {
-		metadata := types.Metadata{}
-		if i < len(metadatas) {
-			metadata = metadatas[i]
-		}
-		responses[i] = types.TransformerResponse{
-			Output:     output,
-			Metadata:   metadata,
-			StatusCode: 200,
-		}
-	}
-	return types.Response{
-		Events:       responses,
-		FailedEvents: []types.TransformerResponse{},
-	}
+	_ = "STUB: not implemented"
+	return *new(types.Response)
 }
 
 // ErrorResponse creates a response with error information
 func ErrorResponse(errorMsg string, statusCode int, metadata types.Metadata) types.Response {
-	return types.Response{
-		Events: []types.TransformerResponse{},
-		FailedEvents: []types.TransformerResponse{
-			{
-				Output:     nil,
-				Metadata:   metadata,
-				StatusCode: statusCode,
-				Error:      errorMsg,
-			},
-		},
-	}
+	_ = "STUB: not implemented"
+	return *new(types.Response)
 }

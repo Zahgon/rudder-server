@@ -2,12 +2,8 @@ package processor
 
 import (
 	"context"
-	"sync"
 
-	"github.com/rudderlabs/rudder-go-kit/config"
-	"github.com/rudderlabs/rudder-go-kit/logger"
 	"github.com/rudderlabs/rudder-go-kit/stats"
-	obskit "github.com/rudderlabs/rudder-observability-kit/go/labels"
 
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
 	"github.com/rudderlabs/rudder-server/enterprise/trackedusers"
@@ -52,58 +48,10 @@ type LifecycleManager struct {
 // Start starts a processor, this is not a blocking call.
 // If the processor is not completely started and the data started coming then also it will not be problematic as we
 // are assuming that the DBs will be up.
-func (proc *LifecycleManager) Start() error {
-	if proc.TransformerClients != nil {
-		proc.Handle.transformerClients = proc.TransformerClients
-	}
-	currentCtx, cancel := context.WithCancel(context.Background())
-	if err := proc.Handle.Setup(
-		currentCtx,
-		proc.BackendConfig,
-		proc.gatewayDB,
-		proc.routerDB,
-		proc.batchRouterDB,
-		proc.esDB,
-		proc.arcDB,
-		proc.ReportingI,
-		proc.transientSources,
-		proc.fileuploader,
-		proc.rsourcesService,
-		proc.transformerFeaturesService,
-		proc.destDebugger,
-		proc.transDebugger,
-		proc.enrichers,
-		proc.trackedUsersReporter,
-		proc.pendingEventsRegistry,
-	); err != nil {
-		cancel()
-		return err
-	}
-
-	proc.currentCancel = cancel
-	var wg sync.WaitGroup
-	proc.waitGroup = &wg
-
-	wg.Go(func() {
-		if err := proc.Handle.countPendingEvents(currentCtx); err != nil {
-			proc.Handle.logger.Errorn("Error counting pending events", obskit.Error(err))
-		}
-	})
-
-	wg.Go(func() {
-		if err := proc.Handle.Start(currentCtx); err != nil {
-			proc.Handle.logger.Errorn("Error starting processor", obskit.Error(err))
-		}
-	})
-	return nil
-}
+func (proc *LifecycleManager) Start() error { _ = "STUB: not implemented"; return nil }
 
 // Stop stops the processor, this is a blocking call.
-func (proc *LifecycleManager) Stop() {
-	proc.currentCancel()
-	proc.waitGroup.Wait()
-	proc.Handle.Shutdown()
-}
+func (proc *LifecycleManager) Stop() { _ = "STUB: not implemented"; return }
 
 // New creates a new Processor instance
 func New(
@@ -122,57 +70,20 @@ func New(
 	pendingEventsRegistry rmetrics.PendingEventsRegistry,
 	opts ...Opts,
 ) *LifecycleManager {
-	proc := &LifecycleManager{
-		Handle: NewHandle(
-			config.Default,
-			transformer.NewClients(
-				config.Default,
-				logger.NewLogger().Child("processor"),
-				stats.Default,
-				transformer.WithFeatureService(transformerFeaturesService),
-			),
-		),
-		mainCtx:                    ctx,
-		gatewayDB:                  gwDb,
-		routerDB:                   rtDb,
-		batchRouterDB:              brtDb,
-		esDB:                       esDB,
-		arcDB:                      arcDB,
-		clearDB:                    clearDb,
-		BackendConfig:              backendconfig.DefaultBackendConfig,
-		ReportingI:                 reporting,
-		transientSources:           transientSources,
-		fileuploader:               fileuploader,
-		rsourcesService:            rsourcesService,
-		transformerFeaturesService: transformerFeaturesService,
-		destDebugger:               destDebugger,
-		transDebugger:              transDebugger,
-		enrichers:                  enrichers,
-		trackedUsersReporter:       trackedUsersReporter,
-		pendingEventsRegistry:      pendingEventsRegistry,
-	}
-	for _, opt := range opts {
-		opt(proc)
-	}
-	return proc
+	_ = "STUB: not implemented"
+	return nil
 }
 
 type Opts func(l *LifecycleManager)
 
 func WithAdaptiveLimit(adaptiveLimitFunction func(int64) int64) Opts {
-	return func(l *LifecycleManager) {
-		l.Handle.adaptiveLimit = adaptiveLimitFunction
-	}
+	_ = "STUB: not implemented"
+	return *new(Opts)
 }
 
-func WithStats(stats stats.Stats) Opts {
-	return func(l *LifecycleManager) {
-		l.Handle.statsFactory = stats
-	}
-}
+func WithStats(stats stats.Stats) Opts { _ = "STUB: not implemented"; return *new(Opts) }
 
 func WithTransformerClients(transformerClients transformer.TransformerClients) Opts {
-	return func(l *LifecycleManager) {
-		l.Handle.transformerClients = transformerClients
-	}
+	_ = "STUB: not implemented"
+	return *new(Opts)
 }

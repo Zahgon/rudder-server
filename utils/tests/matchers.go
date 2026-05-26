@@ -1,37 +1,27 @@
 package testutils
 
 import (
-	"fmt"
-
-	"github.com/onsi/gomega/format"
 	"github.com/onsi/gomega/types"
-
-	"github.com/rudderlabs/rudder-server/utils/misc"
 )
 
 type beValidUUIDMatcher struct{}
 
 func (*beValidUUIDMatcher) Match(actual any) (success bool, err error) {
-	s, ok := actual.(string)
-
-	if !ok {
-		return false, fmt.Errorf("expected a string.  Got:\n%s", format.Object(actual, 1))
-	}
-
-	return misc.IsValidUUID(s), nil
+	_ = "STUB: not implemented"
+	return false, nil
 }
 
 func (*beValidUUIDMatcher) FailureMessage(actual any) (message string) {
-	return format.Message(actual, "to be a valid uuid")
+	_ = "STUB: not implemented"
+	return ""
 }
 
 func (*beValidUUIDMatcher) NegatedFailureMessage(actual any) (message string) {
-	return format.Message(actual, "not to be a valid uuid")
+	_ = "STUB: not implemented"
+	return ""
 }
 
 /*
 BeValidUUID returns a gomega matcher that checks validity of a UUID string
 */
-func BeValidUUID() types.GomegaMatcher {
-	return &beValidUUIDMatcher{}
-}
+func BeValidUUID() types.GomegaMatcher { _ = "STUB: not implemented"; return *new(types.GomegaMatcher) }

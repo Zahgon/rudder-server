@@ -1,8 +1,6 @@
 package testutils
 
 import (
-	"fmt"
-	"net/http"
 	"time"
 
 	"github.com/go-chi/chi/v5"
@@ -21,50 +19,25 @@ type CpResponseProducer struct {
 }
 
 func (cp *CpResponseProducer) GetNext() CpResponseParams {
-	if cp.callCount >= len(cp.Responses) {
-		panic("ran out of responses")
-	}
-	cpResp := cp.Responses[cp.callCount]
-	cp.callCount++
-	return cpResp
+	_ = "STUB: not implemented"
+	return *new(CpResponseParams)
 }
 
-func (cp *CpResponseProducer) MockCpRequests() *chi.Mux {
-	srvMux := chi.NewMux()
-	srvMux.Post("/destination/workspaces/{workspaceId}/accounts/{accountId}/token", func(w http.ResponseWriter, req *http.Request) {
-		// iterating over request parameters
-		for _, reqParam := range []string{"workspaceId", "accountId"} {
-			param := chi.URLParam(req, reqParam)
-			if param == "" {
-				// This case wouldn't occur I guess
-				http.Error(w, fmt.Sprintf("Wrong url being sent: %v", reqParam), http.StatusBadRequest)
-				return
-			}
-		}
+func (cp *CpResponseProducer) MockCpRequests() *chi.Mux { _ = "STUB: not implemented"; return nil }
 
-		cpResp := cp.GetNext()
-		// sleep is being used to mimic the waiting in actual transformer response
-		if cpResp.Timeout > 0 {
-			time.Sleep(cpResp.Timeout)
-		}
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(cpResp.Code)
-		_, _ = w.Write([]byte(cpResp.Response))
-	})
+// iterating over request parameters
 
-	return srvMux
-}
+// This case wouldn't occur I guess
+
+// sleep is being used to mimic the waiting in actual transformer response
 
 type BasicAuthMock struct{}
 
-func (b *BasicAuthMock) BasicAuth() (string, string) {
-	return "test", "test"
-}
+func (b *BasicAuthMock) BasicAuth() (string, string) { _ = "STUB: not implemented"; return "", "" }
 
-func (b *BasicAuthMock) ID() string {
-	return "test"
-}
+func (b *BasicAuthMock) ID() string { _ = "STUB: not implemented"; return "" }
 
 func (b *BasicAuthMock) Type() deployment.Type {
-	return "test"
+	_ = "STUB: not implemented"
+	return *new(deployment.Type)
 }

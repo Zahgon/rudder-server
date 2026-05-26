@@ -1,9 +1,5 @@
 package warehouseutils
 
-import (
-	"strings"
-)
-
 var statsSupportedTableNames = map[string]struct{}{
 	"tracks":     {},
 	"identifies": {},
@@ -14,10 +10,6 @@ var statsSupportedTableNames = map[string]struct{}{
 	"groups":     {},
 }
 
-func TableNameForStats(tableName string) string {
-	capturedTableName := strings.ToLower(tableName)
-	if _, ok := statsSupportedTableNames[capturedTableName]; !ok {
-		capturedTableName = "others" // making all other tableName as other, to reduce cardinality
-	}
-	return capturedTableName
-}
+func TableNameForStats(tableName string) string { _ = "STUB: not implemented"; return "" }
+
+// making all other tableName as other, to reduce cardinality

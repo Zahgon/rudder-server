@@ -2,27 +2,18 @@ package bcm
 
 import (
 	"context"
-	"fmt"
-	"strings"
 	"sync"
 
-	"github.com/samber/lo"
-
 	"github.com/rudderlabs/rudder-go-kit/config"
-	"github.com/rudderlabs/rudder-go-kit/jsonrs"
 	"github.com/rudderlabs/rudder-go-kit/logger"
 	"github.com/rudderlabs/rudder-go-kit/stats"
-	obskit "github.com/rudderlabs/rudder-observability-kit/go/labels"
 
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
-	"github.com/rudderlabs/rudder-server/utils/misc"
 	cpclient "github.com/rudderlabs/rudder-server/warehouse/client/controlplane"
 	"github.com/rudderlabs/rudder-server/warehouse/integrations/middleware/sqlquerywrapper"
 	"github.com/rudderlabs/rudder-server/warehouse/internal/model"
 	"github.com/rudderlabs/rudder-server/warehouse/internal/repo"
-	"github.com/rudderlabs/rudder-server/warehouse/logfield"
 	"github.com/rudderlabs/rudder-server/warehouse/multitenant"
-	whutils "github.com/rudderlabs/rudder-server/warehouse/utils"
 )
 
 func New(
@@ -32,31 +23,8 @@ func New(
 	log logger.Logger,
 	stats stats.Stats,
 ) *BackendConfigManager {
-	if c == nil {
-		c = config.Default
-	}
-	if log == nil {
-		log = logger.NOP
-	}
-	bcm := &BackendConfigManager{
-		conf:                 c,
-		schema:               repo.NewWHSchemas(db, c, log, repo.WithStats(stats)),
-		tenantManager:        tenantManager,
-		logger:               log,
-		stats:                stats,
-		InitialConfigFetched: make(chan struct{}),
-		connectionsMap:       make(map[string]map[string]model.Warehouse),
-	}
-	if c.GetBoolVar(true, "ENABLE_TUNNELLING") {
-		bcm.internalControlPlaneClient = cpclient.NewInternalClientWithCache(
-			c.GetStringVar("https://api.rudderstack.com", "CONFIG_BACKEND_URL"),
-			cpclient.BasicAuth{
-				Username: c.GetStringVar("", "CP_INTERNAL_API_USERNAME"),
-				Password: c.GetStringVar("", "CP_INTERNAL_API_PASSWORD"),
-			},
-		)
-	}
-	return bcm
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // BackendConfigManager is used to handle the backend configuration in the Warehouse
@@ -85,284 +53,77 @@ type BackendConfigManager struct {
 	sourceIDsByWorkspaceMu sync.RWMutex
 }
 
-func (bcm *BackendConfigManager) Start(ctx context.Context) {
-	ch := bcm.tenantManager.WatchConfig(ctx)
-	for {
-		select {
-		case <-ctx.Done():
-			return
-		case data, ok := <-ch:
-			if !ok {
-				return
-			}
-			bcm.processData(ctx, data)
-		}
-	}
-}
+func (bcm *BackendConfigManager) Start(ctx context.Context) { _ = "STUB: not implemented"; return }
 
 func (bcm *BackendConfigManager) Subscribe(ctx context.Context) <-chan []model.Warehouse {
-	bcm.subscriptionsMu.Lock()
-	defer bcm.subscriptionsMu.Unlock()
-
-	ch := make(chan []model.Warehouse, 10)
-	bcm.subscriptions = append(bcm.subscriptions, ch)
-
-	bcm.warehousesMu.Lock()
-	if len(bcm.warehouses) > 0 {
-		ch <- bcm.warehouses
-	}
-	bcm.warehousesMu.Unlock()
-
-	go func() {
-		<-ctx.Done()
-
-		bcm.subscriptionsMu.Lock()
-		defer bcm.subscriptionsMu.Unlock()
-
-		close(ch)
-
-		for i, item := range bcm.subscriptions {
-			if item == ch {
-				bcm.subscriptions = append(bcm.subscriptions[:i], bcm.subscriptions[i+1:]...)
-				return
-			}
-		}
-	}()
-
-	return ch
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func (bcm *BackendConfigManager) processData(ctx context.Context, data map[string]backendconfig.ConfigT) {
-	defer bcm.closeInitialConfigFetchedOnce.Do(func() {
-		close(bcm.InitialConfigFetched)
-	})
-
-	var (
-		warehouses           []model.Warehouse
-		sourceIDsByWorkspace = make(map[string][]string)
-		connectionsMap       = make(map[string]map[string]model.Warehouse)
-	)
-
-	for workspaceID, wConfig := range data {
-		for _, source := range wConfig.Sources {
-			if _, ok := sourceIDsByWorkspace[workspaceID]; !ok {
-				sourceIDsByWorkspace[workspaceID] = make([]string, 0, len(wConfig.Sources))
-			}
-			sourceIDsByWorkspace[workspaceID] = append(sourceIDsByWorkspace[workspaceID], source.ID)
-
-			for _, destination := range source.Destinations {
-				// PseudoWarehouseDestinationMap is being used instead of WarehouseDestinations because
-				// SnowpipeStreaming validation requires the destination to be in this workspace config
-				if _, ok := whutils.PseudoWarehouseDestinationMap[destination.DestinationDefinition.Name]; !ok {
-					bcm.logger.Debugn("Not a warehouse destination, skipping",
-						logger.NewStringField(logfield.DestinationType, destination.DestinationDefinition.Name),
-					)
-					continue
-				}
-
-				if bcm.internalControlPlaneClient != nil {
-					destination = bcm.attachSSHTunnellingInfo(ctx, destination)
-				}
-
-				warehouse := model.Warehouse{
-					Source:      source,
-					WorkspaceID: workspaceID,
-					Destination: destination,
-					Type:        destination.DestinationDefinition.Name,
-					Namespace:   bcm.namespace(ctx, source, destination),
-					Identifier:  whutils.GetWarehouseIdentifier(destination.DestinationDefinition.Name, source.ID, destination.ID),
-				}
-
-				warehouses = append(warehouses, warehouse)
-
-				if _, ok := connectionsMap[destination.ID]; !ok {
-					connectionsMap[destination.ID] = make(map[string]model.Warehouse)
-				}
-				connectionsMap[destination.ID][source.ID] = warehouse
-
-				if destination.Config["sslMode"] == "verify-ca" {
-					if err := whutils.WriteSSLKeys(destination); err.IsError() {
-						bcm.logger.Errorn("Error writing SSL keys",
-							logger.NewStringField(logfield.Error, err.Error()),
-							logger.NewStringField("errorTag", err.GetErrTag()),
-						)
-						bcm.persistSSLFileErrorStat(
-							workspaceID, destination.DestinationDefinition.Name, destination.Name, destination.ID,
-							source.Name, source.ID, err.GetErrTag(),
-						)
-					}
-				}
-			}
-		}
-	}
-
-	bcm.connectionsMapMu.Lock()
-	bcm.connectionsMap = connectionsMap
-	bcm.connectionsMapMu.Unlock()
-
-	bcm.warehousesMu.Lock()
-	bcm.warehouses = warehouses // TODO how is this used? because we are duplicating data
-	bcm.warehousesMu.Unlock()
-
-	bcm.sourceIDsByWorkspaceMu.Lock()
-	bcm.sourceIDsByWorkspace = sourceIDsByWorkspace
-	bcm.sourceIDsByWorkspaceMu.Unlock()
-
-	bcm.subscriptionsMu.Lock()
-	for _, sub := range bcm.subscriptions {
-		sub <- warehouses
-	}
-	bcm.subscriptionsMu.Unlock()
+	_ = "STUB: not implemented"
+	return
 }
+
+// PseudoWarehouseDestinationMap is being used instead of WarehouseDestinations because
+// SnowpipeStreaming validation requires the destination to be in this workspace config
+
+// TODO how is this used? because we are duplicating data
 
 // namespace gives the namespace for the warehouse in the following order
 //  1. user set name from destinationConfig
 //  2. from existing record in wh_schemas with same source + dest combo
 //  3. convert source name
 func (bcm *BackendConfigManager) namespace(ctx context.Context, source backendconfig.SourceT, destination backendconfig.DestinationT) string {
-	destType := destination.DestinationDefinition.Name
-	destConfig := destination.Config
-
-	if destType == whutils.CLICKHOUSE {
-		if database, ok := destConfig["database"].(string); ok {
-			return database
-		}
-		return "rudder"
-	}
-
-	if destConfig["namespace"] != nil {
-		namespace, _ := destConfig["namespace"].(string)
-		if len(strings.TrimSpace(namespace)) > 0 {
-			return whutils.ToProviderCase(destType, whutils.ToSafeNamespace(destType, namespace))
-		}
-	}
-
-	namespacePrefix := bcm.conf.GetStringVar("", fmt.Sprintf("Warehouse.%s.customDatasetPrefix", whutils.WHDestNameMap[destType]))
-	if namespacePrefix != "" {
-		return whutils.ToProviderCase(destType, whutils.ToSafeNamespace(destType, fmt.Sprintf(`%s_%s`, namespacePrefix, source.Name)))
-	}
-
-	namespace, err := bcm.schema.GetNamespace(ctx, source.ID, destination.ID)
-	if err != nil {
-		bcm.logger.Errorn("getting namespace",
-			logger.NewStringField(logfield.SourceID, source.ID),
-			logger.NewStringField(logfield.DestinationID, destination.ID),
-			logger.NewStringField(logfield.DestinationType, destination.DestinationDefinition.Name),
-			logger.NewStringField(logfield.WorkspaceID, destination.WorkspaceID),
-			obskit.Error(err),
-		)
-		return ""
-	}
-	if namespace == "" {
-		return whutils.ToProviderCase(destType, whutils.ToSafeNamespace(destType, source.Name))
-	}
-	return namespace
+	_ = "STUB: not implemented"
+	return ""
 }
 
-func (bcm *BackendConfigManager) IsInitialized() bool {
-	select {
-	case <-bcm.InitialConfigFetched:
-		return true
-	default:
-		return false
-	}
-}
+func (bcm *BackendConfigManager) IsInitialized() bool { _ = "STUB: not implemented"; return false }
 
 func (bcm *BackendConfigManager) Connections() map[string]map[string]model.Warehouse {
-	bcm.connectionsMapMu.RLock()
-	defer bcm.connectionsMapMu.RUnlock()
-	return bcm.connectionsMap
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func (bcm *BackendConfigManager) ConnectionSourcesMap(destID string) (map[string]model.Warehouse, bool) {
-	bcm.connectionsMapMu.RLock()
-	defer bcm.connectionsMapMu.RUnlock()
-	m, ok := bcm.connectionsMap[destID]
-	return m, ok
+	_ = "STUB: not implemented"
+	return nil, false
 }
 
 func (bcm *BackendConfigManager) SourceIDsByWorkspace() map[string][]string {
-	bcm.sourceIDsByWorkspaceMu.RLock()
-	defer bcm.sourceIDsByWorkspaceMu.RUnlock()
-	return bcm.sourceIDsByWorkspace
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // WarehousesBySourceID gets all WHs for the given source ID
 func (bcm *BackendConfigManager) WarehousesBySourceID(sourceID string) []model.Warehouse {
-	bcm.warehousesMu.RLock()
-	defer bcm.warehousesMu.RUnlock()
-
-	return lo.Filter(bcm.warehouses, func(w model.Warehouse, _ int) bool {
-		return w.Source.ID == sourceID
-	})
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // WarehousesByDestID gets all WHs for the given destination ID
 func (bcm *BackendConfigManager) WarehousesByDestID(destID string) []model.Warehouse {
-	bcm.warehousesMu.RLock()
-	defer bcm.warehousesMu.RUnlock()
-
-	return lo.Filter(bcm.warehouses, func(w model.Warehouse, _ int) bool {
-		return w.Destination.ID == destID
-	})
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func (bcm *BackendConfigManager) attachSSHTunnellingInfo(
 	ctx context.Context,
 	upstream backendconfig.DestinationT,
 ) backendconfig.DestinationT {
+	_ = "STUB: not implemented"
 	// at destination level, do we have tunnelling enabled.
-	if tunnelEnabled := whutils.ReadAsBool("useSSH", upstream.Config); !tunnelEnabled {
-		return upstream
-	}
-
-	bcm.logger.Debugn("Fetching ssh keys for destination",
-		logger.NewStringField(logfield.DestinationID, upstream.ID),
-	)
-
-	keys, err := bcm.internalControlPlaneClient.GetDestinationSSHKeys(ctx, upstream.ID)
-	if err != nil {
-		bcm.logger.Errorn("fetching ssh keys for destination",
-			logger.NewStringField(logfield.DestinationID, upstream.ID),
-			obskit.Error(err),
-		)
-		return upstream
-	}
-
-	replica := backendconfig.DestinationT{}
-	if err := deepCopy(upstream, &replica); err != nil {
-		bcm.logger.Errorn("deep copying the destination failed",
-			logger.NewStringField(logfield.DestinationID, upstream.ID),
-			obskit.Error(err),
-		)
-		return upstream
-	}
-
-	replica.Config["sshPrivateKey"] = keys.PrivateKey
-	return replica
+	return *new(backendconfig.DestinationT)
 }
 
-func deepCopy(src, dest any) error {
-	buf, err := jsonrs.Marshal(src)
-	if err != nil {
-		return err
-	}
-	return jsonrs.Unmarshal(buf, dest)
-}
+func deepCopy(src, dest any) error { _ = "STUB: not implemented"; return nil }
 
 func (bcm *BackendConfigManager) persistSSLFileErrorStat(
 	workspaceID, destType, destName,
 	destID, sourceName, sourceID,
 	errTag string,
 ) {
-	tags := stats.Tags{
-		"workspaceId":   workspaceID,
-		"module":        "warehouse",
-		"destType":      destType,
-		"warehouseID":   misc.GetTagName(destID, sourceName, destName, misc.TailTruncateStr(sourceID, 6)),
-		"sourceId":      sourceID,
-		"destinationID": destID,
-		"errTag":        errTag,
-	}
-	bcm.stats.NewTaggedStat("persist_ssl_file_failure", stats.CountType, tags).Count(1)
+	_ = "STUB: not implemented"
+	return
 }

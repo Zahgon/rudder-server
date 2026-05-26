@@ -12,17 +12,8 @@ type BatchRouterEvent struct {
 }
 
 func (event *BatchRouterEvent) GetColumnInfo(columnName string) (columnInfo warehouseutils.ColumnInfo, ok bool) {
-	columnVal, ok := event.Data[columnName]
-	if !ok {
-		return warehouseutils.ColumnInfo{}, false
-	}
-
-	columnType, ok := event.Metadata.Columns[columnName]
-	if !ok {
-		return warehouseutils.ColumnInfo{}, false
-	}
-
-	return warehouseutils.ColumnInfo{Value: columnVal, Type: columnType}, true
+	_ = "STUB: not implemented"
+	return *new(warehouseutils.ColumnInfo), false
 }
 
 type Metadata struct {

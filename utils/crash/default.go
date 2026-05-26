@@ -14,9 +14,7 @@ func init() {
 	defaultHandler.Store(&noop)
 }
 
-func getDefault() panicHandler {
-	return *defaultHandler.Load()
-}
+func getDefault() panicHandler { _ = "STUB: not implemented"; return *new(panicHandler) }
 
 type panicHandler interface {
 	Notify(team string) func()
@@ -29,36 +27,14 @@ type PanicWrapperOpts struct {
 	AppType      string
 }
 
-func Configure(logger logger.Logger, opts PanicWrapperOpts) {
-	var h panicHandler = UsingLogger(logger, opts)
-	defaultHandler.Store(&h)
-}
+func Configure(logger logger.Logger, opts PanicWrapperOpts) { _ = "STUB: not implemented"; return }
 
-func NotifyWarehouse(fn func() error) func() error {
-	return func() error {
-		defer getDefault().Notify("Warehouse")()
-		return fn()
-	}
-}
+func NotifyWarehouse(fn func() error) func() error { _ = "STUB: not implemented"; return nil }
 
-func Wrapper(fn func() error) func() error {
-	return func() error {
-		defer getDefault().Notify("Core")()
-		return fn()
-	}
-}
+func Wrapper(fn func() error) func() error { _ = "STUB: not implemented"; return nil }
 
-func WrapperNoError(fn func()) func() {
-	return func() {
-		defer getDefault().Notify("Core")()
-		fn()
-	}
-}
+func WrapperNoError(fn func()) func() { _ = "STUB: not implemented"; return nil }
 
-func Notify(team string) func() {
-	return getDefault().Notify(team)
-}
+func Notify(team string) func() { _ = "STUB: not implemented"; return nil }
 
-func Handler(h http.Handler) http.Handler {
-	return getDefault().Handler(h)
-}
+func Handler(h http.Handler) http.Handler { _ = "STUB: not implemented"; return *new(http.Handler) }

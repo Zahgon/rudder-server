@@ -4,14 +4,9 @@ package transformer
 
 import (
 	"context"
-	"encoding/json"
-	"net/http"
 	"time"
 
 	"github.com/rudderlabs/rudder-go-kit/config"
-	"github.com/rudderlabs/rudder-go-kit/logger"
-
-	"github.com/rudderlabs/rudder-server/rruntime"
 )
 
 const (
@@ -46,56 +41,29 @@ var defaultTransformerFeatures = `{
   }`
 
 func NewFeaturesService(ctx context.Context, config *config.Config, featConfig FeaturesServiceOptions) FeaturesService {
-	handler := &featuresService{
-		features: json.RawMessage(defaultTransformerFeatures),
-		logger:   logger.NewLogger().Child("transformer-features"),
-		waitChan: make(chan struct{}),
-		options:  featConfig,
-		client: &http.Client{
-			Transport: &http.Transport{
-				DisableKeepAlives:   config.GetBoolVar(true, "Transformer.Client.disableKeepAlives"),
-				MaxConnsPerHost:     config.GetIntVar(100, 1, "Transformer.Client.maxHTTPConnections"),
-				MaxIdleConnsPerHost: config.GetIntVar(10, 1, "Transformer.Client.maxHTTPIdleConnections"),
-				IdleConnTimeout:     config.GetDurationVar(30, time.Second, "Transformer.Client.maxIdleConnDuration"),
-			},
-			Timeout: config.GetDurationVar(30, time.Second, "HttpClient.processor.timeout"),
-		},
-	}
-
-	rruntime.Go(func() { handler.syncTransformerFeatureJson(ctx) })
-
-	return handler
+	_ = "STUB: not implemented"
+	return *new(FeaturesService)
 }
 
-func NewNoOpService() FeaturesService {
-	return &noopService{}
-}
+func NewNoOpService() FeaturesService { _ = "STUB: not implemented"; return *new(FeaturesService) }
 
 type noopService struct{}
 
-func (*noopService) Regulations() []string {
-	return []string{}
-}
+func (*noopService) Regulations() []string { _ = "STUB: not implemented"; return nil }
 
 func (*noopService) SourceTransformerVersion() string {
+	_ = "STUB: not implemented"
 	// v0 is deprecated and upgrading to v2
-	return V2
+	return ""
 }
 
-func (*noopService) TransformerProxyVersion() string {
-	return V0
-}
+func (*noopService) TransformerProxyVersion() string { _ = "STUB: not implemented"; return "" }
 
-func (*noopService) Wait() chan struct{} {
-	dummyChan := make(chan struct{})
-	close(dummyChan)
-	return dummyChan
-}
+func (*noopService) Wait() chan struct{} { _ = "STUB: not implemented"; return nil }
 
-func (*noopService) RouterTransform(_ string) bool {
-	return false
-}
+func (*noopService) RouterTransform(_ string) bool { _ = "STUB: not implemented"; return false }
 
 func (*noopService) SupportDestTransformCompactedPayloadV1() bool {
+	_ = "STUB: not implemented"
 	return false
 }

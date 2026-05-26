@@ -11,18 +11,19 @@ import (
 
 type NoopDataCollector struct{}
 
-func NewNoopDataCollector() *NoopDataCollector {
-	return &NoopDataCollector{}
-}
+func NewNoopDataCollector() *NoopDataCollector { _ = "STUB: not implemented"; return nil }
 
 func (n *NoopDataCollector) ReportUsers(context.Context, []*UsersReport, *txn.Tx) error {
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (n *NoopDataCollector) GenerateReportsFromJobs([]*jobsdb.JobT, map[string]bool) []*UsersReport {
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (n *NoopDataCollector) MigrateDatabase(string, *config.Config) error {
+	_ = "STUB: not implemented"
 	return nil
 }

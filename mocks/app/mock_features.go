@@ -11,7 +11,6 @@ package mock_app
 
 import (
 	context "context"
-	reflect "reflect"
 
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
 	types "github.com/rudderlabs/rudder-server/utils/types"
@@ -32,27 +31,25 @@ type MockSuppressUserFeatureMockRecorder struct {
 
 // NewMockSuppressUserFeature creates a new mock instance.
 func NewMockSuppressUserFeature(ctrl *gomock.Controller) *MockSuppressUserFeature {
-	mock := &MockSuppressUserFeature{ctrl: ctrl}
-	mock.recorder = &MockSuppressUserFeatureMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockSuppressUserFeature) EXPECT() *MockSuppressUserFeatureMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Setup mocks base method.
+	return nil
 }
 
-// Setup mocks base method.
 func (m *MockSuppressUserFeature) Setup(ctx context.Context, backendConfig backendconfig.BackendConfig) (types.UserSuppression, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Setup", ctx, backendConfig)
-	ret0, _ := ret[0].(types.UserSuppression)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return *new(types.UserSuppression), nil
 }
 
 // Setup indicates an expected call of Setup.
 func (mr *MockSuppressUserFeatureMockRecorder) Setup(ctx, backendConfig any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Setup", reflect.TypeOf((*MockSuppressUserFeature)(nil).Setup), ctx, backendConfig)
+	_ = "STUB: not implemented"
+	return nil
 }

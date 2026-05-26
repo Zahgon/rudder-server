@@ -13,7 +13,6 @@ import (
 	context "context"
 	io "io"
 	http "net/http"
-	reflect "reflect"
 
 	gomock "go.uber.org/mock/gomock"
 )
@@ -31,43 +30,35 @@ type MockHttpIMockRecorder struct {
 }
 
 // NewMockHttpI creates a new mock instance.
-func NewMockHttpI(ctrl *gomock.Controller) *MockHttpI {
-	mock := &MockHttpI{ctrl: ctrl}
-	mock.recorder = &MockHttpIMockRecorder{mock}
-	return mock
-}
+func NewMockHttpI(ctrl *gomock.Controller) *MockHttpI { _ = "STUB: not implemented"; return nil }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockHttpI) EXPECT() *MockHttpIMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// NewRequest mocks base method.
+	return nil
 }
 
-// NewRequest mocks base method.
 func (m *MockHttpI) NewRequest(method, url string, body io.Reader) (*http.Request, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewRequest", method, url, body)
-	ret0, _ := ret[0].(*http.Request)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // NewRequest indicates an expected call of NewRequest.
 func (mr *MockHttpIMockRecorder) NewRequest(method, url, body any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewRequest", reflect.TypeOf((*MockHttpI)(nil).NewRequest), method, url, body)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // NewRequestWithContext mocks base method.
 func (m *MockHttpI) NewRequestWithContext(ctx context.Context, method, url string, body io.Reader) (*http.Request, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewRequestWithContext", ctx, method, url, body)
-	ret0, _ := ret[0].(*http.Request)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // NewRequestWithContext indicates an expected call of NewRequestWithContext.
 func (mr *MockHttpIMockRecorder) NewRequestWithContext(ctx, method, url, body any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewRequestWithContext", reflect.TypeOf((*MockHttpI)(nil).NewRequestWithContext), ctx, method, url, body)
+	_ = "STUB: not implemented"
+	return nil
 }

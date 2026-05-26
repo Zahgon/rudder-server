@@ -4,10 +4,6 @@ package kvstoremanager
 
 import (
 	"encoding/json"
-
-	"github.com/tidwall/gjson"
-
-	"github.com/rudderlabs/rudder-server/services/kvstoremanager/redis"
 )
 
 type KVStoreManager interface {
@@ -36,29 +32,18 @@ const (
 )
 
 func New(provider string, config map[string]any) (m KVStoreManager) {
-	return newManager(SettingsT{
-		Provider: provider,
-		Config:   config,
-	})
+	_ = "STUB: not implemented"
+	return *new(KVStoreManager)
 }
 
 func newManager(settings SettingsT) (m KVStoreManager) {
-	switch settings.Provider {
-	case "REDIS":
-		m = redis.NewRedisManager(settings.Config)
-	}
-	return m
+	_ = "STUB: not implemented"
+	return *new(KVStoreManager)
 }
 
 func EventToKeyValue(jsonData json.RawMessage) (string, map[string]any) {
-	key := gjson.GetBytes(jsonData, "message.key").String()
-	result := gjson.GetBytes(jsonData, "message.fields").Map()
-	fields := make(map[string]any)
-	for k, v := range result {
-		fields[k] = v.Str
-	}
-
-	return key, fields
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
 // IsHSETCompatibleEvent identifies if the event supports HSET operation
@@ -67,14 +52,9 @@ func EventToKeyValue(jsonData json.RawMessage) (string, map[string]any) {
 // - message.value
 // - message.hash
 // It doesn't account for the value of the fields.
-func IsHSETCompatibleEvent(jsonData json.RawMessage) bool {
-	return gjson.GetBytes(jsonData, hashPath).Exists() && gjson.GetBytes(jsonData, keyPath).Exists() && gjson.GetBytes(jsonData, valuePath).Exists()
-}
+func IsHSETCompatibleEvent(jsonData json.RawMessage) bool { _ = "STUB: not implemented"; return false }
 
 func ExtractHashKeyValueFromEvent(jsonData json.RawMessage) (hash, key, value string) {
-	hash = gjson.GetBytes(jsonData, hashPath).String()
-	key = gjson.GetBytes(jsonData, keyPath).String()
-	value = gjson.GetBytes(jsonData, valuePath).String()
-
-	return hash, key, value
+	_ = "STUB: not implemented"
+	return "", "", ""
 }

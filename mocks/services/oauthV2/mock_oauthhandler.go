@@ -11,7 +11,6 @@ package mock_oauthV2
 
 import (
 	json "encoding/json"
-	reflect "reflect"
 
 	v2 "github.com/rudderlabs/rudder-server/services/oauth/v2"
 	gomock "go.uber.org/mock/gomock"
@@ -31,42 +30,37 @@ type MockOAuthHandlerMockRecorder struct {
 
 // NewMockOAuthHandler creates a new mock instance.
 func NewMockOAuthHandler(ctrl *gomock.Controller) *MockOAuthHandler {
-	mock := &MockOAuthHandler{ctrl: ctrl}
-	mock.recorder = &MockOAuthHandlerMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockOAuthHandler) EXPECT() *MockOAuthHandlerMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// FetchToken mocks base method.
+	return nil
 }
 
-// FetchToken mocks base method.
 func (m *MockOAuthHandler) FetchToken(params *v2.OAuthTokenParams) (json.RawMessage, v2.StatusCodeError) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FetchToken", params)
-	ret0, _ := ret[0].(json.RawMessage)
-	ret1, _ := ret[1].(v2.StatusCodeError)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return *new(json.RawMessage), *new(v2.StatusCodeError)
 }
 
 // FetchToken indicates an expected call of FetchToken.
 func (mr *MockOAuthHandlerMockRecorder) FetchToken(params any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchToken", reflect.TypeOf((*MockOAuthHandler)(nil).FetchToken), params)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // RefreshToken mocks base method.
 func (m *MockOAuthHandler) RefreshToken(params *v2.OAuthTokenParams, previousSecret json.RawMessage) (json.RawMessage, v2.StatusCodeError) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RefreshToken", params, previousSecret)
-	ret0, _ := ret[0].(json.RawMessage)
-	ret1, _ := ret[1].(v2.StatusCodeError)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return *new(json.RawMessage), *new(v2.StatusCodeError)
 }
 
 // RefreshToken indicates an expected call of RefreshToken.
 func (mr *MockOAuthHandlerMockRecorder) RefreshToken(params, previousSecret any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RefreshToken", reflect.TypeOf((*MockOAuthHandler)(nil).RefreshToken), params, previousSecret)
+	_ = "STUB: not implemented"
+	return nil
 }

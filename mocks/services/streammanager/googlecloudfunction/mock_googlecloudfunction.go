@@ -11,7 +11,6 @@ package mock_googlecloudfunction
 
 import (
 	context "context"
-	reflect "reflect"
 
 	gomock "go.uber.org/mock/gomock"
 	oauth2 "golang.org/x/oauth2"
@@ -32,32 +31,25 @@ type MockGoogleCloudFunctionClientMockRecorder struct {
 
 // NewMockGoogleCloudFunctionClient creates a new mock instance.
 func NewMockGoogleCloudFunctionClient(ctrl *gomock.Controller) *MockGoogleCloudFunctionClient {
-	mock := &MockGoogleCloudFunctionClient{ctrl: ctrl}
-	mock.recorder = &MockGoogleCloudFunctionClientMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockGoogleCloudFunctionClient) EXPECT() *MockGoogleCloudFunctionClientMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// GetToken mocks base method.
+	return nil
 }
 
-// GetToken mocks base method.
 func (m *MockGoogleCloudFunctionClient) GetToken(ctx context.Context, functionUrl string, opts ...option.ClientOption) (*oauth2.Token, error) {
-	m.ctrl.T.Helper()
-	varargs := []any{ctx, functionUrl}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "GetToken", varargs...)
-	ret0, _ := ret[0].(*oauth2.Token)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // GetToken indicates an expected call of GetToken.
 func (mr *MockGoogleCloudFunctionClientMockRecorder) GetToken(ctx, functionUrl any, opts ...any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{ctx, functionUrl}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetToken", reflect.TypeOf((*MockGoogleCloudFunctionClient)(nil).GetToken), varargs...)
+	_ = "STUB: not implemented"
+	return nil
 }

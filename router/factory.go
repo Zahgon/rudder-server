@@ -3,7 +3,6 @@ package router
 import (
 	"context"
 
-	"github.com/rudderlabs/rudder-go-kit/config"
 	"github.com/rudderlabs/rudder-go-kit/logger"
 
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
@@ -31,23 +30,8 @@ type Factory struct {
 }
 
 func (f *Factory) New(destination *backendconfig.DestinationT) *Handle {
-	r := &Handle{
-		Reporting:     f.Reporting,
-		adaptiveLimit: f.AdaptiveLimit,
-	}
-	r.Setup(
-		destination.DestinationDefinition,
-		f.Logger,
-		config.Default,
-		f.BackendConfig,
-		f.RouterDB,
-		f.TransientSources,
-		f.RsourcesService,
-		f.TransformerFeaturesService,
-		f.Debugger,
-		f.ThrottlerFactory,
-	)
-	return r
+	_ = "STUB: not implemented"
+	return nil
 }
 
 type reporter interface {

@@ -6,8 +6,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/mitchellh/mapstructure"
-
 	"github.com/rudderlabs/rudder-go-kit/config"
 	"github.com/rudderlabs/rudder-go-kit/logger"
 	"github.com/rudderlabs/rudder-go-kit/stats"
@@ -149,25 +147,9 @@ type (
 	}
 )
 
-func (d *destConfig) Decode(m map[string]any) error {
-	if err := mapstructure.Decode(m, d); err != nil {
-		return err
-	}
-	d.Namespace = whutils.ToProviderCase(
-		whutils.SnowpipeStreaming,
-		whutils.ToSafeNamespace(whutils.SnowpipeStreaming, d.Namespace),
-	)
-	return nil
-}
+func (d *destConfig) Decode(m map[string]any) error { _ = "STUB: not implemented"; return nil }
 
 func (e *event) setUUIDTimestamp(formattedTimestamp string) bool {
-	if e.Message.Metadata.Columns == nil {
-		return false
-	}
-	uuidTimestampColumn := whutils.ToProviderCase(whutils.SnowpipeStreaming, "uuid_ts")
-	if _, columnExists := e.Message.Metadata.Columns[uuidTimestampColumn]; columnExists {
-		e.Message.Data[uuidTimestampColumn] = formattedTimestamp
-		return true
-	}
+	_ = "STUB: not implemented"
 	return false
 }

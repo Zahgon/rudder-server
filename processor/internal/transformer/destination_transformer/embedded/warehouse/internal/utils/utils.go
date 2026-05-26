@@ -1,25 +1,15 @@
 package utils
 
 import (
-	"bytes"
-	"errors"
-	"fmt"
-	"math/big"
-	"reflect"
 	"regexp"
-	"strconv"
-	"strings"
 	"time"
-	"unicode/utf16"
 
 	"github.com/araddon/dateparse"
-	"github.com/samber/lo"
 
 	"github.com/rudderlabs/rudder-go-kit/jsonrs"
 
 	"github.com/rudderlabs/rudder-server/processor/internal/transformer/destination_transformer/embedded/warehouse/internal/model"
 	"github.com/rudderlabs/rudder-server/processor/types"
-	"github.com/rudderlabs/rudder-server/utils/misc"
 	whutils "github.com/rudderlabs/rudder-server/warehouse/utils"
 )
 
@@ -62,184 +52,50 @@ func init() {
 	_ = dateparse.MustParse(maxTimestampFormat)
 }
 
-func sliceToMap(slice []string) map[string]struct{} {
-	return lo.SliceToMap(slice, func(item string) (string, struct{}) {
-		return item, struct{}{}
-	})
-}
+func sliceToMap(slice []string) map[string]struct{} { _ = "STUB: not implemented"; return nil }
 
-func IsDataLake(destType string) bool {
-	switch destType {
-	case whutils.S3Datalake, whutils.GCSDatalake, whutils.AzureDatalake:
-		return true
-	default:
-		return false
-	}
-}
+func IsDataLake(destType string) bool { _ = "STUB: not implemented"; return false }
 
-func IsRudderSources(event map[string]any) bool {
-	return event["channel"] == "sources" || event["CHANNEL"] == "sources"
-}
+func IsRudderSources(event map[string]any) bool { _ = "STUB: not implemented"; return false }
 
-func IsRudderCreatedTable(tableName string) bool {
-	_, ok := rudderCreatedTables[strings.ToLower(tableName)]
-	return ok
-}
+func IsRudderCreatedTable(tableName string) bool { _ = "STUB: not implemented"; return false }
 
-func IsRudderIsolatedTable(tableName string) bool {
-	_, ok := rudderIsolatedTables[strings.ToLower(tableName)]
-	return ok
-}
+func IsRudderIsolatedTable(tableName string) bool { _ = "STUB: not implemented"; return false }
 
-func IsObject(val any) bool {
-	_, ok := val.(map[string]any)
-	return ok
-}
+func IsObject(val any) bool { _ = "STUB: not implemented"; return false }
 
-func IsJSONCompatibleStructure(val any) bool {
-	switch val.(type) {
-	case nil,
-		bool,
-		int, int8, int16, int32, int64,
-		uint, uint8, uint16, uint32, uint64, uintptr,
-		float32, float64,
-		complex64, complex128,
-		string,
-		[]any,
-		map[string]any:
-		return false
-	}
-	v := reflect.ValueOf(val)
-	switch v.Kind() {
-	case reflect.Struct, reflect.Pointer:
-		return true
-	case reflect.Slice, reflect.Array:
-		if v.Len() > 0 {
-			return IsJSONCompatibleStructure(v.Index(0).Interface())
-		}
-		return false
+func IsJSONCompatibleStructure(val any) bool { _ = "STUB: not implemented"; return false }
 
-	default:
-		return false
-	}
-}
+func ToJSONCompatible(structVal any) (any, error) { _ = "STUB: not implemented"; return *new(any), nil }
 
-func ToJSONCompatible(structVal any) (any, error) {
-	valJSON, err := jsonrs.Marshal(structVal)
-	if err != nil {
-		return nil, fmt.Errorf("could not marshal json object: %w", err)
-	}
+func IsArray(val any) bool { _ = "STUB: not implemented"; return false }
 
-	var t any
-	err = jsonrs.Unmarshal(valJSON, &t)
-	if err != nil {
-		return nil, fmt.Errorf("could not unmarshal json object: %w", err)
-	}
-	return t, nil
-}
+func IsIdentityEnabled(destType string) bool { _ = "STUB: not implemented"; return false }
 
-func IsArray(val any) bool {
-	_, ok := val.([]any)
-	return ok
-}
+func CanUseRecordID(sourceCategory string) bool { _ = "STUB: not implemented"; return false }
 
-func IsIdentityEnabled(destType string) bool {
-	_, ok := identityEnabledWarehouses[destType]
-	return ok
-}
+func HasJSONPathPrefix(jsonPath string) bool { _ = "STUB: not implemented"; return false }
 
-func CanUseRecordID(sourceCategory string) bool {
-	_, ok := sourceCategoriesToUseRecordID[strings.ToLower(sourceCategory)]
-	return ok
-}
+func GetFullEventColumnTypeByDestType(destType string) string { _ = "STUB: not implemented"; return "" }
 
-func HasJSONPathPrefix(jsonPath string) bool {
-	lowerJSONPath := strings.ToLower(jsonPath)
-	for _, prefix := range supportedJSONPathPrefixes {
-		if strings.HasPrefix(lowerJSONPath, prefix) {
-			return true
-		}
-	}
-	return false
-}
+func ValidTimestamp(input string) bool { _ = "STUB: not implemented"; return false }
 
-func GetFullEventColumnTypeByDestType(destType string) string {
-	return fullEventColumnTypeByDestType[destType]
-}
-
-func ValidTimestamp(input string) bool {
-	if len(input) > validTimestampFormatsMaxLength {
-		return false
-	}
-	if !reDateTime.MatchString(input) {
-		return false
-	}
-
-	t, err := parseTimestamp(input)
-	if err != nil {
-		return false
-	}
-	return !t.Before(minTimeInMs) && !t.After(maxTimeInMs)
-}
-
-func ToTimestamp(val any) any {
-	if strVal, ok := val.(string); ok {
-		t, err := parseTimestamp(strVal)
-		if err != nil {
-			return val
-		}
-		return t.UTC().Format(misc.RFC3339Milli)
-	}
-	return val
-}
+func ToTimestamp(val any) any { _ = "STUB: not implemented"; return *new(any) }
 
 // parseTimestamp parses a timestamp string into time.Time.
 // If it fails due to a "day out of range" error, it falls back to normalizing the date.
 // JS automatically handles this https://www.programiz.com/online-compiler/4gfcMEByAur4q
 // console.log(new Date('1988-04-31').toISOString()); // 1988-05-01T00:00:00.000Z
 func parseTimestamp(input string) (time.Time, error) {
-	t, err := dateparse.ParseAny(input)
-	if err == nil {
-		return t, nil
-	}
-	var pe *time.ParseError
-	ok := errors.As(err, &pe)
-	if !ok {
-		return time.Time{}, err
-	}
-	if pe.Message == ": day out of range" {
-		var year, month, day int
-
-		if n, _ := fmt.Sscanf(input, "%d-%d-%d", &year, &month, &day); n == 3 {
-			t = time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.UTC)
-			return t, nil
-		}
-	}
-	return time.Time{}, err
+	_ = "STUB: not implemented"
+	return *new(time.Time), nil
 }
 
 // ToString converts any value to a string representation.
 // - If the value is nil, it returns an empty string.
 // - If the value implements the fmt.Stringer interface, it returns the result of the String() method.
 // - Otherwise, it returns a string representation using fmt.Sprintf.
-func ToString(value any) string {
-	if value == nil {
-		return ""
-	}
-	switch v := value.(type) {
-	case string:
-		return v
-	case float64:
-		if big.NewFloat(v).IsInt() {
-			return strconv.FormatFloat(v, 'f', -1, 64)
-		}
-		return fmt.Sprintf("%v", value)
-	case fmt.Stringer:
-		return v.String()
-	default:
-		return fmt.Sprintf("%v", value)
-	}
-}
+func ToString(value any) string { _ = "STUB: not implemented"; return "" }
 
 // IsEmptyString checks if the given value is considered "blank."
 // - A value is considered blank if its string representation is an empty string.
@@ -255,84 +111,26 @@ func ToString(value any) string {
 //	   return false;
 //	 }
 //	};
-func IsEmptyString(value any) bool {
-	if value == nil {
-		return true
-	}
-	switch v := value.(type) {
-	case string:
-		return v == ""
-	case fmt.Stringer:
-		return v.String() == ""
-	case map[string]any:
-		return false
-	case []any:
-		if len(v) == 0 {
-			return true
-		}
-		if len(v) == 1 {
-			if v[0] == nil {
-				return false
-			}
-			return IsEmptyString(v[0])
-		}
-		return false
-	default:
-		return false
-	}
-}
+func IsEmptyString(value any) bool { _ = "STUB: not implemented"; return false }
 
 func IsJSONPathSupportedAsPartOfConfig(destType string) bool {
-	_, ok := destinationSupportJSONPathAsPartOfConfig[destType]
-	return ok
+	_ = "STUB: not implemented"
+	return false
 }
 
 func ExtractMessageID(event *types.TransformerEvent, uuidGenerator func() string) any {
-	messageID, exists := event.Message["messageId"]
-	if !exists || IsEmptyString(messageID) {
-		return "auto-" + uuidGenerator()
-	}
-	return messageID
+	_ = "STUB: not implemented"
+	return *new(any)
 }
 
 func ExtractReceivedAt(event *types.TransformerEvent, now func() time.Time) string {
-	receivedAt, exists := event.Message["receivedAt"]
-	if !exists || IsEmptyString(receivedAt) {
-		if len(event.Metadata.ReceivedAt) > 0 {
-			return event.Metadata.ReceivedAt
-		}
-		return now().Format(misc.RFC3339Milli)
-	}
-
-	strReceivedAt, isString := receivedAt.(string)
-	if !isString || !ValidTimestamp(strReceivedAt) {
-		if len(event.Metadata.ReceivedAt) > 0 {
-			return event.Metadata.ReceivedAt
-		}
-		return now().Format(misc.RFC3339Milli)
-	}
-	return strReceivedAt
+	_ = "STUB: not implemented"
+	return ""
 }
 
 // MarshalJSON marshals the input to JSON. It escapes HTML characters (e.g. &, <, and > from \u0026, \u003c, and \u003e) by default.
 // It also trims the output to avoid trailing spaces.
-func MarshalJSON(input any) ([]byte, error) {
-	var buf bytes.Buffer
-
-	enc := jsonrsStd.NewEncoder(&buf)
-	enc.SetEscapeHTML(false)
-
-	if err := enc.Encode(input); err != nil {
-		return nil, fmt.Errorf("failed to marshal JSON: %w", err)
-	}
-	return bytes.TrimSpace(buf.Bytes()), nil
-}
+func MarshalJSON(input any) ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
 
 // UTF16RuneCountInString returns the UTF-16 code unit count of the string.
-func UTF16RuneCountInString(s string) int {
-	count := 0
-	for _, r := range s {
-		count += utf16.RuneLen(r)
-	}
-	return count
-}
+func UTF16RuneCountInString(s string) int { _ = "STUB: not implemented"; return 0 }

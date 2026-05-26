@@ -8,9 +8,8 @@ package proto
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
-	codes "google.golang.org/grpc/codes"
-	status "google.golang.org/grpc/status"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -36,25 +35,18 @@ type dPAuthServiceClient struct {
 }
 
 func NewDPAuthServiceClient(cc grpc.ClientConnInterface) DPAuthServiceClient {
-	return &dPAuthServiceClient{cc}
+	_ = "STUB: not implemented"
+	return *new(DPAuthServiceClient)
 }
 
 func (c *dPAuthServiceClient) GetConnectionToken(ctx context.Context, in *GetConnectionTokenRequest, opts ...grpc.CallOption) (*GetConnectionTokenResponse, error) {
-	out := new(GetConnectionTokenResponse)
-	err := c.cc.Invoke(ctx, DPAuthService_GetConnectionToken_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (c *dPAuthServiceClient) GetWorkspaceToken(ctx context.Context, in *GetWorkspaceTokenRequest, opts ...grpc.CallOption) (*GetWorkspaceTokenResponse, error) {
-	out := new(GetWorkspaceTokenResponse)
-	err := c.cc.Invoke(ctx, DPAuthService_GetWorkspaceToken_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // DPAuthServiceServer is the server API for DPAuthService service.
@@ -71,58 +63,41 @@ type UnimplementedDPAuthServiceServer struct {
 }
 
 func (UnimplementedDPAuthServiceServer) GetConnectionToken(context.Context, *GetConnectionTokenRequest) (*GetConnectionTokenResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetConnectionToken not implemented")
+	_ = "STUB: not implemented"
+	return nil, nil
 }
-func (UnimplementedDPAuthServiceServer) GetWorkspaceToken(context.Context, *GetWorkspaceTokenRequest) (*GetWorkspaceTokenResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetWorkspaceToken not implemented")
-}
-func (UnimplementedDPAuthServiceServer) mustEmbedUnimplementedDPAuthServiceServer() {}
 
-// UnsafeDPAuthServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to DPAuthServiceServer will
-// result in compilation errors.
+func (UnimplementedDPAuthServiceServer) GetWorkspaceToken(context.Context, *GetWorkspaceTokenRequest) (*GetWorkspaceTokenResponse, error) {
+	_ = "STUB: not implemented"
+	return nil, nil
+}
+
+func (UnimplementedDPAuthServiceServer) mustEmbedUnimplementedDPAuthServiceServer() {
+	_ = "STUB: not implemented"
+
+	// UnsafeDPAuthServiceServer may be embedded to opt out of forward compatibility for this service.
+	// Use of this interface is not recommended, as added methods to DPAuthServiceServer will
+	// result in compilation errors.
+	return
+}
+
 type UnsafeDPAuthServiceServer interface {
 	mustEmbedUnimplementedDPAuthServiceServer()
 }
 
 func RegisterDPAuthServiceServer(s grpc.ServiceRegistrar, srv DPAuthServiceServer) {
-	s.RegisterService(&DPAuthService_ServiceDesc, srv)
+	_ = "STUB: not implemented"
+	return
 }
 
 func _DPAuthService_GetConnectionToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetConnectionTokenRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DPAuthServiceServer).GetConnectionToken(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: DPAuthService_GetConnectionToken_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DPAuthServiceServer).GetConnectionToken(ctx, req.(*GetConnectionTokenRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func _DPAuthService_GetWorkspaceToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetWorkspaceTokenRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DPAuthServiceServer).GetWorkspaceToken(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: DPAuthService_GetWorkspaceToken_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DPAuthServiceServer).GetWorkspaceToken(ctx, req.(*GetWorkspaceTokenRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // DPAuthService_ServiceDesc is the grpc.ServiceDesc for DPAuthService service.

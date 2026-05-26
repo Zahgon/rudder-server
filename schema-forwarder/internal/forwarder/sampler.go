@@ -13,23 +13,10 @@ type sampler[K comparable] struct {
 }
 
 // Sample returns true if the key should be sampled. It returns false otherwise.
-func (s *sampler[K]) Sample(key K) bool {
-	if lastSample, ok := s.cache.Get(key); ok && lastSample.Add(s.period).After(s.now()) {
-		return false
-	}
-	s.cache.Add(key, s.now())
-	return true
-}
+func (s *sampler[K]) Sample(key K) bool { _ = "STUB: not implemented"; return false }
 
 // newSampler returns a new, properly initialized sampler.
 func newSampler[K comparable](period time.Duration, cacheSize int) *sampler[K] {
-	cache, err := lru.New[K, time.Time](cacheSize)
-	if err != nil {
-		panic(err)
-	}
-	return &sampler[K]{
-		period: period,
-		cache:  cache,
-		now:    time.Now,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }

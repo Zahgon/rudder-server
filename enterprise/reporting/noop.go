@@ -11,11 +11,13 @@ import (
 type NOOP struct{}
 
 func (*NOOP) Report(_ context.Context, _ []*types.PUReportedMetric, _ *Tx) error {
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (*NOOP) DatabaseSyncer(c types.SyncerConfig) types.ReportingSyncer {
-	return func() {}
+	_ = "STUB: not implemented"
+	return *new(types.ReportingSyncer)
 }
 
-func (*NOOP) Stop() {}
+func (*NOOP) Stop() { _ = "STUB: not implemented"; return }

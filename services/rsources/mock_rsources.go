@@ -12,7 +12,6 @@ package rsources
 import (
 	context "context"
 	sql "database/sql"
-	reflect "reflect"
 
 	gomock "go.uber.org/mock/gomock"
 )
@@ -31,28 +30,27 @@ type MockStatsIncrementerMockRecorder struct {
 
 // NewMockStatsIncrementer creates a new mock instance.
 func NewMockStatsIncrementer(ctrl *gomock.Controller) *MockStatsIncrementer {
-	mock := &MockStatsIncrementer{ctrl: ctrl}
-	mock.recorder = &MockStatsIncrementerMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockStatsIncrementer) EXPECT() *MockStatsIncrementerMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// IncrementStats mocks base method.
+	return nil
 }
 
-// IncrementStats mocks base method.
 func (m *MockStatsIncrementer) IncrementStats(ctx context.Context, tx *sql.Tx, jobRunId string, key JobTargetKey, stats Stats) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "IncrementStats", ctx, tx, jobRunId, key, stats)
-	ret0, _ := ret[0].(error)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // IncrementStats indicates an expected call of IncrementStats.
 func (mr *MockStatsIncrementerMockRecorder) IncrementStats(ctx, tx, jobRunId, key, stats any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IncrementStats", reflect.TypeOf((*MockStatsIncrementer)(nil).IncrementStats), ctx, tx, jobRunId, key, stats)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // MockJobService is a mock of JobService interface.
@@ -69,155 +67,135 @@ type MockJobServiceMockRecorder struct {
 
 // NewMockJobService creates a new mock instance.
 func NewMockJobService(ctrl *gomock.Controller) *MockJobService {
-	mock := &MockJobService{ctrl: ctrl}
-	mock.recorder = &MockJobServiceMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockJobService) EXPECT() *MockJobServiceMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// AddFailedRecords mocks base method.
+	return nil
 }
 
-// AddFailedRecords mocks base method.
 func (m *MockJobService) AddFailedRecords(ctx context.Context, tx *sql.Tx, jobRunId string, key JobTargetKey, records []FailedRecord) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddFailedRecords", ctx, tx, jobRunId, key, records)
-	ret0, _ := ret[0].(error)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // AddFailedRecords indicates an expected call of AddFailedRecords.
 func (mr *MockJobServiceMockRecorder) AddFailedRecords(ctx, tx, jobRunId, key, records any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddFailedRecords", reflect.TypeOf((*MockJobService)(nil).AddFailedRecords), ctx, tx, jobRunId, key, records)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // CleanupLoop mocks base method.
 func (m *MockJobService) CleanupLoop(ctx context.Context) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CleanupLoop", ctx)
-	ret0, _ := ret[0].(error)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // CleanupLoop indicates an expected call of CleanupLoop.
 func (mr *MockJobServiceMockRecorder) CleanupLoop(ctx any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CleanupLoop", reflect.TypeOf((*MockJobService)(nil).CleanupLoop), ctx)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Delete mocks base method.
 func (m *MockJobService) Delete(ctx context.Context, jobRunId string, filter JobFilter) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delete", ctx, jobRunId, filter)
-	ret0, _ := ret[0].(error)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Delete indicates an expected call of Delete.
 func (mr *MockJobServiceMockRecorder) Delete(ctx, jobRunId, filter any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockJobService)(nil).Delete), ctx, jobRunId, filter)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // DeleteFailedRecords mocks base method.
 func (m *MockJobService) DeleteFailedRecords(ctx context.Context, jobRunId string, filter JobFilter) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteFailedRecords", ctx, jobRunId, filter)
-	ret0, _ := ret[0].(error)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // DeleteFailedRecords indicates an expected call of DeleteFailedRecords.
 func (mr *MockJobServiceMockRecorder) DeleteFailedRecords(ctx, jobRunId, filter any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteFailedRecords", reflect.TypeOf((*MockJobService)(nil).DeleteFailedRecords), ctx, jobRunId, filter)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // DeleteJobStatus mocks base method.
 func (m *MockJobService) DeleteJobStatus(ctx context.Context, jobRunId string, filter JobFilter) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteJobStatus", ctx, jobRunId, filter)
-	ret0, _ := ret[0].(error)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // DeleteJobStatus indicates an expected call of DeleteJobStatus.
 func (mr *MockJobServiceMockRecorder) DeleteJobStatus(ctx, jobRunId, filter any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteJobStatus", reflect.TypeOf((*MockJobService)(nil).DeleteJobStatus), ctx, jobRunId, filter)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // GetFailedRecords mocks base method.
 func (m *MockJobService) GetFailedRecords(ctx context.Context, jobRunId string, filter JobFilter, paging PagingInfo) (JobFailedRecordsV2, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetFailedRecords", ctx, jobRunId, filter, paging)
-	ret0, _ := ret[0].(JobFailedRecordsV2)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return *new(JobFailedRecordsV2), nil
 }
 
 // GetFailedRecords indicates an expected call of GetFailedRecords.
 func (mr *MockJobServiceMockRecorder) GetFailedRecords(ctx, jobRunId, filter, paging any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFailedRecords", reflect.TypeOf((*MockJobService)(nil).GetFailedRecords), ctx, jobRunId, filter, paging)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // GetFailedRecordsV1 mocks base method.
 func (m *MockJobService) GetFailedRecordsV1(ctx context.Context, jobRunId string, filter JobFilter, paging PagingInfo) (JobFailedRecordsV1, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetFailedRecordsV1", ctx, jobRunId, filter, paging)
-	ret0, _ := ret[0].(JobFailedRecordsV1)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return *new(JobFailedRecordsV1), nil
 }
 
 // GetFailedRecordsV1 indicates an expected call of GetFailedRecordsV1.
 func (mr *MockJobServiceMockRecorder) GetFailedRecordsV1(ctx, jobRunId, filter, paging any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFailedRecordsV1", reflect.TypeOf((*MockJobService)(nil).GetFailedRecordsV1), ctx, jobRunId, filter, paging)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // GetStatus mocks base method.
 func (m *MockJobService) GetStatus(ctx context.Context, jobRunId string, filter JobFilter) (JobStatus, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetStatus", ctx, jobRunId, filter)
-	ret0, _ := ret[0].(JobStatus)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return *new(JobStatus), nil
 }
 
 // GetStatus indicates an expected call of GetStatus.
 func (mr *MockJobServiceMockRecorder) GetStatus(ctx, jobRunId, filter any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetStatus", reflect.TypeOf((*MockJobService)(nil).GetStatus), ctx, jobRunId, filter)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // IncrementStats mocks base method.
 func (m *MockJobService) IncrementStats(ctx context.Context, tx *sql.Tx, jobRunId string, key JobTargetKey, stats Stats) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "IncrementStats", ctx, tx, jobRunId, key, stats)
-	ret0, _ := ret[0].(error)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // IncrementStats indicates an expected call of IncrementStats.
 func (mr *MockJobServiceMockRecorder) IncrementStats(ctx, tx, jobRunId, key, stats any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IncrementStats", reflect.TypeOf((*MockJobService)(nil).IncrementStats), ctx, tx, jobRunId, key, stats)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Monitor mocks base method.
 func (m *MockJobService) Monitor(ctx context.Context, lagGauge, replicationSlotGauge Gauger) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Monitor", ctx, lagGauge, replicationSlotGauge)
+	_ = "STUB: not implemented"
+	return
 }
 
 // Monitor indicates an expected call of Monitor.
 func (mr *MockJobServiceMockRecorder) Monitor(ctx, lagGauge, replicationSlotGauge any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Monitor", reflect.TypeOf((*MockJobService)(nil).Monitor), ctx, lagGauge, replicationSlotGauge)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // MockGauger is a mock of Gauger interface.
@@ -233,25 +211,20 @@ type MockGaugerMockRecorder struct {
 }
 
 // NewMockGauger creates a new mock instance.
-func NewMockGauger(ctrl *gomock.Controller) *MockGauger {
-	mock := &MockGauger{ctrl: ctrl}
-	mock.recorder = &MockGaugerMockRecorder{mock}
-	return mock
-}
+func NewMockGauger(ctrl *gomock.Controller) *MockGauger { _ = "STUB: not implemented"; return nil }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockGauger) EXPECT() *MockGaugerMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Gauge mocks base method.
+	return nil
 }
 
-// Gauge mocks base method.
-func (m *MockGauger) Gauge(arg0 any) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Gauge", arg0)
-}
+func (m *MockGauger) Gauge(arg0 any) { _ = "STUB: not implemented"; return }
 
 // Gauge indicates an expected call of Gauge.
 func (mr *MockGaugerMockRecorder) Gauge(arg0 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Gauge", reflect.TypeOf((*MockGauger)(nil).Gauge), arg0)
+	_ = "STUB: not implemented"
+	return nil
 }

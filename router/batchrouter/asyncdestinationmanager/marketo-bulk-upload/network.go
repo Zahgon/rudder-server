@@ -13,17 +13,6 @@ const (
 )
 
 // getDefaultHTTPClient returns an http.Client with standard configuration
-func getDefaultHTTPClient() *http.Client {
-	transport := &http.Transport{
-		MaxIdleConns:        defaultMaxConnsPerHost,
-		MaxIdleConnsPerHost: defaultMaxIdleConnsPerHost,
-		IdleConnTimeout:     defaultIdleConnTimeout,
-		// Disable compression to prevent BREACH attacks
-		DisableCompression: true,
-	}
+func getDefaultHTTPClient() *http.Client { _ = "STUB: not implemented"; return nil }
 
-	return &http.Client{
-		Transport: transport,
-		Timeout:   defaultTimeout,
-	}
-}
+// Disable compression to prevent BREACH attacks

@@ -10,8 +10,6 @@
 package mocks
 
 import (
-	reflect "reflect"
-
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -29,53 +27,40 @@ type MockEventSamplerMockRecorder struct {
 
 // NewMockEventSampler creates a new mock instance.
 func NewMockEventSampler(ctrl *gomock.Controller) *MockEventSampler {
-	mock := &MockEventSampler{ctrl: ctrl}
-	mock.recorder = &MockEventSamplerMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockEventSampler) EXPECT() *MockEventSamplerMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Close mocks base method.
+	return nil
 }
 
-// Close mocks base method.
-func (m *MockEventSampler) Close() {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Close")
-}
+func (m *MockEventSampler) Close() { _ = "STUB: not implemented"; return }
 
 // Close indicates an expected call of Close.
-func (mr *MockEventSamplerMockRecorder) Close() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Close", reflect.TypeOf((*MockEventSampler)(nil).Close))
-}
+func (mr *MockEventSamplerMockRecorder) Close() *gomock.Call { _ = "STUB: not implemented"; return nil }
 
 // Get mocks base method.
 func (m *MockEventSampler) Get(key string) (bool, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", key)
-	ret0, _ := ret[0].(bool)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return false, nil
 }
 
 // Get indicates an expected call of Get.
 func (mr *MockEventSamplerMockRecorder) Get(key any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockEventSampler)(nil).Get), key)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Put mocks base method.
-func (m *MockEventSampler) Put(key string) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Put", key)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
+func (m *MockEventSampler) Put(key string) error { _ = "STUB: not implemented"; return nil }
 
 // Put indicates an expected call of Put.
 func (mr *MockEventSamplerMockRecorder) Put(key any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Put", reflect.TypeOf((*MockEventSampler)(nil).Put), key)
+	_ = "STUB: not implemented"
+	return nil
 }

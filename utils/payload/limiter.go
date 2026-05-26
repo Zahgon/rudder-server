@@ -4,9 +4,6 @@ import (
 	"context"
 	"sync"
 	"time"
-
-	"github.com/rudderlabs/rudder-go-kit/logger"
-	obskit "github.com/rudderlabs/rudder-observability-kit/go/labels"
 )
 
 // LimiterState represents the LimiterState of the adaptive payload limiter algorithm
@@ -36,13 +33,8 @@ type Limiter interface {
 
 // NewAdaptiveLimiter creates a PayloadLimit function following an adaptive payload limiting algorithm
 func NewAdaptiveLimiter(config AdaptiveLimiterConfig) Limiter {
-	config.parse()
-	algo := adaptivePayloadLimitAlgorithm{
-		config:          config,
-		thresholdFactor: 1,
-	}
-	algo.tick()
-	return &algo
+	_ = "STUB: not implemented"
+	return *new(Limiter)
 }
 
 type adaptivePayloadLimitAlgorithm struct {
@@ -54,68 +46,29 @@ type adaptivePayloadLimitAlgorithm struct {
 }
 
 func (r *adaptivePayloadLimitAlgorithm) RunLoop(ctx context.Context, frequency func() <-chan time.Time) {
-	for {
-		select {
-		case <-ctx.Done():
-			return
-		case <-frequency():
-			r.tick()
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 func (r *adaptivePayloadLimitAlgorithm) Limit(maxLimit int64) int64 {
-	r.mu.Lock()
-	defer r.mu.Unlock()
-	switch r.state {
-	case LimiterStateNormal:
-		// during normal state we return the max limit
-		return maxLimit
-	case LimiterStateThreshold:
-		// during threshold state we return the max limit decremented by 10% times the threshold factor
-		return int64(float64(maxLimit) * (1.0 - (0.1 * float64(r.thresholdFactor))))
-	default:
-		// during critical state we return 1 byte as a limit, since 0 bytes is interpreted as unlimited
-		return 1
-	}
+	_ = "STUB: not implemented"
+	return 0
 }
+
+// during normal state we return the max limit
+
+// during threshold state we return the max limit decremented by 10% times the threshold factor
+
+// during critical state we return 1 byte as a limit, since 0 bytes is interpreted as unlimited
 
 func (r *adaptivePayloadLimitAlgorithm) Stats() LimiterStats {
-	r.mu.Lock()
-	defer r.mu.Unlock()
-	return LimiterStats{
-		State:           r.state,
-		ThresholdFactor: r.thresholdFactor,
-	}
+	_ = "STUB: not implemented"
+	return *new(LimiterStats)
 }
 
-func (r *adaptivePayloadLimitAlgorithm) tick() {
-	freeMem, err := r.config.FreeMemory()
-	if err != nil {
-		r.config.Log.Warnn("failed to get free memory", obskit.Error(err))
-		freeMem = 100
-	}
-	newState := LimiterStateCritical
-	if freeMem > r.config.FreeMemThresholdLimit {
-		newState = LimiterStateNormal
-	} else if freeMem > r.config.FreeMemCriticalLimit {
-		newState = LimiterStateThreshold
-	}
-	r.mu.Lock()
-	defer r.mu.Unlock()
-	r.freeMem = freeMem
-	if r.state != newState {
-		r.state = newState
-		r.stateChanged(newState)
-	}
-}
+func (r *adaptivePayloadLimitAlgorithm) tick() { _ = "STUB: not implemented"; return }
 
 func (r *adaptivePayloadLimitAlgorithm) stateChanged(newState LimiterState) {
-	switch newState {
-	case LimiterStateNormal:
-		r.thresholdFactor = 1
-	case LimiterStateCritical:
-		r.config.Log.Warnn("critical memory state", logger.NewFloatField("freeMem", r.freeMem))
-		r.thresholdFactor = min(r.thresholdFactor+1, r.config.MaxThresholdFactor)
-	}
+	_ = "STUB: not implemented"
+	return
 }

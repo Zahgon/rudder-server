@@ -7,8 +7,8 @@ type DestinationConfigSetting interface {
 
 type destConfSetting string
 
-func (destConfSetting) protected()       {}
-func (s destConfSetting) String() string { return string(s) }
+func (destConfSetting) protected()       { _ = "STUB: not implemented"; return }
+func (s destConfSetting) String() string { _ = "STUB: not implemented"; return "" }
 
 var (
 	PreferAppendSetting              DestinationConfigSetting = destConfSetting("preferAppend")

@@ -2,7 +2,6 @@ package delete
 
 import (
 	"context"
-	"strings"
 	"sync"
 
 	"github.com/rudderlabs/rudder-go-kit/logger"
@@ -25,40 +24,9 @@ type Router struct {
 	once     sync.Once
 }
 
-func NewRouter(managers ...deleteManager) *Router {
-	return &Router{
-		Managers: managers,
-	}
-}
+func NewRouter(managers ...deleteManager) *Router { _ = "STUB: not implemented"; return nil }
 
 func (r *Router) Delete(ctx context.Context, job model.Job, dest *backendconfig.DestinationT) model.JobStatus {
-	pkgLogger.Debugn("deleting job from destination",
-		logger.NewIntField("jobId", int64(job.ID)),
-		logger.NewStringField("destination", dest.ID),
-	)
-	r.once.Do(func() {
-		pkgLogger.Infon("getting all the supported destination")
-		r.router = make(map[string]deleteManager, len(r.Managers))
-
-		for _, m := range r.Managers {
-			destinations := m.GetSupportedDestinations()
-			pkgLogger.Infon("got deletion manager supporting deletion from destinations",
-				logger.NewStringField("supportedDestinations", strings.Join(destinations, ",")),
-			)
-			for _, d := range destinations {
-				r.router[d] = m
-			}
-		}
-	})
-	if _, ok := r.router[dest.DestinationDefinition.Name]; ok {
-		pkgLogger.Debugn("calling deletion manager",
-			logger.NewStringField("destinationName", dest.DestinationDefinition.Name),
-		)
-		return r.router[dest.DestinationDefinition.Name].Delete(ctx, job, dest)
-	}
-
-	pkgLogger.Errorn("no deletion manager support deletion from destination",
-		logger.NewStringField("destinationName", dest.DestinationDefinition.Name),
-	)
-	return model.JobStatus{Status: model.JobStatusAborted, Error: model.ErrDestNotSupported}
+	_ = "STUB: not implemented"
+	return *new(model.JobStatus)
 }

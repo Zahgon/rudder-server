@@ -12,7 +12,6 @@ package aggregator
 import (
 	context "context"
 	json "encoding/json"
-	reflect "reflect"
 	time "time"
 
 	gomock "go.uber.org/mock/gomock"
@@ -32,27 +31,25 @@ type MockAggregatorMockRecorder struct {
 
 // NewMockAggregator creates a new mock instance.
 func NewMockAggregator(ctrl *gomock.Controller) *MockAggregator {
-	mock := &MockAggregator{ctrl: ctrl}
-	mock.recorder = &MockAggregatorMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockAggregator) EXPECT() *MockAggregatorMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Aggregate mocks base method.
+	return nil
 }
 
-// Aggregate mocks base method.
 func (m *MockAggregator) Aggregate(ctx context.Context, start, end time.Time) ([]json.RawMessage, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Aggregate", ctx, start, end)
-	ret0, _ := ret[0].([]json.RawMessage)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Aggregate indicates an expected call of Aggregate.
 func (mr *MockAggregatorMockRecorder) Aggregate(ctx, start, end any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Aggregate", reflect.TypeOf((*MockAggregator)(nil).Aggregate), ctx, start, end)
+	_ = "STUB: not implemented"
+	return nil
 }

@@ -3,10 +3,6 @@ package encoding
 import (
 	"bytes"
 	"encoding/csv"
-	"fmt"
-
-	"github.com/rudderlabs/rudder-server/utils/misc"
-	warehouseutils "github.com/rudderlabs/rudder-server/warehouse/utils"
 )
 
 // csvLoader is common for non-BQ warehouses.
@@ -20,50 +16,23 @@ type csvLoader struct {
 }
 
 func newCSVLoader(writer LoadFileWriter, destType string) *csvLoader {
-	loader := &csvLoader{destType: destType, fileWriter: writer}
-	loader.csvRow = []string{}
-	loader.buff = bytes.Buffer{}
-	loader.csvWriter = csv.NewWriter(&loader.buff)
-	return loader
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func (loader *csvLoader) IsLoadTimeColumn(columnName string) bool {
-	return columnName == warehouseutils.ToProviderCase(loader.destType, UUIDTsColumn)
+	_ = "STUB: not implemented"
+	return false
 }
 
-func (*csvLoader) GetLoadTimeFormat(string) string {
-	return misc.RFC3339Milli
-}
+func (*csvLoader) GetLoadTimeFormat(string) string { _ = "STUB: not implemented"; return "" }
 
-func (loader *csvLoader) AddColumn(_, _ string, val any) {
-	valString := fmt.Sprintf("%v", val)
-	loader.csvRow = append(loader.csvRow, valString)
-}
+func (loader *csvLoader) AddColumn(_, _ string, val any) { _ = "STUB: not implemented"; return }
 
-func (loader *csvLoader) AddRow(_, row []string) {
-	loader.csvRow = append(loader.csvRow, row...)
-}
+func (loader *csvLoader) AddRow(_, row []string) { _ = "STUB: not implemented"; return }
 
-func (loader *csvLoader) AddEmptyColumn(columnName string) {
-	loader.AddColumn(columnName, "", "")
-}
+func (loader *csvLoader) AddEmptyColumn(columnName string) { _ = "STUB: not implemented"; return }
 
-func (loader *csvLoader) WriteToString() (string, error) {
-	err := loader.csvWriter.Write(loader.csvRow)
-	if err != nil {
-		return "", fmt.Errorf("csvWriter write: %w", err)
-	}
+func (loader *csvLoader) WriteToString() (string, error) { _ = "STUB: not implemented"; return "", nil }
 
-	loader.csvWriter.Flush()
-
-	return loader.buff.String(), nil
-}
-
-func (loader *csvLoader) Write() error {
-	eventData, err := loader.WriteToString()
-	if err != nil {
-		return fmt.Errorf("writing to string: %w", err)
-	}
-
-	return loader.fileWriter.WriteGZ(eventData)
-}
+func (loader *csvLoader) Write() error { _ = "STUB: not implemented"; return nil }

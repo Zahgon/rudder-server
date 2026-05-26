@@ -11,7 +11,6 @@ package cache
 
 import (
 	context "context"
-	reflect "reflect"
 
 	gomock "go.uber.org/mock/gomock"
 )
@@ -29,28 +28,20 @@ type MockCacheMockRecorder struct {
 }
 
 // NewMockCache creates a new mock instance.
-func NewMockCache(ctrl *gomock.Controller) *MockCache {
-	mock := &MockCache{ctrl: ctrl}
-	mock.recorder = &MockCacheMockRecorder{mock}
-	return mock
-}
+func NewMockCache(ctrl *gomock.Controller) *MockCache { _ = "STUB: not implemented"; return nil }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockCache) EXPECT() *MockCacheMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Get mocks base method.
+	return nil
 }
 
-// Get mocks base method.
 func (m *MockCache) Get(ctx context.Context) ([]byte, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", ctx)
-	ret0, _ := ret[0].([]byte)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Get indicates an expected call of Get.
-func (mr *MockCacheMockRecorder) Get(ctx any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockCache)(nil).Get), ctx)
-}
+func (mr *MockCacheMockRecorder) Get(ctx any) *gomock.Call { _ = "STUB: not implemented"; return nil }

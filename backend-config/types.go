@@ -4,11 +4,6 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/samber/lo"
-
-	"github.com/rudderlabs/rudder-go-kit/logger"
-	obskit "github.com/rudderlabs/rudder-observability-kit/go/labels"
-
 	"github.com/rudderlabs/rudder-server/backend-config/dynamicconfig"
 )
 
@@ -78,31 +73,17 @@ type DestinationT struct {
 // The cache is keyed by destination ID and stores the RevisionID and HasDynamicConfig values.
 // When a destination's RevisionID changes, it indicates a config change, and we recompute the flag.
 func (d *DestinationT) UpdateHasDynamicConfig(cache dynamicconfig.Cache) {
+	_ = "STUB: not implemented"
 	// Check if we have a cached value for this destination
-	cachedInfo, exists := cache.Get(d.ID)
-
-	// If the destination's RevisionID matches the cached RevisionID,
-	// use the cached HasDynamicConfig value to avoid recomputation
-	if exists && d.RevisionID == cachedInfo.RevisionID {
-		d.HasDynamicConfig = cachedInfo.HasDynamicConfig
-		return
-	}
-
-	// RevisionID is not in cache or has changed, recompute the dynamic config flag
-	d.HasDynamicConfig = dynamicconfig.ContainsPattern(d.Config)
-
-	pkgLogger.Infon("HasDynamicConfig flag updated",
-		obskit.DestinationID(d.ID),
-		obskit.WorkspaceID(d.WorkspaceID),
-		logger.NewBoolField("hasDynamicConfig", d.HasDynamicConfig),
-	)
-
-	// Update the cache with the new value
-	cache.Set(d.ID, &dynamicconfig.DestinationRevisionInfo{
-		RevisionID:       d.RevisionID,
-		HasDynamicConfig: d.HasDynamicConfig,
-	})
+	return
 }
+
+// If the destination's RevisionID matches the cached RevisionID,
+// use the cached HasDynamicConfig value to avoid recomputation
+
+// RevisionID is not in cache or has changed, recompute the dynamic config flag
+
+// Update the cache with the new value
 
 type SourceT struct {
 	ID                         string
@@ -128,13 +109,9 @@ type Credential struct {
 	IsSecret bool   `json:"isSecret"`
 }
 
-func (s *SourceT) IsReplaySource() bool {
-	return s.OriginalID != ""
-}
+func (s *SourceT) IsReplaySource() bool { _ = "STUB: not implemented"; return false }
 
-func (s *SourceT) IsSourceHydrationSupported() bool {
-	return s.SourceDefinition.Options.Hydration.Enabled
-}
+func (s *SourceT) IsSourceHydrationSupported() bool { _ = "STUB: not implemented"; return false }
 
 type Account struct {
 	ID                    string             `json:"id"`
@@ -172,26 +149,9 @@ type Connection struct {
 	ProcessorEnabled bool           `json:"processorEnabled"`
 }
 
-func (c *ConfigT) SourcesMap() map[string]*SourceT {
-	sourcesMap := make(map[string]*SourceT)
-	for i := range c.Sources {
-		source := c.Sources[i]
-		sourcesMap[source.ID] = &source
-	}
-	return sourcesMap
-}
+func (c *ConfigT) SourcesMap() map[string]*SourceT { _ = "STUB: not implemented"; return nil }
 
-func (c *ConfigT) DestinationsMap() map[string]*DestinationT {
-	destinationsMap := make(map[string]*DestinationT)
-	for i := range c.Sources {
-		source := c.Sources[i]
-		for j := range source.Destinations {
-			destination := source.Destinations[j]
-			destinationsMap[destination.ID] = &destination
-		}
-	}
-	return destinationsMap
-}
+func (c *ConfigT) DestinationsMap() map[string]*DestinationT { _ = "STUB: not implemented"; return nil }
 
 type Settings struct {
 	DataRetention     DataRetention `json:"dataRetention"`
@@ -217,12 +177,8 @@ type StoragePreferences struct {
 }
 
 func (sp StoragePreferences) Backup(tableprefix string) bool {
-	switch tableprefix {
-	case "gw":
-		return sp.GatewayDumps
-	default:
-		return false
-	}
+	_ = "STUB: not implemented"
+	return false
 }
 
 type ConnectionFlags struct {
@@ -253,22 +209,13 @@ type DgSourceTrackingPlanConfigT struct {
 }
 
 func (dgSourceTPConfigT *DgSourceTrackingPlanConfigT) GetMergedConfig(eventType string) map[string]any {
-	if dgSourceTPConfigT.MergedConfig == nil {
-		globalConfig := dgSourceTPConfigT.fetchEventConfig(GlobalEventType)
-		eventSpecificConfig := dgSourceTPConfigT.fetchEventConfig(eventType)
-		outputConfig := lo.Assign(globalConfig, eventSpecificConfig)
-		dgSourceTPConfigT.MergedConfig = outputConfig
-	}
-	return dgSourceTPConfigT.MergedConfig
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func (dgSourceTPConfigT *DgSourceTrackingPlanConfigT) fetchEventConfig(eventType string) map[string]any {
-	emptyMap := map[string]any{}
-	_, eventSpecificConfigPresent := dgSourceTPConfigT.Config[eventType]
-	if !eventSpecificConfigPresent {
-		return emptyMap
-	}
-	return dgSourceTPConfigT.Config[eventType]
+	_ = "STUB: not implemented"
+	return nil
 }
 
 type TrackingPlanT struct {

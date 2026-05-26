@@ -31,20 +31,20 @@ type GZip struct{}
 
 // NewZip returns a Zip instance
 func NewGZip() GZipI {
-	return &GZip{}
+	_ = "STUB: not implemented"
+
+	// NewWriter returns a new Writer.
+	// Writes to the returned writer are compressed and written to w.
+	//
+	// It is the caller's responsibility to call Close on the Writer when done.
+	// Writes may be buffered and not flushed until Close.
+	//
+	// Callers that wish to set the fields in Writer.Header must do so before
+	// the first call to Write, Flush, or Close.
+	return *new(GZipI)
 }
 
-// NewWriter returns a new Writer.
-// Writes to the returned writer are compressed and written to w.
-//
-// It is the caller's responsibility to call Close on the Writer when done.
-// Writes may be buffered and not flushed until Close.
-//
-// Callers that wish to set the fields in Writer.Header must do so before
-// the first call to Write, Flush, or Close.
-func (*GZip) NewWriter(w io.Writer) *gzip.Writer {
-	return gzip.NewWriter(w)
-}
+func (*GZip) NewWriter(w io.Writer) *gzip.Writer { _ = "STUB: not implemented"; return nil }
 
 // NewReader creates a new Reader reading the given reader.
 // If r does not also implement io.ByteReader,
@@ -54,5 +54,6 @@ func (*GZip) NewWriter(w io.Writer) *gzip.Writer {
 //
 // The Reader.Header fields will be valid in the Reader returned.
 func (*GZip) NewReader(r io.Reader) (*gzip.Reader, error) {
-	return gzip.NewReader(r)
+	_ = "STUB: not implemented"
+	return nil, nil
 }

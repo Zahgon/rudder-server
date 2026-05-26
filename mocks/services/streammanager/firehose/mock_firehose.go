@@ -11,7 +11,6 @@ package mock_firehose
 
 import (
 	context "context"
-	reflect "reflect"
 
 	firehose "github.com/aws/aws-sdk-go-v2/service/firehose"
 	gomock "go.uber.org/mock/gomock"
@@ -31,32 +30,25 @@ type MockFirehoseClientMockRecorder struct {
 
 // NewMockFirehoseClient creates a new mock instance.
 func NewMockFirehoseClient(ctrl *gomock.Controller) *MockFirehoseClient {
-	mock := &MockFirehoseClient{ctrl: ctrl}
-	mock.recorder = &MockFirehoseClientMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockFirehoseClient) EXPECT() *MockFirehoseClientMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// PutRecord mocks base method.
+	return nil
 }
 
-// PutRecord mocks base method.
 func (m *MockFirehoseClient) PutRecord(ctx context.Context, input *firehose.PutRecordInput, opts ...func(*firehose.Options)) (*firehose.PutRecordOutput, error) {
-	m.ctrl.T.Helper()
-	varargs := []any{ctx, input}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "PutRecord", varargs...)
-	ret0, _ := ret[0].(*firehose.PutRecordOutput)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // PutRecord indicates an expected call of PutRecord.
 func (mr *MockFirehoseClientMockRecorder) PutRecord(ctx, input any, opts ...any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{ctx, input}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutRecord", reflect.TypeOf((*MockFirehoseClient)(nil).PutRecord), varargs...)
+	_ = "STUB: not implemented"
+	return nil
 }

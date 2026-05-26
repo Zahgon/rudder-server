@@ -2,16 +2,13 @@ package badger
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"os"
 	"sync"
 	"time"
 
 	"github.com/dgraph-io/badger/v4"
-	"github.com/dgraph-io/badger/v4/options"
 
-	"github.com/rudderlabs/rudder-go-kit/bytesize"
 	"github.com/rudderlabs/rudder-go-kit/config"
 	"github.com/rudderlabs/rudder-go-kit/logger"
 	"github.com/rudderlabs/rudder-go-kit/stats"
@@ -19,7 +16,6 @@ import (
 
 	"github.com/rudderlabs/rudder-server/rruntime"
 	"github.com/rudderlabs/rudder-server/services/dedup/types"
-	"github.com/rudderlabs/rudder-server/utils/misc"
 )
 
 type badgerDB struct {
@@ -43,101 +39,21 @@ type badgerDB struct {
 }
 
 // DefaultPath returns the default path for the deduplication service's badger DB
-func DefaultPath() string {
-	badgerPathName := "/badgerdbv4"
-	tmpDirPath, err := misc.GetTmpDir()
-	if err != nil {
-		panic(err)
-	}
-	return fmt.Sprintf(`%v%v`, tmpDirPath, badgerPathName)
-}
+func DefaultPath() string { _ = "STUB: not implemented"; return "" }
 
 func NewBadgerDB(conf *config.Config, stat stats.Stats, path string) (types.DB, error) {
-	dedupWindow := conf.GetReloadableDurationVar(3600, time.Second, "Dedup.dedupWindow", "Dedup.dedupWindowInS")
-	log := logger.NewLogger().Child("Dedup")
-	badgerOpts := badger.
-		DefaultOptions(path).
-		WithCompression(options.None).
-		WithNumGoroutines(1).
-		WithNumVersionsToKeep(1).
-		WithIndexCacheSize(conf.GetInt64Var(16*bytesize.MB, 1, "BadgerDB.Dedup.indexCacheSize", "BadgerDB.indexCacheSize")).
-		WithValueLogFileSize(conf.GetInt64Var(1*bytesize.MB, 1, "BadgerDB.Dedup.valueLogFileSize", "BadgerDB.valueLogFileSize")).
-		WithBlockSize(conf.GetIntVar(int(4*bytesize.KB), 1, "BadgerDB.Dedup.blockSize", "BadgerDB.blockSize")).
-		WithMemTableSize(conf.GetInt64Var(20*bytesize.MB, 1, "BadgerDB.Dedup.memTableSize", "BadgerDB.memTableSize")).
-		WithNumMemtables(conf.GetIntVar(5, 1, "BadgerDB.Dedup.numMemtable", "BadgerDB.numMemtable")).
-		WithNumLevelZeroTables(conf.GetIntVar(5, 1, "BadgerDB.Dedup.numLevelZeroTables", "BadgerDB.numLevelZeroTables")).
-		WithNumLevelZeroTablesStall(conf.GetIntVar(10, 1, "BadgerDB.Dedup.numLevelZeroTablesStall", "BadgerDB.numLevelZeroTablesStall")).
-		WithBaseTableSize(conf.GetInt64Var(1*bytesize.MB, 1, "BadgerDB.Dedup.baseTableSize", "BadgerDB.baseTableSize")).
-		WithBaseLevelSize(conf.GetInt64Var(5*bytesize.MB, 1, "BadgerDB.Dedup.baseLevelSize", "BadgerDB.baseLevelSize")).
-		WithLevelSizeMultiplier(conf.GetIntVar(10, 1, "BadgerDB.Dedup.levelSizeMultiplier", "BadgerDB.levelSizeMultiplier")).
-		WithMaxLevels(conf.GetIntVar(7, 1, "BadgerDB.Dedup.maxLevels", "BadgerDB.maxLevels")).
-		WithNumCompactors(conf.GetIntVar(4, 1, "BadgerDB.Dedup.numCompactors", "BadgerDB.numCompactors")).
-		WithValueThreshold(conf.GetInt64Var(10*bytesize.B, 1, "BadgerDB.Dedup.valueThreshold", "BadgerDB.valueThreshold")).
-		WithSyncWrites(conf.GetBoolVar(false, "BadgerDB.Dedup.syncWrites", "BadgerDB.syncWrites")).
-		WithBlockCacheSize(conf.GetInt64Var(0, 1, "BadgerDB.Dedup.blockCacheSize", "BadgerDB.blockCacheSize")).
-		WithDetectConflicts(conf.GetBoolVar(false, "BadgerDB.Dedup.detectConflicts", "BadgerDB.detectConflicts"))
-
-	bgCtx, cancel := context.WithCancel(context.Background())
-	db := &badgerDB{
-		logger:           loggerForBadger{log},
-		path:             path,
-		window:           dedupWindow,
-		opts:             badgerOpts,
-		bgCtx:            bgCtx,
-		cancel:           cancel,
-		cleanupOnStartup: conf.GetBoolVar(false, "BadgerDB.Dedup.cleanupOnStartup", "BadgerDB.cleanupOnStartup"),
-	}
-	db.stats.getTimer = stat.NewTaggedStat("dedup_get_duration_seconds", stats.TimerType, stats.Tags{"mode": "badger"})
-	db.stats.setTimer = stat.NewTaggedStat("dedup_set_duration_seconds", stats.TimerType, stats.Tags{"mode": "badger"})
-	db.stats.lsmSize = stat.NewTaggedStat("badger_db_size", stats.GaugeType, stats.Tags{"name": "dedup", "type": "lsm"})
-	db.stats.vlogSize = stat.NewTaggedStat("badger_db_size", stats.GaugeType, stats.Tags{"name": "dedup", "type": "vlog"})
-	db.stats.totSize = stat.NewTaggedStat("badger_db_size", stats.GaugeType, stats.Tags{"name": "dedup", "type": "total"})
-
-	err := db.init()
-	if err != nil {
-		return nil, fmt.Errorf("initializing badger db: %w", err)
-	}
-	return db, nil
+	_ = "STUB: not implemented"
+	return *new(types.DB), nil
 }
 
 func (d *badgerDB) Get(keys []string) (map[string]bool, error) {
-	defer d.stats.getTimer.RecordDuration()()
-	results := make(map[string]bool, len(keys))
-	err := d.badgerDB.View(func(txn *badger.Txn) error {
-		for _, key := range keys {
-			if _, err := txn.Get([]byte(key)); err != nil {
-				if errors.Is(err, badger.ErrKeyNotFound) {
-					continue
-				}
-				return err
-			}
-			results[key] = true
-		}
-		return nil
-	})
-	return results, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func (d *badgerDB) Set(keys []string) error {
-	defer d.stats.setTimer.RecordDuration()()
-	wb := d.badgerDB.NewWriteBatch()
-	defer wb.Cancel()
-	for _, key := range keys {
-		e := badger.NewEntry([]byte(key), nil).WithTTL(d.window.Load())
-		if err := wb.SetEntry(e); err != nil {
-			return err
-		}
-	}
-	return wb.Flush()
-}
+func (d *badgerDB) Set(keys []string) error { _ = "STUB: not implemented"; return nil }
 
-func (d *badgerDB) Close() {
-	d.cancel()
-	d.wg.Wait()
-	if d.badgerDB != nil {
-		_ = d.badgerDB.Close()
-	}
-}
+func (d *badgerDB) Close() { _ = "STUB: not implemented"; return }
 
 func (d *badgerDB) init() error {
 	var err error
@@ -179,40 +95,14 @@ func (d *badgerDB) init() error {
 	return err
 }
 
-func (d *badgerDB) gcLoop() {
-	for {
-		select {
-		case <-d.bgCtx.Done():
-			_ = d.badgerDB.RunValueLogGC(0.5)
-			return
-		case <-time.After(5 * time.Minute):
-		}
-	again:
-		if d.bgCtx.Err() != nil {
-			return
-		}
-		// One call would only result in removal of at max one log file.
-		// As an optimization, you could also immediately re-run it whenever it returns nil error
-		// (this is why `goto again` is used).
-		err := d.badgerDB.RunValueLogGC(0.5)
-		if err == nil {
-			goto again
-		}
-		lsmSize, vlogSize, totSize, err := misc.GetBadgerDBUsage(d.path)
-		if err != nil {
-			d.logger.Errorf("Error while getting badgerDB usage: %v", err)
-			continue
-		}
-		d.stats.lsmSize.Gauge(lsmSize)
-		d.stats.vlogSize.Gauge(vlogSize)
-		d.stats.totSize.Gauge(totSize)
-	}
-}
+func (d *badgerDB) gcLoop() { _ = "STUB: not implemented"; return }
+
+// One call would only result in removal of at max one log file.
+// As an optimization, you could also immediately re-run it whenever it returns nil error
+// (this is why `goto again` is used).
 
 type loggerForBadger struct {
 	logger.Logger
 }
 
-func (l loggerForBadger) Warningf(fmt string, args ...any) {
-	l.Warnf(fmt, args...)
-}
+func (l loggerForBadger) Warningf(fmt string, args ...any) { _ = "STUB: not implemented"; return }

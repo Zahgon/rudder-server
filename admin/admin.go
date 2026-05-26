@@ -33,27 +33,16 @@ package admin
 
 import (
 	"context"
-	"fmt"
-	"net"
-	"net/http"
 	"net/rpc"
-	"os"
-	"path/filepath"
-	"time"
 
-	kithttputil "github.com/rudderlabs/rudder-go-kit/httputil"
-	"github.com/rudderlabs/rudder-go-kit/jsonrs"
 	"github.com/rudderlabs/rudder-go-kit/logger"
-	obskit "github.com/rudderlabs/rudder-observability-kit/go/labels"
-
-	"github.com/rudderlabs/rudder-server/utils/misc"
 )
 
 // RegisterAdminHandler is used by other packages to
 // expose admin functions over the unix socket based rpc interface
-func RegisterAdminHandler(name string, handler any) {
-	_ = instance.rpcServer.RegisterName(name, handler) // @TODO fix ignored error
-}
+func RegisterAdminHandler(name string, handler any) { _ = "STUB: not implemented"; return }
+
+// @TODO fix ignored error
 
 type Admin struct {
 	rpcServer *rpc.Server
@@ -64,14 +53,7 @@ var (
 	pkgLogger logger.Logger
 )
 
-func Init() {
-	pkgLogger = logger.NewLogger().Child("admin")
-	instance = &Admin{rpcServer: rpc.NewServer()}
-	err := instance.rpcServer.Register(instance)
-	if err != nil {
-		pkgLogger.Errorn("Error registering admin handler", obskit.Error(err))
-	}
-}
+func Init() { _ = "STUB: not implemented"; return }
 
 type LogLevel struct {
 	Module string
@@ -79,68 +61,19 @@ type LogLevel struct {
 }
 
 func (*Admin) SetLogLevel(l LogLevel, reply *string) (err error) {
-	defer func() {
-		if r := recover(); r != nil {
-			pkgLogger.Error(r) //nolint:forbidigo
-			err = fmt.Errorf("internal Rudder server error: %v", r)
-		}
-	}()
-	err = logger.SetLogLevel(l.Module, l.Level)
-	if err == nil {
-		*reply = fmt.Sprintf("Module %s log level set to %s", l.Module, l.Level)
-	}
-	return err
+	_ = "STUB: not implemented"
+	return nil
 }
+
+//nolint:forbidigo
 
 // GetLoggingConfig returns the logging configuration
 func (*Admin) GetLoggingConfig(_ struct{}, reply *string) (err error) {
-	defer func() {
-		if r := recover(); r != nil {
-			pkgLogger.Error(r) //nolint:forbidigo
-			err = fmt.Errorf("internal Rudder server error: %v", r)
-		}
-	}()
-	loggingConfigMap := logger.GetLoggingConfig()
-	formattedOutput, err := jsonrs.MarshalIndent(loggingConfigMap, "", "  ")
-	*reply = string(formattedOutput)
-	return err
+	_ = "STUB: not implemented"
+	return nil
 }
+
+//nolint:forbidigo
 
 // StartServer starts an HTTP server listening on unix socket and serving rpc communication
-func StartServer(ctx context.Context) error {
-	tmpDirPath, err := misc.GetTmpDir()
-	if err != nil {
-		panic(err)
-	}
-	sockAddr := filepath.Join(tmpDirPath, "rudder-server.sock")
-	if err := os.RemoveAll(sockAddr); err != nil {
-		pkgLogger.Fataln("Cannot remove socket file", obskit.Error(err))
-		return err
-	}
-	defer func() {
-		if err := os.RemoveAll(sockAddr); err != nil {
-			pkgLogger.Warnn("Cannot remove socket file", obskit.Error(err))
-		}
-	}()
-
-	l, err := net.Listen("unix", sockAddr)
-	if err != nil {
-		pkgLogger.Fataln("Listen error", obskit.Error(err))
-		return err
-	}
-	defer func() {
-		if l != nil {
-			if err := l.Close(); err != nil {
-				pkgLogger.Warnn("Cannot close listener", obskit.Error(err))
-			}
-		}
-	}()
-
-	pkgLogger.Infon("Serving on admin interface", logger.NewStringField("socket", sockAddr))
-	srvMux := http.NewServeMux()
-	srvMux.Handle(rpc.DefaultRPCPath, instance.rpcServer)
-
-	srv := &http.Server{Handler: srvMux, ReadHeaderTimeout: 3 * time.Second}
-
-	return kithttputil.Serve(ctx, srv, l, time.Second)
-}
+func StartServer(ctx context.Context) error { _ = "STUB: not implemented"; return nil }

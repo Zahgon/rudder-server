@@ -10,8 +10,6 @@
 package mock_bulkservice
 
 import (
-	reflect "reflect"
-
 	eloqua "github.com/rudderlabs/rudder-server/router/batchrouter/asyncdestinationmanager/eloqua"
 	gomock "go.uber.org/mock/gomock"
 )
@@ -30,130 +28,109 @@ type MockEloquaServiceMockRecorder struct {
 
 // NewMockEloquaService creates a new mock instance.
 func NewMockEloquaService(ctrl *gomock.Controller) *MockEloquaService {
-	mock := &MockEloquaService{ctrl: ctrl}
-	mock.recorder = &MockEloquaServiceMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockEloquaService) EXPECT() *MockEloquaServiceMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// CheckRejectedData mocks base method.
+	return nil
 }
 
-// CheckRejectedData mocks base method.
 func (m *MockEloquaService) CheckRejectedData(arg0 *eloqua.HttpRequestData) (*eloqua.RejectResponse, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CheckRejectedData", arg0)
-	ret0, _ := ret[0].(*eloqua.RejectResponse)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // CheckRejectedData indicates an expected call of CheckRejectedData.
 func (mr *MockEloquaServiceMockRecorder) CheckRejectedData(arg0 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckRejectedData", reflect.TypeOf((*MockEloquaService)(nil).CheckRejectedData), arg0)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // CheckSyncStatus mocks base method.
 func (m *MockEloquaService) CheckSyncStatus(arg0 *eloqua.HttpRequestData) (string, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CheckSyncStatus", arg0)
-	ret0, _ := ret[0].(string)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
 // CheckSyncStatus indicates an expected call of CheckSyncStatus.
 func (mr *MockEloquaServiceMockRecorder) CheckSyncStatus(arg0 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckSyncStatus", reflect.TypeOf((*MockEloquaService)(nil).CheckSyncStatus), arg0)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // CreateImportDefinition mocks base method.
 func (m *MockEloquaService) CreateImportDefinition(arg0 *eloqua.HttpRequestData, arg1 string) (*eloqua.ImportDefinition, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateImportDefinition", arg0, arg1)
-	ret0, _ := ret[0].(*eloqua.ImportDefinition)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // CreateImportDefinition indicates an expected call of CreateImportDefinition.
 func (mr *MockEloquaServiceMockRecorder) CreateImportDefinition(arg0, arg1 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateImportDefinition", reflect.TypeOf((*MockEloquaService)(nil).CreateImportDefinition), arg0, arg1)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // DeleteImportDefinition mocks base method.
 func (m *MockEloquaService) DeleteImportDefinition(arg0 *eloqua.HttpRequestData) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteImportDefinition", arg0)
-	ret0, _ := ret[0].(error)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // DeleteImportDefinition indicates an expected call of DeleteImportDefinition.
 func (mr *MockEloquaServiceMockRecorder) DeleteImportDefinition(arg0 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteImportDefinition", reflect.TypeOf((*MockEloquaService)(nil).DeleteImportDefinition), arg0)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // FetchFields mocks base method.
 func (m *MockEloquaService) FetchFields(arg0 *eloqua.HttpRequestData) (*eloqua.Fields, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FetchFields", arg0)
-	ret0, _ := ret[0].(*eloqua.Fields)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // FetchFields indicates an expected call of FetchFields.
 func (mr *MockEloquaServiceMockRecorder) FetchFields(arg0 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchFields", reflect.TypeOf((*MockEloquaService)(nil).FetchFields), arg0)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // GetBaseEndpoint mocks base method.
 func (m *MockEloquaService) GetBaseEndpoint(arg0 *eloqua.HttpRequestData) (string, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetBaseEndpoint", arg0)
-	ret0, _ := ret[0].(string)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
 // GetBaseEndpoint indicates an expected call of GetBaseEndpoint.
 func (mr *MockEloquaServiceMockRecorder) GetBaseEndpoint(arg0 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBaseEndpoint", reflect.TypeOf((*MockEloquaService)(nil).GetBaseEndpoint), arg0)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // RunSync mocks base method.
 func (m *MockEloquaService) RunSync(arg0 *eloqua.HttpRequestData) (string, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RunSync", arg0)
-	ret0, _ := ret[0].(string)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
 // RunSync indicates an expected call of RunSync.
 func (mr *MockEloquaServiceMockRecorder) RunSync(arg0 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunSync", reflect.TypeOf((*MockEloquaService)(nil).RunSync), arg0)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // UploadData mocks base method.
 func (m *MockEloquaService) UploadData(arg0 *eloqua.HttpRequestData, arg1 string) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UploadData", arg0, arg1)
-	ret0, _ := ret[0].(error)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // UploadData indicates an expected call of UploadData.
 func (mr *MockEloquaServiceMockRecorder) UploadData(arg0, arg1 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UploadData", reflect.TypeOf((*MockEloquaService)(nil).UploadData), arg0, arg1)
+	_ = "STUB: not implemented"
+	return nil
 }

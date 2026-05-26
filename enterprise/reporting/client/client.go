@@ -1,27 +1,15 @@
 package client
 
 import (
-	"bytes"
 	"context"
-	"fmt"
-	"io"
 	"net/http"
 	"net/url"
-	"strconv"
-	"strings"
-	"time"
 
 	"github.com/cenkalti/backoff/v5"
-	"github.com/samber/lo"
 
 	"github.com/rudderlabs/rudder-go-kit/config"
-	"github.com/rudderlabs/rudder-go-kit/jsonrs"
 	"github.com/rudderlabs/rudder-go-kit/logger"
 	"github.com/rudderlabs/rudder-go-kit/stats"
-	obskit "github.com/rudderlabs/rudder-observability-kit/go/labels"
-
-	"github.com/rudderlabs/rudder-server/utils/backoffvoid"
-	"github.com/rudderlabs/rudder-server/utils/httputil"
 )
 
 const (
@@ -44,20 +32,8 @@ type Route string
 // * baseURL provides only the scheme, host, and port.
 // * Route provides path and query parameters.
 func (p Route) URL(baseURL string) (url.URL, error) {
-	u, err := url.Parse(baseURL)
-	if err != nil {
-		return url.URL{}, fmt.Errorf("parsing base URL: %w", err)
-	}
-
-	pathURL, err := url.Parse(string(p))
-	if err != nil {
-		return url.URL{}, fmt.Errorf("parsing service endpoint: %w", err)
-	}
-
-	u.Path = pathURL.Path
-	u.RawQuery = pathURL.RawQuery
-
-	return *u, nil
+	_ = "STUB: not implemented"
+	return *new(url.URL), nil
 }
 
 // Client handles sending metrics to the reporting service
@@ -78,107 +54,26 @@ type Client struct {
 }
 
 func backoffOptsFromConfig(conf *config.Config) (opts []backoff.RetryOption) {
-	opts = append(opts, backoff.WithBackOff(backoff.NewExponentialBackOff()))
-	if conf.IsSet("Reporting.httpClient.backoff.maxRetries") {
-		opts = append(opts, backoff.WithMaxTries(uint(conf.GetIntVar(0, 1, "Reporting.httpClient.backoff.maxRetries")+1)))
-	}
-	return opts
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // New creates a new reporting client
 func New(path Route, conf *config.Config, log logger.Logger, stats stats.Stats) *Client {
-	reportingServiceURL := conf.GetStringVar("https://reporting.dev.rudderlabs.com", "REPORTING_URL")
-	reportingServiceURL = strings.TrimSuffix(reportingServiceURL, "/")
-
-	return &Client{
-		httpClient: &http.Client{
-			Timeout:   conf.GetDurationVar(60, time.Second, "Reporting.httpClient.timeout", "HttpClient.reporting.timeout"),
-			Transport: &http.Transport{},
-		},
-		reportingServiceURL: reportingServiceURL,
-		userName:            conf.GetStringVar("", "REPORTING_USERNAME"),
-		password:            conf.GetStringVar("", "REPORTING_PASSWORD"),
-		route:               path,
-		instanceID:          conf.GetStringVar("1", "INSTANCE_ID"),
-		moduleName:          conf.GetStringVar("", "clientName"),
-		stats:               stats,
-		log:                 log,
-		conf:                conf,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func (c *Client) Send(ctx context.Context, payload any) error {
-	payloadBytes, err := jsonrs.Marshal(payload)
-	if err != nil {
-		return err
-	}
-
-	u, err := c.route.URL(c.reportingServiceURL)
-	if err != nil {
-		return fmt.Errorf("constructing URL for service endpoint (%q, %q): %w", c.route, c.reportingServiceURL, err)
-	}
-
-	o := func() error {
-		req, err := http.NewRequestWithContext(ctx, http.MethodPost, u.String(), bytes.NewBuffer(payloadBytes))
-		if err != nil {
-			return fmt.Errorf("constructing HTTP request: %w", err)
-		}
-		req.Header.Set("Content-Type", "application/json; charset=utf-8")
-		req.SetBasicAuth(c.userName, c.password)
-		httpRequestStart := time.Now()
-		resp, err := c.httpClient.Do(req)
-		if err != nil {
-			return err
-		}
-
-		tags := c.getTags()
-		duration := time.Since(httpRequestStart)
-
-		c.stats.NewTaggedStat(StatRequestLatency, stats.TimerType, tags).Since(httpRequestStart)
-
-		httpStatTags := lo.Assign(tags, map[string]string{"status": strconv.Itoa(resp.StatusCode)})
-		c.stats.NewTaggedStat(StatHttpRequest, stats.CountType, httpStatTags).Count(1)
-
-		// Record total bytes sent
-		c.stats.NewTaggedStat(StatRequestTotalBytes, stats.CountType, tags).Count(len(payloadBytes))
-
-		// Record request duration
-		c.stats.NewTaggedStat(StatTotalDurationsSeconds, stats.CountType, tags).Count(int(duration.Seconds()))
-
-		defer func() { httputil.CloseResponse(resp) }()
-		respBody, err := io.ReadAll(resp.Body)
-		if err != nil {
-			return fmt.Errorf("reading response body: %q: %w", c.route, err)
-		}
-
-		if !c.isHTTPRequestSuccessful(resp.StatusCode) {
-			err = fmt.Errorf("received unexpected response: %q: statusCode: %d body: %v", c.route, resp.StatusCode, string(respBody))
-		}
-		return err
-	}
-
-	opts := backoffOptsFromConfig(c.conf)
-	opts = append(opts, backoff.WithNotify(func(err error, t time.Duration) {
-		c.log.Warnn(`Error reporting to service, retrying`, obskit.Error(err))
-	}))
-	err = backoffvoid.Retry(ctx, o, opts...)
-	if err != nil {
-		c.log.Errorn(`Error making request to reporting service`, obskit.Error(err))
-	}
-	return err
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// Record total bytes sent
+
+// Record request duration
 
 // getTags returns the common tags for reporting metrics
-func (c *Client) getTags() stats.Tags {
-	serverURL, _ := url.Parse(c.reportingServiceURL)
-	return stats.Tags{
-		"module":     c.moduleName,
-		"instanceId": c.instanceID,
-		"endpoint":   serverURL.Host,
-		"path":       string(c.route),
-	}
-}
+func (c *Client) getTags() stats.Tags { _ = "STUB: not implemented"; return *new(stats.Tags) }
 
-func (f *Client) isHTTPRequestSuccessful(status int) bool {
-	return status >= 200 && status < 300
-}
+func (f *Client) isHTTPRequestSuccessful(status int) bool { _ = "STUB: not implemented"; return false }

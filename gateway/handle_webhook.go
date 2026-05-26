@@ -8,18 +8,18 @@ import (
 )
 
 func (gw *Handle) webhookHandler() http.HandlerFunc {
-	if gw.conf.webhookV2HandlerEnabled {
-		return gw.callType("webhook", gw.webhookAuthMiddleware.AuthHandler(gw.webhook.RequestHandler))
-	}
-	return gw.callType("webhook", gw.webhookAuth(gw.webhook.RequestHandler))
+	_ = "STUB: not implemented"
+	return *new(http.HandlerFunc)
 }
 
 // ProcessTransformedWebhookRequest is an interface wrapper for webhook
 func (gw *Handle) ProcessTransformedWebhookRequest(w *http.ResponseWriter, r *http.Request, reqType string, payload []byte, arctx *gwtypes.AuthRequestContext) string {
-	return gw.rrh.ProcessRequest(w, r, reqType, payload, arctx)
+	_ = "STUB: not implemented"
+	return ""
 }
 
 func (gw *Handle) SaveWebhookFailures(reqs []*model.FailedWebhookPayload) error {
+	_ = "STUB: not implemented"
 	// no-op
 	return nil
 }

@@ -11,7 +11,8 @@ import (
 var _ backendconfig.BackendConfig = &StaticLibrary{}
 
 func NewStaticLibrary(configs map[string]backendconfig.ConfigT) *StaticLibrary {
-	return &StaticLibrary{configs: configs}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 type StaticLibrary struct {
@@ -19,35 +20,33 @@ type StaticLibrary struct {
 }
 
 // AccessToken returns the access token for the backend config
-func (l *StaticLibrary) AccessToken() string {
-	panic("not implemented") // TODO: Implement
-}
+func (l *StaticLibrary) AccessToken() string { _ = "STUB: not implemented"; return "" }
+
+// TODO: Implement
 
 func (l *StaticLibrary) Get(context.Context) (map[string]backendconfig.ConfigT, error) {
-	return l.configs, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (l *StaticLibrary) Identity() identity.Identifier {
-	panic("not implemented") // TODO: Implement
+	_ = "STUB: not implemented"
+	return *
+	// TODO: Implement
+	new(identity.Identifier)
 }
 
 func (l *StaticLibrary) Subscribe(ctx context.Context, topic backendconfig.Topic) pubsub.DataChannel {
-	ch := make(chan pubsub.DataEvent, 1)
-	ch <- pubsub.DataEvent{Data: l.configs, Topic: string(topic)}
-	// on Subscribe, emulate a single backend configuration event
-	go func() {
-		<-ctx.Done()
-		close(ch)
-	}()
-	return ch
+	_ = "STUB: not implemented"
+	return *new(pubsub.DataChannel)
 }
 
-func (l *StaticLibrary) SetUp() error {
-	return nil
-}
+// on Subscribe, emulate a single backend configuration event
 
-func (l *StaticLibrary) WaitForConfig(context.Context) {}
+func (l *StaticLibrary) SetUp() error { _ = "STUB: not implemented"; return nil }
 
-func (l *StaticLibrary) Stop() {}
+func (l *StaticLibrary) WaitForConfig(context.Context) { _ = "STUB: not implemented"; return }
 
-func (l *StaticLibrary) StartWithIDs(context.Context, string) {}
+func (l *StaticLibrary) Stop() { _ = "STUB: not implemented"; return }
+
+func (l *StaticLibrary) StartWithIDs(context.Context, string) { _ = "STUB: not implemented"; return }

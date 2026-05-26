@@ -19,90 +19,37 @@ type Repository struct {
 }
 
 // NewRepository returns a new repository backed by memory.
-func NewRepository(log logger.Logger) *Repository {
-	m := &Repository{
-		log:          log,
-		suppressions: make(map[string]map[string]map[string]model.Metadata),
-	}
-	return m
-}
+func NewRepository(log logger.Logger) *Repository { _ = "STUB: not implemented"; return nil }
 
 // GetToken returns the current token
 func (m *Repository) GetToken() ([]byte, error) {
-	return m.token, nil
+	_ = "STUB: not implemented"
+	return nil,
+
+		// Suppressed returns true if the given user is suppressed, false otherwise
+		nil
 }
 
-// Suppressed returns true if the given user is suppressed, false otherwise
 func (m *Repository) Suppressed(workspaceID, userID, sourceID string) (*model.Metadata, error) {
-	m.suppressionsMu.RLock()
-	defer m.suppressionsMu.RUnlock()
-	workspace, ok := m.suppressions[workspaceID]
-	if !ok {
-		return nil, model.ErrKeyNotFound
-	}
-	sourceIDs, ok := workspace[userID]
-	if !ok {
-		return nil, model.ErrKeyNotFound
-	}
-	if metadata, ok := sourceIDs[model.Wildcard]; ok {
-		return &metadata, nil
-	}
-	if metadata, ok := sourceIDs[sourceID]; ok {
-		return &metadata, nil
-	}
-	return nil, model.ErrKeyNotFound
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Add adds the given suppressions to the repository
 func (m *Repository) Add(suppressions []model.Suppression, token []byte) error {
-	m.suppressionsMu.Lock()
-	defer m.suppressionsMu.Unlock()
-	for i := range suppressions {
-		suppression := suppressions[i]
-		var keys []string
-		if len(suppression.SourceIDs) == 0 {
-			keys = []string{model.Wildcard}
-		} else {
-			keys = make([]string, len(suppression.SourceIDs))
-			copy(keys, suppression.SourceIDs)
-		}
-		workspace, ok := m.suppressions[suppression.WorkspaceID]
-		if !ok {
-			workspace = make(map[string]map[string]model.Metadata)
-			m.suppressions[suppression.WorkspaceID] = workspace
-		}
-		user, ok := workspace[suppression.UserID]
-		if !ok {
-			user = make(map[string]model.Metadata)
-			m.suppressions[suppression.WorkspaceID][suppression.UserID] = user
-		}
-		if suppression.Canceled {
-			for _, key := range keys {
-				delete(user, key)
-			}
-		} else {
-			for _, key := range keys {
-				user[key] = model.Metadata{
-					CreatedAt: suppression.CreatedAt,
-				}
-			}
-		}
-	}
-	m.token = token
+	_ = "STUB: not implemented"
 	return nil
 }
 
 // Stop is a no-op for the memory repository.
 func (*Repository) Stop() error {
+	_ = "STUB: not implemented"
+
+	// Backup is not supported for the memory repository.
 	return nil
 }
 
-// Backup is not supported for the memory repository.
-func (*Repository) Backup(_ io.Writer) error {
-	return model.ErrNotSupported
-}
+func (*Repository) Backup(_ io.Writer) error { _ = "STUB: not implemented"; return nil }
 
 // Restore is not supported for the memory repository.
-func (*Repository) Restore(_ io.Reader) error {
-	return model.ErrNotSupported
-}
+func (*Repository) Restore(_ io.Reader) error { _ = "STUB: not implemented"; return nil }

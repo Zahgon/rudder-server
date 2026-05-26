@@ -1,21 +1,10 @@
 package reporting
 
 import (
-	"fmt"
-	"maps"
 	"regexp"
-	"slices"
-	"strings"
-
-	"github.com/k3a/html2text"
-	"github.com/samber/lo"
-	"github.com/tidwall/gjson"
 
 	"github.com/rudderlabs/rudder-go-kit/config"
-	"github.com/rudderlabs/rudder-go-kit/jsonrs"
 	"github.com/rudderlabs/rudder-go-kit/logger"
-
-	warehouseutils "github.com/rudderlabs/rudder-server/warehouse/utils"
 )
 
 const (
@@ -98,347 +87,139 @@ type ExtractorHandle struct {
 }
 
 func NewErrorDetailExtractor(log logger.Logger, conf *config.Config) *ExtractorHandle {
-	errMsgKeys := config.GetStringSliceVar([]string{}, "Reporting.ErrorDetail.ErrorMessageKeys")
-	// adding to default message keys
-	defaultErrorMessageKeys = append(defaultErrorMessageKeys, errMsgKeys...)
-
-	extractor := &ExtractorHandle{
-		ErrorMessageKeys: defaultErrorMessageKeys,
-		log:              log.Child("ErrorDetailExtractor"),
-		maxMessageLength: conf.GetReloadableIntVar(200, 1, "Reporting.errorReporting.maxErrorMessageLength"),
-	}
-	return extractor
-}
-
-// Functions used for error message extraction -- STARTS
-func checkForGoMapOrList(value any) bool {
-	switch value.(type) {
-	case map[string]any, []any:
-		return true
-	}
-	return false
-}
-
-func (ext *ExtractorHandle) getSimpleMessage(sampleResponse string) string {
-	if !IsJSON(sampleResponse) {
-		return sampleResponse
-	}
-
-	var jsonMap map[string]any
-	er := jsonrs.Unmarshal([]byte(sampleResponse), &jsonMap)
-	if er != nil {
-		ext.log.Debugn("sampleResponse is not a unmarshallable into interface{}", logger.NewStringField("sampleResponse", sampleResponse))
-		return sampleResponse
-	}
-
-	// First, try the specific key handlers (response, error, etc.)
-	// This handles nested JSON responses where the error message is in a "response" field
-	for key, erRes := range jsonMap {
-		if result := ext.handleKey(key, erRes); result != "" {
-			return result
-		}
-	}
-
-	// If no specific keys were found, try to find message keys directly in the parsed JSON
-	// This handles cases where the JSON has a direct message field without a response wrapper
-	// This enhancement improves error extraction for various JSON response formats
-	if msg := getErrorMessageFromResponse(jsonMap, ext.ErrorMessageKeys); msg != "" {
-		return msg
-	}
-
-	return ""
-}
-
-func (ext *ExtractorHandle) handleKey(key string, value any) string {
-	switch key {
-	case "reason", "Error", responseKey, errorKey:
-		valueStr, ok := value.(string)
-		if !ok {
-			ext.log.Debugn("Handling key",
-				logger.NewStringField("key", key),
-				logger.NewStringField("valueType", fmt.Sprintf("%T", value)), // nolint:forbidigo
-			)
-			return ""
-		}
-
-		switch key {
-		case "reason":
-			return valueStr
-		case "Error":
-			return handleError(valueStr)
-		case responseKey, errorKey:
-			return ext.handleResponseOrErrorKey(valueStr)
-		}
-
-	case "internal_processing_failed", "fetching_remote_schema_failed", "exporting_data_failed":
-		// Allow handleWarehouseError to process the value, regardless of its type
-		return ext.handleWarehouseError(value, key)
-	}
-
-	return ""
-}
-
-func handleError(valueStr string) string {
-	if !IsJSON(valueStr) {
-		firstLine := strings.Split(valueStr, "\n")[0]
-		return firstLine
-	}
-	return ""
-}
-
-func (ext *ExtractorHandle) handleResponseOrErrorKey(valueStr string) string {
-	if IsJSON(valueStr) {
-		var unmarshalledJSON any
-		if err := jsonrs.Unmarshal([]byte(valueStr), &unmarshalledJSON); err != nil {
-			return valueStr
-		}
-		result := getErrorMessageFromResponse(unmarshalledJSON, ext.ErrorMessageKeys)
-		return result
-	}
-
-	if isHTMLString(valueStr) {
-		result := getHTMLErrorMessage(valueStr)
-		return result
-	}
-
-	return valueStr
-}
-
-// isHTMLString checks if a string contains HTML content
-func isHTMLString(s string) bool {
-	lowerStr := strings.ToLower(s)
-	// Check for common HTML patterns
-	return (strings.Contains(lowerStr, "<!doctype") && strings.Contains(lowerStr, "<html")) ||
-		(strings.Contains(lowerStr, "<body") && strings.Contains(lowerStr, "</body>")) ||
-		(strings.Contains(lowerStr, "<html") && (strings.Contains(lowerStr, "<title>") || strings.Contains(lowerStr, "<head>")))
-}
-
-func (ext *ExtractorHandle) handleWarehouseError(value any, key string) string {
-	valAsMap, isMap := value.(map[string]any)
-	if !isMap {
-		ext.log.Debugn("Failed type assertion to map[string]interface{} for warehouse error key",
-			logger.NewStringField("key", key),
-			logger.NewStringField("valueType", fmt.Sprintf("%T", value)), // nolint:forbidigo
-		)
-		return ""
-	}
-	return getErrorFromWarehouse(valAsMap)
-}
-
-func getHTMLErrorMessage(erResStr string) string {
-	return html2text.HTML2Text(erResStr)
-}
-
-// truncateMessage truncates error message to the configured maximum length
-func (ext *ExtractorHandle) truncateMessage(message string) string {
-	maxLength := ext.maxMessageLength.Load()
-	if len(message) <= maxLength {
-		return message
-	}
-	ext.log.Debugn("Truncating message",
-		logger.NewStringField("message", message),
-		logger.NewIntField("messageLength", int64(len(message))),
-		logger.NewIntField("maxLength", int64(maxLength)))
-	return message[:maxLength] + "..."
-}
-
-func (ext *ExtractorHandle) GetErrorMessage(sampleResponse string) string {
-	message := ext.getSimpleMessage(sampleResponse)
-	message = ext.CleanUpErrorMessage(message)
-	return ext.truncateMessage(message)
-}
-
-func findKeys(keys []string, jsonObj any) map[string]any {
-	values := make(map[string]any)
-	if len(keys) == 0 {
-		return values
-	}
-	// recursively search for keys in nested JSON objects
-	switch jsonObj := jsonObj.(type) {
-	case map[string]any: // if jsonObj is a map
-		for _, key := range keys {
-			if value, ok := jsonObj[key]; ok && value != nil {
-				values[key] = value
-			}
-		}
-		for _, value := range jsonObj {
-			subResults := findKeys(keys, value)
-			maps.Copy(values, subResults)
-		}
-	case []any: // if jsonObj is a slice
-		for _, item := range jsonObj {
-			subResults := findKeys(keys, item)
-			maps.Copy(values, subResults)
-		}
-	}
-	return values // return the map of keys and values
-}
-
-// This function takes a list of keys and a JSON object as input, and returns the value of the first key that exists in the JSON object.
-func findFirstExistingKey(keys []string, jsonObj any) any {
-	keyValues := findKeys(keys, jsonObj)
-	result := getFirstNonNilValue(keys, keyValues)
-	if checkForGoMapOrList(result) {
-		return findFirstExistingKey(keys, result)
-	}
-	return result
-}
-
-func getFirstNonNilValue(keys []string, jsonObj map[string]any) any {
-	for _, key := range keys {
-		if value := jsonObj[key]; value != nil {
-			return value
-		}
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
-func convertInterfaceArrToStrArrWithDelimitter(arrI []any, delimitter string) string {
-	s := make([]string, len(arrI))
-	for i, v := range arrI {
-		s[i] = fmt.Sprint(v)
-	}
-	return strings.Join(s, delimitter)
-}
+// adding to default message keys
 
-func getErrorMessageFromResponse(resp any, messageKeys []string) string {
-	var respMap map[string]any
-	respMap, isMap := resp.(map[string]any)
+// Functions used for error message extraction -- STARTS
+func checkForGoMapOrList(value any) bool { _ = "STUB: not implemented"; return false }
 
-	getMessage := func(msgKeys []string, response any) string {
-		if result := findFirstExistingKey(msgKeys, response); result != nil {
-			if s, ok := result.(string); ok {
-				return s
-			}
-		}
-		return ""
-	}
-
-	var msg string
-
-	if !isMap {
-		goto errorsBlock
-	}
-	if _, ok := respMap["msg"]; ok {
-		return respMap["msg"].(string)
-	}
-
-	if destinationResponse, ok := respMap["destinationResponse"].(map[string]any); ok {
-		msg = getMessage(messageKeys, destinationResponse)
-		if msg != "" {
-			return msg
-		}
-	}
-	msg = getMessage(messageKeys, resp)
-	if len(msg) != 0 {
-		return msg
-	}
-
-errorsBlock:
-	errors, ok := getFirstNonNilValue([]string{errorsKey}, findKeys([]string{errorsKey}, resp)).([]any)
-	if ok && len(errors) > 0 {
-		return convertInterfaceArrToStrArrWithDelimitter(errors, ".")
-	}
-
+func (ext *ExtractorHandle) getSimpleMessage(sampleResponse string) string {
+	_ = "STUB: not implemented"
 	return ""
 }
 
-func getErrorFromWarehouse(resp map[string]any) string {
-	errorsI, ok := resp[errorsKey]
-	if !ok {
-		return ""
-	}
-	arrOfErrs, isIntfArr := errorsI.([]any)
-	if !isIntfArr {
-		return ""
-	}
-	errors := lo.Uniq(arrOfErrs)
-	return convertInterfaceArrToStrArrWithDelimitter(errors, ".")
+// First, try the specific key handlers (response, error, etc.)
+// This handles nested JSON responses where the error message is in a "response" field
+
+// If no specific keys were found, try to find message keys directly in the parsed JSON
+// This handles cases where the JSON has a direct message field without a response wrapper
+// This enhancement improves error extraction for various JSON response formats
+
+func (ext *ExtractorHandle) handleKey(key string, value any) string {
+	_ = "STUB: not implemented"
+	return ""
 }
 
-func IsJSON(s string) bool {
-	parsedBytesResult := gjson.ParseBytes([]byte(s))
-	// Scenarios where we might have problems if the below logic is not included
-	// 1. Parsing of a string which contains { or [ at the start of the string could be parsed successfully
-	// 2. A valid with spacing before { or [ can also be deemed as not valid string
+// nolint:forbidigo
 
-	// We are making sure we remove white-spaces when we check the string for being an array or an object (scenario-2 is covered)
-	s = string(whitespacesRegex.ReplaceAllLiteral([]byte(parsedBytesResult.String()), []byte("")))
-	var isEndingFlowerBrace, isEndingArrBrace bool
-	// We are making sure we check for end-braces for array or object(scenario-1 is covered)
-	if len(s) > 0 {
-		isEndingFlowerBrace = s[len(s)-1] == '}'
-		isEndingArrBrace = s[len(s)-1] == ']'
-	}
-	return (parsedBytesResult.IsObject() && isEndingFlowerBrace) || (parsedBytesResult.IsArray() && isEndingArrBrace)
+// Allow handleWarehouseError to process the value, regardless of its type
+
+func handleError(valueStr string) string { _ = "STUB: not implemented"; return "" }
+
+func (ext *ExtractorHandle) handleResponseOrErrorKey(valueStr string) string {
+	_ = "STUB: not implemented"
+	return ""
 }
+
+// isHTMLString checks if a string contains HTML content
+func isHTMLString(s string) bool { _ = "STUB: not implemented"; return false }
+
+// Check for common HTML patterns
+
+func (ext *ExtractorHandle) handleWarehouseError(value any, key string) string {
+	_ = "STUB: not implemented"
+	return ""
+}
+
+// nolint:forbidigo
+
+func getHTMLErrorMessage(erResStr string) string { _ = "STUB: not implemented"; return "" }
+
+// truncateMessage truncates error message to the configured maximum length
+func (ext *ExtractorHandle) truncateMessage(message string) string {
+	_ = "STUB: not implemented"
+	return ""
+}
+
+func (ext *ExtractorHandle) GetErrorMessage(sampleResponse string) string {
+	_ = "STUB: not implemented"
+	return ""
+}
+
+func findKeys(keys []string, jsonObj any) map[string]any { _ = "STUB: not implemented"; return nil }
+
+// recursively search for keys in nested JSON objects
+
+// if jsonObj is a map
+
+// if jsonObj is a slice
+
+// return the map of keys and values
+
+// This function takes a list of keys and a JSON object as input, and returns the value of the first key that exists in the JSON object.
+func findFirstExistingKey(keys []string, jsonObj any) any {
+	_ = "STUB: not implemented"
+	return *new(any)
+}
+
+func getFirstNonNilValue(keys []string, jsonObj map[string]any) any {
+	_ = "STUB: not implemented"
+	return *new(any)
+}
+
+func convertInterfaceArrToStrArrWithDelimitter(arrI []any, delimitter string) string {
+	_ = "STUB: not implemented"
+	return ""
+}
+
+func getErrorMessageFromResponse(resp any, messageKeys []string) string {
+	_ = "STUB: not implemented"
+	return ""
+}
+
+func getErrorFromWarehouse(resp map[string]any) string { _ = "STUB: not implemented"; return "" }
+
+func IsJSON(s string) bool { _ = "STUB: not implemented"; return false }
+
+// Scenarios where we might have problems if the below logic is not included
+// 1. Parsing of a string which contains { or [ at the start of the string could be parsed successfully
+// 2. A valid with spacing before { or [ can also be deemed as not valid string
+
+// We are making sure we remove white-spaces when we check the string for being an array or an object (scenario-2 is covered)
+
+// We are making sure we check for end-braces for array or object(scenario-1 is covered)
 
 func (ext *ExtractorHandle) CleanUpErrorMessage(errMsg string) string {
-	var regexdMsg string
-	regexdMsg = urlRegex.ReplaceAllLiteralString(errMsg, spaceStr)
-	regexdMsg = ipRegex.ReplaceAllLiteralString(regexdMsg, spaceStr)
-	regexdMsg = emailRegex.ReplaceAllLiteralString(regexdMsg, spaceStr)
-	regexdMsg = idRegex.ReplaceAllLiteralString(regexdMsg, spaceStr)
-	regexdMsg = notWordRegex.ReplaceAllLiteralString(regexdMsg, spaceStr)
-	regexdMsg = spaceRegex.ReplaceAllLiteralString(regexdMsg, spaceStr)
-
-	// Trim whitespace only
-	regexdMsg = strings.TrimSpace(regexdMsg)
-
-	return regexdMsg
+	_ = "STUB: not implemented"
+	return ""
 }
+
+// Trim whitespace only
 
 func getErrorCodeFromStatTags(statTags map[string]string) string {
-	var errorCodeParts []string
-	if len(statTags) > 0 {
-		if errorCategory, ok := statTags["errorCategory"]; ok {
-			errorCodeParts = append(errorCodeParts, errorCategory)
-		}
-		if errorType, ok := statTags["errorType"]; ok {
-			errorCodeParts = append(errorCodeParts, errorType)
-		}
-	}
-	return strings.Join(errorCodeParts, ":")
+	_ = "STUB: not implemented"
+	return ""
 }
 
-func containsDeprecationKey(errorMessage, key string) bool {
-	return strings.HasPrefix(errorMessage, key) || strings.Contains(errorMessage, " "+key)
-}
+func containsDeprecationKey(errorMessage, key string) bool { _ = "STUB: not implemented"; return false }
 
 func containsAllKeywords(errorMessage string, keywordSets [][]string) bool {
-	return slices.ContainsFunc(keywordSets, func(keywordSet []string) bool {
-		return !slices.ContainsFunc(keywordSet, func(keyword string) bool {
-			return !containsDeprecationKey(errorMessage, keyword)
-		})
-	})
+	_ = "STUB: not implemented"
+	return false
 }
 
 func (ext *ExtractorHandle) isVersionDeprecationError(errorMessage string) bool {
+	_ = "STUB: not implemented"
 	// Normalize error message
-	cleanedError := strings.ReplaceAll(strings.ToLower(errorMessage), "-", " ")
-	for key, keywordSets := range deprecationKeywordSets {
-		if !containsDeprecationKey(cleanedError, key) {
-			continue
-		}
-		if containsAllKeywords(cleanedError, keywordSets) {
-			return true
-		}
-	}
 	return false
 }
 
 func (ext *ExtractorHandle) GetErrorCode(errorMessage string, statTags map[string]string, destType string) string {
-	if errorCode := getErrorCodeFromStatTags(statTags); errorCode != "" {
-		return errorCode
-	}
-
-	// Skip deprecation error detection for warehouse destinations
-	if slices.Contains(warehouseutils.WarehouseDestinations, destType) {
-		return ""
-	}
-
-	if ext.isVersionDeprecationError(errorMessage) {
-		return "deprecation"
-	}
+	_ = "STUB: not implemented"
 	return ""
 }
+
+// Skip deprecation error detection for warehouse destinations

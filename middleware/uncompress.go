@@ -24,21 +24,6 @@ type gzipReader struct {
 	zerr error         // any error from gzip.NewReader; sticky
 }
 
-func (gz *gzipReader) Read(p []byte) (n int, err error) {
-	if gz.zr == nil {
-		if gz.zerr == nil {
-			gz.zr, gz.zerr = gzip.NewReader(gz.body)
-		}
-		if gz.zerr != nil {
-			return 0, gz.zerr
-		}
-	}
-	return gz.zr.Read(p)
-}
+func (gz *gzipReader) Read(p []byte) (n int, err error) { _ = "STUB: not implemented"; return 0, nil }
 
-func (gz *gzipReader) Close() error {
-	if gz.zr != nil {
-		_ = gz.zr.Close()
-	}
-	return gz.body.Close()
-}
+func (gz *gzipReader) Close() error { _ = "STUB: not implemented"; return nil }

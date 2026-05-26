@@ -3,12 +3,8 @@ package common
 import (
 	"context"
 	stdjson "encoding/json"
-	"net/http"
 	"sync"
 	"time"
-
-	"github.com/rudderlabs/rudder-go-kit/config"
-	"github.com/rudderlabs/rudder-go-kit/jsonrs"
 
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
 	"github.com/rudderlabs/rudder-server/jobsdb"
@@ -30,24 +26,23 @@ type SimpleAsyncDestinationManager struct {
 }
 
 func (m SimpleAsyncDestinationManager) Upload(ctx context.Context, asyncDestStruct *AsyncDestinationStruct) AsyncUploadOutput {
-	return m.UploaderAndTransformer.Upload(ctx, asyncDestStruct)
+	_ = "STUB: not implemented"
+	return *new(AsyncUploadOutput)
 }
 
 func (m SimpleAsyncDestinationManager) Poll(_ context.Context, _ AsyncPoll) PollStatusResponse {
-	return PollStatusResponse{
-		StatusCode: http.StatusOK,
-		Complete:   true,
-	}
+	_ = "STUB: not implemented"
+	return *new(PollStatusResponse)
 }
 
 func (m SimpleAsyncDestinationManager) GetUploadStats(GetUploadStatsInput) GetUploadStatsResponse {
-	return GetUploadStatsResponse{
-		StatusCode: http.StatusOK,
-	}
+	_ = "STUB: not implemented"
+	return *new(GetUploadStatsResponse)
 }
 
 func (m SimpleAsyncDestinationManager) Transform(job *jobsdb.JobT) (string, error) {
-	return m.UploaderAndTransformer.Transform(job)
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
 type PollStatusResponse struct {
@@ -149,32 +144,16 @@ type GetUploadStatsResponse struct {
 }
 
 func GetMarshalledData(payload string, jobID int64) (string, error) {
-	var asyncJob AsyncJob
-	err := jsonrs.Unmarshal([]byte(payload), &asyncJob.Message)
-	if err != nil {
-		return "", err
-	}
-	asyncJob.Metadata = make(map[string]any)
-	asyncJob.Metadata["job_id"] = jobID
-	responsePayload, err := jsonrs.Marshal(asyncJob)
-	if err != nil {
-		return "", err
-	}
-	return string(responsePayload), nil
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
 func GetBatchRouterConfigInt64(key, destType string, defaultValue int64) int64 {
-	destOverrideFound := config.IsSet("BatchRouter." + destType + "." + key)
-	if destOverrideFound {
-		return config.GetInt64Var(defaultValue, 1, "BatchRouter."+destType+"."+key)
-	}
-	return config.GetInt64Var(defaultValue, 1, "BatchRouter."+key)
+	_ = "STUB: not implemented"
+	return 0
 }
 
 func GetBatchRouterConfigStringMap(key, destType string, defaultValue []string) []string {
-	destOverrideFound := config.IsSet("BatchRouter." + destType + "." + key)
-	if destOverrideFound {
-		return config.GetStringSliceVar(defaultValue, "BatchRouter."+destType+"."+key)
-	}
-	return config.GetStringSliceVar(defaultValue, "BatchRouter."+key)
+	_ = "STUB: not implemented"
+	return nil
 }

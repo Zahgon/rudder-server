@@ -10,8 +10,6 @@
 package mock_oauthV2
 
 import (
-	reflect "reflect"
-
 	identity "github.com/rudderlabs/rudder-server/services/controlplane/identity"
 	gomock "go.uber.org/mock/gomock"
 )
@@ -30,26 +28,25 @@ type MockAuthIdentityProviderMockRecorder struct {
 
 // NewMockAuthIdentityProvider creates a new mock instance.
 func NewMockAuthIdentityProvider(ctrl *gomock.Controller) *MockAuthIdentityProvider {
-	mock := &MockAuthIdentityProvider{ctrl: ctrl}
-	mock.recorder = &MockAuthIdentityProviderMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockAuthIdentityProvider) EXPECT() *MockAuthIdentityProviderMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Identity mocks base method.
+	return nil
 }
 
-// Identity mocks base method.
 func (m *MockAuthIdentityProvider) Identity() identity.Identifier {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Identity")
-	ret0, _ := ret[0].(identity.Identifier)
-	return ret0
+	_ = "STUB: not implemented"
+	return *new(identity.Identifier)
 }
 
 // Identity indicates an expected call of Identity.
 func (mr *MockAuthIdentityProviderMockRecorder) Identity() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Identity", reflect.TypeOf((*MockAuthIdentityProvider)(nil).Identity))
+	_ = "STUB: not implemented"
+	return nil
 }

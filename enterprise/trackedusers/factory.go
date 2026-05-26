@@ -3,7 +3,6 @@ package trackedusers
 import (
 	"github.com/rudderlabs/rudder-go-kit/config"
 	"github.com/rudderlabs/rudder-go-kit/logger"
-	"github.com/rudderlabs/rudder-go-kit/stats"
 )
 
 type Factory struct {
@@ -11,8 +10,6 @@ type Factory struct {
 }
 
 func (f *Factory) Setup(conf *config.Config) (UsersReporter, error) {
-	if !conf.GetBoolVar(false, "TrackedUsers.enabled") {
-		return NewNoopDataCollector(), nil
-	}
-	return NewUniqueUsersReporter(f.Log, conf, stats.Default)
+	_ = "STUB: not implemented"
+	return *new(UsersReporter), nil
 }

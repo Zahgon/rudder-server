@@ -11,7 +11,6 @@ package mocks_gateway
 
 import (
 	context "context"
-	reflect "reflect"
 
 	gomock "go.uber.org/mock/gomock"
 )
@@ -30,27 +29,25 @@ type MockThrottlerMockRecorder struct {
 
 // NewMockThrottler creates a new mock instance.
 func NewMockThrottler(ctrl *gomock.Controller) *MockThrottler {
-	mock := &MockThrottler{ctrl: ctrl}
-	mock.recorder = &MockThrottlerMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockThrottler) EXPECT() *MockThrottlerMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// CheckLimitReached mocks base method.
+	return nil
 }
 
-// CheckLimitReached mocks base method.
 func (m *MockThrottler) CheckLimitReached(arg0 context.Context, workspaceId string, eventCount int64) (bool, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CheckLimitReached", arg0, workspaceId, eventCount)
-	ret0, _ := ret[0].(bool)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return false, nil
 }
 
 // CheckLimitReached indicates an expected call of CheckLimitReached.
 func (mr *MockThrottlerMockRecorder) CheckLimitReached(arg0, workspaceId, eventCount any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckLimitReached", reflect.TypeOf((*MockThrottler)(nil).CheckLimitReached), arg0, workspaceId, eventCount)
+	_ = "STUB: not implemented"
+	return nil
 }

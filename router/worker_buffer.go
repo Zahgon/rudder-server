@@ -38,93 +38,35 @@ type workerBufferStats struct {
 // newWorkerBuffer creates a new worker buffer with the specified maximum size.
 // If stats is provided, it will be used to record buffer metrics.
 func newWorkerBuffer(maxCapacity int, targetCapacity func() int, stats *workerBufferStats) *workerBuffer {
-	if maxCapacity < 1 {
-		maxCapacity = 1
-	}
-	wb := &workerBuffer{
-		maxCapacity:    maxCapacity,
-		targetCapacity: targetCapacity,
-		jobs:           make(chan *workerJob, maxCapacity),
-		stats:          stats,
-	}
-	wb.refreshCapacity()
-	return wb
-}
-
-// newSimpleWorkerBuffer creates a new worker buffer with a fixed capacity and no stats tracking.
-func newSimpleWorkerBuffer(capacity int) *workerBuffer {
-	if capacity < 1 {
-		capacity = 1
-	}
-	wb := &workerBuffer{
-		maxCapacity:    capacity,
-		targetCapacity: func() int { return capacity },
-		jobs:           make(chan *workerJob, capacity),
-		stats:          nil,
-	}
-	wb.refreshCapacity()
-	return wb
-}
-
-func (wb *workerBuffer) Jobs() <-chan *workerJob {
-	return wb.jobs
-}
-
-// refreshCapacity recomputes the buffer's target capacity (clamped to [1, maxCapacity]),
-// updates the cached value used by the AvailableSlots hot path, and observes stats.
-// It is invoked by an external sampler (typically once per second from partitionWorker)
-// and also from the constructor and tests; the returned int is the freshly computed value.
-func (wb *workerBuffer) refreshCapacity() int {
-	capacity := min(max(wb.targetCapacity(), 1), wb.maxCapacity)
-	wb.cachedCapacity.Store(int64(capacity))
-	if wb.stats != nil {
-		wb.stats.onceEvery.Do(func() {
-			wb.stats.currentCapacity.Observe(float64(capacity))
-			wb.stats.currentSize.Observe(float64(len(wb.jobs)))
-		})
-	}
-	return capacity
-}
-
-// AvailableSlots returns the number of available slots in the worker buffer
-func (wb *workerBuffer) AvailableSlots() int {
-	wb.mu.RLock()
-	defer wb.mu.RUnlock()
-	return wb.availableSlots()
-}
-
-func (wb *workerBuffer) availableSlots() int {
-	if wb.closed {
-		return 0
-	}
-	available := int(wb.cachedCapacity.Load()) - wb.reservations - len(wb.jobs)
-	if available < 0 {
-		return 0
-	}
-	return available
-}
-
-// ReserveSlot reserves a slot in the worker buffer if available
-func (wb *workerBuffer) ReserveSlot() *reservedSlot {
-	wb.mu.Lock()
-	defer wb.mu.Unlock()
-	if wb.availableSlots() > 0 {
-		wb.reservations++
-		return &reservedSlot{wb: wb}
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
-// Close closes the worker buffer's job channel
-func (wb *workerBuffer) Close() {
-	wb.mu.Lock()
-	defer wb.mu.Unlock()
-	if wb.closed {
-		return
-	}
-	wb.closed = true
-	close(wb.jobs)
+// newSimpleWorkerBuffer creates a new worker buffer with a fixed capacity and no stats tracking.
+func newSimpleWorkerBuffer(capacity int) *workerBuffer { _ = "STUB: not implemented"; return nil }
+
+func (wb *workerBuffer) Jobs() <-chan *workerJob {
+	_ = "STUB: not implemented"
+
+	// refreshCapacity recomputes the buffer's target capacity (clamped to [1, maxCapacity]),
+	// updates the cached value used by the AvailableSlots hot path, and observes stats.
+	// It is invoked by an external sampler (typically once per second from partitionWorker)
+	// and also from the constructor and tests; the returned int is the freshly computed value.
+	return nil
 }
+
+func (wb *workerBuffer) refreshCapacity() int { _ = "STUB: not implemented"; return 0 }
+
+// AvailableSlots returns the number of available slots in the worker buffer
+func (wb *workerBuffer) AvailableSlots() int { _ = "STUB: not implemented"; return 0 }
+
+func (wb *workerBuffer) availableSlots() int { _ = "STUB: not implemented"; return 0 }
+
+// ReserveSlot reserves a slot in the worker buffer if available
+func (wb *workerBuffer) ReserveSlot() *reservedSlot { _ = "STUB: not implemented"; return nil }
+
+// Close closes the worker buffer's job channel
+func (wb *workerBuffer) Close() { _ = "STUB: not implemented"; return }
 
 // reservedSlot represents a reserved slot in the worker's buffer
 type reservedSlot struct {
@@ -132,18 +74,7 @@ type reservedSlot struct {
 }
 
 // Use sends a job into the worker's buffer
-func (rs *reservedSlot) Use(wj workerJob) {
-	rs.wb.mu.Lock()
-	defer rs.wb.mu.Unlock()
-	rs.wb.reservations--
-	rs.wb.jobs <- &wj
-}
+func (rs *reservedSlot) Use(wj workerJob) { _ = "STUB: not implemented"; return }
 
 // Release releases the reserved slot from the worker's buffer
-func (rs *reservedSlot) Release() {
-	rs.wb.mu.Lock()
-	defer rs.wb.mu.Unlock()
-	if rs.wb.reservations > 0 {
-		rs.wb.reservations--
-	}
-}
+func (rs *reservedSlot) Release() { _ = "STUB: not implemented"; return }

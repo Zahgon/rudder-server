@@ -11,7 +11,6 @@ package mocks_gateway
 
 import (
 	http "net/http"
-	reflect "reflect"
 
 	gomock "go.uber.org/mock/gomock"
 )
@@ -30,50 +29,43 @@ type MockWebhookRequestHandlerMockRecorder struct {
 
 // NewMockWebhookRequestHandler creates a new mock instance.
 func NewMockWebhookRequestHandler(ctrl *gomock.Controller) *MockWebhookRequestHandler {
-	mock := &MockWebhookRequestHandler{ctrl: ctrl}
-	mock.recorder = &MockWebhookRequestHandlerMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockWebhookRequestHandler) EXPECT() *MockWebhookRequestHandlerMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Register mocks base method.
+	return nil
 }
 
-// Register mocks base method.
-func (m *MockWebhookRequestHandler) Register(name string) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Register", name)
-}
+func (m *MockWebhookRequestHandler) Register(name string) { _ = "STUB: not implemented"; return }
 
 // Register indicates an expected call of Register.
 func (mr *MockWebhookRequestHandlerMockRecorder) Register(name any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Register", reflect.TypeOf((*MockWebhookRequestHandler)(nil).Register), name)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // RequestHandler mocks base method.
 func (m *MockWebhookRequestHandler) RequestHandler(w http.ResponseWriter, r *http.Request) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "RequestHandler", w, r)
+	_ = "STUB: not implemented"
+	return
 }
 
 // RequestHandler indicates an expected call of RequestHandler.
 func (mr *MockWebhookRequestHandlerMockRecorder) RequestHandler(w, r any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RequestHandler", reflect.TypeOf((*MockWebhookRequestHandler)(nil).RequestHandler), w, r)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Shutdown mocks base method.
-func (m *MockWebhookRequestHandler) Shutdown() error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Shutdown")
-	ret0, _ := ret[0].(error)
-	return ret0
-}
+func (m *MockWebhookRequestHandler) Shutdown() error { _ = "STUB: not implemented"; return nil }
 
 // Shutdown indicates an expected call of Shutdown.
 func (mr *MockWebhookRequestHandlerMockRecorder) Shutdown() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Shutdown", reflect.TypeOf((*MockWebhookRequestHandler)(nil).Shutdown))
+	_ = "STUB: not implemented"
+	return nil
 }

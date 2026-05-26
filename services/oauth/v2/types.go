@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/rudderlabs/rudder-server/services/controlplane/identity"
-	"github.com/rudderlabs/rudder-server/utils/misc"
 )
 
 // OAuthToken is the access token returned by the oauth server
@@ -16,20 +15,12 @@ type OAuthToken struct {
 	Secret         json.RawMessage `json:"secret"`
 }
 
-func (at *OAuthToken) IsEmpty() bool {
-	return at.Secret == nil || string(at.Secret) == `{}` || string(at.Secret) == "\"\"" || string(at.Secret) == "null"
-}
+func (at *OAuthToken) IsEmpty() bool { _ = "STUB: not implemented"; return false }
 
 // Expires returns true if the token expiration date is not empty, it is a valid RFC3339 timestamp and will expire after the given duration
 func (at *OAuthToken) Expires(after time.Duration) (bool, error) {
-	if at.ExpirationDate == "" {
-		return false, nil
-	}
-	expirationDate, err := time.Parse(misc.RFC3339Milli, at.ExpirationDate)
-	if err != nil {
-		return false, err
-	}
-	return expirationDate.Before(time.Now().Add(after)), nil
+	_ = "STUB: not implemented"
+	return false, nil
 }
 
 type AuthIdentityProvider interface {

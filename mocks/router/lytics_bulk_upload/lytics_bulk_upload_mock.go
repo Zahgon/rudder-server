@@ -10,8 +10,6 @@
 package mocks
 
 import (
-	reflect "reflect"
-
 	lyticsBulkUpload "github.com/rudderlabs/rudder-server/router/batchrouter/asyncdestinationmanager/lytics_bulk_upload"
 	gomock "go.uber.org/mock/gomock"
 )
@@ -29,42 +27,37 @@ type MockLyticsServiceMockRecorder struct {
 
 // NewMockLyticsService creates a new mock instance.
 func NewMockLyticsService(ctrl *gomock.Controller) *MockLyticsService {
-	mock := &MockLyticsService{ctrl: ctrl}
-	mock.recorder = &MockLyticsServiceMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockLyticsService) EXPECT() *MockLyticsServiceMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// MakeHTTPRequest mocks base method.
+	return nil
 }
 
-// MakeHTTPRequest mocks base method.
 func (m *MockLyticsService) MakeHTTPRequest(arg0 *lyticsBulkUpload.HttpRequestData) ([]byte, int, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "MakeHTTPRequest", arg0)
-	ret0, _ := ret[0].([]byte)
-	ret1, _ := ret[1].(int)
-	ret2, _ := ret[2].(error)
-	return ret0, ret1, ret2
+	_ = "STUB: not implemented"
+	return nil, 0, nil
 }
 
 // MakeHTTPRequest indicates an expected call of MakeHTTPRequest.
 func (mr *MockLyticsServiceMockRecorder) MakeHTTPRequest(arg0 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MakeHTTPRequest", reflect.TypeOf((*MockLyticsService)(nil).MakeHTTPRequest), arg0)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // UploadBulkFile mocks base method.
 func (m *MockLyticsService) UploadBulkFile(arg0 *lyticsBulkUpload.HttpRequestData, arg1 string) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UploadBulkFile", arg0, arg1)
-	ret0, _ := ret[0].(error)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // UploadBulkFile indicates an expected call of UploadBulkFile.
 func (mr *MockLyticsServiceMockRecorder) UploadBulkFile(arg0, arg1 any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UploadBulkFile", reflect.TypeOf((*MockLyticsService)(nil).UploadBulkFile), arg0, arg1)
+	_ = "STUB: not implemented"
+	return nil
 }

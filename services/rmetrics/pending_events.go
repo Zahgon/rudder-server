@@ -1,7 +1,6 @@
 package rmetrics
 
 import (
-	"fmt"
 	"sync"
 
 	"github.com/rudderlabs/rudder-go-kit/stats/metric"
@@ -34,22 +33,12 @@ type PendingEventsRegistry interface {
 type Option func(*pendingEventsRegistry)
 
 // WithPublished creates a registry that writes metrics to the global published metrics registry, without having to call Publish first.
-func WithPublished() Option {
-	return func(per *pendingEventsRegistry) {
-		per.published = true
-		per.registry = metric.Instance.GetRegistry(metric.PublishedMetrics)
-	}
-}
+func WithPublished() Option { _ = "STUB: not implemented"; return *new(Option) }
 
 // NewPendingEventsRegistry creates a new PendingEventsRegistry. By default, metrics are not published to the global published metrics registry, until [Publish] is called.
 func NewPendingEventsRegistry(opts ...Option) PendingEventsRegistry {
-	per := &pendingEventsRegistry{
-		registry: metric.NewRegistry(),
-	}
-	for _, opt := range opts {
-		opt(per)
-	}
-	return per
+	_ = "STUB: not implemented"
+	return *new(PendingEventsRegistry)
 }
 
 type pendingEventsRegistry struct {
@@ -60,69 +49,33 @@ type pendingEventsRegistry struct {
 
 // IncreasePendingEvents increments three gauges, the dest & workspace-specific gauge, plus two aggregate (global) gauges
 func (pem *pendingEventsRegistry) IncreasePendingEvents(tablePrefix, workspaceID, destType, destinationID string, value float64) {
-	pem.registryMu.RLock()
-	defer pem.registryMu.RUnlock()
-
-	pem.PendingEvents(tablePrefix, workspaceID, destType, destinationID).Add(value)
-	pem.PendingEvents(tablePrefix, All, destType, All).Add(value)
-	pem.PendingEvents(tablePrefix, All, All, All).Add(value)
-	pem.registry.MustGetGauge(pendingEventsMeasurementAll{tablePrefix, destType}).Add(value)
-	pem.registry.MustGetGauge(pendingEventsMeasurementAll{tablePrefix, All}).Add(value)
+	_ = "STUB: not implemented"
+	return
 }
 
 // DecreasePendingEvents decrements three gauges, the dest & workspace-specific gauge, plus two aggregate (global) gauges
 func (pem *pendingEventsRegistry) DecreasePendingEvents(tablePrefix, workspaceID, destType, destinationID string, value float64) {
-	pem.registryMu.RLock()
-	defer pem.registryMu.RUnlock()
-	pem.PendingEvents(tablePrefix, workspaceID, destType, destinationID).Sub(value)
-	pem.PendingEvents(tablePrefix, All, destType, All).Sub(value)
-	pem.PendingEvents(tablePrefix, All, All, All).Sub(value)
-	pem.registry.MustGetGauge(pendingEventsMeasurementAll{tablePrefix, destType}).Sub(value)
-	pem.registry.MustGetGauge(pendingEventsMeasurementAll{tablePrefix, All}).Sub(value)
+	_ = "STUB: not implemented"
+	return
 }
 
 // PendingEvents gets the measurement for pending events metric
 func (pem *pendingEventsRegistry) PendingEvents(tablePrefix, workspaceID, destType, destinationID string) metric.Gauge {
-	return pem.registry.MustGetGauge(newPendingEventsMeasurement(tablePrefix, workspaceID, destType, destinationID))
+	_ = "STUB: not implemented"
+	return *new(metric.Gauge)
 }
 
 // Publish publishes the metrics to the global published metrics registry
-func (pem *pendingEventsRegistry) Publish() {
-	pem.registryMu.Lock()
-	defer pem.registryMu.Unlock()
-	if pem.published {
-		return
-	}
-	pem.published = true
+func (pem *pendingEventsRegistry) Publish() { _ = "STUB: not implemented"; return }
 
-	publishedRegistry := metric.Instance.GetRegistry(metric.PublishedMetrics)
-	pem.registry.Range(func(key, value any) bool { // copy all gauge metrics to the published registry
-		m := key.(metric.Measurement)
-		switch value := value.(type) {
-		case metric.Gauge:
-			publishedRegistry.MustGetGauge(m).Set(value.Value())
-		}
-		return true
-	})
-	pem.registry = publishedRegistry
-}
+// copy all gauge metrics to the published registry
 
 // Reset resets the registry to a new, non published one and clears the global published metrics registry
-func (pem *pendingEventsRegistry) Reset() {
-	pem.registryMu.Lock()
-	defer pem.registryMu.Unlock()
-	pem.registry = metric.NewRegistry()
-	pem.published = false
-	metric.Instance.Reset()
-}
+func (pem *pendingEventsRegistry) Reset() { _ = "STUB: not implemented"; return }
 
 func newPendingEventsMeasurement(tablePrefix, workspaceID, destType, destinationID string) metric.Measurement {
-	return pendingEventsMeasurement{
-		tablePrefix:   tablePrefix,
-		workspaceID:   workspaceID,
-		destType:      destType,
-		destinationID: destinationID,
-	}
+	_ = "STUB: not implemented"
+	return *new(metric.Measurement)
 }
 
 type pendingEventsMeasurement struct {
@@ -132,16 +85,11 @@ type pendingEventsMeasurement struct {
 	destinationID string
 }
 
-func (r pendingEventsMeasurement) GetName() string {
-	return fmt.Sprintf(JobsdbPendingEventsCount, r.tablePrefix)
-}
+func (r pendingEventsMeasurement) GetName() string { _ = "STUB: not implemented"; return "" }
 
 func (r pendingEventsMeasurement) GetTags() map[string]string {
-	return map[string]string{
-		"workspaceId":   r.workspaceID,
-		"destType":      r.destType,
-		"destinationId": r.destinationID,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 type pendingEventsMeasurementAll struct {
@@ -149,12 +97,9 @@ type pendingEventsMeasurementAll struct {
 	destType    string
 }
 
-func (r pendingEventsMeasurementAll) GetName() string {
-	return fmt.Sprintf(JobsdbPendingEventsCount, r.tablePrefix) + "_all"
-}
+func (r pendingEventsMeasurementAll) GetName() string { _ = "STUB: not implemented"; return "" }
 
 func (r pendingEventsMeasurementAll) GetTags() map[string]string {
-	return map[string]string{
-		"destType": r.destType,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }

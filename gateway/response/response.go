@@ -1,7 +1,6 @@
 package response
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -131,24 +130,10 @@ type status struct {
 	code    int
 }
 
-func GetStatus(key string) string {
-	if status, ok := statusMap[key]; ok {
-		return status.message
-	}
-	return key
-}
+func GetStatus(key string) string { _ = "STUB: not implemented"; return "" }
 
-func GetPixelResponse() string {
-	return transPixelResponse
-}
+func GetPixelResponse() string { _ = "STUB: not implemented"; return "" }
 
-func GetErrorStatusCode(key string) int {
-	if status, ok := statusMap[key]; ok {
-		return status.code
-	}
-	return http.StatusInternalServerError
-}
+func GetErrorStatusCode(key string) int { _ = "STUB: not implemented"; return 0 }
 
-func MakeResponse(msg string) string {
-	return fmt.Sprintf(`{"msg": %q}`, msg)
-}
+func MakeResponse(msg string) string { _ = "STUB: not implemented"; return "" }

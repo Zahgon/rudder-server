@@ -11,7 +11,6 @@ package mock_kinesis
 
 import (
 	context "context"
-	reflect "reflect"
 
 	kinesis "github.com/aws/aws-sdk-go-v2/service/kinesis"
 	gomock "go.uber.org/mock/gomock"
@@ -31,32 +30,25 @@ type MockKinesisClientMockRecorder struct {
 
 // NewMockKinesisClient creates a new mock instance.
 func NewMockKinesisClient(ctrl *gomock.Controller) *MockKinesisClient {
-	mock := &MockKinesisClient{ctrl: ctrl}
-	mock.recorder = &MockKinesisClientMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockKinesisClient) EXPECT() *MockKinesisClientMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// PutRecord mocks base method.
+	return nil
 }
 
-// PutRecord mocks base method.
 func (m *MockKinesisClient) PutRecord(ctx context.Context, input *kinesis.PutRecordInput, opts ...func(*kinesis.Options)) (*kinesis.PutRecordOutput, error) {
-	m.ctrl.T.Helper()
-	varargs := []any{ctx, input}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "PutRecord", varargs...)
-	ret0, _ := ret[0].(*kinesis.PutRecordOutput)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // PutRecord indicates an expected call of PutRecord.
 func (mr *MockKinesisClientMockRecorder) PutRecord(ctx, input any, opts ...any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{ctx, input}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutRecord", reflect.TypeOf((*MockKinesisClient)(nil).PutRecord), varargs...)
+	_ = "STUB: not implemented"
+	return nil
 }

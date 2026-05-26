@@ -7,11 +7,11 @@
 package proto
 
 import (
+	sync "sync"
+
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
-	reflect "reflect"
-	sync "sync"
 )
 
 const (
@@ -34,58 +34,28 @@ type StreamJobsRequest struct {
 	Payload isStreamJobsRequest_Payload `protobuf_oneof:"payload"`
 }
 
-func (x *StreamJobsRequest) Reset() {
-	*x = StreamJobsRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_cluster_cluster_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *StreamJobsRequest) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *StreamJobsRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *StreamJobsRequest) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*StreamJobsRequest) ProtoMessage() {}
+func (*StreamJobsRequest) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *StreamJobsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_cluster_cluster_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use StreamJobsRequest.ProtoReflect.Descriptor instead.
-func (*StreamJobsRequest) Descriptor() ([]byte, []int) {
-	return file_proto_cluster_cluster_proto_rawDescGZIP(), []int{0}
-}
+func (*StreamJobsRequest) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
 func (m *StreamJobsRequest) GetPayload() isStreamJobsRequest_Payload {
-	if m != nil {
-		return m.Payload
-	}
-	return nil
+	_ = "STUB: not implemented"
+	return *new(isStreamJobsRequest_Payload)
 }
 
-func (x *StreamJobsRequest) GetMetadata() *JobStreamMetadata {
-	if x, ok := x.GetPayload().(*StreamJobsRequest_Metadata); ok {
-		return x.Metadata
-	}
-	return nil
-}
+func (x *StreamJobsRequest) GetMetadata() *JobStreamMetadata { _ = "STUB: not implemented"; return nil }
 
-func (x *StreamJobsRequest) GetChunk() *JobsBatchChunk {
-	if x, ok := x.GetPayload().(*StreamJobsRequest_Chunk); ok {
-		return x.Chunk
-	}
-	return nil
-}
+func (x *StreamJobsRequest) GetChunk() *JobsBatchChunk { _ = "STUB: not implemented"; return nil }
 
 type isStreamJobsRequest_Payload interface {
 	isStreamJobsRequest_Payload()
@@ -99,11 +69,15 @@ type StreamJobsRequest_Chunk struct {
 	Chunk *JobsBatchChunk `protobuf:"bytes,2,opt,name=chunk,proto3,oneof"`
 }
 
-func (*StreamJobsRequest_Metadata) isStreamJobsRequest_Payload() {}
+func (*StreamJobsRequest_Metadata) isStreamJobsRequest_Payload() { _ = "STUB: not implemented"; return }
 
-func (*StreamJobsRequest_Chunk) isStreamJobsRequest_Payload() {}
+func (*StreamJobsRequest_Chunk) isStreamJobsRequest_Payload() {
+	_ = "STUB: not implemented"
 
-// Acknowledgment message for job batches being persisted
+	// Acknowledgment message for job batches being persisted
+	return
+}
+
 type JobsBatchAck struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -112,44 +86,21 @@ type JobsBatchAck struct {
 	BatchIndex int64 `protobuf:"varint,1,opt,name=batchIndex,proto3" json:"batchIndex,omitempty"`
 }
 
-func (x *JobsBatchAck) Reset() {
-	*x = JobsBatchAck{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_cluster_cluster_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *JobsBatchAck) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *JobsBatchAck) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *JobsBatchAck) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*JobsBatchAck) ProtoMessage() {}
+func (*JobsBatchAck) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *JobsBatchAck) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_cluster_cluster_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use JobsBatchAck.ProtoReflect.Descriptor instead.
-func (*JobsBatchAck) Descriptor() ([]byte, []int) {
-	return file_proto_cluster_cluster_proto_rawDescGZIP(), []int{1}
-}
+func (*JobsBatchAck) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (x *JobsBatchAck) GetBatchIndex() int64 {
-	if x != nil {
-		return x.BatchIndex
-	}
-	return 0
-}
+func (x *JobsBatchAck) GetBatchIndex() int64 { _ = "STUB: not implemented"; return 0 }
 
 // The setup metadata for preparing the stream, should be the first message of the stream
 type JobStreamMetadata struct {
@@ -162,58 +113,25 @@ type JobStreamMetadata struct {
 	PartitionIds   []string `protobuf:"bytes,3,rep,name=partitionIds,proto3" json:"partitionIds,omitempty"`
 }
 
-func (x *JobStreamMetadata) Reset() {
-	*x = JobStreamMetadata{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_cluster_cluster_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *JobStreamMetadata) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *JobStreamMetadata) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *JobStreamMetadata) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*JobStreamMetadata) ProtoMessage() {}
+func (*JobStreamMetadata) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *JobStreamMetadata) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_cluster_cluster_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use JobStreamMetadata.ProtoReflect.Descriptor instead.
-func (*JobStreamMetadata) Descriptor() ([]byte, []int) {
-	return file_proto_cluster_cluster_proto_rawDescGZIP(), []int{2}
-}
+func (*JobStreamMetadata) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (x *JobStreamMetadata) GetMigrationJobId() string {
-	if x != nil {
-		return x.MigrationJobId
-	}
-	return ""
-}
+func (x *JobStreamMetadata) GetMigrationJobId() string { _ = "STUB: not implemented"; return "" }
 
-func (x *JobStreamMetadata) GetTablePrefix() string {
-	if x != nil {
-		return x.TablePrefix
-	}
-	return ""
-}
+func (x *JobStreamMetadata) GetTablePrefix() string { _ = "STUB: not implemented"; return "" }
 
-func (x *JobStreamMetadata) GetPartitionIds() []string {
-	if x != nil {
-		return x.PartitionIds
-	}
-	return nil
-}
+func (x *JobStreamMetadata) GetPartitionIds() []string { _ = "STUB: not implemented"; return nil }
 
 // A chunk of jobs being sent in the stream
 type JobsBatchChunk struct {
@@ -226,58 +144,25 @@ type JobsBatchChunk struct {
 	Jobs       []*Job `protobuf:"bytes,3,rep,name=jobs,proto3" json:"jobs,omitempty"`              // List of jobs in this chunk
 }
 
-func (x *JobsBatchChunk) Reset() {
-	*x = JobsBatchChunk{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_cluster_cluster_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *JobsBatchChunk) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *JobsBatchChunk) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *JobsBatchChunk) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*JobsBatchChunk) ProtoMessage() {}
+func (*JobsBatchChunk) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *JobsBatchChunk) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_cluster_cluster_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use JobsBatchChunk.ProtoReflect.Descriptor instead.
-func (*JobsBatchChunk) Descriptor() ([]byte, []int) {
-	return file_proto_cluster_cluster_proto_rawDescGZIP(), []int{3}
-}
+func (*JobsBatchChunk) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (x *JobsBatchChunk) GetBatchIndex() int64 {
-	if x != nil {
-		return x.BatchIndex
-	}
-	return 0
-}
+func (x *JobsBatchChunk) GetBatchIndex() int64 { _ = "STUB: not implemented"; return 0 }
 
-func (x *JobsBatchChunk) GetLastChunk() bool {
-	if x != nil {
-		return x.LastChunk
-	}
-	return false
-}
+func (x *JobsBatchChunk) GetLastChunk() bool { _ = "STUB: not implemented"; return false }
 
-func (x *JobsBatchChunk) GetJobs() []*Job {
-	if x != nil {
-		return x.Jobs
-	}
-	return nil
-}
+func (x *JobsBatchChunk) GetJobs() []*Job { _ = "STUB: not implemented"; return nil }
 
 // Representation of a JobsDB job
 type Job struct {
@@ -298,114 +183,41 @@ type Job struct {
 	PartitionId  string                 `protobuf:"bytes,11,opt,name=partitionId,proto3" json:"partitionId,omitempty"`
 }
 
-func (x *Job) Reset() {
-	*x = Job{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_cluster_cluster_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *Job) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *Job) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *Job) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*Job) ProtoMessage() {}
+func (*Job) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *Job) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_cluster_cluster_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use Job.ProtoReflect.Descriptor instead.
-func (*Job) Descriptor() ([]byte, []int) {
-	return file_proto_cluster_cluster_proto_rawDescGZIP(), []int{4}
-}
+func (*Job) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (x *Job) GetUuid() []byte {
-	if x != nil {
-		return x.Uuid
-	}
-	return nil
-}
+func (x *Job) GetUuid() []byte { _ = "STUB: not implemented"; return nil }
 
-func (x *Job) GetJobID() int64 {
-	if x != nil {
-		return x.JobID
-	}
-	return 0
-}
+func (x *Job) GetJobID() int64 { _ = "STUB: not implemented"; return 0 }
 
-func (x *Job) GetUserId() string {
-	if x != nil {
-		return x.UserId
-	}
-	return ""
-}
+func (x *Job) GetUserId() string { _ = "STUB: not implemented"; return "" }
 
-func (x *Job) GetCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CreatedAt
-	}
-	return nil
-}
+func (x *Job) GetCreatedAt() *timestamppb.Timestamp { _ = "STUB: not implemented"; return nil }
 
-func (x *Job) GetExpireAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.ExpireAt
-	}
-	return nil
-}
+func (x *Job) GetExpireAt() *timestamppb.Timestamp { _ = "STUB: not implemented"; return nil }
 
-func (x *Job) GetCustomVal() string {
-	if x != nil {
-		return x.CustomVal
-	}
-	return ""
-}
+func (x *Job) GetCustomVal() string { _ = "STUB: not implemented"; return "" }
 
-func (x *Job) GetEventCount() int64 {
-	if x != nil {
-		return x.EventCount
-	}
-	return 0
-}
+func (x *Job) GetEventCount() int64 { _ = "STUB: not implemented"; return 0 }
 
-func (x *Job) GetEventPayload() []byte {
-	if x != nil {
-		return x.EventPayload
-	}
-	return nil
-}
+func (x *Job) GetEventPayload() []byte { _ = "STUB: not implemented"; return nil }
 
-func (x *Job) GetParameters() []byte {
-	if x != nil {
-		return x.Parameters
-	}
-	return nil
-}
+func (x *Job) GetParameters() []byte { _ = "STUB: not implemented"; return nil }
 
-func (x *Job) GetWorkspaceId() string {
-	if x != nil {
-		return x.WorkspaceId
-	}
-	return ""
-}
+func (x *Job) GetWorkspaceId() string { _ = "STUB: not implemented"; return "" }
 
-func (x *Job) GetPartitionId() string {
-	if x != nil {
-		return x.PartitionId
-	}
-	return ""
-}
+func (x *Job) GetPartitionId() string { _ = "STUB: not implemented"; return "" }
 
 var File_proto_cluster_cluster_proto protoreflect.FileDescriptor
 
@@ -479,12 +291,7 @@ var (
 	file_proto_cluster_cluster_proto_rawDescData = file_proto_cluster_cluster_proto_rawDesc
 )
 
-func file_proto_cluster_cluster_proto_rawDescGZIP() []byte {
-	file_proto_cluster_cluster_proto_rawDescOnce.Do(func() {
-		file_proto_cluster_cluster_proto_rawDescData = protoimpl.X.CompressGZIP(file_proto_cluster_cluster_proto_rawDescData)
-	})
-	return file_proto_cluster_cluster_proto_rawDescData
-}
+func file_proto_cluster_cluster_proto_rawDescGZIP() []byte { _ = "STUB: not implemented"; return nil }
 
 var file_proto_cluster_cluster_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_proto_cluster_cluster_proto_goTypes = []interface{}{
@@ -510,93 +317,5 @@ var file_proto_cluster_cluster_proto_depIdxs = []int32{
 	0, // [0:5] is the sub-list for field type_name
 }
 
-func init() { file_proto_cluster_cluster_proto_init() }
-func file_proto_cluster_cluster_proto_init() {
-	if File_proto_cluster_cluster_proto != nil {
-		return
-	}
-	if !protoimpl.UnsafeEnabled {
-		file_proto_cluster_cluster_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*StreamJobsRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_cluster_cluster_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*JobsBatchAck); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_cluster_cluster_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*JobStreamMetadata); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_cluster_cluster_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*JobsBatchChunk); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_cluster_cluster_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Job); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-	}
-	file_proto_cluster_cluster_proto_msgTypes[0].OneofWrappers = []interface{}{
-		(*StreamJobsRequest_Metadata)(nil),
-		(*StreamJobsRequest_Chunk)(nil),
-	}
-	type x struct{}
-	out := protoimpl.TypeBuilder{
-		File: protoimpl.DescBuilder{
-			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_proto_cluster_cluster_proto_rawDesc,
-			NumEnums:      0,
-			NumMessages:   5,
-			NumExtensions: 0,
-			NumServices:   1,
-		},
-		GoTypes:           file_proto_cluster_cluster_proto_goTypes,
-		DependencyIndexes: file_proto_cluster_cluster_proto_depIdxs,
-		MessageInfos:      file_proto_cluster_cluster_proto_msgTypes,
-	}.Build()
-	File_proto_cluster_cluster_proto = out.File
-	file_proto_cluster_cluster_proto_rawDesc = nil
-	file_proto_cluster_cluster_proto_goTypes = nil
-	file_proto_cluster_cluster_proto_depIdxs = nil
-}
+func init()                                  { file_proto_cluster_cluster_proto_init() }
+func file_proto_cluster_cluster_proto_init() { _ = "STUB: not implemented"; return }

@@ -10,9 +10,6 @@ import (
 	"github.com/rudderlabs/rudder-go-kit/stats"
 
 	"github.com/rudderlabs/rudder-server/processor/internal/transformer/destination_transformer"
-	"github.com/rudderlabs/rudder-server/processor/internal/transformer/sourcehydration"
-	"github.com/rudderlabs/rudder-server/processor/internal/transformer/trackingplan_validation"
-	"github.com/rudderlabs/rudder-server/processor/internal/transformer/user_transformer"
 	"github.com/rudderlabs/rudder-server/processor/types"
 	transformerfs "github.com/rudderlabs/rudder-server/services/transformer"
 )
@@ -51,36 +48,33 @@ type TransformerClients interface {
 
 // WithFeatureService is used to set the feature service for the destination transformer.
 func WithFeatureService(featuresService transformerfs.FeaturesService) func(*opts) {
-	return func(o *opts) {
-		o.destinationOpts = append(o.destinationOpts, destination_transformer.WithFeatureService(featuresService))
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // NewClients creates a new instance of TransformerClients.
 func NewClients(conf *config.Config, log logger.Logger, statsFactory stats.Stats, options ...func(*opts)) TransformerClients {
-	var opts opts
-	for _, option := range options {
-		option(&opts)
-	}
-	return &Clients{
-		user:         user_transformer.New(conf, log, statsFactory),
-		userMirror:   user_transformer.New(conf, log, statsFactory, user_transformer.ForMirroring()),
-		destination:  destination_transformer.New(conf, log, statsFactory, opts.destinationOpts...),
-		trackingplan: trackingplan_validation.New(conf, log, statsFactory),
-		srcHydration: sourcehydration.New(conf, log, statsFactory),
-	}
+	_ = "STUB: not implemented"
+	return *new(TransformerClients)
 }
 
-func (c *Clients) User() UserClient { return c.user }
+func (c *Clients) User() UserClient { _ = "STUB: not implemented"; return *new(UserClient) }
 
-func (c *Clients) UserMirror() UserClient { return c.userMirror }
+func (c *Clients) UserMirror() UserClient { _ = "STUB: not implemented"; return *new(UserClient) }
 
-func (c *Clients) Destination() DestinationClient { return c.destination }
+func (c *Clients) Destination() DestinationClient {
+	_ = "STUB: not implemented"
+	return *new(DestinationClient)
+}
 
-func (c *Clients) TrackingPlan() TrackingPlanClient { return c.trackingplan }
+func (c *Clients) TrackingPlan() TrackingPlanClient {
+	_ = "STUB: not implemented"
+	return *new(TrackingPlanClient)
+}
 
 func (c *Clients) SrcHydration() SrcHydrationClient {
-	return c.srcHydration
+	_ = "STUB: not implemented"
+	return *new(SrcHydrationClient)
 }
 
 type opts struct {

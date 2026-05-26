@@ -15,5 +15,6 @@ type Client = internal.Client
 type Opt = internal.Opt
 
 func New(conf *config.Config, log logger.Logger, stat stats.Stats, opts ...Opt) *Client {
-	return internal.New(conf, log, stat, opts...)
+	_ = "STUB: not implemented"
+	return nil
 }

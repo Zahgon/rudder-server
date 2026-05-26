@@ -31,13 +31,13 @@ type Zip struct{}
 
 // NewZip returns a Zip instance
 func NewZip() ZipI {
-	return &Zip{}
+	_ = "STUB: not implemented"
+
+	// NewWriter returns a new Writer writing a zip file to w.
+	return *new(ZipI)
 }
 
-// NewWriter returns a new Writer writing a zip file to w.
-func (*Zip) NewWriter(w io.Writer) *zip.Writer {
-	return zip.NewWriter(w)
-}
+func (*Zip) NewWriter(w io.Writer) *zip.Writer { _ = "STUB: not implemented"; return nil }
 
 // FileInfoHeader creates a partially-populated FileHeader from an
 // os.FileInfo.
@@ -47,10 +47,13 @@ func (*Zip) NewWriter(w io.Writer) *zip.Writer {
 // If compression is desired, callers should set the FileHeader.Method
 // field; it is unset by default.
 func (*Zip) FileInfoHeader(fi os.FileInfo) (*zip.FileHeader, error) {
-	return zip.FileInfoHeader(fi)
+	_ = "STUB: not implemented"
+	return nil, nil
+
+	// OpenReader will open the Zip file specified by name and return a ReadCloser.
 }
 
-// OpenReader will open the Zip file specified by name and return a ReadCloser.
 func (*Zip) OpenReader(name string) (*zip.ReadCloser, error) {
-	return zip.OpenReader(name)
+	_ = "STUB: not implemented"
+	return nil, nil
 }

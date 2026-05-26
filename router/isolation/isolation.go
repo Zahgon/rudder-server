@@ -2,16 +2,11 @@ package isolation
 
 import (
 	"context"
-	"errors"
 	"sync"
-
-	"github.com/samber/lo"
 
 	"github.com/rudderlabs/rudder-go-kit/config"
 
 	"github.com/rudderlabs/rudder-server/jobsdb"
-	throttlerconfig "github.com/rudderlabs/rudder-server/router/throttler/config"
-	"github.com/rudderlabs/rudder-server/router/types"
 )
 
 type Mode string
@@ -24,27 +19,8 @@ const (
 
 // GetStrategy returns the strategy for the given isolation mode. An error is returned if the mode is invalid
 func GetStrategy(mode Mode, destType string, partitionFilter func(destinationID string) bool, c *config.Config) (Strategy, error) {
-	switch mode {
-	case ModeNone:
-		return noneStrategy{}, nil
-	case ModeWorkspace:
-		return workspaceStrategy{customVal: destType}, nil
-	case ModeDestination:
-		return &destinationStrategy{
-			config: c,
-			pickupQueryThrottlingEnabled: c.GetReloadableBoolVar(true,
-				"Router.throttler."+destType+".pickupQueryThrottlingEnabled",
-				"Router.throttler.pickupQueryThrottlingEnabled",
-				"Router."+destType+".pickupQueryThrottlingEnabled",
-				"Router.pickupQueryThrottlingEnabled",
-			),
-			destinationFilter:           partitionFilter,
-			destType:                    destType,
-			throttlerPerEventTypeConfig: make(map[string]config.ValueLoader[bool]),
-		}, nil
-	default:
-		return noneStrategy{}, errors.New("unsupported isolation mode")
-	}
+	_ = "STUB: not implemented"
+	return *new(Strategy), nil
 }
 
 // Strategy defines the operations that every different isolation strategy in processor must implement
@@ -65,52 +41,59 @@ type Strategy interface {
 type noneStrategy struct{}
 
 func (noneStrategy) ActivePartitions(_ context.Context, _ jobsdb.JobsDB) ([]string, error) {
-	return []string{""}, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (noneStrategy) AugmentQueryParams(_ string, _ *jobsdb.GetQueryParams) {
+	_ = "STUB: not implemented"
 	// no-op
+	return
 }
 
-func (noneStrategy) StopIteration(_ error, _ string) bool {
-	return false
-}
+func (noneStrategy) StopIteration(_ error, _ string) bool { _ = "STUB: not implemented"; return false }
 
-func (noneStrategy) StopQueries(_ error, _ string) bool {
-	return false
-}
+func (noneStrategy) StopQueries(_ error, _ string) bool { _ = "STUB: not implemented"; return false }
 
 func (noneStrategy) SupportsPickupQueryThrottling() bool {
+	_ = "STUB: not implemented"
+
+	// workspaceStrategy implements isolation at workspace level
 	return false
 }
 
-// workspaceStrategy implements isolation at workspace level
 type workspaceStrategy struct {
 	customVal string
 }
 
 // ActivePartitions returns the list of active workspaceIDs in jobsdb
 func (ws workspaceStrategy) ActivePartitions(ctx context.Context, db jobsdb.JobsDB) ([]string, error) {
-	return db.GetDistinctParameterValues(ctx, jobsdb.WorkspaceID, ws.customVal)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (workspaceStrategy) AugmentQueryParams(partition string, params *jobsdb.GetQueryParams) {
-	params.WorkspaceID = partition
+	_ = "STUB: not implemented"
+	return
 }
 
 func (workspaceStrategy) StopIteration(_ error, _ string) bool {
+	_ = "STUB: not implemented"
 	return false
 }
 
 func (workspaceStrategy) StopQueries(_ error, _ string) bool {
+	_ = "STUB: not implemented"
 	return false
 }
 
 func (workspaceStrategy) SupportsPickupQueryThrottling() bool {
+	_ = "STUB: not implemented"
+
+	// destinationStrategy implements isolation at destination level
 	return false
 }
 
-// destinationStrategy implements isolation at destination level
 type destinationStrategy struct {
 	config                        *config.Config
 	pickupQueryThrottlingEnabled  config.ValueLoader[bool]
@@ -122,46 +105,34 @@ type destinationStrategy struct {
 
 // ActivePartitions returns the list of active destinationIDs in jobsdb
 func (ds *destinationStrategy) ActivePartitions(ctx context.Context, db jobsdb.JobsDB) ([]string, error) {
-	unfiltered, err := db.GetDistinctParameterValues(ctx, jobsdb.DestinationID, "")
-	if err != nil {
-		return nil, err
-	}
-	return lo.Filter(unfiltered, func(destinationID string, _ int) bool {
-		return ds.destinationFilter(destinationID)
-	}), nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // AugmentQueryParams augments the given GetQueryParamsT by adding the partition as sourceID parameter filter
 func (*destinationStrategy) AugmentQueryParams(partition string, params *jobsdb.GetQueryParams) {
-	params.ParameterFilters = append(params.ParameterFilters, jobsdb.ParameterFilterT{Name: "destination_id", Value: partition})
+	_ = "STUB: not implemented"
+	return
 }
 
 // StopIteration returns true if the error is ErrDestinationThrottled
 func (ds *destinationStrategy) StopIteration(err error, destinationID string) bool {
-	return errors.Is(err, types.ErrDestinationThrottled) && !ds.hasDestinationThrottlerPerEventType(destinationID)
+	_ = "STUB: not implemented"
+	return false
 }
 
 // StopQueries returns true if the error is ErrDestinationThrottled and throttlerPerEventType is enabled for the destination
 func (ds *destinationStrategy) StopQueries(err error, destinationID string) bool {
-	return errors.Is(err, types.ErrDestinationThrottled) && ds.hasDestinationThrottlerPerEventType(destinationID)
+	_ = "STUB: not implemented"
+	return false
 }
 
 func (ds *destinationStrategy) SupportsPickupQueryThrottling() bool {
-	return ds.pickupQueryThrottlingEnabled.Load()
+	_ = "STUB: not implemented"
+	return false
 }
 
 func (ds *destinationStrategy) hasDestinationThrottlerPerEventType(destinationID string) bool {
-	ds.throttlerPerEventTypeConfigMu.RLock()
-	throttlerPerEventTypeConfig, ok := ds.throttlerPerEventTypeConfig[destinationID]
-	ds.throttlerPerEventTypeConfigMu.RUnlock()
-	if !ok {
-		ds.throttlerPerEventTypeConfigMu.Lock()
-		throttlerPerEventTypeConfig, ok = ds.throttlerPerEventTypeConfig[destinationID]
-		if !ok {
-			throttlerPerEventTypeConfig = throttlerconfig.ThrottlerPerEventTypeEnabled(ds.config, ds.destType, destinationID)
-			ds.throttlerPerEventTypeConfig[destinationID] = throttlerPerEventTypeConfig
-		}
-		ds.throttlerPerEventTypeConfigMu.Unlock()
-	}
-	return throttlerPerEventTypeConfig.Load()
+	_ = "STUB: not implemented"
+	return false
 }

@@ -1,11 +1,6 @@
 package model
 
 import (
-	"strings"
-
-	"github.com/rudderlabs/rudder-go-kit/jsonrs"
-
-	"github.com/rudderlabs/rudder-server/warehouse/integrations/snowflake"
 	whutils "github.com/rudderlabs/rudder-server/warehouse/utils"
 )
 
@@ -84,51 +79,19 @@ type (
 	}
 )
 
-func (c *ChannelResponse) UnmarshalJSON(data []byte) error {
-	type Alias ChannelResponse // Prevent recursion
-	temp := &struct {
-		TableSchema map[string]ColumnInfo `json:"tableSchema"`
-		*Alias
-	}{
-		Alias: (*Alias)(c),
-	}
-	if err := jsonrs.Unmarshal(data, &temp); err != nil {
-		return err
-	}
-	c.SnowpipeSchema = generateSnowpipeSchema(temp.TableSchema)
-	return nil
-}
+func (c *ChannelResponse) UnmarshalJSON(data []byte) error { _ = "STUB: not implemented"; return nil }
+
+// Prevent recursion
 
 func generateSnowpipeSchema(tableSchema map[string]ColumnInfo) whutils.ModelTableSchema {
-	if len(tableSchema) == 0 {
-		return nil
-	}
-
-	warehouseSchema := make(whutils.ModelTableSchema)
-	for column, info := range tableSchema {
-		if info.Type == nil {
-			continue
-		}
-
-		numericScale := int64(0)
-		if info.Scale != nil {
-			numericScale = int64(*info.Scale)
-		}
-
-		dataType := cleanDataType(*info.Type)
-		snowflakeDataType, ok := snowflake.CalculateDataType(dataType, numericScale)
-		if !ok {
-			continue
-		}
-		warehouseSchema[column] = snowflakeDataType
-	}
-	return warehouseSchema
+	_ = "STUB: not implemented"
+	return *new(whutils.ModelTableSchema)
 }
 
 func cleanDataType(input string) string {
+	_ = "STUB: not implemented"
 	// Extract the portion before the first '('
-	if before, _, ok := strings.Cut(input, "("); ok {
-		return before
-	}
-	return input // Return as-is if no '(' is found
+	return ""
 }
+
+// Return as-is if no '(' is found

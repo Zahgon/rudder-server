@@ -6,7 +6,6 @@ import (
 	"github.com/rudderlabs/rudder-go-kit/stats"
 
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
-	"github.com/rudderlabs/rudder-server/utils/misc"
 )
 
 type ContextKey string
@@ -51,9 +50,7 @@ type AuthRequestContext struct {
 	}
 }
 
-func (arctx *AuthRequestContext) SourceTag() string {
-	return misc.GetTagName(arctx.WriteKey, arctx.SourceName)
-}
+func (arctx *AuthRequestContext) SourceTag() string { _ = "STUB: not implemented"; return "" }
 
 type StatReporter interface {
 	Report(s stats.Stats)

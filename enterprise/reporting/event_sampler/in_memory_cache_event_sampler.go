@@ -26,49 +26,15 @@ func NewInMemoryCacheEventSampler(
 	limit config.ValueLoader[int],
 	stats stats.Stats,
 ) (*InMemoryCacheEventSampler, error) {
-	c := cachettl.New[string, bool](cachettl.WithNoRefreshTTL)
-	ctx, cancel := context.WithCancel(ctx)
-
-	es := &InMemoryCacheEventSampler{
-		ctx:    ctx,
-		cancel: cancel,
-		cache:  c,
-		ttl:    ttl,
-		limit:  limit,
-		length: 0,
-		sc:     NewStatsCollector(InMemoryCacheTypeEventSampler, module, stats),
-	}
-
-	es.cache.OnEvicted(func(key string, value bool) {
-		es.length--
-	})
-
-	return es, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (es *InMemoryCacheEventSampler) Get(key string) (bool, error) {
-	start := time.Now()
-	defer es.sc.RecordGetDuration(start)
-	es.sc.RecordGet()
-
-	value := es.cache.Get(key)
-	return value, nil
+	_ = "STUB: not implemented"
+	return false, nil
 }
 
-func (es *InMemoryCacheEventSampler) Put(key string) error {
-	if es.length >= es.limit.Load() {
-		return nil
-	}
+func (es *InMemoryCacheEventSampler) Put(key string) error { _ = "STUB: not implemented"; return nil }
 
-	start := time.Now()
-	defer es.sc.RecordPutDuration(start)
-	es.sc.RecordPut()
-
-	es.cache.Put(key, true, es.ttl.Load())
-	es.length++
-	return nil
-}
-
-func (es *InMemoryCacheEventSampler) Close() {
-	es.cancel()
-}
+func (es *InMemoryCacheEventSampler) Close() { _ = "STUB: not implemented"; return }

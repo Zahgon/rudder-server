@@ -9,11 +9,9 @@ type priorityPoolKey struct{}
 // should use the priority pool (if configured) instead of the regular
 // connection pool and should bypass reader/writer queues.
 func WithPriorityPool(ctx context.Context) context.Context {
-	return context.WithValue(ctx, priorityPoolKey{}, true)
+	_ = "STUB: not implemented"
+	return *new(context.Context)
 }
 
 // usePriorityPool checks if the context requests priority pool usage
-func usePriorityPool(ctx context.Context) bool {
-	_, ok := ctx.Value(priorityPoolKey{}).(bool)
-	return ok
-}
+func usePriorityPool(ctx context.Context) bool { _ = "STUB: not implemented"; return false }

@@ -3,28 +3,18 @@
 package googlecloudfunction
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
-	"fmt"
-	"io"
 	"net/http"
-	"os"
 	"time"
 
 	"golang.org/x/oauth2"
-	"google.golang.org/api/idtoken"
 	"google.golang.org/api/option"
 
-	"github.com/rudderlabs/rudder-go-kit/config"
-	"github.com/rudderlabs/rudder-go-kit/googleutil"
-	"github.com/rudderlabs/rudder-go-kit/jsonrs"
 	"github.com/rudderlabs/rudder-go-kit/logger"
-	obskit "github.com/rudderlabs/rudder-observability-kit/go/labels"
 
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
 	"github.com/rudderlabs/rudder-server/services/streammanager/common"
-	"github.com/rudderlabs/rudder-server/utils/httputil"
 )
 
 type Config struct {
@@ -36,35 +26,16 @@ type Config struct {
 	TokenTimeout          time.Duration `json:"tokenTimeout"`
 }
 
-func (config *Config) shouldGenerateToken() bool {
-	if !config.RequireAuthentication {
-		return false
-	}
-	if config.Token == nil {
-		return true
-	}
-	return time.Since(config.TokenCreatedAt) > config.TokenTimeout
-}
+func (config *Config) shouldGenerateToken() bool { _ = "STUB: not implemented"; return false }
 
 func (config *Config) generateToken(ctx context.Context, client GoogleCloudFunctionClient) error {
-	confCreds := []byte(config.Credentials)
-	if err := googleutil.CompatibleServiceAccountJSON(confCreds); err != nil {
-		return fmt.Errorf("incompatible credentials: %w", err)
-	}
-	token, err := client.GetToken(ctx, config.FunctionUrl, option.WithAuthCredentialsJSON(option.ServiceAccount, confCreds))
-	if err != nil {
-		return err
-	}
-	config.Token = token
-	config.TokenCreatedAt = time.Now()
+	_ = "STUB: not implemented"
 	return nil
 }
 
 var pkgLogger logger.Logger
 
-func Init() {
-	pkgLogger = logger.NewLogger().Child("streammanager").Child("GoogleCloudFunction")
-}
+func Init() { _ = "STUB: not implemented"; return }
 
 func init() {
 	Init()
@@ -83,96 +54,28 @@ type GoogleCloudFunctionClient interface {
 type GoogleCloudFunctionClientImpl struct{}
 
 func (c *GoogleCloudFunctionClientImpl) GetToken(ctx context.Context, functionUrl string, opts ...option.ClientOption) (*oauth2.Token, error) {
-	ts, err := idtoken.NewTokenSource(ctx, functionUrl, opts...)
-	if err != nil {
-		pkgLogger.Errorn("failed to create NewTokenSource", obskit.Error(err))
-		return nil, err
-	}
-
-	// Get the ID token, to make an authenticated call to the target audience.
-	return ts.Token()
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func getFunctionConfig(fnConfig Config) *Config {
-	fnConfig.TokenTimeout = config.GetDurationVar(55, time.Minute, "google.cloudfunction.token.timeout")
-	return &fnConfig
-}
+// Get the ID token, to make an authenticated call to the target audience.
+
+func getFunctionConfig(fnConfig Config) *Config { _ = "STUB: not implemented"; return nil }
 
 // NewProducer creates a producer based on destination config
 func NewProducer(destination *backendconfig.DestinationT, _ common.Opts) (*GoogleCloudFunctionProducer, error) {
-	var fnConfig Config
-	jsonConfig, err := jsonrs.Marshal(destination.Config)
-	if err != nil {
-		return nil, fmt.Errorf("[GoogleCloudFunction] Error while marshalling destination config: %w", err)
-	}
-	err = jsonrs.Unmarshal(jsonConfig, &fnConfig)
-	if err != nil {
-		return nil, fmt.Errorf("[GoogleCloudFunction] Error in GoogleCloudFunction while unmarshalling destination config: %w", err)
-	}
-
-	client := &GoogleCloudFunctionClientImpl{}
-	destConfig := getFunctionConfig(fnConfig)
-
-	return &GoogleCloudFunctionProducer{
-		httpClient: &http.Client{Timeout: 1 * time.Second},
-		client:     client,
-		config:     destConfig,
-	}, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (producer *GoogleCloudFunctionProducer) Produce(jsonData json.RawMessage, _ any) (statusCode int, respStatus, responseMessage string) {
+	_ = "STUB: not implemented"
 	// Create a POST request
-	req, err := http.NewRequest(http.MethodPost, producer.config.FunctionUrl, bytes.NewReader(jsonData))
-	if err != nil {
-		pkgLogger.Errorn("Failed to create httpRequest for Fn", obskit.Error(err))
-		return http.StatusBadRequest, "Failure", fmt.Sprintf("[GoogleCloudFunction] Failed to create httpRequest for Fn: %s", err.Error())
-	}
-
-	// Set the appropriate headers
-	req.Header.Set("Content-Type", "application/json")
-	if producer.config.shouldGenerateToken() {
-		err := producer.config.generateToken(context.Background(), producer.client)
-		if err != nil {
-			pkgLogger.Errorn("failed to receive token", obskit.Error(err))
-			return http.StatusUnauthorized, "Failure", fmt.Sprintf("[GoogleCloudFunction] Failed to receive token: %s", err.Error())
-		}
-	}
-	if producer.config.RequireAuthentication && producer.config.Token != nil {
-		req.Header.Set("Authorization", "Bearer "+producer.config.Token.AccessToken)
-	}
-
-	// Make the request using the client
-	resp, err := producer.httpClient.Do(req)
-
-	var responseBody []byte
-	if err == nil {
-		defer func() { httputil.CloseResponse(resp) }()
-		responseBody, err = io.ReadAll(resp.Body)
-	}
-
-	if err != nil {
-		if os.IsTimeout(err) {
-			return http.StatusAccepted, "Success", "[GoogleCloudFunction] :: Function is called"
-		}
-		responseMessage = err.Error()
-		respStatus = "Failure"
-		responseMessage = "[GOOGLE_CLOUD_FUNCTION] error :: Function call was not executed " + responseMessage
-		pkgLogger.Errorn("error while calling the function", obskit.Error(err))
-		return http.StatusBadRequest, respStatus, responseMessage
-	}
-
-	if resp.StatusCode == http.StatusOK {
-		respStatus = "Success"
-		responseMessage = "[GoogleCloudFunction] :: Function call is executed"
-	} else {
-		respStatus = "Failure"
-		responseMessage = "[GOOGLE_CLOUD_FUNCTION] error :: Function call failed " + string(responseBody)
-		pkgLogger.Errorn(responseMessage)
-	}
-	return resp.StatusCode, respStatus, responseMessage
+	return 0, "", ""
 }
 
-func (producer *GoogleCloudFunctionProducer) Close() error {
-	producer.httpClient.CloseIdleConnections()
-	return nil
-}
+// Set the appropriate headers
+
+// Make the request using the client
+
+func (producer *GoogleCloudFunctionProducer) Close() error { _ = "STUB: not implemented"; return nil }

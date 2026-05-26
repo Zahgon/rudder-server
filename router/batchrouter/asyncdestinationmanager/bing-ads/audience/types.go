@@ -2,7 +2,6 @@ package audience
 
 import (
 	"encoding/csv"
-	"fmt"
 	"net/http"
 	"os"
 
@@ -72,19 +71,9 @@ type ClientID struct {
 
 // returns the string representation of the clientID struct which is of format
 // jobId<<>>hashedEmail
-func (c *ClientID) ToString() string {
-	return fmt.Sprintf("%d%s%s", c.JobID, clientIDSeparator, c.HashedEmail)
-}
+func (c *ClientID) ToString() string { _ = "STUB: not implemented"; return "" }
 
 func CreateActionFileTemplate(csvFile *os.File, audienceId, actionType string) (*csv.Writer, error) {
-	csvWriter := csv.NewWriter(csvFile)
-	err := csvWriter.WriteAll([][]string{
-		{"Type", "Status", "Id", "Parent Id", "Client Id", "Modified Time", "Name", "Description", "Scope", "Audience", "Action Type", "Sub Type", "Text"},
-		{"Format Version", "", "", "", "", "", "6.0", "", "", "", "", "", ""},
-		{"Customer List", "", audienceId, "", "", "", "", "", "", "", actionType, "", ""},
-	})
-	if err != nil {
-		return nil, fmt.Errorf("error in writing csv header: %v", err)
-	}
-	return csvWriter, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }

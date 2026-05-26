@@ -2,7 +2,6 @@ package manager
 
 import (
 	"context"
-	"fmt"
 
 	"golang.org/x/sync/errgroup"
 
@@ -11,7 +10,6 @@ import (
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
 	"github.com/rudderlabs/rudder-server/router"
 	"github.com/rudderlabs/rudder-server/router/batchrouter"
-	"github.com/rudderlabs/rudder-server/utils/misc"
 )
 
 type LifecycleManager struct {
@@ -26,118 +24,35 @@ type LifecycleManager struct {
 // Start starts a Router, this is not a blocking call.
 // If the router is not completely started and the data started coming then also it will not be problematic as we
 // are assuming that the DBs will be up.
-func (r *LifecycleManager) Start() error {
-	currentCtx, cancel := context.WithCancel(context.Background())
-	r.currentCancel = cancel
-	g, _ := errgroup.WithContext(context.Background())
-	r.waitGroup = g
-	g.Go(func() error {
-		r.monitorDestRouters(currentCtx, r.rt, r.brt)
-		return nil
-	})
-	return nil
-}
+func (r *LifecycleManager) Start() error { _ = "STUB: not implemented"; return nil }
 
 // Stop stops the Router, this is a blocking call.
-func (r *LifecycleManager) Stop() {
-	r.currentCancel()
-	_ = r.waitGroup.Wait()
-}
+func (r *LifecycleManager) Stop() { _ = "STUB: not implemented"; return }
 
 // New creates a new Router instance
 func New(rtFactory *router.Factory, brtFactory *batchrouter.Factory,
 	backendConfig backendconfig.BackendConfig, logger logger.Logger,
 ) *LifecycleManager {
-	return &LifecycleManager{
-		logger:        logger,
-		rt:            rtFactory,
-		brt:           brtFactory,
-		backendConfig: backendConfig,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func cleanUpAsyncDestinationsLogsDir() {
-	localTmpDirName := fmt.Sprintf(`/%s/`, misc.RudderAsyncDestinationLogs)
-
-	tmpDirPath, err := misc.GetTmpDir()
-	if err != nil {
-		return
-	}
-
-	_ = misc.RemoveContents(fmt.Sprintf("%v%v", tmpDirPath, localTmpDirName))
-}
+func cleanUpAsyncDestinationsLogsDir() { _ = "STUB: not implemented"; return }
 
 // Gets the config from config backend and extracts enabled write-keys
 func (r *LifecycleManager) monitorDestRouters(
 	ctx context.Context, routerFactory *router.Factory, batchrouterFactory *batchrouter.Factory,
 ) {
-	ch := r.backendConfig.Subscribe(ctx, backendconfig.TopicBackendConfig)
-	dstToRouter := make(map[string]*router.Handle)
-	dstToBatchRouter := make(map[string]*batchrouter.Handle)
-	cleanup := make([]func(), 0)
-
-	// Crash recover routerDB, batchRouterDB
-	// Note: The following cleanups can take time if there are too many
-	// rt / batch_rt tables and there would be a delay reading from the 'ch' channel
-	// However, this shouldn't be the problem since backend config pushes config
-	// to its subscribers in separate goroutines to prevent blocking.
-	routerFactory.RouterDB.FailExecuting()
-	batchrouterFactory.RouterDB.FailExecuting()
-
-	// Remove all contents of aysnc destinations logs directory
-	cleanUpAsyncDestinationsLogsDir()
-
-loop:
-	for {
-		select {
-		case <-ctx.Done():
-			r.logger.Infon("Router monitor stopped Context Cancelled")
-			break loop
-		case data, open := <-ch:
-			if !open {
-				r.logger.Infon("Router monitor stopped, Config Channel Closed")
-				break loop
-			}
-			config := data.Data.(map[string]backendconfig.ConfigT)
-			for _, wConfig := range config {
-				for i := range wConfig.Sources {
-					source := &wConfig.Sources[i]
-					for k := range source.Destinations {
-						destination := &source.Destinations[k]
-						// For batch router destinations
-						if batchrouter.IsBatchRouterDestination(destination.DestinationDefinition.Name) {
-							_, ok := dstToBatchRouter[destination.DestinationDefinition.Name]
-							if !ok {
-								r.logger.Infon("Starting a new Batch Destination Router",
-									logger.NewStringField("destinationName", destination.DestinationDefinition.Name))
-								brt := batchrouterFactory.New(destination.DestinationDefinition.Name)
-								brt.Start()
-								cleanup = append(cleanup, brt.Shutdown)
-								dstToBatchRouter[destination.DestinationDefinition.Name] = brt
-							}
-						} else {
-							_, ok := dstToRouter[destination.DestinationDefinition.Name]
-							if !ok {
-								r.logger.Infon("Starting a new Destination",
-									logger.NewStringField("destinationName", destination.DestinationDefinition.Name))
-								rt := routerFactory.New(destination)
-								rt.Start()
-								cleanup = append(cleanup, rt.Shutdown)
-								dstToRouter[destination.DestinationDefinition.Name] = rt
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	g, _ := errgroup.WithContext(context.Background())
-	for _, f := range cleanup {
-		g.Go(func() error {
-			f()
-			return nil
-		})
-	}
-	_ = g.Wait()
+	_ = "STUB: not implemented"
+	return
 }
+
+// Crash recover routerDB, batchRouterDB
+// Note: The following cleanups can take time if there are too many
+// rt / batch_rt tables and there would be a delay reading from the 'ch' channel
+// However, this shouldn't be the problem since backend config pushes config
+// to its subscribers in separate goroutines to prevent blocking.
+
+// Remove all contents of aysnc destinations logs directory
+
+// For batch router destinations

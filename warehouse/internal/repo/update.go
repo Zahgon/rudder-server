@@ -15,5 +15,5 @@ type keyValue struct {
 	v any
 }
 
-func (u keyValue) key() string { return u.k }
-func (u keyValue) value() any  { return u.v }
+func (u keyValue) key() string { _ = "STUB: not implemented"; return "" }
+func (u keyValue) value() any  { _ = "STUB: not implemented"; return *new(any) }

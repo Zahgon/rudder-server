@@ -8,9 +8,8 @@ package proto
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
-	codes "google.golang.org/grpc/codes"
-	status "google.golang.org/grpc/status"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
@@ -64,142 +63,83 @@ type warehouseClient struct {
 }
 
 func NewWarehouseClient(cc grpc.ClientConnInterface) WarehouseClient {
-	return &warehouseClient{cc}
+	_ = "STUB: not implemented"
+	return *new(WarehouseClient)
 }
 
 func (c *warehouseClient) GetHealth(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*wrapperspb.BoolValue, error) {
-	out := new(wrapperspb.BoolValue)
-	err := c.cc.Invoke(ctx, Warehouse_GetHealth_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (c *warehouseClient) GetWHUploads(ctx context.Context, in *WHUploadsRequest, opts ...grpc.CallOption) (*WHUploadsResponse, error) {
-	out := new(WHUploadsResponse)
-	err := c.cc.Invoke(ctx, Warehouse_GetWHUploads_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (c *warehouseClient) GetWHUpload(ctx context.Context, in *WHUploadRequest, opts ...grpc.CallOption) (*WHUploadResponse, error) {
-	out := new(WHUploadResponse)
-	err := c.cc.Invoke(ctx, Warehouse_GetWHUpload_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (c *warehouseClient) TriggerWHUpload(ctx context.Context, in *WHUploadRequest, opts ...grpc.CallOption) (*TriggerWhUploadsResponse, error) {
-	out := new(TriggerWhUploadsResponse)
-	err := c.cc.Invoke(ctx, Warehouse_TriggerWHUpload_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (c *warehouseClient) TriggerWHUploads(ctx context.Context, in *WHUploadsRequest, opts ...grpc.CallOption) (*TriggerWhUploadsResponse, error) {
-	out := new(TriggerWhUploadsResponse)
-	err := c.cc.Invoke(ctx, Warehouse_TriggerWHUploads_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (c *warehouseClient) Validate(ctx context.Context, in *WHValidationRequest, opts ...grpc.CallOption) (*WHValidationResponse, error) {
-	out := new(WHValidationResponse)
-	err := c.cc.Invoke(ctx, Warehouse_Validate_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (c *warehouseClient) RetryWHUploads(ctx context.Context, in *RetryWHUploadsRequest, opts ...grpc.CallOption) (*RetryWHUploadsResponse, error) {
-	out := new(RetryWHUploadsResponse)
-	err := c.cc.Invoke(ctx, Warehouse_RetryWHUploads_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (c *warehouseClient) CountWHUploadsToRetry(ctx context.Context, in *RetryWHUploadsRequest, opts ...grpc.CallOption) (*RetryWHUploadsResponse, error) {
-	out := new(RetryWHUploadsResponse)
-	err := c.cc.Invoke(ctx, Warehouse_CountWHUploadsToRetry_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (c *warehouseClient) ValidateObjectStorageDestination(ctx context.Context, in *ValidateObjectStorageRequest, opts ...grpc.CallOption) (*ValidateObjectStorageResponse, error) {
-	out := new(ValidateObjectStorageResponse)
-	err := c.cc.Invoke(ctx, Warehouse_ValidateObjectStorageDestination_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (c *warehouseClient) RetrieveFailedBatches(ctx context.Context, in *RetrieveFailedBatchesRequest, opts ...grpc.CallOption) (*RetrieveFailedBatchesResponse, error) {
-	out := new(RetrieveFailedBatchesResponse)
-	err := c.cc.Invoke(ctx, Warehouse_RetrieveFailedBatches_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (c *warehouseClient) RetryFailedBatches(ctx context.Context, in *RetryFailedBatchesRequest, opts ...grpc.CallOption) (*RetryFailedBatchesResponse, error) {
-	out := new(RetryFailedBatchesResponse)
-	err := c.cc.Invoke(ctx, Warehouse_RetryFailedBatches_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (c *warehouseClient) GetFirstAbortedUploadInContinuousAbortsByDestination(ctx context.Context, in *FirstAbortedUploadInContinuousAbortsByDestinationRequest, opts ...grpc.CallOption) (*FirstAbortedUploadInContinuousAbortsByDestinationResponse, error) {
-	out := new(FirstAbortedUploadInContinuousAbortsByDestinationResponse)
-	err := c.cc.Invoke(ctx, Warehouse_GetFirstAbortedUploadInContinuousAbortsByDestination_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (c *warehouseClient) GetSyncLatency(ctx context.Context, in *SyncLatencyRequest, opts ...grpc.CallOption) (*SyncLatencyResponse, error) {
-	out := new(SyncLatencyResponse)
-	err := c.cc.Invoke(ctx, Warehouse_GetSyncLatency_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (c *warehouseClient) SyncWHSchema(ctx context.Context, in *SyncWHSchemaRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, Warehouse_SyncWHSchema_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (c *warehouseClient) GetDestinationNamespaces(ctx context.Context, in *GetDestinationNamespacesRequest, opts ...grpc.CallOption) (*GetDestinationNamespacesResponse, error) {
-	out := new(GetDestinationNamespacesResponse)
-	err := c.cc.Invoke(ctx, Warehouse_GetDestinationNamespaces_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // WarehouseServer is the server API for Warehouse service.
@@ -229,331 +169,171 @@ type UnimplementedWarehouseServer struct {
 }
 
 func (UnimplementedWarehouseServer) GetHealth(context.Context, *emptypb.Empty) (*wrapperspb.BoolValue, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetHealth not implemented")
+	_ = "STUB: not implemented"
+	return nil, nil
 }
-func (UnimplementedWarehouseServer) GetWHUploads(context.Context, *WHUploadsRequest) (*WHUploadsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetWHUploads not implemented")
-}
-func (UnimplementedWarehouseServer) GetWHUpload(context.Context, *WHUploadRequest) (*WHUploadResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetWHUpload not implemented")
-}
-func (UnimplementedWarehouseServer) TriggerWHUpload(context.Context, *WHUploadRequest) (*TriggerWhUploadsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method TriggerWHUpload not implemented")
-}
-func (UnimplementedWarehouseServer) TriggerWHUploads(context.Context, *WHUploadsRequest) (*TriggerWhUploadsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method TriggerWHUploads not implemented")
-}
-func (UnimplementedWarehouseServer) Validate(context.Context, *WHValidationRequest) (*WHValidationResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Validate not implemented")
-}
-func (UnimplementedWarehouseServer) RetryWHUploads(context.Context, *RetryWHUploadsRequest) (*RetryWHUploadsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RetryWHUploads not implemented")
-}
-func (UnimplementedWarehouseServer) CountWHUploadsToRetry(context.Context, *RetryWHUploadsRequest) (*RetryWHUploadsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CountWHUploadsToRetry not implemented")
-}
-func (UnimplementedWarehouseServer) ValidateObjectStorageDestination(context.Context, *ValidateObjectStorageRequest) (*ValidateObjectStorageResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ValidateObjectStorageDestination not implemented")
-}
-func (UnimplementedWarehouseServer) RetrieveFailedBatches(context.Context, *RetrieveFailedBatchesRequest) (*RetrieveFailedBatchesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RetrieveFailedBatches not implemented")
-}
-func (UnimplementedWarehouseServer) RetryFailedBatches(context.Context, *RetryFailedBatchesRequest) (*RetryFailedBatchesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RetryFailedBatches not implemented")
-}
-func (UnimplementedWarehouseServer) GetFirstAbortedUploadInContinuousAbortsByDestination(context.Context, *FirstAbortedUploadInContinuousAbortsByDestinationRequest) (*FirstAbortedUploadInContinuousAbortsByDestinationResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetFirstAbortedUploadInContinuousAbortsByDestination not implemented")
-}
-func (UnimplementedWarehouseServer) GetSyncLatency(context.Context, *SyncLatencyRequest) (*SyncLatencyResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetSyncLatency not implemented")
-}
-func (UnimplementedWarehouseServer) SyncWHSchema(context.Context, *SyncWHSchemaRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SyncWHSchema not implemented")
-}
-func (UnimplementedWarehouseServer) GetDestinationNamespaces(context.Context, *GetDestinationNamespacesRequest) (*GetDestinationNamespacesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetDestinationNamespaces not implemented")
-}
-func (UnimplementedWarehouseServer) mustEmbedUnimplementedWarehouseServer() {}
 
-// UnsafeWarehouseServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to WarehouseServer will
-// result in compilation errors.
+func (UnimplementedWarehouseServer) GetWHUploads(context.Context, *WHUploadsRequest) (*WHUploadsResponse, error) {
+	_ = "STUB: not implemented"
+	return nil, nil
+}
+
+func (UnimplementedWarehouseServer) GetWHUpload(context.Context, *WHUploadRequest) (*WHUploadResponse, error) {
+	_ = "STUB: not implemented"
+	return nil, nil
+}
+
+func (UnimplementedWarehouseServer) TriggerWHUpload(context.Context, *WHUploadRequest) (*TriggerWhUploadsResponse, error) {
+	_ = "STUB: not implemented"
+	return nil, nil
+}
+
+func (UnimplementedWarehouseServer) TriggerWHUploads(context.Context, *WHUploadsRequest) (*TriggerWhUploadsResponse, error) {
+	_ = "STUB: not implemented"
+	return nil, nil
+}
+
+func (UnimplementedWarehouseServer) Validate(context.Context, *WHValidationRequest) (*WHValidationResponse, error) {
+	_ = "STUB: not implemented"
+	return nil, nil
+}
+
+func (UnimplementedWarehouseServer) RetryWHUploads(context.Context, *RetryWHUploadsRequest) (*RetryWHUploadsResponse, error) {
+	_ = "STUB: not implemented"
+	return nil, nil
+}
+
+func (UnimplementedWarehouseServer) CountWHUploadsToRetry(context.Context, *RetryWHUploadsRequest) (*RetryWHUploadsResponse, error) {
+	_ = "STUB: not implemented"
+	return nil, nil
+}
+
+func (UnimplementedWarehouseServer) ValidateObjectStorageDestination(context.Context, *ValidateObjectStorageRequest) (*ValidateObjectStorageResponse, error) {
+	_ = "STUB: not implemented"
+	return nil, nil
+}
+
+func (UnimplementedWarehouseServer) RetrieveFailedBatches(context.Context, *RetrieveFailedBatchesRequest) (*RetrieveFailedBatchesResponse, error) {
+	_ = "STUB: not implemented"
+	return nil, nil
+}
+
+func (UnimplementedWarehouseServer) RetryFailedBatches(context.Context, *RetryFailedBatchesRequest) (*RetryFailedBatchesResponse, error) {
+	_ = "STUB: not implemented"
+	return nil, nil
+}
+
+func (UnimplementedWarehouseServer) GetFirstAbortedUploadInContinuousAbortsByDestination(context.Context, *FirstAbortedUploadInContinuousAbortsByDestinationRequest) (*FirstAbortedUploadInContinuousAbortsByDestinationResponse, error) {
+	_ = "STUB: not implemented"
+	return nil, nil
+}
+
+func (UnimplementedWarehouseServer) GetSyncLatency(context.Context, *SyncLatencyRequest) (*SyncLatencyResponse, error) {
+	_ = "STUB: not implemented"
+	return nil, nil
+}
+
+func (UnimplementedWarehouseServer) SyncWHSchema(context.Context, *SyncWHSchemaRequest) (*emptypb.Empty, error) {
+	_ = "STUB: not implemented"
+	return nil, nil
+}
+
+func (UnimplementedWarehouseServer) GetDestinationNamespaces(context.Context, *GetDestinationNamespacesRequest) (*GetDestinationNamespacesResponse, error) {
+	_ = "STUB: not implemented"
+	return nil, nil
+}
+
+func (UnimplementedWarehouseServer) mustEmbedUnimplementedWarehouseServer() {
+	_ = "STUB: not implemented"
+
+	// UnsafeWarehouseServer may be embedded to opt out of forward compatibility for this service.
+	// Use of this interface is not recommended, as added methods to WarehouseServer will
+	// result in compilation errors.
+	return
+}
+
 type UnsafeWarehouseServer interface {
 	mustEmbedUnimplementedWarehouseServer()
 }
 
 func RegisterWarehouseServer(s grpc.ServiceRegistrar, srv WarehouseServer) {
-	s.RegisterService(&Warehouse_ServiceDesc, srv)
+	_ = "STUB: not implemented"
+	return
 }
 
 func _Warehouse_GetHealth_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(emptypb.Empty)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WarehouseServer).GetHealth(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Warehouse_GetHealth_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WarehouseServer).GetHealth(ctx, req.(*emptypb.Empty))
-	}
-	return interceptor(ctx, in, info, handler)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func _Warehouse_GetWHUploads_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(WHUploadsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WarehouseServer).GetWHUploads(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Warehouse_GetWHUploads_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WarehouseServer).GetWHUploads(ctx, req.(*WHUploadsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func _Warehouse_GetWHUpload_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(WHUploadRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WarehouseServer).GetWHUpload(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Warehouse_GetWHUpload_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WarehouseServer).GetWHUpload(ctx, req.(*WHUploadRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func _Warehouse_TriggerWHUpload_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(WHUploadRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WarehouseServer).TriggerWHUpload(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Warehouse_TriggerWHUpload_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WarehouseServer).TriggerWHUpload(ctx, req.(*WHUploadRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func _Warehouse_TriggerWHUploads_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(WHUploadsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WarehouseServer).TriggerWHUploads(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Warehouse_TriggerWHUploads_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WarehouseServer).TriggerWHUploads(ctx, req.(*WHUploadsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func _Warehouse_Validate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(WHValidationRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WarehouseServer).Validate(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Warehouse_Validate_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WarehouseServer).Validate(ctx, req.(*WHValidationRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func _Warehouse_RetryWHUploads_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RetryWHUploadsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WarehouseServer).RetryWHUploads(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Warehouse_RetryWHUploads_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WarehouseServer).RetryWHUploads(ctx, req.(*RetryWHUploadsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func _Warehouse_CountWHUploadsToRetry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RetryWHUploadsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WarehouseServer).CountWHUploadsToRetry(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Warehouse_CountWHUploadsToRetry_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WarehouseServer).CountWHUploadsToRetry(ctx, req.(*RetryWHUploadsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func _Warehouse_ValidateObjectStorageDestination_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ValidateObjectStorageRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WarehouseServer).ValidateObjectStorageDestination(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Warehouse_ValidateObjectStorageDestination_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WarehouseServer).ValidateObjectStorageDestination(ctx, req.(*ValidateObjectStorageRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func _Warehouse_RetrieveFailedBatches_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RetrieveFailedBatchesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WarehouseServer).RetrieveFailedBatches(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Warehouse_RetrieveFailedBatches_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WarehouseServer).RetrieveFailedBatches(ctx, req.(*RetrieveFailedBatchesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func _Warehouse_RetryFailedBatches_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RetryFailedBatchesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WarehouseServer).RetryFailedBatches(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Warehouse_RetryFailedBatches_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WarehouseServer).RetryFailedBatches(ctx, req.(*RetryFailedBatchesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func _Warehouse_GetFirstAbortedUploadInContinuousAbortsByDestination_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FirstAbortedUploadInContinuousAbortsByDestinationRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WarehouseServer).GetFirstAbortedUploadInContinuousAbortsByDestination(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Warehouse_GetFirstAbortedUploadInContinuousAbortsByDestination_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WarehouseServer).GetFirstAbortedUploadInContinuousAbortsByDestination(ctx, req.(*FirstAbortedUploadInContinuousAbortsByDestinationRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func _Warehouse_GetSyncLatency_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SyncLatencyRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WarehouseServer).GetSyncLatency(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Warehouse_GetSyncLatency_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WarehouseServer).GetSyncLatency(ctx, req.(*SyncLatencyRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func _Warehouse_SyncWHSchema_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SyncWHSchemaRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WarehouseServer).SyncWHSchema(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Warehouse_SyncWHSchema_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WarehouseServer).SyncWHSchema(ctx, req.(*SyncWHSchemaRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func _Warehouse_GetDestinationNamespaces_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetDestinationNamespacesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WarehouseServer).GetDestinationNamespaces(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Warehouse_GetDestinationNamespaces_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WarehouseServer).GetDestinationNamespaces(ctx, req.(*GetDestinationNamespacesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Warehouse_ServiceDesc is the grpc.ServiceDesc for Warehouse service.

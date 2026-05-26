@@ -7,10 +7,10 @@
 package proto
 
 import (
+	sync "sync"
+
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	reflect "reflect"
-	sync "sync"
 )
 
 const (
@@ -26,36 +26,21 @@ type GetConnectionTokenRequest struct {
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *GetConnectionTokenRequest) Reset() {
-	*x = GetConnectionTokenRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_common_dpauth_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *GetConnectionTokenRequest) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *GetConnectionTokenRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *GetConnectionTokenRequest) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*GetConnectionTokenRequest) ProtoMessage() {}
+func (*GetConnectionTokenRequest) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *GetConnectionTokenRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_common_dpauth_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use GetConnectionTokenRequest.ProtoReflect.Descriptor instead.
 func (*GetConnectionTokenRequest) Descriptor() ([]byte, []int) {
-	return file_proto_common_dpauth_proto_rawDescGZIP(), []int{0}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 type GetWorkspaceTokenRequest struct {
@@ -64,36 +49,21 @@ type GetWorkspaceTokenRequest struct {
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *GetWorkspaceTokenRequest) Reset() {
-	*x = GetWorkspaceTokenRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_common_dpauth_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *GetWorkspaceTokenRequest) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *GetWorkspaceTokenRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *GetWorkspaceTokenRequest) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*GetWorkspaceTokenRequest) ProtoMessage() {}
+func (*GetWorkspaceTokenRequest) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *GetWorkspaceTokenRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_common_dpauth_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use GetWorkspaceTokenRequest.ProtoReflect.Descriptor instead.
 func (*GetWorkspaceTokenRequest) Descriptor() ([]byte, []int) {
-	return file_proto_common_dpauth_proto_rawDescGZIP(), []int{1}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 type GetConnectionTokenSuccessResponse struct {
@@ -108,70 +78,45 @@ type GetConnectionTokenSuccessResponse struct {
 	Labels          map[string]string `protobuf:"bytes,5,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
-func (x *GetConnectionTokenSuccessResponse) Reset() {
-	*x = GetConnectionTokenSuccessResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_common_dpauth_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *GetConnectionTokenSuccessResponse) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *GetConnectionTokenSuccessResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *GetConnectionTokenSuccessResponse) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*GetConnectionTokenSuccessResponse) ProtoMessage() {}
+func (*GetConnectionTokenSuccessResponse) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *GetConnectionTokenSuccessResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_common_dpauth_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use GetConnectionTokenSuccessResponse.ProtoReflect.Descriptor instead.
 func (*GetConnectionTokenSuccessResponse) Descriptor() ([]byte, []int) {
-	return file_proto_common_dpauth_proto_rawDescGZIP(), []int{2}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (x *GetConnectionTokenSuccessResponse) GetConnectionToken() string {
-	if x != nil {
-		return x.ConnectionToken
-	}
+	_ = "STUB: not implemented"
 	return ""
 }
 
 func (x *GetConnectionTokenSuccessResponse) GetService() string {
-	if x != nil {
-		return x.Service
-	}
+	_ = "STUB: not implemented"
 	return ""
 }
 
 func (x *GetConnectionTokenSuccessResponse) GetInstanceID() string {
-	if x != nil {
-		return x.InstanceID
-	}
+	_ = "STUB: not implemented"
 	return ""
 }
 
 func (x *GetConnectionTokenSuccessResponse) GetTokenType() string {
-	if x != nil {
-		return x.TokenType
-	}
+	_ = "STUB: not implemented"
 	return ""
 }
 
 func (x *GetConnectionTokenSuccessResponse) GetLabels() map[string]string {
-	if x != nil {
-		return x.Labels
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
@@ -183,44 +128,21 @@ type ErrorResponse struct {
 	Error string `protobuf:"bytes,1,opt,name=error,proto3" json:"error,omitempty"`
 }
 
-func (x *ErrorResponse) Reset() {
-	*x = ErrorResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_common_dpauth_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *ErrorResponse) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *ErrorResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *ErrorResponse) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*ErrorResponse) ProtoMessage() {}
+func (*ErrorResponse) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *ErrorResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_common_dpauth_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use ErrorResponse.ProtoReflect.Descriptor instead.
-func (*ErrorResponse) Descriptor() ([]byte, []int) {
-	return file_proto_common_dpauth_proto_rawDescGZIP(), []int{3}
-}
+func (*ErrorResponse) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (x *ErrorResponse) GetError() string {
-	if x != nil {
-		return x.Error
-	}
-	return ""
-}
+func (x *ErrorResponse) GetError() string { _ = "STUB: not implemented"; return "" }
 
 type GetConnectionTokenResponse struct {
 	state         protoimpl.MessageState
@@ -234,56 +156,35 @@ type GetConnectionTokenResponse struct {
 	Response isGetConnectionTokenResponse_Response `protobuf_oneof:"response"`
 }
 
-func (x *GetConnectionTokenResponse) Reset() {
-	*x = GetConnectionTokenResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_common_dpauth_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *GetConnectionTokenResponse) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *GetConnectionTokenResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *GetConnectionTokenResponse) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*GetConnectionTokenResponse) ProtoMessage() {}
+func (*GetConnectionTokenResponse) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *GetConnectionTokenResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_common_dpauth_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use GetConnectionTokenResponse.ProtoReflect.Descriptor instead.
 func (*GetConnectionTokenResponse) Descriptor() ([]byte, []int) {
-	return file_proto_common_dpauth_proto_rawDescGZIP(), []int{4}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (m *GetConnectionTokenResponse) GetResponse() isGetConnectionTokenResponse_Response {
-	if m != nil {
-		return m.Response
-	}
-	return nil
+	_ = "STUB: not implemented"
+	return *new(isGetConnectionTokenResponse_Response)
 }
 
 func (x *GetConnectionTokenResponse) GetSuccessResponse() *GetConnectionTokenSuccessResponse {
-	if x, ok := x.GetResponse().(*GetConnectionTokenResponse_SuccessResponse); ok {
-		return x.SuccessResponse
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
 func (x *GetConnectionTokenResponse) GetErrorResponse() *ErrorResponse {
-	if x, ok := x.GetResponse().(*GetConnectionTokenResponse_ErrorResponse); ok {
-		return x.ErrorResponse
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
@@ -299,9 +200,15 @@ type GetConnectionTokenResponse_ErrorResponse struct {
 	ErrorResponse *ErrorResponse `protobuf:"bytes,2,opt,name=error_response,json=errorResponse,proto3,oneof"`
 }
 
-func (*GetConnectionTokenResponse_SuccessResponse) isGetConnectionTokenResponse_Response() {}
+func (*GetConnectionTokenResponse_SuccessResponse) isGetConnectionTokenResponse_Response() {
+	_ = "STUB: not implemented"
+	return
+}
 
-func (*GetConnectionTokenResponse_ErrorResponse) isGetConnectionTokenResponse_Response() {}
+func (*GetConnectionTokenResponse_ErrorResponse) isGetConnectionTokenResponse_Response() {
+	_ = "STUB: not implemented"
+	return
+}
 
 type GetWorkspaceTokenResponse struct {
 	state         protoimpl.MessageState
@@ -313,58 +220,31 @@ type GetWorkspaceTokenResponse struct {
 	InstanceID     string `protobuf:"bytes,3,opt,name=instanceID,proto3" json:"instanceID,omitempty"`
 }
 
-func (x *GetWorkspaceTokenResponse) Reset() {
-	*x = GetWorkspaceTokenResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_common_dpauth_proto_msgTypes[5]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
+func (x *GetWorkspaceTokenResponse) Reset() { _ = "STUB: not implemented"; return }
 
-func (x *GetWorkspaceTokenResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
+func (x *GetWorkspaceTokenResponse) String() string { _ = "STUB: not implemented"; return "" }
 
-func (*GetWorkspaceTokenResponse) ProtoMessage() {}
+func (*GetWorkspaceTokenResponse) ProtoMessage() { _ = "STUB: not implemented"; return }
 
 func (x *GetWorkspaceTokenResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_common_dpauth_proto_msgTypes[5]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
+	_ = "STUB: not implemented"
+	return *new(protoreflect.Message)
 }
 
 // Deprecated: Use GetWorkspaceTokenResponse.ProtoReflect.Descriptor instead.
 func (*GetWorkspaceTokenResponse) Descriptor() ([]byte, []int) {
-	return file_proto_common_dpauth_proto_rawDescGZIP(), []int{5}
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (x *GetWorkspaceTokenResponse) GetWorkspaceToken() string {
-	if x != nil {
-		return x.WorkspaceToken
-	}
+	_ = "STUB: not implemented"
 	return ""
 }
 
-func (x *GetWorkspaceTokenResponse) GetService() string {
-	if x != nil {
-		return x.Service
-	}
-	return ""
-}
+func (x *GetWorkspaceTokenResponse) GetService() string { _ = "STUB: not implemented"; return "" }
 
-func (x *GetWorkspaceTokenResponse) GetInstanceID() string {
-	if x != nil {
-		return x.InstanceID
-	}
-	return ""
-}
+func (x *GetWorkspaceTokenResponse) GetInstanceID() string { _ = "STUB: not implemented"; return "" }
 
 var File_proto_common_dpauth_proto protoreflect.FileDescriptor
 
@@ -437,12 +317,7 @@ var (
 	file_proto_common_dpauth_proto_rawDescData = file_proto_common_dpauth_proto_rawDesc
 )
 
-func file_proto_common_dpauth_proto_rawDescGZIP() []byte {
-	file_proto_common_dpauth_proto_rawDescOnce.Do(func() {
-		file_proto_common_dpauth_proto_rawDescData = protoimpl.X.CompressGZIP(file_proto_common_dpauth_proto_rawDescData)
-	})
-	return file_proto_common_dpauth_proto_rawDescData
-}
+func file_proto_common_dpauth_proto_rawDescGZIP() []byte { _ = "STUB: not implemented"; return nil }
 
 var file_proto_common_dpauth_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_proto_common_dpauth_proto_goTypes = []interface{}{
@@ -469,105 +344,5 @@ var file_proto_common_dpauth_proto_depIdxs = []int32{
 	0, // [0:3] is the sub-list for field type_name
 }
 
-func init() { file_proto_common_dpauth_proto_init() }
-func file_proto_common_dpauth_proto_init() {
-	if File_proto_common_dpauth_proto != nil {
-		return
-	}
-	if !protoimpl.UnsafeEnabled {
-		file_proto_common_dpauth_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetConnectionTokenRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_common_dpauth_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetWorkspaceTokenRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_common_dpauth_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetConnectionTokenSuccessResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_common_dpauth_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ErrorResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_common_dpauth_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetConnectionTokenResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_proto_common_dpauth_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetWorkspaceTokenResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-	}
-	file_proto_common_dpauth_proto_msgTypes[4].OneofWrappers = []interface{}{
-		(*GetConnectionTokenResponse_SuccessResponse)(nil),
-		(*GetConnectionTokenResponse_ErrorResponse)(nil),
-	}
-	type x struct{}
-	out := protoimpl.TypeBuilder{
-		File: protoimpl.DescBuilder{
-			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_proto_common_dpauth_proto_rawDesc,
-			NumEnums:      0,
-			NumMessages:   7,
-			NumExtensions: 0,
-			NumServices:   1,
-		},
-		GoTypes:           file_proto_common_dpauth_proto_goTypes,
-		DependencyIndexes: file_proto_common_dpauth_proto_depIdxs,
-		MessageInfos:      file_proto_common_dpauth_proto_msgTypes,
-	}.Build()
-	File_proto_common_dpauth_proto = out.File
-	file_proto_common_dpauth_proto_rawDesc = nil
-	file_proto_common_dpauth_proto_goTypes = nil
-	file_proto_common_dpauth_proto_depIdxs = nil
-}
+func init()                                { file_proto_common_dpauth_proto_init() }
+func file_proto_common_dpauth_proto_init() { _ = "STUB: not implemented"; return }

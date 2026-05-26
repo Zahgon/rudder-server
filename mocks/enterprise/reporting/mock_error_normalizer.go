@@ -11,7 +11,6 @@ package mocks
 
 import (
 	context "context"
-	reflect "reflect"
 
 	types "github.com/rudderlabs/rudder-server/utils/types"
 	gomock "go.uber.org/mock/gomock"
@@ -31,40 +30,37 @@ type MockErrorNormalizerMockRecorder struct {
 
 // NewMockErrorNormalizer creates a new mock instance.
 func NewMockErrorNormalizer(ctrl *gomock.Controller) *MockErrorNormalizer {
-	mock := &MockErrorNormalizer{ctrl: ctrl}
-	mock.recorder = &MockErrorNormalizerMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockErrorNormalizer) EXPECT() *MockErrorNormalizerMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// NormalizeError mocks base method.
+	return nil
 }
 
-// NormalizeError mocks base method.
 func (m *MockErrorNormalizer) NormalizeError(ctx context.Context, errorDetailGroupKey types.ErrorDetailGroupKey, errorMessage string) string {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NormalizeError", ctx, errorDetailGroupKey, errorMessage)
-	ret0, _ := ret[0].(string)
-	return ret0
+	_ = "STUB: not implemented"
+	return ""
 }
 
 // NormalizeError indicates an expected call of NormalizeError.
 func (mr *MockErrorNormalizerMockRecorder) NormalizeError(ctx, errorDetailGroupKey, errorMessage any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NormalizeError", reflect.TypeOf((*MockErrorNormalizer)(nil).NormalizeError), ctx, errorDetailGroupKey, errorMessage)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // StartCleanup mocks base method.
 func (m *MockErrorNormalizer) StartCleanup(ctx context.Context) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "StartCleanup", ctx)
-	ret0, _ := ret[0].(error)
-	return ret0
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // StartCleanup indicates an expected call of StartCleanup.
 func (mr *MockErrorNormalizerMockRecorder) StartCleanup(ctx any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "StartCleanup", reflect.TypeOf((*MockErrorNormalizer)(nil).StartCleanup), ctx)
+	_ = "STUB: not implemented"
+	return nil
 }

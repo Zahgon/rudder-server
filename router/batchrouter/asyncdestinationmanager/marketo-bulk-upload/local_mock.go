@@ -9,15 +9,14 @@ type mockTransport struct {
 }
 
 func (m *mockTransport) RoundTrip(*http.Request) (*http.Response, error) {
-	return m.response, m.err
+	_ = "STUB: not implemented"
+	return nil,
+
+		// createMockClient creates a new http.Client with mocked transport
+		nil
 }
 
-// createMockClient creates a new http.Client with mocked transport
 func createMockClient(response *http.Response, err error) *http.Client {
-	return &http.Client{
-		Transport: &mockTransport{
-			response: response,
-			err:      err,
-		},
-	}
+	_ = "STUB: not implemented"
+	return nil
 }

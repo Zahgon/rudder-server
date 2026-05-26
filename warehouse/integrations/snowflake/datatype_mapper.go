@@ -33,11 +33,6 @@ var dataTypesMapToRudder = map[string]string{
 }
 
 func CalculateDataType(columnType string, numericScale int64) (string, bool) {
-	if datatype, ok := dataTypesMapToRudder[columnType]; ok {
-		if datatype == "int" && numericScale > 0 {
-			datatype = "float"
-		}
-		return datatype, true
-	}
+	_ = "STUB: not implemented"
 	return "", false
 }

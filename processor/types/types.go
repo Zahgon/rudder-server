@@ -1,21 +1,15 @@
 package types
 
 import (
-	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
-	"reflect"
 	"regexp"
-	"strconv"
 	"time"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/stretchr/testify/assert"
 
 	"github.com/rudderlabs/rudder-go-kit/logger"
 	"github.com/rudderlabs/rudder-go-kit/stats"
-	obskit "github.com/rudderlabs/rudder-observability-kit/go/labels"
 
 	backendconfig "github.com/rudderlabs/rudder-server/backend-config"
 )
@@ -30,11 +24,8 @@ type SingularEventT map[string]any
 
 // GetRudderEventVal returns the value corresponding to the key in the message structure
 func GetRudderEventVal(key string, rudderEvent SingularEventT) (any, bool) {
-	rudderVal, ok := rudderEvent[key]
-	if !ok {
-		return nil, false
-	}
-	return rudderVal, true
+	_ = "STUB: not implemented"
+	return *new(any), false
 }
 
 type SingularEventWithReceivedAt struct {
@@ -101,45 +92,23 @@ type CompactedTransformRequest struct {
 }
 
 func (ctr *CompactedTransformRequest) ToTransformerEvents() []TransformerEvent {
-	events := make([]TransformerEvent, len(ctr.Input))
-	for i, input := range ctr.Input {
-		events[i] = TransformerEvent{
-			Message:     input.Message,
-			Metadata:    input.Metadata,
-			Destination: ctr.Destinations[input.Metadata.DestinationID],
-			Connection:  ctr.Connections[input.Metadata.SourceID+":"+input.Metadata.DestinationID],
-		}
-	}
-	return events
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // ToUserTransformerEvent removes the connection from the event
 // along with pruning the destination to only include the transformation ID and VersionID
 // before sending it to the transformer thereby reducing the payload size
 func (e *TransformerEvent) ToUserTransformerEvent() *UserTransformerEvent {
-	ute := &UserTransformerEvent{
-		Message:     e.Message,
-		Metadata:    e.Metadata,
-		Libraries:   e.Libraries,
-		Credentials: e.Credentials,
-	}
-	for _, t := range e.Destination.Transformations {
-		ute.Destination.Transformations = append(ute.Destination.Transformations, struct {
-			VersionID string
-		}{
-			VersionID: t.VersionID,
-		})
-	}
-	return ute
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // ToTrackingPlanValidationEvent only keeps the message and metadata fields from the event
 // before sending it to the trackingplan validator thereby reducing the payload size
 func (e *TransformerEvent) ToTrackingPlanValidationEvent() *TrackingPlanValidationEvent {
-	return &TrackingPlanValidationEvent{
-		Message:  e.Message,
-		Metadata: e.Metadata,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 type Credential struct {
@@ -200,12 +169,7 @@ type Metadata struct {
 	MessageIDs              []string `json:"messageIds,omitempty"` // set only by user transformer to indicate transformed event is part of group indicated by messageIDs
 }
 
-func (m Metadata) GetMessagesIDs() []string {
-	if len(m.MessageIDs) > 0 {
-		return m.MessageIDs
-	}
-	return []string{m.MessageID}
-}
+func (m Metadata) GetMessagesIDs() []string { _ = "STUB: not implemented"; return nil }
 
 // CommonMetadata creates a new metadata instance keeping only common fields across events
 //
@@ -214,30 +178,17 @@ func (m Metadata) GetMessagesIDs() []string {
 //   - other metadata (instance id, namespace)
 //   - destination metadata
 func (m Metadata) CommonMetadata() *Metadata {
-	return &Metadata{
-		// job metadata
-		WorkspaceID: m.WorkspaceID,
+	_ = "STUB: not implemented"
 
-		// source metadata
-		SourceID:             m.SourceID,
-		OriginalSourceID:     m.OriginalSourceID,
-		SourceDefinitionID:   m.SourceDefinitionID,
-		SourceName:           m.SourceName,
-		SourceType:           m.SourceType,
-		SourceCategory:       m.SourceCategory,
-		SourceDefinitionType: m.SourceDefinitionType,
-
-		// other metadata
-		InstanceID: m.InstanceID,
-		Namespace:  m.Namespace,
-
-		// destination metadata (available after tracking plan)
-		DestinationID:           m.DestinationID,
-		DestinationName:         m.DestinationName,
-		DestinationType:         m.DestinationType,
-		DestinationDefinitionID: m.DestinationDefinitionID,
-	}
+	// job metadata
+	return nil
 }
+
+// source metadata
+
+// other metadata
+
+// destination metadata (available after tracking plan)
 
 type TransformerResponse struct {
 	// Not marking this Singular Event, since this not a RudderEvent
@@ -279,46 +230,19 @@ type EqualResult struct {
 //  2. Lax comparison (datetime strings forgiven). If it passes, returns Equal with DatetimeForgiven=true.
 //  3. If both fail, returns the diff from the lax pass.
 func (r *Response) EqualDetailed(v *Response) EqualResult {
-	if len(r.Events) != len(v.Events) {
-		return EqualResult{Diff: fmt.Sprintf("Expected Events length %d, got %d", len(r.Events), len(v.Events))}
-	}
-	if len(r.FailedEvents) != len(v.FailedEvents) {
-		return EqualResult{Diff: fmt.Sprintf("Expected FailedEvents length %d, got %d", len(r.FailedEvents), len(v.FailedEvents))}
-	}
-
-	// First pass: strict comparison (no datetime forgiveness)
-	extraA, extraB := diffLists(r.Events, v.Events, strictObjectsEqual)
-	strictEventsMatch := len(extraA) == 0 && len(extraB) == 0
-	strictFailedMatch := false
-	if strictEventsMatch {
-		extraA, extraB = diffLists(r.FailedEvents, v.FailedEvents, strictObjectsEqual)
-		strictFailedMatch = len(extraA) == 0 && len(extraB) == 0
-	}
-	if strictEventsMatch && strictFailedMatch {
-		return EqualResult{Equal: true}
-	}
-
-	// Second pass: lax comparison (datetime strings forgiven)
-	extraA, extraB = diffLists(r.Events, v.Events, responseObjectsEqual)
-	if len(extraA) > 0 || len(extraB) > 0 {
-		return EqualResult{Diff: formatListDiff(r.Events, v.Events, extraA, extraB)}
-	}
-	extraA, extraB = diffLists(r.FailedEvents, v.FailedEvents, responseObjectsEqual)
-	if len(extraA) > 0 || len(extraB) > 0 {
-		return EqualResult{Diff: formatListDiff(r.FailedEvents, v.FailedEvents, extraA, extraB)}
-	}
-
-	return EqualResult{Equal: true, DatetimeForgiven: true}
+	_ = "STUB: not implemented"
+	return *new(EqualResult)
 }
+
+// First pass: strict comparison (no datetime forgiveness)
+
+// Second pass: lax comparison (datetime strings forgiven)
 
 // Equal compares two Response structs and returns true if they are equal
 // regardless of the order of elements in the Events and FailedEvents slices.
 // Matching datetime values in Output are treated as equal when both values
 // match responseDatetimePattern.
-func (r *Response) Equal(v *Response) (string, bool) {
-	result := r.EqualDetailed(v)
-	return result.Diff, result.Equal
-}
+func (r *Response) Equal(v *Response) (string, bool) { _ = "STUB: not implemented"; return "", false }
 
 type EventParams struct {
 	SourceJobRunId      string `json:"source_job_run_id"`
@@ -349,40 +273,16 @@ type TransformerMetricLabels struct {
 
 // ToStatsTag converts transformerMetricLabels to stats.Tags and includes legacy tags for backwards compatibility
 func (t TransformerMetricLabels) ToStatsTag() stats.Tags {
-	tags := stats.Tags{
-		"endpoint":         t.Endpoint,
-		"destinationType":  t.DestinationType,
-		"sourceType":       t.SourceType,
-		"language":         t.Language,
-		"stage":            t.Stage,
-		"workspaceId":      t.WorkspaceID,
-		"destinationId":    t.DestinationID,
-		"sourceId":         t.SourceID,
-		"transformationId": t.TransformationID,
-		"mirroring":        strconv.FormatBool(t.Mirroring),
-
-		// Legacy tags: to be removed
-		"dest_type": t.DestinationType,
-		"dest_id":   t.DestinationID,
-		"src_id":    t.SourceID,
-	}
-
-	return tags
+	_ = "STUB: not implemented"
+	return *new(stats.Tags)
 }
+
+// Legacy tags: to be removed
 
 // ToLoggerFields converts the metric labels to a slice of logger.Fields
 func (t TransformerMetricLabels) ToLoggerFields() []logger.Field {
-	return []logger.Field{
-		logger.NewStringField("endpoint", t.Endpoint),
-		logger.NewStringField("stage", t.Stage),
-		obskit.DestinationType(t.DestinationType),
-		obskit.SourceType(t.SourceType),
-		obskit.WorkspaceID(t.WorkspaceID),
-		obskit.DestinationID(t.DestinationID),
-		obskit.SourceID(t.SourceID),
-		logger.NewStringField("transformationId", t.TransformationID),
-		logger.NewBoolField("mirroring", t.Mirroring),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SrcHydrationEvent represents a single event in the hydration request/response
@@ -412,127 +312,22 @@ type SrcHydrationResponse struct {
 }
 
 func diffLists(listA, listB any, equalFn func(a, b any) bool) (extraA, extraB []any) {
-	aValue := reflect.ValueOf(listA)
-	bValue := reflect.ValueOf(listB)
-
-	aLen := aValue.Len()
-	bLen := bValue.Len()
-
-	// Mark indexes in bValue that we already used
-	visited := make([]bool, bLen)
-	for i := range aLen {
-		element := aValue.Index(i).Interface()
-		found := false
-		for j := range bLen {
-			if visited[j] {
-				continue
-			}
-			if equalFn(bValue.Index(j).Interface(), element) {
-				visited[j] = true
-				found = true
-				break
-			}
-		}
-		if !found {
-			extraA = append(extraA, element)
-		}
-	}
-
-	for j := range bLen {
-		if visited[j] {
-			continue
-		}
-		extraB = append(extraB, bValue.Index(j).Interface())
-	}
-
-	return extraA, extraB
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func strictObjectsEqual(left, right any) bool {
-	return assert.ObjectsAreEqual(left, right)
-}
+// Mark indexes in bValue that we already used
 
-func responseObjectsEqual(left, right any) bool {
-	leftResponse, leftIsResponse := left.(TransformerResponse)
-	rightResponse, rightIsResponse := right.(TransformerResponse)
-	if leftIsResponse || rightIsResponse {
-		if !leftIsResponse || !rightIsResponse {
-			return false
-		}
-		return transformerResponsesEqual(leftResponse, rightResponse)
-	}
-	return assert.ObjectsAreEqual(left, right)
-}
+func strictObjectsEqual(left, right any) bool { _ = "STUB: not implemented"; return false }
+
+func responseObjectsEqual(left, right any) bool { _ = "STUB: not implemented"; return false }
 
 func transformerResponsesEqual(left, right TransformerResponse) bool {
-	if !assert.ObjectsAreEqual(left.Metadata, right.Metadata) {
-		return false
-	}
-	if left.StatusCode != right.StatusCode {
-		return false
-	}
-	if left.Error != right.Error {
-		return false
-	}
-	if !assert.ObjectsAreEqual(left.ValidationErrors, right.ValidationErrors) {
-		return false
-	}
-	if !assert.ObjectsAreEqual(left.StatTags, right.StatTags) {
-		return false
-	}
-
-	return responseValuesEqual(left.Output, right.Output)
+	_ = "STUB: not implemented"
+	return false
 }
 
-func responseValuesEqual(left, right any) bool {
-	leftMap, leftIsMap := left.(map[string]any)
-	rightMap, rightIsMap := right.(map[string]any)
-	if leftIsMap || rightIsMap {
-		if !leftIsMap || !rightIsMap {
-			return false
-		}
-		if len(leftMap) != len(rightMap) {
-			return false
-		}
-		for key, leftValue := range leftMap {
-			rightValue, ok := rightMap[key]
-			if !ok {
-				return false
-			}
-			if !responseValuesEqual(leftValue, rightValue) {
-				return false
-			}
-		}
-		return true
-	}
-
-	leftSlice, leftIsSlice := left.([]any)
-	rightSlice, rightIsSlice := right.([]any)
-	if leftIsSlice || rightIsSlice {
-		if !leftIsSlice || !rightIsSlice {
-			return false
-		}
-		if len(leftSlice) != len(rightSlice) {
-			return false
-		}
-		for i := range leftSlice {
-			if !responseValuesEqual(leftSlice[i], rightSlice[i]) {
-				return false
-			}
-		}
-		return true
-	}
-
-	leftString, leftIsString := left.(string)
-	rightString, rightIsString := right.(string)
-	if leftIsString && rightIsString {
-		if responseDatetimePattern.MatchString(leftString) && responseDatetimePattern.MatchString(rightString) {
-			return true
-		}
-	}
-
-	return reflect.DeepEqual(left, right)
-}
+func responseValuesEqual(left, right any) bool { _ = "STUB: not implemented"; return false }
 
 var spewConfig = spew.ConfigState{
 	Indent:                  " ",
@@ -544,21 +339,6 @@ var spewConfig = spew.ConfigState{
 }
 
 func formatListDiff(listA, listB any, extraA, extraB []any) string {
-	var msg bytes.Buffer
-
-	msg.WriteString("elements differ")
-	if len(extraA) > 0 {
-		msg.WriteString("\n\nextra elements in list A:\n")
-		msg.WriteString(spewConfig.Sdump(extraA))
-	}
-	if len(extraB) > 0 {
-		msg.WriteString("\n\nextra elements in list B:\n")
-		msg.WriteString(spewConfig.Sdump(extraB))
-	}
-	msg.WriteString("\n\nlistA:\n")
-	msg.WriteString(spewConfig.Sdump(listA))
-	msg.WriteString("\n\nlistB:\n")
-	msg.WriteString(spewConfig.Sdump(listB))
-
-	return msg.String()
+	_ = "STUB: not implemented"
+	return ""
 }

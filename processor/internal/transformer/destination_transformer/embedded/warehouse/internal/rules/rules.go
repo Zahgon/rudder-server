@@ -2,15 +2,10 @@ package rules
 
 import (
 	"fmt"
-	"strings"
 
-	"github.com/samber/lo"
-
-	"github.com/rudderlabs/rudder-server/processor/internal/transformer/destination_transformer/embedded/warehouse/internal/response"
 	wtypes "github.com/rudderlabs/rudder-server/processor/internal/transformer/destination_transformer/embedded/warehouse/internal/types"
 	"github.com/rudderlabs/rudder-server/processor/internal/transformer/destination_transformer/embedded/warehouse/internal/utils"
 	"github.com/rudderlabs/rudder-server/processor/types"
-	"github.com/rudderlabs/rudder-server/utils/misc"
 )
 
 type Rules func(event *wtypes.TransformerEvent) (any, error)
@@ -107,23 +102,11 @@ var (
 	}
 )
 
-func staticRule(key string) Rules {
-	return func(event *wtypes.TransformerEvent) (any, error) {
-		return misc.MapLookup(event.Message, strings.Split(key, ".")...), nil
-	}
-}
+func staticRule(key string) Rules { _ = "STUB: not implemented"; return *new(Rules) }
 
-func messageIDFromEvent() Rules {
-	return func(event *wtypes.TransformerEvent) (any, error) {
-		return event.Metadata.MessageID, nil
-	}
-}
+func messageIDFromEvent() Rules { _ = "STUB: not implemented"; return *new(Rules) }
 
-func receivedAtFromEvent() Rules {
-	return func(event *wtypes.TransformerEvent) (any, error) {
-		return event.Metadata.ReceivedAt, nil
-	}
-}
+func receivedAtFromEvent() Rules { _ = "STUB: not implemented"; return *new(Rules) }
 
 var rudderReservedColumns = map[string]map[string]struct{}{
 	"track":    createReservedColumns(DefaultRules, TrackRules, TrackTableRules, TrackEventTableRules),
@@ -136,49 +119,26 @@ var rudderReservedColumns = map[string]map[string]struct{}{
 }
 
 func createReservedColumns(rules ...map[string]Rules) map[string]struct{} {
-	return lo.MapEntries(lo.Assign(rules...), func(key string, _ Rules) (string, struct{}) {
-		return key, struct{}{}
-	})
-}
-
-func firstValidValue(message map[string]any, props []string) any {
-	for _, prop := range props {
-		propKeys := strings.Split(prop, ".")
-		if val := misc.MapLookup(message, propKeys...); !utils.IsEmptyString(val) {
-			return val
-		}
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
+func firstValidValue(message map[string]any, props []string) any {
+	_ = "STUB: not implemented"
+	return *new(any)
+}
+
 func extractRecordID(metadata *wtypes.Metadata) (any, error) {
-	if utils.IsEmptyString(metadata.RecordID) {
-		return nil, response.ErrRecordIDEmpty
-	}
-	if utils.IsObject(metadata.RecordID) {
-		return nil, response.ErrRecordIDObject
-	}
-	if utils.IsArray(metadata.RecordID) {
-		return nil, response.ErrRecordIDArray
-	}
-	return metadata.RecordID, nil
+	_ = "STUB: not implemented"
+	return *new(any), nil
 }
 
 func extractCloudRecordID(message types.SingularEventT, metadata *wtypes.Metadata, fallbackValue any) (any, error) {
-	if sv := misc.MapLookup(message, "context", "sources", "version"); !utils.IsEmptyString(sv) {
-		return extractRecordID(metadata)
-	}
-	return fallbackValue, nil
+	_ = "STUB: not implemented"
+	return *new(any), nil
 }
 
 func IsRudderReservedColumn(eventType, columnName string) bool {
-	lowerEventType := strings.ToLower(eventType)
-	if _, ok := rudderReservedColumns[lowerEventType]; !ok {
-		return false
-	}
-	lowerColumnName := strings.ToLower(columnName)
-	if _, ok := rudderReservedColumns[lowerEventType][lowerColumnName]; ok {
-		return true
-	}
+	_ = "STUB: not implemented"
 	return false
 }

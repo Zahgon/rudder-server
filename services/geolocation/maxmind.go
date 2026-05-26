@@ -2,9 +2,6 @@ package geolocation
 
 import (
 	"errors"
-	"fmt"
-	"io/fs"
-	"net"
 
 	"github.com/oschwald/maxminddb-golang"
 )
@@ -19,41 +16,13 @@ type maxmindDBReader struct {
 }
 
 func NewMaxmindDBReader(dbLoc string) (*maxmindDBReader, error) {
-	reader, err := maxminddb.Open(dbLoc)
-	if err != nil {
-
-		if _, ok := err.(*fs.PathError); ok {
-			return nil, ErrInvalidDatabase
-		}
-		if errors.As(err, &maxminddb.InvalidDatabaseError{}) {
-			return nil, ErrInvalidDatabase
-		}
-
-		return nil, fmt.Errorf("opening maxmind reader from location: %w", err)
-	}
-
-	return &maxmindDBReader{reader}, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (f *maxmindDBReader) Locate(ip string) (GeoInfo, error) {
-	parsedIP := net.ParseIP(ip)
-
-	if parsedIP == nil {
-		return GeoInfo{}, ErrInvalidIP
-	}
-
-	info := GeoInfo{}
-	if err := f.Lookup(parsedIP, &info); err != nil {
-		return GeoInfo{}, fmt.Errorf("reading geolocation for ip: %w", err)
-	}
-
-	return info, nil
+	_ = "STUB: not implemented"
+	return *new(GeoInfo), nil
 }
 
-func (f *maxmindDBReader) Close() error {
-	if err := f.Reader.Close(); err != nil {
-		return fmt.Errorf("closing the underlying maxmind db reader: %w", err)
-	}
-
-	return nil
-}
+func (f *maxmindDBReader) Close() error { _ = "STUB: not implemented"; return nil }

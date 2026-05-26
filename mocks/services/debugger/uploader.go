@@ -10,8 +10,6 @@
 package mock_debugger
 
 import (
-	reflect "reflect"
-
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -29,27 +27,25 @@ type MockTransformerAnyMockRecorder struct {
 
 // NewMockTransformerAny creates a new mock instance.
 func NewMockTransformerAny(ctrl *gomock.Controller) *MockTransformerAny {
-	mock := &MockTransformerAny{ctrl: ctrl}
-	mock.recorder = &MockTransformerAnyMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockTransformerAny) EXPECT() *MockTransformerAnyMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// Transform mocks base method.
+	return nil
 }
 
-// Transform mocks base method.
 func (m *MockTransformerAny) Transform(data []any) ([]byte, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Transform", data)
-	ret0, _ := ret[0].([]byte)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Transform indicates an expected call of Transform.
 func (mr *MockTransformerAnyMockRecorder) Transform(data any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Transform", reflect.TypeOf((*MockTransformerAny)(nil).Transform), data)
+	_ = "STUB: not implemented"
+	return nil
 }

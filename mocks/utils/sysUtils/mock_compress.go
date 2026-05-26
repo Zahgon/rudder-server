@@ -12,7 +12,6 @@ package mock_sysUtils
 import (
 	gzip "compress/gzip"
 	io "io"
-	reflect "reflect"
 
 	gomock "go.uber.org/mock/gomock"
 )
@@ -30,42 +29,32 @@ type MockGZipIMockRecorder struct {
 }
 
 // NewMockGZipI creates a new mock instance.
-func NewMockGZipI(ctrl *gomock.Controller) *MockGZipI {
-	mock := &MockGZipI{ctrl: ctrl}
-	mock.recorder = &MockGZipIMockRecorder{mock}
-	return mock
-}
+func NewMockGZipI(ctrl *gomock.Controller) *MockGZipI { _ = "STUB: not implemented"; return nil }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockGZipI) EXPECT() *MockGZipIMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// NewReader mocks base method.
+	return nil
 }
 
-// NewReader mocks base method.
 func (m *MockGZipI) NewReader(r io.Reader) (*gzip.Reader, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewReader", r)
-	ret0, _ := ret[0].(*gzip.Reader)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // NewReader indicates an expected call of NewReader.
 func (mr *MockGZipIMockRecorder) NewReader(r any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewReader", reflect.TypeOf((*MockGZipI)(nil).NewReader), r)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // NewWriter mocks base method.
-func (m *MockGZipI) NewWriter(w io.Writer) *gzip.Writer {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewWriter", w)
-	ret0, _ := ret[0].(*gzip.Writer)
-	return ret0
-}
+func (m *MockGZipI) NewWriter(w io.Writer) *gzip.Writer { _ = "STUB: not implemented"; return nil }
 
 // NewWriter indicates an expected call of NewWriter.
 func (mr *MockGZipIMockRecorder) NewWriter(w any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewWriter", reflect.TypeOf((*MockGZipI)(nil).NewWriter), w)
+	_ = "STUB: not implemented"
+	return nil
 }

@@ -11,7 +11,6 @@ package mock_eventbridge
 
 import (
 	context "context"
-	reflect "reflect"
 
 	eventbridge "github.com/aws/aws-sdk-go-v2/service/eventbridge"
 	gomock "go.uber.org/mock/gomock"
@@ -31,32 +30,25 @@ type MockEventBridgeClientMockRecorder struct {
 
 // NewMockEventBridgeClient creates a new mock instance.
 func NewMockEventBridgeClient(ctrl *gomock.Controller) *MockEventBridgeClient {
-	mock := &MockEventBridgeClient{ctrl: ctrl}
-	mock.recorder = &MockEventBridgeClientMockRecorder{mock}
-	return mock
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockEventBridgeClient) EXPECT() *MockEventBridgeClientMockRecorder {
-	return m.recorder
+	_ = "STUB: not implemented"
+
+	// PutEvents mocks base method.
+	return nil
 }
 
-// PutEvents mocks base method.
 func (m *MockEventBridgeClient) PutEvents(ctx context.Context, input *eventbridge.PutEventsInput, opts ...func(*eventbridge.Options)) (*eventbridge.PutEventsOutput, error) {
-	m.ctrl.T.Helper()
-	varargs := []any{ctx, input}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "PutEvents", varargs...)
-	ret0, _ := ret[0].(*eventbridge.PutEventsOutput)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // PutEvents indicates an expected call of PutEvents.
 func (mr *MockEventBridgeClientMockRecorder) PutEvents(ctx, input any, opts ...any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{ctx, input}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutEvents", reflect.TypeOf((*MockEventBridgeClient)(nil).PutEvents), varargs...)
+	_ = "STUB: not implemented"
+	return nil
 }

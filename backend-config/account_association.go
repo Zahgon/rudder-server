@@ -2,7 +2,6 @@ package backendconfig
 
 import (
 	"github.com/rudderlabs/rudder-go-kit/logger"
-	obskit "github.com/rudderlabs/rudder-observability-kit/go/labels"
 )
 
 // processAccountAssociations processes account configurations and merges them with their corresponding
@@ -13,15 +12,9 @@ import (
 // 1. Iterating through all sources and their destinations
 // 2. For each destination, setting up account associations using setDestinationAccounts
 func (c *ConfigT) processAccountAssociations() {
+	_ = "STUB: not implemented"
 	// Iterate through all sources and their destinations to set up account associations
-	if len(c.Accounts) > 0 {
-		for i := range c.Sources {
-			for j := range c.Sources[i].Destinations {
-				dest := &c.Sources[i].Destinations[j]
-				c.enrichDestinationWithAccounts(dest)
-			}
-		}
-	}
+	return
 }
 
 // getAccountDefinition returns a pointer to the account definition for the given account definition name.
@@ -34,16 +27,11 @@ func (c *ConfigT) processAccountAssociations() {
 // Returns:
 //   - *AccountDefinition: A pointer to the account definition or nil if not found
 func (c *ConfigT) getAccountDefinition(accountDefinitionName string, accountAssociationLogger logger.Logger) *AccountDefinition {
-	if accountDefinition, exists := c.AccountDefinitions[accountDefinitionName]; exists {
-		return &accountDefinition
-	}
-	accountAssociationLogger = accountAssociationLogger.Withn(
-		logger.NewStringField("accountDefinitionName", accountDefinitionName),
-	)
-	// Log error if account definition not found
-	accountAssociationLogger.Errorn("Account definition not found in configured accountDefinitions")
+	_ = "STUB: not implemented"
 	return nil
 }
+
+// Log error if account definition not found
 
 // enrichAccountWithDefinition populates an account to a destination field based on the account ID.
 // It creates an Account object by combining account details with its definition.
@@ -55,19 +43,7 @@ func (c *ConfigT) getAccountDefinition(accountDefinitionName string, accountAsso
 // Returns:
 //   - *Account: The populated account object or nil if the account doesn't exist
 func (c *ConfigT) enrichAccountWithDefinition(accountID string, accountAssociationLogger logger.Logger) *Account {
-	if account, exists := c.Accounts[accountID]; exists {
-		var accountDefinitionPtr *AccountDefinition
-		if account.AccountDefinitionName != "" {
-			accountDefinitionPtr = c.getAccountDefinition(
-				account.AccountDefinitionName,
-				accountAssociationLogger,
-			)
-		}
-		account.AccountDefinition = accountDefinitionPtr
-		account.ID = accountID
-		return &account
-	}
-	accountAssociationLogger.Errorn("Account not found in configured accounts")
+	_ = "STUB: not implemented"
 	return nil
 }
 
@@ -85,30 +61,10 @@ func (c *ConfigT) enrichAccountWithDefinition(accountID string, accountAssociati
 // Parameters:
 //   - dest: Pointer to the destination being configured
 func (c *ConfigT) enrichDestinationWithAccounts(dest *DestinationT) {
-	accountAssociationLogger := pkgLogger.Withn(
-		obskit.WorkspaceID(dest.WorkspaceID),
-		obskit.DestinationID(dest.ID),
-		obskit.DestinationType(dest.DestinationDefinition.Name),
-	)
-	if !dest.Enabled {
-		accountAssociationLogger.Debugn("Skipping disabled destination from associating account")
-		return
-	}
-	// Check and set the delivery account if specified in the destination config
-	if accountID, ok := dest.Config["rudderAccountId"].(string); ok && accountID != "" {
-		accountAssociationLogger = accountAssociationLogger.Withn(
-			logger.NewStringField("rudderAccountId", accountID),
-			logger.NewStringField("flowType", "delivery"),
-		)
-		dest.DeliveryAccount = c.enrichAccountWithDefinition(accountID, accountAssociationLogger)
-	}
-
-	// Check and set the delete account if specified in the destination config
-	if deleteAccountID, ok := dest.Config["rudderDeleteAccountId"].(string); ok && deleteAccountID != "" {
-		accountAssociationLogger = accountAssociationLogger.Withn(
-			logger.NewStringField("rudderAccountId", deleteAccountID),
-			logger.NewStringField("flowType", "regulation"),
-		)
-		dest.DeleteAccount = c.enrichAccountWithDefinition(deleteAccountID, accountAssociationLogger)
-	}
+	_ = "STUB: not implemented"
+	return
 }
+
+// Check and set the delivery account if specified in the destination config
+
+// Check and set the delete account if specified in the destination config
